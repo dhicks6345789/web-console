@@ -30,8 +30,18 @@ def runCommand(theCommand):
 def api():
     return "Hello world!"
 
-@app.route("/build")
-def build():
+# If a public / private key pair doesn't exist, create one.
+@app.route("/getPublicCertificate")
+def getPublicCertificate():
+    return "certifcateGoesHere"
+
+# Authenticate. Needs: encrypted string containing job ID, timestamp and nonce.
+@app.route("/auth")
+def auth:
+    return "Auth!"
+
+@app.route("/run")
+def run():
     processRunning = False
     for psLine in runCommand("ps ax").split("\n"):
         if not psLine.find("build.sh") == -1:
