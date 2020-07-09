@@ -26,7 +26,7 @@ func main() {
 			fmt.Println(item.Name())
 		}
 	} else if os.Args[1] == "-generate" {
-		String newID = ""
+		String newID := ""
 		for pl := 0; pl < 16; pl++ {
 			newID := newID + "a"
 		}
