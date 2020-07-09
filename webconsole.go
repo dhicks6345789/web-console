@@ -1,7 +1,8 @@
 package main
 
 /*
-Web Console - lets end-users run command-line applications, cokplete with authentication and a user interface.
+Web Console - lets end-users run command-line applications via a web page, complete with authentication and a user interface.
+Acts as its own self-contained web server.
 */
 
 import (
@@ -18,6 +19,17 @@ import (
 // Characters to use to generate new ID strings. Lowercase only - any user-provided IDs will be lowercased before use.
 const letters = "abcdefghijklmnopqrstuvwxyz1234567890"
 
+var filesToServe = [...]string {"index.html"}
+
+func arrayContains(theArray, testItem) bool {
+	for _, item := range theArray {
+		if item == testItem {
+			return true
+		}
+	}
+	return false
+}
+
 // Generate a new, random 16-character ID.
 func generateID() string {
 	rand.Seed(time.Now().UnixNano())
@@ -30,7 +42,11 @@ func generateID() string {
 
 // The main web server loop - the part that serves files and responds to API calls.
 func webConsole(theResponseWriter http.ResponseWriter, theRequest *http.Request) {
-	fmt.Fprintf(theResponseWriter, "Hello, %s!", theRequest.URL.Path[1:])
+	if arrayContains(filesToServe, theRequest.URL.Path[1:]) {
+		fmt.Fprintf(theResponseWriter, "File served here...")
+	} else {
+		fmt.Fprintf(theResponseWriter, "Hello, %s!", theRequest.URL.Path[1:])
+	}
 }
 
 // The main body of the program - parse user-provided command-line paramaters, or start the main web server process.
