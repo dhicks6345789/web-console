@@ -38,12 +38,12 @@ func generateTaskID() string {
 func handleGet(theResponseWriter http.ResponseWriter, theRequest *http.Request) {
 	requestPath := theRequest.URL.Path[1:]
 	fmt.Println(theRequest.URL.Path)
-	if _, err := os.Stat("tasks/" + requestPath); os.IsExist(err) {
+	if _, err := os.Stat("tasks/" + requestPath); !os.IsNotExist(err) {
 		fmt.Fprintf(theResponseWriter, "Run task: %s", requestPath)
 	} else if strings.HasPrefix(requestPath, "/api/") {
 		fmt.Fprintf(theResponseWriter, "API call: %s!", requestPath)
 	} else {
-		http.ServeFile(theResponseWriter, theRequest, "www/" + requestPath)
+		http.ServeFile(theResponseWriter, theRequest, "www" + requestPath)
 	}
 }
 
