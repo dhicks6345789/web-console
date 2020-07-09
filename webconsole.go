@@ -19,7 +19,7 @@ import (
 // Characters to use to generate new ID strings. Lowercase only - any user-provided IDs will be lowercased before use.
 const letters = "abcdefghijklmnopqrstuvwxyz1234567890"
 
-var filesToServe = [...]string {"index.html"}
+var filesToServe = []string {"index.html"}
 
 func arrayContains(theArray []string, testItem string) bool {
 	for _, item := range theArray {
