@@ -28,6 +28,7 @@ func webConsole(theResponseWriter http.ResponseWriter, theRequest *http.Request)
 func main() {
 	http.HandleFunc("/", webConsole)
 	if len(os.Args) == 1 {
+		fmt.Println("Starting web server...")
 		http.ListenAndServe(":8090", nil)
 	} else if os.Args[1] == "-list" {
 		fmt.Println("List:")
