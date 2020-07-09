@@ -21,7 +21,7 @@ const letters = "abcdefghijklmnopqrstuvwxyz1234567890"
 
 var filesToServe = [...]string {"index.html"}
 
-func arrayContains(theArray, testItem) bool {
+func arrayContains(theArray []string, testItem string) bool {
 	for _, item := range theArray {
 		if item == testItem {
 			return true
