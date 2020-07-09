@@ -40,8 +40,13 @@ func main() {
 			fmt.Println(item.Name())
 		}
 	} else if os.Args[1] == "-generate" {
-		newID := generateRandomString(16)
-		fmt.Println(newID)
+		for {
+			newID := generateRandomString(16)
+			if _, err := os.Stat(newID); os.IsNotExist(err) {
+				os.Mkdir(newID, mode)
+				break
+			}
+		}
 	}
 }
 
