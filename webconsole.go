@@ -31,12 +31,20 @@ func generateTaskID() string {
 
 // A function that handles API endpoints.
 func handleAPI(theResponseWriter http.ResponseWriter, theRequest *http.Request) {
-	fmt.Fprintf(theResponseWriter, "API call: %s!", theRequest.URL.Path[1:])
+	
 }
 
 // A function that handles task requests.
-func handleTask(theResponseWriter http.ResponseWriter, theRequest *http.Request) {
-	fmt.Fprintf(theResponseWriter, "Run task: %s", theRequest.URL.Path[1:])
+func handleGet(theResponseWriter http.ResponseWriter, theRequest *http.Request) {
+	requestPath = theRequest.URL.Path[1:]
+	fmt.Println(theRequest.URL.Path)
+	if _, err := os.Stat("tasks/" + requestPath); os.IsExist(err) {
+		fmt.Fprintf(theResponseWriter, "Run task: %s", requestPath)
+	} else if strings.HasPrefix(requestPath, "/api/") {
+		fmt.Fprintf(theResponseWriter, "API call: %s!", requestPath)
+	} else {
+		http.ServeFile(theResponseWriter, theRequest, "www/" + requestPath)
+	}
 }
 
 // The main body of the program - parse user-provided command-line paramaters, or start the main web server process.
@@ -54,13 +62,14 @@ func main() {
 		fmt.Println("Starting web server...")
 		
 		// Handle the "/api/" route.
-		http.HandleFunc("/api/", handleAPI)
+		//http.HandleFunc("/api/", handleAPI)
 		
 		// Handle the "/" (default, "everything else") route - just try and serve the given path as a static file.
-		staticFilesServer := http.FileServer(http.Dir("www"))
-		http.Handle("/", staticFilesServer)
+		//staticFilesServer := http.FileServer(http.Dir("www"))
+		//http.Handle("/", staticFilesServer)
+		http.HandleFunc("/", handleGet)
 		
-		http.ListenAndServe(":8090", nil)
+		log.Fatal(http.ListenAndServe(":8090", nil))
 	} else if os.Args[1] == "-list" {
 		// Print a list of existing IDs.
 		fmt.Println("List:")
