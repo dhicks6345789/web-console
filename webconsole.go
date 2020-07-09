@@ -29,9 +29,14 @@ func generateTaskID() string {
 	return string(result)
 }
 
-// The main web server loop - the part that serves files and responds to API calls.
+// A function that handles API endpoints.
 func handleAPI(theResponseWriter http.ResponseWriter, theRequest *http.Request) {
 	fmt.Fprintf(theResponseWriter, "API call: %s!", theRequest.URL.Path[1:])
+}
+
+// A function that handles task requests.
+func handleTask(theResponseWriter http.ResponseWriter, theRequest *http.Request) {
+	fmt.Fprintf(theResponseWriter, "Run task: %s", theRequest.URL.Path[1:])
 }
 
 // The main body of the program - parse user-provided command-line paramaters, or start the main web server process.
