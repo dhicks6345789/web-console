@@ -1,3 +1,15 @@
+package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    // Print “Hello, World!” to console
+    fmt.Println("Hello, World!")
+}
+
+/*
 # Standard Python libraries.
 #import os
 #import re
@@ -69,3 +81,4 @@ print("Hello, world!")
     
 #if __name__ == "__main__":
 #    app.run()
+*/
