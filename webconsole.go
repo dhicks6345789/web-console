@@ -8,6 +8,17 @@ import (
 	"net/http"
 )
 
+const letters = "abcdefghijklmnopqrstuvwxyz1234567890"
+
+func generateRandomString(theLength int) string {
+	rand.Seed(time.Now().UnixNano())
+	result := make([]byte, theLength)
+	for pl := range result {
+		result[pl] = letters[rand.Intn(len(letters))]
+	}
+	return string(result)
+}
+
 func webConsole(theResponseWriter http.ResponseWriter, theRequest *http.Request) {
 	fmt.Fprintf(theResponseWriter, "Hello, %s!", theRequest.URL.Path[1:])
 }
@@ -26,10 +37,7 @@ func main() {
 			fmt.Println(item.Name())
 		}
 	} else if os.Args[1] == "-generate" {
-		newID := ""
-		for pl := 0; pl < 16; pl++ {
-			newID = newID + string("a")
-		}
+		newID := generateRandomString(16)
 		fmt.Println(newID)
 	}
 }
