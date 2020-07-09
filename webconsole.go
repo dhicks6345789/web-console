@@ -31,7 +31,7 @@ func generateID() string {
 
 // The main web server loop - the part that serves files and responds to API calls.
 func handleAPI(theResponseWriter http.ResponseWriter, theRequest *http.Request) {
-	fmt.Fprintf(theResponseWriter, "API call: %s!", theRequest.path)
+	fmt.Fprintf(theResponseWriter, "API call: %s!", theRequest.URL.Path[1:])
 }
 
 // The main body of the program - parse user-provided command-line paramaters, or start the main web server process.
