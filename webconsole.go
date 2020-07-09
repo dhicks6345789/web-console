@@ -30,13 +30,12 @@ func generateTaskID() string {
 }
 
 // A function that handles API endpoints.
-func handleAPI(theResponseWriter http.ResponseWriter, theRequest *http.Request) {
-	
-}
+//func handleAPI(theResponseWriter http.ResponseWriter, theRequest *http.Request) {
+//}
 
 // A function that handles task requests.
 func handleGet(theResponseWriter http.ResponseWriter, theRequest *http.Request) {
-	requestPath = theRequest.URL.Path[1:]
+	requestPath := theRequest.URL.Path[1:]
 	fmt.Println(theRequest.URL.Path)
 	if _, err := os.Stat("tasks/" + requestPath); os.IsExist(err) {
 		fmt.Fprintf(theResponseWriter, "Run task: %s", requestPath)
