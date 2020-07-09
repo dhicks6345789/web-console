@@ -36,7 +36,14 @@ func handleAPI(theResponseWriter http.ResponseWriter, theRequest *http.Request) 
 
 // The main body of the program - parse user-provided command-line paramaters, or start the main web server process.
 func main() {
+	var tasks []string
 	items, err := ioutil.ReadDir("tasks")
+	if err != nil {
+		log.Fatal(err)
+	}
+	for _, item := range items {
+		append(tasks[], item.Name())
+	}
 	if len(os.Args) == 1 {
 		// If no parameters are given, simply start the web server.
 		fmt.Println("Starting web server...")
@@ -52,12 +59,8 @@ func main() {
 	} else if os.Args[1] == "-list" {
 		// Print a list of existing IDs.
 		fmt.Println("List:")
-		items, err := ioutil.ReadDir(".")
-		if err != nil {
-			log.Fatal(err)
-		}
-		for _, item := range items {
-			fmt.Println(item.Name())
+		for _, task := range tasks {
+			fmt.Println(task)
 		}
 	} else if os.Args[1] == "-generate" {
 		// Generate a new task ID, and create a matching folder.
