@@ -20,7 +20,7 @@ import (
 const letters = "abcdefghijklmnopqrstuvwxyz1234567890"
 
 // Generate a new, random 16-character ID.
-func generateID() string {
+func generateTaskID() string {
 	rand.Seed(time.Now().UnixNano())
 	result := make([]byte, 16)
 	for pl := range result {
@@ -36,6 +36,7 @@ func handleAPI(theResponseWriter http.ResponseWriter, theRequest *http.Request) 
 
 // The main body of the program - parse user-provided command-line paramaters, or start the main web server process.
 func main() {
+	items, err := ioutil.ReadDir("tasks")
 	if len(os.Args) == 1 {
 		// If no parameters are given, simply start the web server.
 		fmt.Println("Starting web server...")
@@ -59,12 +60,12 @@ func main() {
 			fmt.Println(item.Name())
 		}
 	} else if os.Args[1] == "-generate" {
-		// Generate a new ID, and create a matching folder.
+		// Generate a new task ID, and create a matching folder.
 		for {
-			newID := generateID()
-			if _, err := os.Stat(newID); os.IsNotExist(err) {
-				os.Mkdir(newID, os.ModePerm)
-				fmt.Println("New ID generated: " + newID)
+			newTaskID := generateTaskID()
+			if _, err := os.Stat("tasks/" + newTaskID); os.IsNotExist(err) {
+				os.Mkdir("tasks/" + newTaskID, os.ModePerm)
+				fmt.Println("New Task generated: " + newTaskID)
 				break
 			}
 		}
