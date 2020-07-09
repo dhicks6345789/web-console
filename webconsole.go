@@ -42,7 +42,7 @@ func main() {
 		log.Fatal(err)
 	}
 	for _, item := range items {
-		append(tasks[], item.Name())
+		append(tasks, item.Name())
 	}
 	if len(os.Args) == 1 {
 		// If no parameters are given, simply start the web server.
