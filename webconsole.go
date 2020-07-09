@@ -28,7 +28,7 @@ func main() {
 	} else if os.Args[1] == "-generate" {
 		newID := ""
 		for pl := 0; pl < 16; pl++ {
-			newID := newID + "a"
+			newID := newID + string("a")
 		}
 		fmt.Println(newID)
 	}
