@@ -30,26 +30,6 @@ func generateTaskID() string {
 	return string(result)
 }
 
-// A function that handles API endpoints.
-//func handleAPI(theResponseWriter http.ResponseWriter, theRequest *http.Request) {
-//}
-
-// A function that handles task requests.
-func handleGet(theResponseWriter http.ResponseWriter, theRequest *http.Request) {
-	requestPath := theRequest.URL.Path
-	fmt.Println(requestPath)
-	if requestPath == "/" {
-		http.ServeFile(theResponseWriter, theRequest, "www/index.html")
-	} else if _, err := os.Stat("tasks" + requestPath); !os.IsNotExist(err) {
-		fmt.Println("Run task: " + requestPath)
-		http.ServeFile(theResponseWriter, theRequest, "www/index.html")
-	} else if strings.HasPrefix(requestPath, "/api/") {
-		fmt.Fprintf(theResponseWriter, "API call: %s", requestPath)
-	} else {
-		http.ServeFile(theResponseWriter, theRequest, "www" + requestPath)
-	}
-}
-
 // The main body of the program - parse user-provided command-line paramaters, or start the main web server process.
 func main() {
 	var tasks []string
@@ -64,14 +44,24 @@ func main() {
 		// If no parameters are given, simply start the web server.
 		fmt.Println("Starting web server...")
 		
-		// Handle the "/api/" route.
-		//http.HandleFunc("/api/", handleAPI)
-		
-		// Handle the "/" (default, "everything else") route - just try and serve the given path as a static file.
-		//staticFilesServer := http.FileServer(http.Dir("www"))
-		//http.Handle("/", staticFilesServer)
-		http.HandleFunc("/", handleGet)
-		
+		// We write our own function to parse the request URL.
+		http.HandleFunc("/", func (theResponseWriter http.ResponseWriter, theRequest *http.Request) {
+			// The default root - serve index.html.
+			if theRequest.URL.Path == "/" {
+				http.ServeFile(theResponseWriter, theRequest.URL.Path, "www/index.html")
+				// If the URL matches a task ID, still serve index.html - the client-side code (a single page app) will
+				// take care of displaying the correct layout to the user.
+			} else if _, err := os.Stat("tasks" + theRequest.URL.Path); !os.IsNotExist(err) {
+				fmt.Println("Run task: " + theRequest.URL.Path)
+				http.ServeFile(theResponseWriter, theRequest.URL.Path, "www/index.html")
+			// Handle API calls.
+			} else if strings.HasPrefix(theRequest.URL.Path, "/api/") {
+				fmt.Fprintf(theResponseWriter, "API call: %s", theRequest.URL.Path)
+			// Otherwise, try and find the static file referred to by the request URL.
+			} else {
+				http.ServeFile(theResponseWriter, theRequest, "www" + theRequest.URL.Path)
+			}
+		})
 		log.Fatal(http.ListenAndServe(":8090", nil))
 	} else if os.Args[1] == "-list" {
 		// Print a list of existing IDs.
