@@ -2,12 +2,15 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"net/http"
 )
 
 func main() {
 	http.HandleFunc("/", HelloServer)
-	http.ListenAndServe(":8090", nil)
+	if len(os.Args) == 1 {
+		http.ListenAndServe(":8090", nil)
+	}
 }
 
 func HelloServer(w http.ResponseWriter, r *http.Request) {
