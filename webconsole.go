@@ -11,6 +11,7 @@ import (
 	"os"
 	"log"
 	"time"
+	"strings"
 	"math/rand"
 	"io/ioutil"
 	"net/http"
@@ -18,17 +19,6 @@ import (
 
 // Characters to use to generate new ID strings. Lowercase only - any user-provided IDs will be lowercased before use.
 const letters = "abcdefghijklmnopqrstuvwxyz1234567890"
-
-var filesToServe = []string {"index.html"}
-
-func arrayContains(theArray []string, testItem string) bool {
-	for _, item := range theArray {
-		if item == testItem {
-			return true
-		}
-	}
-	return false
-}
 
 // Generate a new, random 16-character ID.
 func generateID() string {
@@ -41,16 +31,8 @@ func generateID() string {
 }
 
 // The main web server loop - the part that serves files and responds to API calls.
-func webConsole(theResponseWriter http.ResponseWriter, theRequest *http.Request) {
-	requestPath := theRequest.URL.Path[1:]
-	if requestPath == "" {
-		requestPath = "index.html"
-	}
-	if arrayContains(filesToServe, requestPath) {
-		fmt.Fprintf(theResponseWriter, "File served here...")
-	} else {
-		fmt.Fprintf(theResponseWriter, "Hello, %s!", requestPath)
-	}
+func handleAPI(theResponseWriter http.ResponseWriter, theRequest *http.Request) {
+	fmt.Fprintf(theResponseWriter, "API call: %s!", requestPath)
 }
 
 // The main body of the program - parse user-provided command-line paramaters, or start the main web server process.
@@ -59,6 +41,14 @@ func main() {
 	if len(os.Args) == 1 {
 		// If no parameters are given, simply start the web server.
 		fmt.Println("Starting web server...")
+		
+		// Handle the "/api/" route.
+		http.HandleFunc("/api/", handleAPI)
+		
+		// Handle the "/" (default, "everything else") route - just try and serve the given path as a static file.
+		handleStaticFiles := http.FileServer(http.Dir("www"))
+		http.Handle( "/", handleStaticFiles)		
+		
 		http.ListenAndServe(":8090", nil)
 	} else if os.Args[1] == "-list" {
 		// Print a list of existing IDs.
