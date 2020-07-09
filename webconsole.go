@@ -42,10 +42,14 @@ func generateID() string {
 
 // The main web server loop - the part that serves files and responds to API calls.
 func webConsole(theResponseWriter http.ResponseWriter, theRequest *http.Request) {
-	if arrayContains(filesToServe, theRequest.URL.Path[1:]) {
+	requestPath := theRequest.URL.Path[1:]
+	if requestPath == "" {
+		requestPath = "index.html"
+	}
+	if arrayContains(filesToServe, requestPath) {
 		fmt.Fprintf(theResponseWriter, "File served here...")
 	} else {
-		fmt.Fprintf(theResponseWriter, "Hello, %s!", theRequest.URL.Path[1:])
+		fmt.Fprintf(theResponseWriter, "Hello, %s!", requestPath)
 	}
 }
 
