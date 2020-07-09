@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"os"
+	"log"
+	"io/ioutil"
 	"net/http"
 )
 
@@ -16,6 +18,13 @@ func main() {
 		http.ListenAndServe(":8090", nil)
 	} else if os.Args[1] == "-list" {
 		fmt.Println("List:")
+		items, err := ioutil.ReadDir(".")
+		if err != nil {
+			log.Fatal(err)
+		}
+		for _, item := range items {
+			fmt.Println(item.Name())
+		}
 	}
 }
 
