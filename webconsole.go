@@ -41,7 +41,7 @@ func handleGet(theResponseWriter http.ResponseWriter, theRequest *http.Request) 
 	if requestPath == "/" {
 		http.ServeFile(theResponseWriter, theRequest, "www/index.html")
 	} else if _, err := os.Stat("tasks" + requestPath); !os.IsNotExist(err) {
-		fmt.Fprintf("Run task: %s", requestPath)
+		fmt.Println("Run task: " + requestPath)
 		http.ServeFile(theResponseWriter, theRequest, "www/index.html")
 	} else if strings.HasPrefix(requestPath, "/api/") {
 		fmt.Fprintf(theResponseWriter, "API call: %s", requestPath)
