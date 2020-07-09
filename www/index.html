@@ -1,200 +1,26 @@
 <!DOCTYPE html>
 <html>
-  
-  <head>
-	<meta name="generator" content="Hugo 0.31" />
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>SanSay.Co.Uk</title>
-    
-    
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
-    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
-    <meta name="msapplication-TileColor" content="#da532c">
-    <meta name="theme-color" content="#ffffff">
-    
-    
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    
-    
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    
-    
-    
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
-    
-    <meta name="google-signin-client_id" content="831408690013-596pftv252m1sibutekmd498d93n019k.apps.googleusercontent.com">
-    
-    
-    <script src="https://apis.google.com/js/api.js"></script>
-    
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/page.js/1.11.1/page.js" integrity="sha256-PkDB8MAI28Ft8pJnTDzhsrYfJWwPCDHPyZuU7eTrtCc=" crossorigin="anonymous"></script>
-    
-    
-    <script src="/sansay.co.uk.js"></script>
-    
-    
-    <style>
-      .spinner {
-        border: 8px solid #f3f3f3;  
-        border-top: 8px solid #3498db;  
-        border-radius: 50%;
-        width: 60px;
-        height: 60px;
-        animation: spin 2s linear infinite;
-      }
-      
-      @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-      }
-    </style>
-  </head>
-  <body>
-    
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-sm-2 text-left align-self-center">
-          <a href="/">
-            <img src="/logo.svg" alt="SanSay.Co.Uk Logo" style="height:5vh;"><img src="/banner.svg" alt="SanSay.Co.Uk Title Banner" style="height:2vh;">
-          </a>
-        </div>
-        <div class="col-sm-1 text-left align-self-center">
-          <a href="/app/browsejobs">Jobs</a>
-        </div>
-        <div class="col-sm-1 text-left align-self-center">
-          <a href="/app/browsestores">Stores</a>
-        </div>
-        <div class="col-sm-5 text-left align-self-center">
-          <a href="/app/browseservers">Servers</a>
-        </div>
-        <div class="col-sm-1 text-center align-self-center">
-          <a href="/about">About</a>
-        </div>
-        <div class="col-sm-1 text-center align-self-center">
-          <a href="/blog">Blog</a>
-        </div>
-        <div class="col-sm-1 text-center align-self-center">
-          
-          <span id="headerSignInLink">
-            <a href="/app/signin" class="btn btn-primary" role="button">Sign In</a>
-          </span>
-          <span id="headerSignOutLink" style="display:none">
-            <a href="/" class="btn btn-outline-primary" role="button" onclick="signOut();">Sign Out</a>
-          </span>
-          
-        </div>
-      </div>
-    </div>
-    
-    <div class="container-fluid" id="mainContent" style="display:none">
-      <div class="jumbotron" >
-        <div class="container">
-          <h2 class="text-center">Automate your job before your boss does.</h2>
-        </div>
-      </div>
-      <p class="lead text-center">Simple-to-use workflow automation via batch jobs. Place files in a Google Drive, Onedrive or Dropbox folder, then sit back and let the system do the rest.</p>
-      <p class="lead text-center">Login via your existing Google login - no signing up for yet another account.</p>
-      <p class="lead text-center">Results written back to a variety of locations, including Drive, Onedrive or Dropbox, or an FTP or SFTP destination.</p>
-    </div>
-    
-    <div class="container-fluid" id="signinContent" style="display:none">
-      <p class="lead text-center">Sign in with your existing Google account here.</p>
-      
-      <table style="width:100%; vertical-align:middle;">
-        <tr>
-          <td style="width:49%; text-align:right;"></td>
-          <td style="width:2%; text-align:center;">
-            <div class="g-signin2" data-onsuccess="onGoogleSignIn"></div>
-          </td>
-          <td style="width:49%; text-align:left;"></td>
-        </tr>
-      </table>
-    </div>
-    
-    <div class="container-fluid" id="itemBrowser" style="display:none">
-      <div class="row" id="itemBrowserRow-0">
-        <div class="col-sm-3 text-center" id="itemBrowserCell-0-0"></div>
-        <div class="col-sm-3 text-center" id="itemBrowserCell-1-0"></div>
-        <div class="col-sm-3 text-center" id="itemBrowserCell-2-0"></div>
-        <div class="col-sm-3 text-center" id="itemBrowserCell-3-0"></div>
-      </div>
-    </div>
-    
-    
-    
-    <table id="itemBrowserCellContents" style="height:94%; vertical-align:top; margin: 2vh 0vw 2vh 0vw; background-color:#F5F5F5; display:none">
-        <tr>
-            <td style="width:15%; text-align:left; vertical-align:top;">
-                <a href="runJobURLGoesHere"><img src="/siteIcons/add.svg" style="width:100%;"></a>
-            </td>
-            <td style="width:75%; text-align:center; vertical-align:top;">
-                <a style="display:block;" href="runJobURLGoesHere">TitleGoesHere</a>
-            </td>
-            <td style="width:10%; text-align:right; vertical-align:top;">
-                <img class="btn dropdown-toggle" id="itemBrowserHamburgerMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" src="/siteIcons/hamburgerMenu.svg" alt="Context menu icon" style="width:100%;display:none">
-                <div class="dropdown-menu" aria-labelledby="itemBrowserHamburgerMenu">
-                    <a class="dropdown-item" href="runJobURLGoesHere">Run</a>
-                    <a class="dropdown-item" href="editJobURLGoesHere">Edit</a>
-                    <a class="dropdown-item" href="removeJobURLGoesHere">Delete</a>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="3" style="vertical-align:top;">
-                <p style="display:block;">DescriptionGoesHere</p>
-            </td>
-        </tr>
-    </table>
-    
-    <div class="container-fluid" id="runJobConsole" style="display:none">
-      <h2 id="runJobConsoleHeading">Job ID:</h2>
-      <button class="btn btn-success" role="button" id="runJobConsoleButton">Start</button>
-      <div id="runJobConsoleAlerts"></div>
-      <button class="btn btn-primary" type="button" id="runJobConsoleShowOutputButton" data-toggle="collapse" data-target="#runJobConsoleOutput" aria-expanded="false" aria-controls="runJobConsoleOutput">Show output</button>
-      <div class="collapse" id="runJobConsoleOutput"></div>
-      <div id="runJobConsoleSpinner" style="display:none">
-        <div class="spinner"></div>
-      </div>
-      <div id="runJobConsoleTokenList">
-        <div id="runJobConsoleTokenLine" style="display:none">
-        </div>
-        <a href="https://www.ifttt.com"><img src="/brands/IFTTT.svg" alt="If This Then That icon" style="height:2vh;"></a> 
-        <a href="https://www.zapier.com"><img src="/brands/zapier.svg" alt="Zapier icon" style="height:2vh;"></a> 
-        <a href="https://www.built.io"><img src="/siteIcons/add.svg" alt="Built.io icon" style="height:2vh;"></a> 
-        <a href="https://www.integromat.com"><img src="/siteIcons/add.svg" alt="Integromat icon" style="height:2vh;"></a> 
-        <a href="https://automate.io"><img src="/siteIcons/add.svg" alt="Automate.io icon" style="height:2vh;"></a> 
-        <a href="https://tray.io"><img src="/siteIcons/add.svg" alt="Tray.io icon" style="height:2vh;"></a> 
-      </div>
-    </div>
-    
-    <div class="form-group" id="editJob" style="display:none">
-      <div class="container-fluid" id="editJobSection">
-        <div class="row">
-          <div class="col-sm-2">
-          </div>
-          <div class="col-sm-8 rounded" style="background-color: #EEEEEE">
-            <iframe style="margin-top:1%; border:none; width:100%" id="editJobTemplateContainer" src=""></iframe>
-            <button class="btn btn-success" role="button" id="editJobPreviousButton">Previous</button>
-            <button class="btn btn-default" role="button" onclick="page('/')">Cancel</button>
-            <button class="btn btn-success" role="button" id="editJobNextButton" onclick="$('#editJobTemplateContainer')[0].contentWindow.editJobCallback()" disabled>Next</button>
-          </div>
-          <div class="col-sm-2">
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <div class="container-fluid" id="removeJobConfirmation" style="display:none">
-      Are you sure?
-      <button class="btn btn-danger" role="button" id="removeJobButton">Yes</button>
-      <button class="btn btn-success" role="button" onclick="page('/')">Cancel</button>
-    </div>
-  </body>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<title>Web Console</title>
+		
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+		
+		<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+		
+		<script src="/webConsole.js"></script>
+	</head>
+	<body>
+		<div class="container-fluid" id="mainContent">
+			<div class="jumbotron">
+				<div class="container">
+					<h1 class="text-center">Web Console.</h1>
+				</div>
+			</div>
+			<p class="lead text-center">Enter ID:</p>
+		</div>
+	</body>
 </html>
