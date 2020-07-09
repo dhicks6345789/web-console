@@ -44,6 +44,7 @@ func main() {
 			newID := generateRandomString(16)
 			if _, err := os.Stat(newID); os.IsNotExist(err) {
 				os.Mkdir(newID, mode)
+				fmt.Println("New ID generated: " + newID)
 				break
 			}
 		}
