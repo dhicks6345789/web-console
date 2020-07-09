@@ -36,7 +36,6 @@ func handleAPI(theResponseWriter http.ResponseWriter, theRequest *http.Request) 
 
 // The main body of the program - parse user-provided command-line paramaters, or start the main web server process.
 func main() {
-	http.HandleFunc("/", webConsole)
 	if len(os.Args) == 1 {
 		// If no parameters are given, simply start the web server.
 		fmt.Println("Starting web server...")
@@ -45,8 +44,8 @@ func main() {
 		http.HandleFunc("/api/", handleAPI)
 		
 		// Handle the "/" (default, "everything else") route - just try and serve the given path as a static file.
-		handleStaticFiles := http.FileServer(http.Dir("www"))
-		http.Handle( "/", handleStaticFiles)		
+		staticFilesServer := http.FileServer(http.Dir("www"))
+		http.Handle("/", staticFilesServer)
 		
 		http.ListenAndServe(":8090", nil)
 	} else if os.Args[1] == "-list" {
