@@ -20,10 +20,10 @@
 					<h1 class="text-center">Web Console.</h1>
 				</div>
 			</div>
-			<form>
+			<form action="/api/viewTask" method="post">
 				<div class="form-group">
-					<label for="taskIDInput">Task ID:</label>
-					<input type="text" class="form-control" id="taskIDInput" aria-describedby="taskIDHelp" placeholder="Enter a 16-digit Task ID">
+					<label for="taskID">Task ID:</label>
+					<input type="text" class="form-control" id="taskID" aria-describedby="taskIDHelp" placeholder="Enter a 16-digit Task ID">
 					<small id="taskIDHelp" class="form-text text-muted">You'll need to know a valid Task ID to run a task. If you need help, contact your system administrator, or read the documentation.</small>
 				</div>
 				<button type="submit" class="btn btn-primary">Go</button>
