@@ -49,7 +49,7 @@ func main() {
 				taskID := theRequest.Form.Get("taskID")
 				if taskID != "" {
 					fmt.Println("View task: " + taskID)
-					if _, err := os.Stat("tasks" + taskID); !os.IsNotExist(err) {
+					if _, err := os.Stat("tasks/" + taskID); !os.IsNotExist(err) {
 						fmt.Println("View task served: " + taskID)
 						http.ServeFile(theResponseWriter, theRequest, "www/webconsole.html")
 					}
