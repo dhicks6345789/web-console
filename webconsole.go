@@ -31,11 +31,11 @@ func generateTaskID() string {
 }
 
 func getParameter(theRequest *http.Request, theParameterName string) string {
-	keys, ok := r.URL.Query()[theParameterName]
+	keys, ok := theRequest.URL.Query()[theParameterName]
 	
 	if !ok || len(keys[0]) < 1 {
 		//log.Println("Required parameter " + theParameterName + " is missing.")
-		return nil
+		return ""
 	}
 	return keys[0]
 }
@@ -58,7 +58,7 @@ func main() {
 			// Handle API calls.
 			} else if strings.HasPrefix(theRequest.URL.Path, "/api/viewTask") {
 				taskID := getParameter(theRequest, "taskID")
-				if !taskID == nil {
+				if !taskID == "" {
 					fmt.Fprintf(theResponseWriter, "View task: %s", taskID)
 				}
 			} else if strings.HasPrefix(theRequest.URL.Path, "/api/") {
