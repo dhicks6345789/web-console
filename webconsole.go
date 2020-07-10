@@ -44,15 +44,15 @@ func main() {
 			// The default root - serve index.html.
 			if theRequest.URL.Path == "/" {
 				http.ServeFile(theResponseWriter, theRequest, "www/index.html")
-			// If the URL matches a task ID, still serve webconsole.html.
-			} else if _, err := os.Stat("tasks" + theRequest.URL.Path); !os.IsNotExist(err) {
-				fmt.Println("Run task: " + theRequest.URL.Path)
-				http.ServeFile(theResponseWriter, theRequest, "www/webconsole.html")
 			// Handle a View Task request. taskID needs to be provided as a parameter, either via GET or POST.
 			} else if strings.HasPrefix(theRequest.URL.Path, "/view") {
 				taskID := theRequest.Form.Get("taskID")
 				if taskID != "" {
 					fmt.Fprintf(theResponseWriter, "View task: %s", taskID)
+					if _, err := os.Stat("tasks" + taskID); !os.IsNotExist(err) {
+						fmt.Println("Run task: " + taskID)
+						http.ServeFile(theResponseWriter, theRequest, "www/webconsole.html")
+					}
 				}
 			// Handle API calls.
 			} else if strings.HasPrefix(theRequest.URL.Path, "/api/") {
