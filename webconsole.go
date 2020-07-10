@@ -32,14 +32,6 @@ func generateTaskID() string {
 
 // The main body of the program - parse user-provided command-line paramaters, or start the main web server process.
 func main() {
-	var tasks []string
-	items, err := ioutil.ReadDir("tasks")
-	if err != nil {
-		log.Fatal(err)
-	}
-	for _, item := range items {
-		tasks = append(tasks, item.Name())
-	}
 	if len(os.Args) == 1 {
 		// If no parameters are given, simply start the web server.
 		fmt.Println("Starting web server...")
@@ -54,6 +46,8 @@ func main() {
 				fmt.Println("Run task: " + theRequest.URL.Path)
 				http.ServeFile(theResponseWriter, theRequest, "www/webconsole.html")
 			// Handle API calls.
+			} else if strings.HasPrefix(theRequest.URL.Path, "/api/viewTask") {
+				fmt.Fprintf(theResponseWriter, "View task: %s", theRequest.URL.Path)
 			} else if strings.HasPrefix(theRequest.URL.Path, "/api/") {
 				fmt.Fprintf(theResponseWriter, "API call: %s", theRequest.URL.Path)
 			// Otherwise, try and find the static file referred to by the request URL.
@@ -64,9 +58,12 @@ func main() {
 		log.Fatal(http.ListenAndServe(":8090", nil))
 	} else if os.Args[1] == "-list" {
 		// Print a list of existing IDs.
-		fmt.Println("List:")
-		for _, task := range tasks {
-			fmt.Println(task)
+		items, err := ioutil.ReadDir("tasks")
+		if err != nil {
+			log.Fatal(err)
+		}
+		for _, item := range items {
+			fmt.Println(item.Name())
 		}
 	} else if os.Args[1] == "-generate" {
 		// Generate a new task ID, and create a matching folder.
