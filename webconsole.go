@@ -48,9 +48,9 @@ func main() {
 			} else if strings.HasPrefix(theRequest.URL.Path, "/view") {
 				taskID := theRequest.Form.Get("taskID")
 				if taskID != "" {
-					fmt.Fprintf(theResponseWriter, "View task: %s", taskID)
+					fmt.Println("View task: " + taskID)
 					if _, err := os.Stat("tasks" + taskID); !os.IsNotExist(err) {
-						fmt.Println("Run task: " + taskID)
+						fmt.Println("View task served: " + taskID)
 						http.ServeFile(theResponseWriter, theRequest, "www/webconsole.html")
 					}
 				}
