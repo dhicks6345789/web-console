@@ -30,6 +30,16 @@ func generateTaskID() string {
 	return string(result)
 }
 
+func getParameter(theRequest *http.Request, theParameterName) string {
+	keys, ok := r.URL.Query()[theParameterName]
+	
+	if !ok || len(keys[0]) < 1 {
+		//log.Println("Required parameter " + theParameterName + " is missing.")
+		return nil
+	}
+	return keys[0]
+}
+
 // The main body of the program - parse user-provided command-line paramaters, or start the main web server process.
 func main() {
 	if len(os.Args) == 1 {
@@ -47,7 +57,10 @@ func main() {
 				http.ServeFile(theResponseWriter, theRequest, "www/webconsole.html")
 			// Handle API calls.
 			} else if strings.HasPrefix(theRequest.URL.Path, "/api/viewTask") {
-				fmt.Fprintf(theResponseWriter, "View task: %s", theRequest.URL.Path)
+				taskID := getParameter(theRequest, "taskID")
+				if !taskID == nil {
+					fmt.Fprintf(theResponseWriter, "View task: %s", taskID)
+				}
 			} else if strings.HasPrefix(theRequest.URL.Path, "/api/") {
 				fmt.Fprintf(theResponseWriter, "API call: %s", theRequest.URL.Path)
 			// Otherwise, try and find the static file referred to by the request URL.
