@@ -30,16 +30,6 @@ func generateTaskID() string {
 	return string(result)
 }
 
-func getParameter(theRequest *http.Request, theParameterName string) string {
-	keys, ok := theRequest.URL.Query()[theParameterName]
-	
-	if !ok || len(keys[0]) < 1 {
-		//log.Println("Required parameter " + theParameterName + " is missing.")
-		return ""
-	}
-	return keys[0]
-}
-
 // The main body of the program - parse user-provided command-line paramaters, or start the main web server process.
 func main() {
 	if len(os.Args) == 1 {
@@ -48,6 +38,9 @@ func main() {
 		
 		// We write our own function to parse the request URL.
 		http.HandleFunc("/", func (theResponseWriter http.ResponseWriter, theRequest *http.Request) {
+			// Make sure submitted form values are parsed.
+			theRequest.ParseForm()
+			
 			// The default root - serve index.html.
 			if theRequest.URL.Path == "/" {
 				http.ServeFile(theResponseWriter, theRequest, "www/index.html")
@@ -57,8 +50,6 @@ func main() {
 				http.ServeFile(theResponseWriter, theRequest, "www/webconsole.html")
 			// Handle API calls.
 			} else if strings.HasPrefix(theRequest.URL.Path, "/api/viewTask") {
-				//taskID := getParameter(theRequest, "taskID")
-				theRequest.ParseForm()
 				taskID := theRequest.Form.Get("taskID")
 				if taskID != "" {
 					fmt.Fprintf(theResponseWriter, "View task: %s", taskID)
