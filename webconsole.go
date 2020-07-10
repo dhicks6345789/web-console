@@ -57,9 +57,9 @@ func main() {
 				http.ServeFile(theResponseWriter, theRequest, "www/webconsole.html")
 			// Handle API calls.
 			} else if strings.HasPrefix(theRequest.URL.Path, "/api/viewTask") {
-				taskID := getParameter(theRequest, "taskID")
-				fmt.Println(theRequest.URL.Query()["taskID"])
-				fmt.Println(taskID)
+				//taskID := getParameter(theRequest, "taskID")
+				theRequest.ParseForm()
+				taskID := theRequest.Form.Get("taskID")
 				if taskID != "" {
 					fmt.Fprintf(theResponseWriter, "View task: %s", taskID)
 				}
