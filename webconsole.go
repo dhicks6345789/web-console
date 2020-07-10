@@ -49,11 +49,10 @@ func main() {
 			// The default root - serve index.html.
 			if theRequest.URL.Path == "/" {
 				http.ServeFile(theResponseWriter, theRequest, "www/index.html")
-				// If the URL matches a task ID, still serve index.html - the client-side code (a single page app) will
-				// take care of displaying the correct layout to the user.
+			// If the URL matches a task ID, still serve webconsole.html.
 			} else if _, err := os.Stat("tasks" + theRequest.URL.Path); !os.IsNotExist(err) {
 				fmt.Println("Run task: " + theRequest.URL.Path)
-				http.ServeFile(theResponseWriter, theRequest, "www/index.html")
+				http.ServeFile(theResponseWriter, theRequest, "www/webconsole.html")
 			// Handle API calls.
 			} else if strings.HasPrefix(theRequest.URL.Path, "/api/") {
 				fmt.Fprintf(theResponseWriter, "API call: %s", theRequest.URL.Path)
