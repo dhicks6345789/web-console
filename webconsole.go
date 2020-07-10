@@ -58,6 +58,8 @@ func main() {
 			// Handle API calls.
 			} else if strings.HasPrefix(theRequest.URL.Path, "/api/viewTask") {
 				taskID := getParameter(theRequest, "taskID")
+				fmt.Println(theRequest.URL.Query())
+				fmt.Println(taskID)
 				if taskID != "" {
 					fmt.Fprintf(theResponseWriter, "View task: %s", taskID)
 				}
