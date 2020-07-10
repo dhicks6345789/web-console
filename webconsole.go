@@ -30,7 +30,7 @@ func generateTaskID() string {
 	return string(result)
 }
 
-func getParameter(theRequest *http.Request, theParameterName) string {
+func getParameter(theRequest *http.Request, theParameterName string) string {
 	keys, ok := r.URL.Query()[theParameterName]
 	
 	if !ok || len(keys[0]) < 1 {
