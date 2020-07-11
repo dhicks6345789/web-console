@@ -19,10 +19,9 @@
 			}
 			
 			$(document).ready(function() {
-				console.log("Starting...");
 				doAPICall("getTaskDetails", {}, function(result) {
-					console.log("After API call:");
-					console.log(result);
+					taskDetails = JSON.parse(result);
+					console.log(taskDetails["title"]);
 				});
 			});
 		</script>
