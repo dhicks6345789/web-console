@@ -18,7 +18,8 @@
 				$.post("/api/" + functionName, $.extend({taskID:taskID}, parameters), resultFunction);
 			}
 			
-			function runJob() {
+			function runTask() {
+				console.log("Starting task...")
 				$("#runTaskButton").prop("disabled", true);
 				$("#consoleAlerts").html("");
 				$("#consoleOutput").html("<div>Checking...</div>");
@@ -61,7 +62,7 @@
 			</div>
 		</div>
 		<div class="container-fluid" id="webconsole">
-			<button class="btn btn-success" role="button" id="runTaskButton" onclick="runJob">Start</button>
+			<button class="btn btn-success" role="button" id="runTaskButton" onclick="runTask()">Start</button>
 			<div id="consoleAlerts"></div>
 			<button class="btn btn-primary" type="button" id="showOutputButton" data-toggle="collapse" data-target="#consoleOutput" aria-expanded="false" aria-controls="consoleOutput">Show output</button>
 			<div class="collapse" id="consoleOutput"></div>
