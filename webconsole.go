@@ -63,7 +63,20 @@ func main() {
 			} else if strings.HasPrefix(theRequest.URL.Path, "/api/getTaskDetails") {
 				taskID := theRequest.Form.Get("taskID")
 				if taskID != "" {
-					fmt.Fprintf(theResponseWriter, "[\"title\":\"%s\"]", "titleGoesHere")
+					// See if we have a config file.
+					configPath := "tasks/" + taskID + "/config.txt"
+					if _, err := os.Stat(configPath); !os.IsNotExist(err) {
+						inFile, inFileErr := os.Open(configPath)
+						if inFileErr != nil {
+							log.Fatal(inFileErr)
+						}
+						scanner := bufio.NewScanner(inFile)
+						for scanner.Scan() {
+							fmt.Println(scanner.Text())
+						}
+						inFile.Close()
+						fmt.Fprintf(theResponseWriter, "[\"title\":\"%s\"]", "titleGoesHere")
+					}
 				}
 			} else if strings.HasPrefix(theRequest.URL.Path, "/api/") {
 				fmt.Fprintf(theResponseWriter, "API call: %s", theRequest.URL.Path)
