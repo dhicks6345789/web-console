@@ -79,7 +79,7 @@ func main() {
 							}
 						}
 						inFile.Close()
-						fmt.Fprintf(theResponseWriter, "[\"title\":\"%s\"]", taskTitle)
+						fmt.Fprintf(theResponseWriter, "{\"title\":\"%s\"}", taskTitle)
 					}
 				}
 			} else if strings.HasPrefix(theRequest.URL.Path, "/api/") {
