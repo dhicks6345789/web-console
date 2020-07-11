@@ -51,10 +51,12 @@ func main() {
 					fmt.Println("View task: " + taskID)
 					if _, err := os.Stat("tasks/" + taskID); !os.IsNotExist(err) {
 						fmt.Println("View task served: " + taskID)
-						webconsoleString := ioutil.ReadFile("www/webconsole.html")
-						//webconsoleString.replace("taskID = \"\"", "taskID = \"" + taskID + "\"")
-						http.ServeContent(w, r, "webconsole.html", time.Now(), strings.NewReader(webconsoleString))
-						//http.ServeFile(theResponseWriter, theRequest, "www/webconsole.html")
+						webconsoleString, fileErr := ioutil.ReadFile("www/webconsole.html")
+						if fileErr == nil {
+							//webconsoleString.replace("taskID = \"\"", "taskID = \"" + taskID + "\"")
+							http.ServeContent(theResponseWriter, theRequest, "webconsole.html", time.Now(), strings.NewReader(webconsoleString))
+							//http.ServeFile(theResponseWriter, theRequest, "www/webconsole.html")
+						}
 					}
 				}
 			// Handle API calls.
