@@ -13,18 +13,28 @@
 		
 		<script>
 			taskID = "";
+			
+			function doAPICall(functionName, parameters, resultFunction) {
+				$.post("/api/" + functionName, $.extend({taskID:taskID}, parameters), resultFunction);
+			}
+			
+			$(document).ready(function() {
+				console.log("Starting...");
+				doAPICall("getTaskDetails", {}, function(result) {
+					console.log("After API call.");
+				}
+			});
 		</script>
 	</head>
 	<body>
 		<div class="container-fluid" id="mainContent">
 			<div class="jumbotron">
 				<div class="container">
-					<h1 class="text-center">Stuff goes here.</h1>
+					<h1 class="text-center" id="taskTitle">Task Title Goes Here</h1>
 				</div>
 			</div>
 		</div>
 		<div class="container-fluid" id="webconsole">
-			<h2 id="consoleHeading">Task ID:</h2>
 			<button class="btn btn-success" role="button" id="runTaskButton">Start</button>
 			<div id="consoleAlerts"></div>
 			<button class="btn btn-primary" type="button" id="showOutputButton" data-toggle="collapse" data-target="#consoleOutput" aria-expanded="false" aria-controls="consoleOutput">Show output</button>
