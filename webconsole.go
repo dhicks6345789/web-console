@@ -71,12 +71,15 @@ func main() {
 						if inFileErr != nil {
 							log.Fatal(inFileErr)
 						}
+						taskTitle := ""
 						scanner := bufio.NewScanner(inFile)
 						for scanner.Scan() {
-							fmt.Println(scanner.Text())
+							if strings.HasPrefix(scanner.Text(), "title:") {
+								taskTitle = scanner.Text()
+							}
 						}
 						inFile.Close()
-						fmt.Fprintf(theResponseWriter, "[\"title\":\"%s\"]", "titleGoesHere")
+						fmt.Fprintf(theResponseWriter, "[\"title\":\"%s\"]", taskTitle)
 					}
 				}
 			} else if strings.HasPrefix(theRequest.URL.Path, "/api/") {
