@@ -21,7 +21,7 @@
 			$(document).ready(function() {
 				doAPICall("getTaskDetails", {}, function(result) {
 					taskDetails = JSON.parse(result);
-					console.log(taskDetails["title"]);
+					$("#taskTitle").html(taskDetails["title"]);
 				});
 			});
 		</script>
@@ -30,7 +30,7 @@
 		<div class="container-fluid" id="mainContent">
 			<div class="jumbotron">
 				<div class="container">
-					<h1 class="text-center" id="taskTitle">Task Title Goes Here</h1>
+					<h1 class="text-center" id="taskTitle"></h1>
 				</div>
 			</div>
 		</div>
