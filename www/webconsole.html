@@ -23,5 +23,15 @@
 				</div>
 			</div>
 		</div>
+		<div class="container-fluid" id="webconsole">
+			<h2 id="consoleHeading">Task ID:</h2>
+			<button class="btn btn-success" role="button" id="runTaskButton">Start</button>
+			<div id="consoleAlerts"></div>
+			<button class="btn btn-primary" type="button" id="showOutputButton" data-toggle="collapse" data-target="#consoleOutput" aria-expanded="false" aria-controls="consoleOutput">Show output</button>
+			<div class="collapse" id="consoleOutput"></div>
+			<div id="consoleSpinner" style="display:none">
+				<div class="spinner"></div>
+			</div>
+		</div>
 	</body>
 </html>
