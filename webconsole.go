@@ -60,6 +60,11 @@ func main() {
 					}
 				}
 			// Handle API calls.
+			} else if strings.HasPrefix(theRequest.URL.Path, "/api/getTaskDetails") {
+				taskID := theRequest.Form.Get("taskID")
+				if taskID != "" {
+					fmt.Fprintf(theResponseWriter, "[\"title\":\"%s\"]", "titleGoesHere")
+				}
 			} else if strings.HasPrefix(theRequest.URL.Path, "/api/") {
 				fmt.Fprintf(theResponseWriter, "API call: %s", theRequest.URL.Path)
 			// Otherwise, try and find the static file referred to by the request URL.
