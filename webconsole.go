@@ -53,7 +53,7 @@ func main() {
 						fmt.Println("View task served: " + taskID)
 						webconsoleBuffer, fileErr := ioutil.ReadFile("www/webconsole.html")
 						if fileErr == nil {
-							webconsoleString = string(webconsoleBuffer)
+							webconsoleString := string(webconsoleBuffer)
 							//webconsoleString.replace("taskID = \"\"", "taskID = \"" + taskID + "\"")
 							http.ServeContent(theResponseWriter, theRequest, "webconsole.html", time.Now(), strings.NewReader(webconsoleString))
 							//http.ServeFile(theResponseWriter, theRequest, "www/webconsole.html")
