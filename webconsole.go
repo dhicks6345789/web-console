@@ -48,15 +48,14 @@ func main() {
 			} else if strings.HasPrefix(theRequest.URL.Path, "/view") {
 				taskID := theRequest.Form.Get("taskID")
 				if taskID != "" {
-					fmt.Println("View task: " + taskID)
+					// Check to see if we have a valid task ID.
 					if _, err := os.Stat("tasks/" + taskID); !os.IsNotExist(err) {
-						fmt.Println("View task served: " + taskID)
+						// Serve the webconsole.html file, first adding in the Task ID value so it can be used client-side.
 						webconsoleBuffer, fileErr := ioutil.ReadFile("www/webconsole.html")
 						if fileErr == nil {
 							webconsoleString := string(webconsoleBuffer)
 							webconsoleString = strings.Replace(webconsoleString, "taskID = \"\"", "taskID = \"" + taskID + "\"", -1)
 							http.ServeContent(theResponseWriter, theRequest, "webconsole.html", time.Now(), strings.NewReader(webconsoleString))
-							//http.ServeFile(theResponseWriter, theRequest, "www/webconsole.html")
 						}
 					}
 				}
