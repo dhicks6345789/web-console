@@ -51,7 +51,10 @@ func main() {
 					fmt.Println("View task: " + taskID)
 					if _, err := os.Stat("tasks/" + taskID); !os.IsNotExist(err) {
 						fmt.Println("View task served: " + taskID)
-						http.ServeFile(theResponseWriter, theRequest, "www/webconsole.html")
+						webconsoleString := ioutil.ReadFile("www/webconsole.html")
+						//webconsoleString.replace("taskID = \"\"", "taskID = \"" + taskID + "\"")
+						http.ServeContent(w, r, "webconsole.html", time.Now(), strings.NewReader(webconsoleString))
+						//http.ServeFile(theResponseWriter, theRequest, "www/webconsole.html")
 					}
 				}
 			// Handle API calls.
