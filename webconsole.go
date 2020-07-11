@@ -75,7 +75,7 @@ func main() {
 						scanner := bufio.NewScanner(inFile)
 						for scanner.Scan() {
 							if strings.HasPrefix(scanner.Text(), "title:") {
-								taskTitle = strings.TrimSpace(scanner.Text()[5:])
+								taskTitle = strings.TrimSpace(scanner.Text()[6:])
 							}
 						}
 						inFile.Close()
