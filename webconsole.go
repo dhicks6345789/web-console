@@ -54,7 +54,7 @@ func main() {
 						webconsoleBuffer, fileErr := ioutil.ReadFile("www/webconsole.html")
 						if fileErr == nil {
 							webconsoleString := string(webconsoleBuffer)
-							//webconsoleString.replace("taskID = \"\"", "taskID = \"" + taskID + "\"")
+							webconsoleString = strings.Replace(webconsoleString, "taskID = \"\"", "taskID = \"" + taskID + "\"", -1)
 							http.ServeContent(theResponseWriter, theRequest, "webconsole.html", time.Now(), strings.NewReader(webconsoleString))
 							//http.ServeFile(theResponseWriter, theRequest, "www/webconsole.html")
 						}
