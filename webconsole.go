@@ -85,12 +85,10 @@ func main() {
 									authorisationError = "error reading nonce file"
 								}
 							}
-							if theRequest.Form.Get("secret") != "" {
-								if theRequest.Form.Get("secret") == taskDetails["secret"] {
-									authorised = true
-								} else {
-									authorisationError = "incorrect secret"
-								}
+							if theRequest.Form.Get("secret") == taskDetails["secret"] {
+								authorised = true
+							} else {
+								authorisationError = "incorrect secret"
 							}
 							if authorised {
 								// Handle View Task requests.
