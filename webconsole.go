@@ -45,45 +45,48 @@ func main() {
 			// The default root - serve index.html.
 			if theRequest.URL.Path == "/" {
 				http.ServeFile(theResponseWriter, theRequest, "www/index.html")
-			// Handle a View Task request. taskID needs to be provided as a parameter, either via GET or POST.
-			} else if strings.HasPrefix(theRequest.URL.Path, "/view") {
+			// Handle a View Task or API request. taskID needs to be provided as a parameter, either via GET or POST.
+			} else if strings.HasPrefix(theRequest.URL.Path, "/view") or strings.HasPrefix(theRequest.URL.Path, "/api/") {
 				taskID := theRequest.Form.Get("taskID")
-				if taskID != "" {
-					// Check to see if we have a valid task ID.
-					if _, err := os.Stat("tasks/" + taskID); !os.IsNotExist(err) {
-						// Serve the webconsole.html file, first adding in the Task ID value so it can be used client-side.
-						webconsoleBuffer, fileErr := ioutil.ReadFile("www/webconsole.html")
-						if fileErr == nil {
-							webconsoleString := string(webconsoleBuffer)
-							webconsoleString = strings.Replace(webconsoleString, "taskID = \"\"", "taskID = \"" + taskID + "\"", -1)
-							http.ServeContent(theResponseWriter, theRequest, "webconsole.html", time.Now(), strings.NewReader(webconsoleString))
-						}
-					}
-				}
-			// Handle API calls.
-			} else if strings.HasPrefix(theRequest.URL.Path, "/api/getTaskDetails") {
-				taskID := theRequest.Form.Get("taskID")
-				if taskID != "" {
-					// See if we have a config file.
+				if taskID == "" {
+					fmt.printf(theResponseWriter, "ERROR: Missing parameter taskID.")
+				} else {
 					configPath := "tasks/" + taskID + "/config.txt"
+					// Check to see if we have a valid task ID.
 					if _, err := os.Stat(configPath); !os.IsNotExist(err) {
 						inFile, inFileErr := os.Open(configPath)
 						if inFileErr != nil {
-							log.Fatal(inFileErr)
-						}
-						taskTitle := ""
-						scanner := bufio.NewScanner(inFile)
-						for scanner.Scan() {
-							if strings.HasPrefix(scanner.Text(), "title:") {
-								taskTitle = strings.TrimSpace(scanner.Text()[6:])
+							fmt.printf(theResponseWriter, "ERROR: Can't open Task config file.")
+						} else {
+							taskDetails := {}
+							scanner := bufio.NewScanner(inFile)
+							for scanner.Scan() {
+								if strings.HasPrefix(scanner.Text(), "title:") {
+									taskTitle = strings.TrimSpace(scanner.Text()[6:])
+								}
+							}
+							inFile.Close()
+							
+							// Handle View Task requests.
+							if strings.HasPrefix(theRequest.URL.Path, "/view") {
+								// Serve the webconsole.html file, first adding in the Task ID value so it can be used client-side.
+								webconsoleBuffer, fileErr := ioutil.ReadFile("www/webconsole.html")
+								if fileErr == nil {
+									webconsoleString := string(webconsoleBuffer)
+									webconsoleString = strings.Replace(webconsoleString, "taskID = \"\"", "taskID = \"" + taskID + "\"", -1)
+									http.ServeContent(theResponseWriter, theRequest, "webconsole.html", time.Now(), strings.NewReader(webconsoleString))
+								}
+							// Handle API calls.
+							} else if strings.HasPrefix(theRequest.URL.Path, "/api/getTaskTitle") {
+								fmt.printf(theResponseWriter, "Title goes here.")
+							} else if strings.HasPrefix(theRequest.URL.Path, "/api/") {
+								fmt.Fprintf(theResponseWriter, "API call: %s", theRequest.URL.Path)
 							}
 						}
-						inFile.Close()
-						fmt.Fprintf(theResponseWriter, "{\"title\":\"%s\"}", taskTitle)
+					} else {
+						fmt.printf(theResponseWriter, "ERROR: Invalid taskID.")
 					}
 				}
-			} else if strings.HasPrefix(theRequest.URL.Path, "/api/") {
-				fmt.Fprintf(theResponseWriter, "API call: %s", theRequest.URL.Path)
 			// Otherwise, try and find the static file referred to by the request URL.
 			} else {
 				http.ServeFile(theResponseWriter, theRequest, "www" + theRequest.URL.Path)
