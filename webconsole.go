@@ -49,14 +49,14 @@ func main() {
 			} else if strings.HasPrefix(theRequest.URL.Path, "/view") || strings.HasPrefix(theRequest.URL.Path, "/api/") {
 				taskID := theRequest.Form.Get("taskID")
 				if taskID == "" {
-					fmt.Printf(theResponseWriter, "ERROR: Missing parameter taskID.")
+					fmt.Fprintf(theResponseWriter, "ERROR: Missing parameter taskID.")
 				} else {
 					configPath := "tasks/" + taskID + "/config.txt"
 					// Check to see if we have a valid task ID.
 					if _, err := os.Stat(configPath); !os.IsNotExist(err) {
 						inFile, inFileErr := os.Open(configPath)
 						if inFileErr != nil {
-							fmt.Printf(theResponseWriter, "ERROR: Can't open Task config file.")
+							fmt.Fprintf(theResponseWriter, "ERROR: Can't open Task config file.")
 						} else {
 							// Read the Task's details from its config file.
 							var taskDetails map[string]string
@@ -78,13 +78,13 @@ func main() {
 								}
 							// Handle API calls.
 							} else if strings.HasPrefix(theRequest.URL.Path, "/api/getTaskTitle") {
-								fmt.Printf(theResponseWriter, taskDetails["title"])
+								fmt.Fprintf(theResponseWriter, taskDetails["title"])
 							} else if strings.HasPrefix(theRequest.URL.Path, "/api/") {
 								fmt.Fprintf(theResponseWriter, "API call: %s", theRequest.URL.Path)
 							}
 						}
 					} else {
-						fmt.Printf(theResponseWriter, "ERROR: Invalid taskID.")
+						fmt.Fprintf(theResponseWriter, "ERROR: Invalid taskID.")
 					}
 				}
 			// Otherwise, try and find the static file referred to by the request URL.
