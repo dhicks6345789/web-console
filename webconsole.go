@@ -22,7 +22,7 @@ import (
 const letters = "abcdefghijklmnopqrstuvwxyz1234567890"
 
 // Generate a new, random 16-character ID.
-func generateTaskID() string {
+func generateIDString() string {
 	rand.Seed(time.Now().UnixNano())
 	result := make([]byte, 16)
 	for pl := range result {
@@ -74,7 +74,10 @@ func main() {
 							if strings.HasPrefix(theRequest.URL.Path, "/api/getNonce") {
 								suppliedSecret := theRequest.Form.Get("secret")
 								if suppliedSecret == taskDetails["secret"] {
-									encrypt(string(time.Unix() + ":" + taskDetails["secret"])
+									timestamp := string(time.Unix())
+									nonce := generateIDString()
+									fileWriteErr := ioutil.WriteFile("tasks/" + taskID + "/" + nonce, timestamp, 0644)
+									fmt.Fprintf(theResponseWriter, timestamp + ":" + nonce)
 								} else {
 									fmt.Fprintf(theResponseWriter, "ERROR: Incorrect secret.")
 								}
@@ -115,7 +118,7 @@ func main() {
 	} else if os.Args[1] == "-generate" {
 		// Generate a new task ID, and create a matching folder.
 		for {
-			newTaskID := generateTaskID()
+			newTaskID := generateIDString()
 			if _, err := os.Stat("tasks/" + newTaskID); os.IsNotExist(err) {
 				os.Mkdir("tasks/" + newTaskID, os.ModePerm)
 				fmt.Println("New Task generated: " + newTaskID)
