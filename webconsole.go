@@ -71,7 +71,7 @@ func main() {
 							inFile.Close()
 							
 							authorised := false
-							authorisationError := ""
+							authorisationError := "unknown error"
 							currentTimestamp := time.Now().Unix()
 							if theRequest.Form.Get("nonce") != "" {
 								nonceTimestamp, fileReadErr := ioutil.ReadFile("tasks/" + taskID + "/" + theRequest.Form.Get("nonce"))
