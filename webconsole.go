@@ -49,7 +49,7 @@ func main() {
 			} else if strings.HasPrefix(theRequest.URL.Path, "/view") || strings.HasPrefix(theRequest.URL.Path, "/api/") {
 				taskID := theRequest.Form.Get("taskID")
 				if taskID == "" {
-					fmt.printf(theResponseWriter, "ERROR: Missing parameter taskID.")
+					fmt.Printf(theResponseWriter, "ERROR: Missing parameter taskID.")
 				} else {
 					configPath := "tasks/" + taskID + "/config.txt"
 					// Check to see if we have a valid task ID.
@@ -62,7 +62,7 @@ func main() {
 							var taskDetails map[string]string
 							scanner := bufio.NewScanner(inFile)
 							for scanner.Scan() {
-								itemSplit = strings.Split(scanner.Text(), ":"))
+								itemSplit = strings.Split(scanner.Text(), ":")
 								taskDetails[itemSplit[0]] = strings.TrimSpace(itemSplit[1])
 							}
 							inFile.Close()
