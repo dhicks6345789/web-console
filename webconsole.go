@@ -58,6 +58,7 @@ func main() {
 						if inFileErr != nil {
 							fmt.Fprintf(theResponseWriter, "ERROR: Can't open Task config file.")
 						} else {
+							fmt.printf("configPath: " + configPath)
 							// Read the Task's details from its config file.
 							var taskDetails map[string]string
 							scanner := bufio.NewScanner(inFile)
