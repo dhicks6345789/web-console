@@ -66,6 +66,7 @@ func main() {
 								fmt.Printf("Splitting...\n")
 								itemSplit := strings.Split(scanner.Text(), ":")
 								fmt.Printf(itemSplit[0])
+								fmt.Printf(strings.TrimSpace(itemSplit[1]))
 								taskDetails[itemSplit[0]] = strings.TrimSpace(itemSplit[1])
 							}
 							inFile.Close()
