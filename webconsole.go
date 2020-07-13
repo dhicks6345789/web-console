@@ -60,6 +60,9 @@ func main() {
 						} else {
 							// Read the Task's details from its config file.
 							taskDetails := make(map[string]string)
+							taskDetails["title"] = ""
+							taskDetails["secret"] = ""
+							taskDetails["command"] = ""
 							scanner := bufio.NewScanner(inFile)
 							for scanner.Scan() {
 								itemSplit := strings.Split(scanner.Text(), ":")
@@ -68,7 +71,14 @@ func main() {
 							inFile.Close()
 							
 							// Handle View Task requests.
-							if strings.HasPrefix(theRequest.URL.Path, "/view") {
+							if strings.HasPrefix(theRequest.URL.Path, "/api/getNonce") {
+								suppliedSecret := theRequest.Form.Get("secret")
+								if suppliedSecret == taskDetails["secret"] {
+									timestamp + ":" + taskDetails["secret"]
+								} else {
+									fmt.Fprintf(theResponseWriter, "ERROR: Incorrect secret.")
+								}
+							} else if strings.HasPrefix(theRequest.URL.Path, "/view") {
 								// Serve the webconsole.html file, first adding in the Task ID value so it can be used client-side.
 								webconsoleBuffer, fileErr := ioutil.ReadFile("www/webconsole.html")
 								if fileErr == nil {
