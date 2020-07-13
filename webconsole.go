@@ -71,15 +71,21 @@ func main() {
 							inFile.Close()
 							
 							authorised := false
+							authorisationError := ""
 							currentTimestamp := string(time.Unix())
 							if theRequest.Form.Get("nonce") != "" {
 								nonceTimestamp := ioutil.ReadFile("tasks/" + taskID + "/" + theRequest.Form.Get("nonce"))
 								os.remove("tasks/" + taskID + "/" + theRequest.Form.Get("nonce"))
 								// Code goes here - check timestamp is within limit.
+								// authorisationError = "invalid nonce"
 								authorised = true
 							}
-							if theRequest.Form.Get("secret") == taskDetails["secret"] {
-								authorised = true
+							if theRequest.Form.Get("secret") != "" {
+								if theRequest.Form.Get("secret") == taskDetails["secret"] {
+									authorised = true
+								} else {
+									authorisationError = "incorrect secret"
+								}
 							}
 							if authorised {
 								// Handle View Task requests.
@@ -102,6 +108,8 @@ func main() {
 								} else if strings.HasPrefix(theRequest.URL.Path, "/api/") {
 									fmt.Fprintf(theResponseWriter, "API call: %s", theRequest.URL.Path)
 								}
+							} else {
+								fmt.Fprintf(theResponseWriter, "ERROR: Not authorised - %s.", authorisationError)
 							}
 						}
 					} else {
