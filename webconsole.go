@@ -63,7 +63,9 @@ func main() {
 							var taskDetails map[string]string
 							scanner := bufio.NewScanner(inFile)
 							for scanner.Scan() {
+								fmt.Printf("Splitting...\n")
 								itemSplit := strings.Split(scanner.Text(), ":")
+								fmt.Printf(itemSplit)
 								taskDetails[itemSplit[0]] = strings.TrimSpace(itemSplit[1])
 							}
 							inFile.Close()
