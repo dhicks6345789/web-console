@@ -58,12 +58,12 @@ func main() {
 						if inFileErr != nil {
 							fmt.printf(theResponseWriter, "ERROR: Can't open Task config file.")
 						} else {
-							taskDetails := {}
+							// Read the Task's details from its config file.
+							var taskDetails map[string]string
 							scanner := bufio.NewScanner(inFile)
 							for scanner.Scan() {
-								if strings.HasPrefix(scanner.Text(), "title:") {
-									taskTitle = strings.TrimSpace(scanner.Text()[6:])
-								}
+								itemSplit = strings.Split(scanner.Text(), ":"))
+								taskDetails[itemSplit[0]] = strings.TrimSpace(itemSplit[1])
 							}
 							inFile.Close()
 							
@@ -78,7 +78,7 @@ func main() {
 								}
 							// Handle API calls.
 							} else if strings.HasPrefix(theRequest.URL.Path, "/api/getTaskTitle") {
-								fmt.printf(theResponseWriter, "Title goes here.")
+								fmt.printf(theResponseWriter, taskDetails["title"])
 							} else if strings.HasPrefix(theRequest.URL.Path, "/api/") {
 								fmt.Fprintf(theResponseWriter, "API call: %s", theRequest.URL.Path)
 							}
