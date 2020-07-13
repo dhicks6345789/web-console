@@ -74,7 +74,7 @@ func main() {
 							if strings.HasPrefix(theRequest.URL.Path, "/api/getNonce") {
 								suppliedSecret := theRequest.Form.Get("secret")
 								if suppliedSecret == taskDetails["secret"] {
-									timestamp + ":" + taskDetails["secret"]
+									encrypt(string(time.Unix() + ":" + taskDetails["secret"])
 								} else {
 									fmt.Fprintf(theResponseWriter, "ERROR: Incorrect secret.")
 								}
