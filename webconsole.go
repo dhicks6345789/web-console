@@ -74,7 +74,7 @@ func main() {
 							authorisationError := ""
 							currentTimestamp := time.Now().Unix()
 							if theRequest.Form.Get("nonce") != "" {
-								nonceTimestamp := ioutil.ReadFile("tasks/" + taskID + "/" + theRequest.Form.Get("nonce"))
+								nonceTimestamp, nonceErr := ioutil.ReadFile("tasks/" + taskID + "/" + theRequest.Form.Get("nonce"))
 								os.Remove("tasks/" + taskID + "/" + theRequest.Form.Get("nonce"))
 								// Code goes here - check timestamp is within limit.
 								// authorisationError = "invalid nonce"
