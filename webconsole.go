@@ -74,13 +74,15 @@ func main() {
 							authorisationError := ""
 							currentTimestamp := time.Now().Unix()
 							if theRequest.Form.Get("nonce") != "" {
-								nonceTimestamp, nonceErr := ioutil.ReadFile("tasks/" + taskID + "/" + theRequest.Form.Get("nonce"))
-								if nonceErr == nil {
+								nonceTimestamp, fileReadErr := ioutil.ReadFile("tasks/" + taskID + "/" + theRequest.Form.Get("nonce"))
+								if fileReadErr == nil {
 									fmt.Println(nonceTimestamp)
 									os.Remove("tasks/" + taskID + "/" + theRequest.Form.Get("nonce"))
 									// Code goes here - check timestamp is within limit.
 									// authorisationError = "invalid nonce"
 									authorised = true
+								} else {
+									authorisationError = "error reading nonce file"
 								}
 							}
 							if theRequest.Form.Get("secret") != "" {
@@ -99,6 +101,8 @@ func main() {
 										webconsoleString := string(webconsoleBuffer)
 										webconsoleString = strings.Replace(webconsoleString, "taskID = \"\"", "taskID = \"" + taskID + "\"", -1)
 										http.ServeContent(theResponseWriter, theRequest, "webconsole.html", time.Now(), strings.NewReader(webconsoleString))
+									} else {
+										authorisationError = "couldn't read webconsole.html"
 									}
 								// API - Exchange the secret for a nonce.
 								} else if strings.HasPrefix(theRequest.URL.Path, "/api/getNonce") {
@@ -106,6 +110,8 @@ func main() {
 									fileWriteErr := ioutil.WriteFile("tasks/" + taskID + "/" + nonce, []byte(string(currentTimestamp)), 0644)
 									if fileWriteErr == nil {
 										fmt.Fprintf(theResponseWriter, nonce)
+									} else {
+										authorisationError = "couldn't write nonce file"
 									}
 								// API - Return the Task's title.
 								} else if strings.HasPrefix(theRequest.URL.Path, "/api/getTaskTitle") {
