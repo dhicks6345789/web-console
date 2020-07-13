@@ -100,7 +100,7 @@ func main() {
 								// API - Exchange the secret for a nonce.
 								} else if strings.HasPrefix(theRequest.URL.Path, "/api/getNonce") {
 									nonce := generateIDString()
-									fileWriteErr := ioutil.WriteFile("tasks/" + taskID + "/" + nonce, currentTimestamp, 0644)
+									fileWriteErr := ioutil.WriteFile("tasks/" + taskID + "/" + nonce, string(currentTimestamp), 0644)
 									fmt.Fprintf(theResponseWriter, nonce)
 								// API - Return the Task's title.
 								} else if strings.HasPrefix(theRequest.URL.Path, "/api/getTaskTitle") {
