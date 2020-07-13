@@ -72,10 +72,10 @@ func main() {
 							
 							authorised := false
 							authorisationError := ""
-							currentTimestamp := string(time.Unix())
+							currentTimestamp := time.Now().Unix()
 							if theRequest.Form.Get("nonce") != "" {
 								nonceTimestamp := ioutil.ReadFile("tasks/" + taskID + "/" + theRequest.Form.Get("nonce"))
-								os.remove("tasks/" + taskID + "/" + theRequest.Form.Get("nonce"))
+								os.Remove("tasks/" + taskID + "/" + theRequest.Form.Get("nonce"))
 								// Code goes here - check timestamp is within limit.
 								// authorisationError = "invalid nonce"
 								authorised = true
@@ -101,7 +101,7 @@ func main() {
 								} else if strings.HasPrefix(theRequest.URL.Path, "/api/getNonce") {
 									nonce := generateIDString()
 									fileWriteErr := ioutil.WriteFile("tasks/" + taskID + "/" + nonce, currentTimestamp, 0644)
-									fmt.Fprintf(theResponseWriter, timestamp + ":" + nonce)
+									fmt.Fprintf(theResponseWriter, nonce)
 								// API - Return the Task's title.
 								} else if strings.HasPrefix(theRequest.URL.Path, "/api/getTaskTitle") {
 									fmt.Fprintf(theResponseWriter, taskDetails["title"])
