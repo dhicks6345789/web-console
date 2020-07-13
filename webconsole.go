@@ -75,10 +75,13 @@ func main() {
 							currentTimestamp := time.Now().Unix()
 							if theRequest.Form.Get("nonce") != "" {
 								nonceTimestamp, nonceErr := ioutil.ReadFile("tasks/" + taskID + "/" + theRequest.Form.Get("nonce"))
-								os.Remove("tasks/" + taskID + "/" + theRequest.Form.Get("nonce"))
-								// Code goes here - check timestamp is within limit.
-								// authorisationError = "invalid nonce"
-								authorised = true
+								if nonceErr == nil {
+									fmt.Println(nonceTimestamp)
+									os.Remove("tasks/" + taskID + "/" + theRequest.Form.Get("nonce"))
+									// Code goes here - check timestamp is within limit.
+									// authorisationError = "invalid nonce"
+									authorised = true
+								}
 							}
 							if theRequest.Form.Get("secret") != "" {
 								if theRequest.Form.Get("secret") == taskDetails["secret"] {
@@ -91,8 +94,8 @@ func main() {
 								// Handle View Task requests.
 								if strings.HasPrefix(theRequest.URL.Path, "/view") {
 									// Serve the webconsole.html file, first adding in the Task ID value so it can be used client-side.
-									webconsoleBuffer, fileErr := ioutil.ReadFile("www/webconsole.html")
-									if fileErr == nil {
+									webconsoleBuffer, fileReadErr := ioutil.ReadFile("www/webconsole.html")
+									if fileReadErr == nil {
 										webconsoleString := string(webconsoleBuffer)
 										webconsoleString = strings.Replace(webconsoleString, "taskID = \"\"", "taskID = \"" + taskID + "\"", -1)
 										http.ServeContent(theResponseWriter, theRequest, "webconsole.html", time.Now(), strings.NewReader(webconsoleString))
@@ -101,7 +104,9 @@ func main() {
 								} else if strings.HasPrefix(theRequest.URL.Path, "/api/getNonce") {
 									nonce := generateIDString()
 									fileWriteErr := ioutil.WriteFile("tasks/" + taskID + "/" + nonce, []byte(string(currentTimestamp)), 0644)
-									fmt.Fprintf(theResponseWriter, nonce)
+									if fileWriteErr == nil {
+										fmt.Fprintf(theResponseWriter, nonce)
+									}
 								// API - Return the Task's title.
 								} else if strings.HasPrefix(theRequest.URL.Path, "/api/getTaskTitle") {
 									fmt.Fprintf(theResponseWriter, taskDetails["title"])
