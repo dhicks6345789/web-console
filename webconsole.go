@@ -70,30 +70,38 @@ func main() {
 							}
 							inFile.Close()
 							
-							// Handle View Task requests.
-							if strings.HasPrefix(theRequest.URL.Path, "/api/getNonce") {
-								suppliedSecret := theRequest.Form.Get("secret")
-								if suppliedSecret == taskDetails["secret"] {
-									timestamp := string(time.Unix())
+							authorised := false
+							currentTimestamp := string(time.Unix())
+							if theRequest.Form.Get("nonce") != "" {
+								nonceTimestamp := ioutil.ReadFile("tasks/" + taskID + "/" + theRequest.Form.Get("nonce"))
+								os.remove("tasks/" + taskID + "/" + theRequest.Form.Get("nonce"))
+								// Code goes here - check timestamp is within limit.
+								authorised = true
+							}
+							if theRequest.Form.Get("secret") == taskDetails["secret"] {
+								authorised = true
+							}
+							if authorised {
+								// Handle View Task requests.
+								if strings.HasPrefix(theRequest.URL.Path, "/view") {
+									// Serve the webconsole.html file, first adding in the Task ID value so it can be used client-side.
+									webconsoleBuffer, fileErr := ioutil.ReadFile("www/webconsole.html")
+									if fileErr == nil {
+										webconsoleString := string(webconsoleBuffer)
+										webconsoleString = strings.Replace(webconsoleString, "taskID = \"\"", "taskID = \"" + taskID + "\"", -1)
+										http.ServeContent(theResponseWriter, theRequest, "webconsole.html", time.Now(), strings.NewReader(webconsoleString))
+									}
+								// API - Exchange the secret for a nonce.
+								} else if strings.HasPrefix(theRequest.URL.Path, "/api/getNonce") {
 									nonce := generateIDString()
-									fileWriteErr := ioutil.WriteFile("tasks/" + taskID + "/" + nonce, timestamp, 0644)
+									fileWriteErr := ioutil.WriteFile("tasks/" + taskID + "/" + nonce, currentTimestamp, 0644)
 									fmt.Fprintf(theResponseWriter, timestamp + ":" + nonce)
-								} else {
-									fmt.Fprintf(theResponseWriter, "ERROR: Incorrect secret.")
+								// API - Return the Task's title.
+								} else if strings.HasPrefix(theRequest.URL.Path, "/api/getTaskTitle") {
+									fmt.Fprintf(theResponseWriter, taskDetails["title"])
+								} else if strings.HasPrefix(theRequest.URL.Path, "/api/") {
+									fmt.Fprintf(theResponseWriter, "API call: %s", theRequest.URL.Path)
 								}
-							} else if strings.HasPrefix(theRequest.URL.Path, "/view") {
-								// Serve the webconsole.html file, first adding in the Task ID value so it can be used client-side.
-								webconsoleBuffer, fileErr := ioutil.ReadFile("www/webconsole.html")
-								if fileErr == nil {
-									webconsoleString := string(webconsoleBuffer)
-									webconsoleString = strings.Replace(webconsoleString, "taskID = \"\"", "taskID = \"" + taskID + "\"", -1)
-									http.ServeContent(theResponseWriter, theRequest, "webconsole.html", time.Now(), strings.NewReader(webconsoleString))
-								}
-							// Handle API calls.
-							} else if strings.HasPrefix(theRequest.URL.Path, "/api/getTaskTitle") {
-								fmt.Fprintf(theResponseWriter, taskDetails["title"])
-							} else if strings.HasPrefix(theRequest.URL.Path, "/api/") {
-								fmt.Fprintf(theResponseWriter, "API call: %s", theRequest.URL.Path)
 							}
 						}
 					} else {
