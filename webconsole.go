@@ -60,7 +60,7 @@ func main() {
 						} else {
 							fmt.Printf("configPath: " + configPath)
 							// Read the Task's details from its config file.
-							var taskDetails map[string]string
+							taskDetails := make(map[string]string)
 							scanner := bufio.NewScanner(inFile)
 							for scanner.Scan() {
 								fmt.Printf("Splitting...\n")
