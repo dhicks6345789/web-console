@@ -34,13 +34,6 @@ func generateIDString() string {
 	return string(result)
 }
 
-func setToken(theTimestamp) string {
-	// if not exist then set new token
-	resultToken := generateIDString()
-	tokens[token] = string(theTimestamp)
-	retutn resultToken
-}
-
 // The main body of the program - parse user-provided command-line paramaters, or start the main web server process.
 func main() {
 	if len(os.Args) == 1 {
