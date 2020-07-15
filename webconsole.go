@@ -78,10 +78,14 @@ func main() {
 							authorisationError := "unknown error"
 							currentTimestamp := time.Now().Unix()
 							if token != "" {
-								// Code goes here - check for non-valid token.
-								// Code goes here - check timestamp is within limit and refresh.
-								// authorisationError = "invalid token"
-								authorised = true
+								tokenTimestamp, tokenFound := tokens[token]
+								if tokenFound {
+									// Code goes here - check timestamp is within limit and refresh.
+									// expired token
+									authorised = true
+								} else {
+									authorisationError = "invalid token"
+								}
 							} else if theRequest.Form.Get("secret") == taskDetails["secret"] {								
 								authorised = true
 							} else {
@@ -111,7 +115,7 @@ func main() {
 								} else if strings.HasPrefix(theRequest.URL.Path, "/api/getTaskTitle") {
 									fmt.Fprintf(theResponseWriter, taskDetails["title"])
 								} else if strings.HasPrefix(theRequest.URL.Path, "/api/") {
-									fmt.Fprintf(theResponseWriter, "API call: %s", theRequest.URL.Path)
+									fmt.Fprintf(theResponseWriter, "ERROR: Unknown API call: %s", theRequest.URL.Path)
 								}
 							} else {
 								fmt.Fprintf(theResponseWriter, "ERROR: Not authorised - %s.", authorisationError)
