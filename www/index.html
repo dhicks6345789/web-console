@@ -13,8 +13,8 @@
 		
 		<script>
 			function submitForm() {
-				console.log($("#taskIDInput").value);
-				$.post("/api/getToken", {taskID:$("#taskIDInput").value, secret:$("#secretIDInput").value}, function(result) {
+				console.log($("#taskIDInput").val());
+				$.post("/api/getToken", {taskID:$("#taskIDInput").val(), secret:$("#secretIDInput").val()}, function(result) {
 					console.log(result);
 				});
 			}
