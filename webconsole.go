@@ -105,6 +105,7 @@ func main() {
 								} else if strings.HasPrefix(theRequest.URL.Path, "/api/getToken") {
 									token := generateIDString()
 									tokens[token] = string(currentTimestamp)
+									fmt.Fprintf(theResponseWriter, token)
 								// API - Return the Task's title.
 								} else if strings.HasPrefix(theRequest.URL.Path, "/api/getTaskTitle") {
 									fmt.Fprintf(theResponseWriter, taskDetails["title"])
