@@ -25,6 +25,10 @@
 					<label for="taskIDInput">Task ID:</label>
 					<input type="text" class="form-control" id="taskIDInput" name="taskID" aria-describedby="taskIDHelp" placeholder="Enter a 16-digit Task ID">
 					<small id="taskIDHelp" class="form-text text-muted">You'll need to know a valid Task ID to run a task. If you need help, contact your system administrator, or read the documentation.</small>
+					
+					<label for="secretInput">Secret:</label>
+					<input type="password" class="form-control" id="secretInput" name="secret" aria-describedby="secretHelp" placeholder="Enter secret (optional)">
+					<small id="secretHelp" class="form-text text-muted">The Task might have an associated Secret, which you'll need to know to run the Task. Leave blank if no secret is needed for this Task.</small>
 				</div>
 				<button type="submit" class="btn btn-primary">Go</button>
 			</form>
