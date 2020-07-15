@@ -78,7 +78,7 @@ func main() {
 							currentTimestamp := time.Now().Unix()
 							if theRequest.Form.Get("token") != "" {
 								// Code goes here - check for non-valid token.
-								tokenTimestamp = tokens[theRequest.Form.Get("token")]
+								tokenTimestamp := tokens[theRequest.Form.Get("token")]
 								fmt.Println(tokenTimestamp)
 								// Code goes here - check timestamp is within limit and refresh.
 								// authorisationError = "invalid token"
