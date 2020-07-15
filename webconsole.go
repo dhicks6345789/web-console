@@ -21,11 +21,7 @@ import (
 // Characters to use to generate new ID strings. Lowercase only - any user-provided IDs will be lowercased before use.
 const letters = "abcdefghijklmnopqrstuvwxyz1234567890"
 
-// Set up the tokens map (associative array).
-//type token struct {
-//	id string
-//	timestamp string
-//}
+// Set up the tokens map.
 var tokens = map[string]string{}
 
 // Generate a new, random 16-character ID.
@@ -80,17 +76,13 @@ func main() {
 							authorised := false
 							authorisationError := "unknown error"
 							currentTimestamp := time.Now().Unix()
-							if theRequest.Form.Get("nonce") != "" {
-								nonceTimestamp, fileReadErr := ioutil.ReadFile("tasks/" + taskID + "/" + theRequest.Form.Get("nonce"))
-								if fileReadErr == nil {
-									fmt.Println(nonceTimestamp)
-									os.Remove("tasks/" + taskID + "/" + theRequest.Form.Get("nonce"))
-									// Code goes here - check timestamp is within limit.
-									// authorisationError = "invalid nonce"
-									authorised = true
-								} else {
-									authorisationError = "error reading nonce file"
-								}
+							if theRequest.Form.Get("token") != "" {
+								// Code goes here - check for non-valid token.
+								tokenTimestamp = tokens[theRequest.Form.Get("token")]
+								fmt.Println(tokenTimestamp)
+								// Code goes here - check timestamp is within limit and refresh.
+								// authorisationError = "invalid token"
+								authorised = true
 							}
 							if theRequest.Form.Get("secret") == taskDetails["secret"] {
 								authorised = true
@@ -109,16 +101,10 @@ func main() {
 									} else {
 										authorisationError = "couldn't read webconsole.html"
 									}
-								// API - Exchange the secret for a nonce.
-								} else if strings.HasPrefix(theRequest.URL.Path, "/api/getNonce") {
-									nonce := generateIDString()
-									tokens[nonce] = string(currentTimestamp)
-									fileWriteErr := ioutil.WriteFile("tasks/" + taskID + "/" + nonce, []byte(string(currentTimestamp)), 0644)
-									if fileWriteErr == nil {
-										fmt.Fprintf(theResponseWriter, nonce)
-									} else {
-										authorisationError = "couldn't write nonce file"
-									}
+								// API - Exchange the secret for a token.
+								} else if strings.HasPrefix(theRequest.URL.Path, "/api/getToken") {
+									token := generateIDString()
+									tokens[token] = string(currentTimestamp)
 								// API - Return the Task's title.
 								} else if strings.HasPrefix(theRequest.URL.Path, "/api/getTaskTitle") {
 									fmt.Fprintf(theResponseWriter, taskDetails["title"])
