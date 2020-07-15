@@ -47,11 +47,7 @@
 			//});
 			
 			$(document).ready(function() {
-				//doAPICall("getTaskDetails", {}, function(result) {
-				//	taskDetails = JSON.parse(result);
-				//	$("#taskTitle").html(taskDetails["title"]);
-				//});
-				doAPICall("getTaskTitle", {}, function(result) {
+				doAPICall("getTaskTitle", {token:token}, function(result) {
 					$("#taskTitle").html(result);
 				});
 			});
