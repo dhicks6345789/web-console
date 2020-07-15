@@ -16,7 +16,7 @@
 			token = "";
 			
 			function doAPICall(functionName, parameters, resultFunction) {
-				$.post("/api/" + functionName, $.extend({taskID:taskID}, parameters), resultFunction);
+				$.post("/api/" + functionName, $.extend({taskID:taskID, token:token}, parameters), resultFunction);
 			}
 			
 			function runTask() {
@@ -47,7 +47,7 @@
 			//});
 			
 			$(document).ready(function() {
-				doAPICall("getTaskTitle", {token:token}, function(result) {
+				doAPICall("getTaskTitle", {}, function(result) {
 					$("#taskTitle").html(result);
 				});
 			});
