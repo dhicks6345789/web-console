@@ -34,6 +34,13 @@ func generateIDString() string {
 	return string(result)
 }
 
+func setToken(theTimestamp) string {
+	// if not exist then set new token
+	resultToken := generateIDString()
+	tokens[token] = string(theTimestamp)
+	retutn resultToken
+}
+
 // The main body of the program - parse user-provided command-line paramaters, or start the main web server process.
 func main() {
 	if len(os.Args) == 1 {
@@ -51,6 +58,7 @@ func main() {
 			// Handle a View Task or API request. taskID needs to be provided as a parameter, either via GET or POST.
 			} else if strings.HasPrefix(theRequest.URL.Path, "/view") || strings.HasPrefix(theRequest.URL.Path, "/api/") {
 				taskID := theRequest.Form.Get("taskID")
+				token := theRequest.Form.Get("token")
 				if taskID == "" {
 					fmt.Fprintf(theResponseWriter, "ERROR: Missing parameter taskID.")
 				} else {
@@ -65,7 +73,7 @@ func main() {
 							taskDetails := make(map[string]string)
 							taskDetails["title"] = ""
 							taskDetails["secret"] = ""
-							taskDetails["command"] = ""
+							taskDetails["command"] = ""							
 							scanner := bufio.NewScanner(inFile)
 							for scanner.Scan() {
 								itemSplit := strings.Split(scanner.Text(), ":")
@@ -76,20 +84,21 @@ func main() {
 							authorised := false
 							authorisationError := "unknown error"
 							currentTimestamp := time.Now().Unix()
-							if theRequest.Form.Get("token") != "" {
+							if token != "" {
 								// Code goes here - check for non-valid token.
-								tokenTimestamp := tokens[theRequest.Form.Get("token")]
-								fmt.Println(tokenTimestamp)
 								// Code goes here - check timestamp is within limit and refresh.
 								// authorisationError = "invalid token"
 								authorised = true
-							}
-							if theRequest.Form.Get("secret") == taskDetails["secret"] {
+							} else if theRequest.Form.Get("secret") == taskDetails["secret"] {								
 								authorised = true
 							} else {
 								authorisationError = "incorrect secret"
 							}
 							if authorised {
+								if token == "" {
+									token = generateIDString()
+								}
+								tokens[token] = string(currentTimestamp)
 								// Handle View Task requests.
 								if strings.HasPrefix(theRequest.URL.Path, "/view") {
 									// Serve the webconsole.html file, first adding in the Task ID value so it can be used client-side.
@@ -97,14 +106,13 @@ func main() {
 									if fileReadErr == nil {
 										webconsoleString := string(webconsoleBuffer)
 										webconsoleString = strings.Replace(webconsoleString, "taskID = \"\"", "taskID = \"" + taskID + "\"", -1)
+										webconsoleString = strings.Replace(webconsoleString, "token = \"\"", "token = \"" + token + "\"", -1)
 										http.ServeContent(theResponseWriter, theRequest, "webconsole.html", time.Now(), strings.NewReader(webconsoleString))
 									} else {
 										authorisationError = "couldn't read webconsole.html"
 									}
 								// API - Exchange the secret for a token.
 								} else if strings.HasPrefix(theRequest.URL.Path, "/api/getToken") {
-									token := generateIDString()
-									tokens[token] = string(currentTimestamp)
 									fmt.Fprintf(theResponseWriter, token)
 								// API - Return the Task's title.
 								} else if strings.HasPrefix(theRequest.URL.Path, "/api/getTaskTitle") {
