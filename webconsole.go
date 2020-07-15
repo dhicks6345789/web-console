@@ -37,21 +37,20 @@ func generateIDString() string {
 	return string(result)
 }
 
-go func() {
-	for true {
-		currentTimestamp := time.Now().Unix()
-		fmt.Println("Clearing expired tokens...")
-		for token, timestamp := range tokens { 
-			if currentTimestamp - tokenTimeout > timestamp {
-				fmt.Println("Removing: " + string(token))
-				delete(tokens, token)
-			}
-		time.Sleep(tokenTimeout * time.Second)
-	}
-}()
-
 // The main body of the program - parse user-provided command-line paramaters, or start the main web server process.
 func main() {
+	go func() {
+		for true {
+			currentTimestamp := time.Now().Unix()
+			fmt.Println("Clearing expired tokens...")
+			for token, timestamp := range tokens { 
+				if currentTimestamp - tokenTimeout > timestamp {
+					fmt.Println("Removing: " + string(token))
+					delete(tokens, token)
+				}
+			time.Sleep(tokenTimeout * time.Second)
+		}
+	}()
 	if len(os.Args) == 1 {
 		// If no parameters are given, simply start the web server.
 		fmt.Println("Starting web server...")
