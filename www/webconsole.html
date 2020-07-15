@@ -29,7 +29,7 @@
 				// Run the job (if the job is already running, this has no effect).
 				doAPICall("runTask", {}, function(result) {
 					// If the call returns "OK" then the job is running, subsequent calls to getJobOutput will return the console output of the job as it runs.
-					$("#runJobConsoleOutput").html("<div>" + result + "</div>");
+					$("#consoleOutput").html("<div>" + result + "</div>");
 					//currentJobOutputLine = 0;
 					//updateJobOutput();
 				});
