@@ -46,6 +46,7 @@ func clearExpiredTokens() {
 				fmt.Println("Removing: " + string(token))
 				delete(tokens, token)
 			}
+		}
 		time.Sleep(tokenTimeout * time.Second)
 	}
 }
