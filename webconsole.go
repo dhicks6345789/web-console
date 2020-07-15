@@ -22,7 +22,7 @@ import (
 const letters = "abcdefghijklmnopqrstuvwxyz1234567890"
 
 // The timeout, in seconds, of token validity.
-const tokenTimeout = 600
+const tokenTimeout = 60
 
 // Set up the tokens map.
 var tokens = map[string]int64{}
@@ -36,6 +36,13 @@ func generateIDString() string {
 	}
 	return string(result)
 }
+
+go func() {
+	for true {
+		fmt.Println("Clearing expired tokens...")
+		time.Sleep(tokenTimeout * time.Second)
+	}
+}()
 
 // The main body of the program - parse user-provided command-line paramaters, or start the main web server process.
 func main() {
