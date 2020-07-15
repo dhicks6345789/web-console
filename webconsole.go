@@ -21,6 +21,13 @@ import (
 // Characters to use to generate new ID strings. Lowercase only - any user-provided IDs will be lowercased before use.
 const letters = "abcdefghijklmnopqrstuvwxyz1234567890"
 
+// Set up the tokens map (associative array).
+//type token struct {
+//	id string
+//	timestamp string
+//}
+var tokens = map[string]string{}
+
 // Generate a new, random 16-character ID.
 func generateIDString() string {
 	rand.Seed(time.Now().UnixNano())
@@ -105,6 +112,7 @@ func main() {
 								// API - Exchange the secret for a nonce.
 								} else if strings.HasPrefix(theRequest.URL.Path, "/api/getNonce") {
 									nonce := generateIDString()
+									tokens[nonce] = string(currentTimestamp)
 									fileWriteErr := ioutil.WriteFile("tasks/" + taskID + "/" + nonce, []byte(string(currentTimestamp)), 0644)
 									if fileWriteErr == nil {
 										fmt.Fprintf(theResponseWriter, nonce)
