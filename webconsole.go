@@ -22,7 +22,9 @@ import (
 const letters = "abcdefghijklmnopqrstuvwxyz1234567890"
 
 // The timeout, in seconds, of token validity.
-const tokenTimeout = 30
+const tokenTimeout = 600
+// How often, in seconds, to check token for expired tokens.
+const tokenCheckPeriod = 60
 
 // Set up the tokens map.
 var tokens = map[string]int64{}
@@ -37,22 +39,23 @@ func generateIDString() string {
 	return string(result)
 }
 
+// Clear any expired tokens from memory.
 func clearExpiredTokens() {
+	// This is a periodic task, it runs in a separate thread.
 	for true {
 		currentTimestamp := time.Now().Unix()
-		fmt.Println("Clearing expired tokens...")
 		for token, timestamp := range tokens { 
 			if currentTimestamp - tokenTimeout > timestamp {
-				fmt.Println("Removing: " + string(token))
 				delete(tokens, token)
 			}
 		}
-		time.Sleep(tokenTimeout * time.Second)
+		time.Sleep(tokenCheckPeriod * time.Second)
 	}
 }
 
 // The main body of the program - parse user-provided command-line paramaters, or start the main web server process.
 func main() {
+	// Start the thread that checks for and clears expired tokens.
 	go clearExpiredTokens()
 	if len(os.Args) == 1 {
 		// If no parameters are given, simply start the web server.
