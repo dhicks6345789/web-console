@@ -84,7 +84,7 @@ func main() {
 								tokenTimestamp, tokenFound := tokens[token]
 								if tokenFound {
 									// Check the token's timestamp is within the timeout limit.
-									if currentTimestamp - tokenTimeout < tokens[token] {
+									if currentTimestamp - tokenTimeout < tokenTimestamp {
 										authorised = true
 									} else {
 										authorisationError = "expired token"
