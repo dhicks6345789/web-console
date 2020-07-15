@@ -22,7 +22,7 @@ import (
 const letters = "abcdefghijklmnopqrstuvwxyz1234567890"
 
 // The timeout, in seconds, of token validity.
-const tokenTimeout = 60
+const tokenTimeout = 30
 
 // Set up the tokens map.
 var tokens = map[string]int64{}
@@ -39,7 +39,13 @@ func generateIDString() string {
 
 go func() {
 	for true {
+		currentTimestamp := time.Now().Unix()
 		fmt.Println("Clearing expired tokens...")
+		for token, timestamp := range tokens { 
+			if currentTimestamp - tokenTimeout > timestamp {
+				fmt.Println("Removing: " + string(token))
+				delete(tokens, token)
+			}
 		time.Sleep(tokenTimeout * time.Second)
 	}
 }()
@@ -90,14 +96,15 @@ func main() {
 							if token != "" {
 								tokenTimestamp, tokenFound := tokens[token]
 								if tokenFound {
+									authorised = true
 									// Check the token's timestamp is within the timeout limit.
-									if currentTimestamp - tokenTimeout < tokenTimestamp {
-										authorised = true
-									} else {
-										authorisationError = "expired token"
-									}
+									//if currentTimestamp - tokenTimeout < tokenTimestamp {
+									//	authorised = true
+									//} else {
+									//	authorisationError = "expired token"
+									//}
 								} else {
-									authorisationError = "invalid token"
+									authorisationError = "invalid or expired token"
 								}
 							} else if theRequest.Form.Get("secret") == taskDetails["secret"] {								
 								authorised = true
