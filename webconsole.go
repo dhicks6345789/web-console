@@ -96,8 +96,7 @@ func main() {
 							authorisationError := "unknown error"
 							currentTimestamp := time.Now().Unix()
 							if token != "" {
-								tokenTimestamp, tokenFound := tokens[token]
-								if tokenFound {
+								if tokens[token] {
 									authorised = true
 									// Check the token's timestamp is within the timeout limit.
 									//if currentTimestamp - tokenTimeout < tokenTimestamp {
