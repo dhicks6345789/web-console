@@ -27,7 +27,7 @@
 					<h1 class="text-center">Web Console.</h1>
 				</div>
 			</div>
-			<form onsubmit="submitForm()" method="post">
+			<form>
 				<div class="form-group">
 					<label for="taskIDInput">Task ID:</label>
 					<input type="text" class="form-control" id="taskIDInput" name="taskID" aria-describedby="taskIDHelp" placeholder="Enter a 16-digit Task ID">
@@ -37,7 +37,7 @@
 					<input type="password" class="form-control" id="secretInput" name="secret" aria-describedby="secretHelp" placeholder="Enter secret (optional)">
 					<small id="secretHelp" class="form-text text-muted">Leave blank if no secret is needed for this Task.</small>
 				</div>
-				<button type="submit" class="btn btn-primary">Go</button>
+				<button type="button" onclick="submitForm()" class="btn btn-primary">Go</button>
 			</form>
 		</div>
 	</body>
