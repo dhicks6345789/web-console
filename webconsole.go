@@ -96,16 +96,10 @@ func main() {
 							authorisationError := "unknown error"
 							currentTimestamp := time.Now().Unix()
 							if token != "" {
-								if tokens[token] {
-									authorised = true
-									// Check the token's timestamp is within the timeout limit.
-									//if currentTimestamp - tokenTimeout < tokenTimestamp {
-									//	authorised = true
-									//} else {
-									//	authorisationError = "expired token"
-									//}
-								} else {
+								if tokens[token] == 0 {
 									authorisationError = "invalid or expired token"
+								} else {
+									authorised = true
 								}
 							} else if theRequest.Form.Get("secret") == taskDetails["secret"] {								
 								authorised = true
