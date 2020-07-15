@@ -21,8 +21,11 @@ import (
 // Characters to use to generate new ID strings. Lowercase only - any user-provided IDs will be lowercased before use.
 const letters = "abcdefghijklmnopqrstuvwxyz1234567890"
 
+// The timeout, in seconds, of token validity.
+const tokenTimeout = 600
+
 // Set up the tokens map.
-var tokens = map[string]string{}
+var tokens = map[string]int64{}
 
 // Generate a new, random 16-character ID.
 func generateIDString() string {
@@ -80,9 +83,12 @@ func main() {
 							if token != "" {
 								tokenTimestamp, tokenFound := tokens[token]
 								if tokenFound {
-									// Code goes here - check timestamp is within limit and refresh.
-									// expired token
-									authorised = true
+									// Check the token's timestamp is within the timeout limit.
+									if currentTimestamp - tokenTimeout < tokens[token] {
+										authorised = true
+									} else {
+										authorisationError = "expired token"
+									}
 								} else {
 									authorisationError = "invalid token"
 								}
@@ -95,7 +101,7 @@ func main() {
 								if token == "" {
 									token = generateIDString()
 								}
-								tokens[token] = string(currentTimestamp)
+								tokens[token] = currentTimestamp
 								// Handle View Task requests.
 								if strings.HasPrefix(theRequest.URL.Path, "/view") {
 									// Serve the webconsole.html file, first adding in the Task ID value so it can be used client-side.
