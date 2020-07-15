@@ -17,8 +17,9 @@
 				console.log($("#secretInput").val());
 				$.post("/api/getToken", {taskID:$("#taskIDInput").val(), secret:$("#secretInput").val()}, function(result) {
 					// Code goes here - check for errors, print a useful error message.
-					$("#token").val(result);
-					$("#viewTaskForm").submit();
+					$("#hiddenTaskID").val($("#taskIDInput").val());
+					$("#hiddenToken").val(result);
+					$("#hiddenForm").submit();
 				});
 			}
 		</script>
@@ -32,7 +33,7 @@
 			</div>
 			<div class="form-group">
 				<label for="taskIDInput">Task ID:</label>
-				<input type="text" class="form-control" id="taskIDInput" name="taskID" aria-describedby="taskIDHelp" placeholder="Enter a 16-digit Task ID"/>
+				<input type="text" class="form-control" id="taskIDInput" aria-describedby="taskIDHelp" placeholder="Enter a 16-digit Task ID"/>
 				<small id="taskIDHelp" class="form-text text-muted">You'll need to know a valid Task ID to run a Task.</small>
 					
 				<label for="secretInput">Secret:</label>
@@ -40,8 +41,9 @@
 				<small id="secretHelp" class="form-text text-muted">Leave blank if no secret is needed for this Task.</small>
 			</div>
 			<button type="button" onclick="submitForm()" class="btn btn-primary">Go</button>
-			<form id="viewTaskForm" action="/view" method="post">
-				<input type="hidden" id="token" name="token"/>
+			<form id="hiddenForm" action="/view" method="post">
+				<input type="hidden" id="hiddenTaskID" name="taskID"/>
+				<input type="hidden" id="hiddenToken" name="token"/>
 			</form>
 		</div>
 	</body>
