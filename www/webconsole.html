@@ -13,6 +13,7 @@
 		
 		<script>
 			taskID = "";
+			token = "";
 			
 			function doAPICall(functionName, parameters, resultFunction) {
 				$.post("/api/" + functionName, $.extend({taskID:taskID}, parameters), resultFunction);
