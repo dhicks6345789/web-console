@@ -14,7 +14,8 @@
 		<script>
 			function submitForm() {
 				console.log($("#taskIDInput").val());
-				$.post("/api/getToken", {taskID:$("#taskIDInput").val(), secret:$("#secretIDInput").val()}, function(result) {
+				console.log($("#secretInput").val());
+				$.post("/api/getToken", {taskID:$("#taskIDInput").val(), secret:$("#secretInput").val()}, function(result) {
 					console.log(result);
 				});
 			}
