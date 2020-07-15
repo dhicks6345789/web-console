@@ -10,6 +10,15 @@
 		<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+		
+		<script>
+			function submitForm() {
+				console.log($("#taskIDInput").value);
+				$.post("/api/getToken", {taskID:$("#taskIDInput").value, secret:$("#secretIDInput").value}, function(result) {
+					console.log(result);
+				});
+			}
+		</script>
 	</head>
 	<body>
 		<div class="container-fluid" id="mainContent">
@@ -18,11 +27,11 @@
 					<h1 class="text-center">Web Console.</h1>
 				</div>
 			</div>
-			<form action="/view" method="post">
+			<form onsubmit="submitForm()" method="post">
 				<div class="form-group">
 					<label for="taskIDInput">Task ID:</label>
 					<input type="text" class="form-control" id="taskIDInput" name="taskID" aria-describedby="taskIDHelp" placeholder="Enter a 16-digit Task ID">
-					<small id="taskIDHelp" class="form-text text-muted">You'll need to know a valid Task ID to run a task.</small>
+					<small id="taskIDHelp" class="form-text text-muted">You'll need to know a valid Task ID to run a Task.</small>
 					
 					<label for="secretInput">Secret:</label>
 					<input type="password" class="form-control" id="secretInput" name="secret" aria-describedby="secretHelp" placeholder="Enter secret (optional)">
