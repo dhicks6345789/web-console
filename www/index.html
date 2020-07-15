@@ -16,7 +16,9 @@
 				console.log($("#taskIDInput").val());
 				console.log($("#secretInput").val());
 				$.post("/api/getToken", {taskID:$("#taskIDInput").val(), secret:$("#secretInput").val()}, function(result) {
-					console.log(result);
+					// Code goes here - check for errors, print a useful error message.
+					$("#token").val(result);
+					$("#viewTaskForm").submit();
 				});
 			}
 		</script>
@@ -28,17 +30,18 @@
 					<h1 class="text-center">Web Console.</h1>
 				</div>
 			</div>
-			<form>
-				<div class="form-group">
-					<label for="taskIDInput">Task ID:</label>
-					<input type="text" class="form-control" id="taskIDInput" name="taskID" aria-describedby="taskIDHelp" placeholder="Enter a 16-digit Task ID">
-					<small id="taskIDHelp" class="form-text text-muted">You'll need to know a valid Task ID to run a Task.</small>
+			<div class="form-group">
+				<label for="taskIDInput">Task ID:</label>
+				<input type="text" class="form-control" id="taskIDInput" name="taskID" aria-describedby="taskIDHelp" placeholder="Enter a 16-digit Task ID"/>
+				<small id="taskIDHelp" class="form-text text-muted">You'll need to know a valid Task ID to run a Task.</small>
 					
-					<label for="secretInput">Secret:</label>
-					<input type="password" class="form-control" id="secretInput" name="secret" aria-describedby="secretHelp" placeholder="Enter secret (optional)">
-					<small id="secretHelp" class="form-text text-muted">Leave blank if no secret is needed for this Task.</small>
-				</div>
-				<button type="button" onclick="submitForm()" class="btn btn-primary">Go</button>
+				<label for="secretInput">Secret:</label>
+				<input type="password" class="form-control" id="secretInput" name="secret" aria-describedby="secretHelp" placeholder="Enter secret (optional)"/>
+				<small id="secretHelp" class="form-text text-muted">Leave blank if no secret is needed for this Task.</small>
+			</div>
+			<button type="button" onclick="submitForm()" class="btn btn-primary">Go</button>
+			<form id="viewTaskForm" action="/view" method="post">
+				<input type="hidden" id="token" name="token"/>
 			</form>
 		</div>
 	</body>
