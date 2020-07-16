@@ -148,11 +148,12 @@ func main() {
 									if len(commandSplit) > 0 {
 										commandArgs = commandSplit[1]
 									}
+									fmt.Printf("Running: " + commandSplit[0])
+									fmt.Printf("   Args: " + commandArgs)
 									runningTasks[taskID] = exec.Command(commandSplit[0], commandArgs)
 									taskOutput, taskErr := runningTasks[taskID].CombinedOutput()
 									if taskErr == nil {
 										taskOutputs[taskID] = taskOutput
-										fmt.Printf("Running: " + taskDetails["command"])
 										fmt.Fprintf(theResponseWriter, "OK")
 									} else {
 										fmt.Printf("ERROR: " + taskErr.Error())
