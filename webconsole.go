@@ -94,7 +94,7 @@ func main() {
 							taskDetails["command"] = ""							
 							scanner := bufio.NewScanner(inFile)
 							for scanner.Scan() {
-								itemSplit := strings.SplitN(scanner.Text(), ":", 1)
+								itemSplit := strings.SplitN(scanner.Text(), ":", 2)
 								taskDetails[itemSplit[0]] = strings.TrimSpace(itemSplit[1])
 							}
 							inFile.Close()
