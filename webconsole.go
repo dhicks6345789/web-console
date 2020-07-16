@@ -64,16 +64,14 @@ func parseCommandString(theString string) []string {
 	for theString != "" {
 		fmt.Printf(theString + "\n")
 		theString = strings.TrimSpace(theString)
-		fmt.Printf("one\n")
 		if strings.HasPrefix(theString, "\"") {
 			stringSplit = strings.SplitN(theString[1:], "\"", 2)
 		} else {
 			stringSplit = strings.SplitN(theString, " ", 2)
 		}
-		fmt.Printf("two\n")
 		result = append(result, stringSplit[0])
 		fmt.Printf("three\n")
-		if len(stringSplit) > 0 {
+		if len(stringSplit) > 1 {
 			theString = stringSplit[1]
 		} else {
 			theString = ""
