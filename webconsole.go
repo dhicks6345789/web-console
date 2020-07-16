@@ -161,8 +161,8 @@ func main() {
 									fmt.Fprintf(theResponseWriter, taskDetails["title"])
 								// API - Run a given Task.
 								} else if strings.HasPrefix(theRequest.URL.Path, "/api/runTask") {
-									//commandArray := parseCommandString(taskDetails["command"])
-									commandArray := []string{"C:\\Windows\\System32\\cmd.exe", "/C", "dir"}
+									commandArray := parseCommandString(taskDetails["command"])
+									//commandArray := []string{"C:\\Windows\\System32\\cmd.exe", "/C", "dir"}
 									var commandArgs []string
 									if len(commandArray) > 0 {
 										commandArgs = commandArray[1:]
