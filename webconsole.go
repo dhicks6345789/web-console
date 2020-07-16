@@ -132,6 +132,10 @@ func main() {
 								// API - Return the Task's title.
 								} else if strings.HasPrefix(theRequest.URL.Path, "/api/getTaskTitle") {
 									fmt.Fprintf(theResponseWriter, taskDetails["title"])
+								// API - Run a given Task.
+								} else if strings.HasPrefix(theRequest.URL.Path, "/api/runTask") {
+									fmt.Println(taskDetails["command"])
+									fmt.Fprintf(theResponseWriter, "OK")
 								} else if strings.HasPrefix(theRequest.URL.Path, "/api/") {
 									fmt.Fprintf(theResponseWriter, "ERROR: Unknown API call: %s", theRequest.URL.Path)
 								}
