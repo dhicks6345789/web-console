@@ -12,7 +12,6 @@ import (
 	"log"
 	"time"
 	"bufio"
-	"bytes"
 	"strings"
 	"os/exec"
 	"math/rand"
@@ -32,7 +31,7 @@ const tokenCheckPeriod = 60
 var tokens = map[string]int64{}
 
 var runningTasks = map[string]*exec.Cmd{}
-var taskOutputs = map[string]bytes.Buffer{}
+var taskOutputs = map[string][]byte{}
 
 // Generate a new, random 16-character ID.
 func generateIDString() string {
