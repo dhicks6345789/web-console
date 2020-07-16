@@ -13,6 +13,7 @@ import (
 	"time"
 	"bufio"
 	"strings"
+	"os/exec"
 	"math/rand"
 	"io/ioutil"
 	"net/http"
@@ -28,6 +29,8 @@ const tokenCheckPeriod = 60
 
 // Set up the tokens map.
 var tokens = map[string]int64{}
+
+var runningTasks = map[string]Cmd{}
 
 // Generate a new, random 16-character ID.
 func generateIDString() string {
@@ -134,7 +137,8 @@ func main() {
 									fmt.Fprintf(theResponseWriter, taskDetails["title"])
 								// API - Run a given Task.
 								} else if strings.HasPrefix(theRequest.URL.Path, "/api/runTask") {
-									fmt.Println(taskDetails["command"])
+									runningTasks[taskID] = exec.Command(taskDetails["command"])
+									runningTasks[taskID].Start()
 									fmt.Fprintf(theResponseWriter, "OK")
 								} else if strings.HasPrefix(theRequest.URL.Path, "/api/") {
 									fmt.Fprintf(theResponseWriter, "ERROR: Unknown API call: %s", theRequest.URL.Path)
