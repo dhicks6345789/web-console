@@ -57,10 +57,12 @@ func clearExpiredTokens() {
 	}
 }
 
+// Split a string representing a command line with paramaters, possibly with quoted sections, into an array of strings.
 func parseCommandString(theString string) []string {
 	var result []string
 	var stringSplit []string
 	for theString != "" {
+		fmt.Printf(theString + "\n")
 		theString = strings.TrimSpace(theString)
 		if strings.HasPrefix(theString, "\"") {
 			stringSplit = strings.SplitN(theString[1:], "\"", 2)
@@ -160,7 +162,7 @@ func main() {
 								} else if strings.HasPrefix(theRequest.URL.Path, "/api/runTask") {
 									commandArray := parseCommandString(taskDetails["command"])
 									var commandArgs []string
-									if len(commandArray) > 1 {
+									if len(commandArray) > 0 {
 										commandArgs = commandArray[1:]
 									}
 									fmt.Printf("Running: " + commandArray[0] + "\n")
