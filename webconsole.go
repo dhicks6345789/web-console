@@ -142,8 +142,12 @@ func main() {
 									runningTasks[taskID] = exec.Command(taskDetails["command"])
 									runningTasks[taskID].Start()
 									taskStdout, taskErr := runningTasks[taskID].StdoutPipe()
-									taskStdouts[taskID] = taskStdout
-									fmt.Fprintf(theResponseWriter, "OK")
+									if taskErr == nil {
+										taskStdouts[taskID] = taskStdout
+										fmt.Fprintf(theResponseWriter, "OK")
+									} else {
+										fmt.Fprintf(theResponseWriter, "ERROR: " + string(err))
+									}
 								} else if strings.HasPrefix(theRequest.URL.Path, "/api/") {
 									fmt.Fprintf(theResponseWriter, "ERROR: Unknown API call: %s", theRequest.URL.Path)
 								}
