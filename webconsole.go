@@ -57,6 +57,25 @@ func clearExpiredTokens() {
 	}
 }
 
+func parseCommandString(theString) {
+	var result []string
+	for theString != "" {
+		theString = strings.TrimSpace(theString)
+		if strings.HasPrefix(theString, "\"") {
+			stringSplit = strings.SplitN(theString[1:], "\"", 2)
+		} else {
+			stringSplit = strings.SplitN(theString[1:], " ", 2)
+		}
+		result = append(result, stringSplit[0])
+		if len(stringSplit) > 0 {
+			theString = stringSplit[1]
+		} else {
+			theString = ""
+		}
+	}	
+	return result
+}
+
 // The main body of the program - parse user-provided command-line paramaters, or start the main web server process.
 func main() {
 	// Start the thread that checks for and clears expired tokens.
@@ -138,19 +157,14 @@ func main() {
 									fmt.Fprintf(theResponseWriter, taskDetails["title"])
 								// API - Run a given Task.
 								} else if strings.HasPrefix(theRequest.URL.Path, "/api/runTask") {
-									var commandSplit []string
-									if strings.HasPrefix(taskDetails["command"], "\"") {
-										commandSplit = strings.SplitN(taskDetails["command"][1:], "\"", 2)
-									} else {
-										commandSplit = strings.SplitN(taskDetails["command"], " ", 2)
+									commandArray := parseCommandString(taskDetails["command"])
+									commandArgs := []string
+									if len(commandArray) > 1 {
+										commandArgs = commandArray[1:]
 									}
-									commandArgs := ""
-									if len(commandSplit) > 0 {
-										commandArgs = commandSplit[1]
-									}
-									fmt.Printf("Running: " + commandSplit[0] + "\n")
-									fmt.Printf("   Args: " + commandArgs + "\n")
-									runningTasks[taskID] = exec.Command(commandSplit[0], "/C", "dir")
+									fmt.Printf("Running: " + commandArray[0] + "\n")
+									//fmt.Printf("   Args: " + commandArgs + "\n")
+									runningTasks[taskID] = exec.Command(commandArray[0], commandArgs...)
 									taskOutput, taskErr := runningTasks[taskID].CombinedOutput()
 									if taskErr == nil {
 										taskOutputs[taskID] = taskOutput
