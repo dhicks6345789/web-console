@@ -36,7 +36,7 @@
 			function updateJobOutput() {
 				doAPICall("getJobOutput", {}, function(result) {
 					$("#consoleOutput").html(result);
-				}
+				});
 			}
 			
 			//doAPICall("getRunTokens", {jobID:context.params.jobID}, function(result) {
