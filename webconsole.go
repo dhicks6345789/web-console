@@ -32,7 +32,7 @@ const tokenCheckPeriod = 60
 var tokens = map[string]int64{}
 
 var runningTasks = map[string]*exec.Cmd{}
-var taskStdouts = map[string]bytes.Buffer{}
+var taskOutput = map[string]bytes.Buffer{}
 
 // Generate a new, random 16-character ID.
 func generateIDString() string {
@@ -140,17 +140,15 @@ func main() {
 								// API - Run a given Task.
 								} else if strings.HasPrefix(theRequest.URL.Path, "/api/runTask") {
 									runningTasks[taskID] = exec.Command(taskDetails["command"])
-									var taskStdout bytes.Buffer
-									runningTasks[taskID].Stdout = &taskStdout
-									taskStdouts[taskID] = taskStdout
-									taskErr := runningTasks[taskID].Start()
+									taskOutput, taskErr := runningTasks[taskID].CombinedOutput()
 									if taskErr == nil {
+										taskOutputs[taskID] = taskOutput
 										fmt.Fprintf(theResponseWriter, "OK")
 									} else {
 										fmt.Fprintf(theResponseWriter, "ERROR: " + taskErr.Error())
 									}
 								} else if strings.HasPrefix(theRequest.URL.Path, "/api/getJobOutput") {
-									fmt.Fprintf(theResponseWriter, taskStdouts[taskID].String())
+									fmt.Fprintf(theResponseWriter, string(taskOutputs[taskID]))
 								} else if strings.HasPrefix(theRequest.URL.Path, "/api/") {
 									fmt.Fprintf(theResponseWriter, "ERROR: Unknown API call: %s", theRequest.URL.Path)
 								}
