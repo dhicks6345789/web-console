@@ -57,7 +57,7 @@ func clearExpiredTokens() {
 	}
 }
 
-func parseCommandString(theString) {
+func parseCommandString(theString string) []string {
 	var result []string
 	for theString != "" {
 		theString = strings.TrimSpace(theString)
