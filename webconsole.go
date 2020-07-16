@@ -30,7 +30,7 @@ const tokenCheckPeriod = 60
 // Set up the tokens map.
 var tokens = map[string]int64{}
 
-var runningTasks = map[string]exec.Cmd{}
+var runningTasks = map[string]*exec.Cmd{}
 
 // Generate a new, random 16-character ID.
 func generateIDString() string {
