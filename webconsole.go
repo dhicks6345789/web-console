@@ -150,7 +150,7 @@ func main() {
 									}
 									fmt.Printf("Running: " + commandSplit[0] + "\n")
 									fmt.Printf("   Args: " + commandArgs + "\n")
-									runningTasks[taskID] = exec.Command(commandSplit[0], commandArgs)
+									runningTasks[taskID] = exec.Command(commandSplit[0], "/C", "dir")
 									taskOutput, taskErr := runningTasks[taskID].CombinedOutput()
 									if taskErr == nil {
 										taskOutputs[taskID] = taskOutput
