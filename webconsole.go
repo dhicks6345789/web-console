@@ -159,7 +159,7 @@ func main() {
 								// API - Run a given Task.
 								} else if strings.HasPrefix(theRequest.URL.Path, "/api/runTask") {
 									commandArray := parseCommandString(taskDetails["command"])
-									commandArgs := []string
+									var commandArgs []string
 									if len(commandArray) > 1 {
 										commandArgs = commandArray[1:]
 									}
