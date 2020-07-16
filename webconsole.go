@@ -147,6 +147,7 @@ func main() {
 										fmt.Fprintf(theResponseWriter, "ERROR: " + taskErr.Error())
 									}
 								} else if strings.HasPrefix(theRequest.URL.Path, "/api/getJobOutput") {
+									fmt.Printf("Called getJobOutput...\n")
 									fmt.Printf(string(taskOutputs[taskID]))
 									fmt.Fprintf(theResponseWriter, string(taskOutputs[taskID]))
 								} else if strings.HasPrefix(theRequest.URL.Path, "/api/") {
