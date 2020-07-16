@@ -95,7 +95,7 @@ func main() {
 							scanner := bufio.NewScanner(inFile)
 							for scanner.Scan() {
 								itemSplit := strings.SplitN(scanner.Text(), ":", 2)
-								taskDetails[itemSplit[0]] = strings.TrimSpace(itemSplit[1])
+								taskDetails[strings.TrimSpace(itemSplit[0])] = strings.TrimSpace(itemSplit[1])
 							}
 							inFile.Close()
 							
@@ -138,7 +138,17 @@ func main() {
 									fmt.Fprintf(theResponseWriter, taskDetails["title"])
 								// API - Run a given Task.
 								} else if strings.HasPrefix(theRequest.URL.Path, "/api/runTask") {
-									runningTasks[taskID] = exec.Command(taskDetails["command"])
+									var commandSplit []string
+									if strings.HasPrefix(taskDetails["command"], "\"") {
+										commandSplit = strings.SplitN(taskDetails["command"][1:], "\"", 2)
+									} else {
+										commandSplit = strings.SplitN(taskDetails["command"], " ", 2)
+									}
+									commandArgs := ""
+									if len(commandSplit) > 0 {
+										commandArgs = commandSplit[1]
+									}
+									runningTasks[taskID] = exec.Command(commandSplit[0], commandArgs)
 									taskOutput, taskErr := runningTasks[taskID].CombinedOutput()
 									if taskErr == nil {
 										taskOutputs[taskID] = taskOutput
