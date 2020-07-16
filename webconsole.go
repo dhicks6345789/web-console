@@ -75,7 +75,8 @@ func parseCommandString(theString string) []string {
 		} else {
 			theString = ""
 		}
-	}	
+	}
+	fmt.Printf("endOfParseCommandString\n")
 	return result
 }
 
