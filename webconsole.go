@@ -140,16 +140,16 @@ func main() {
 								// API - Run a given Task.
 								} else if strings.HasPrefix(theRequest.URL.Path, "/api/runTask") {
 									runningTasks[taskID] = exec.Command(taskDetails["command"])
-									runningTasks[taskID].Start()
-									taskStdout, taskErr := runningTasks[taskID].StdoutPipe()
+									var taskStdout bytes.Buffer
+									runningTasks[taskID].Stdout = &taskStdout
+									taskStdouts[taskID] = taskStdout
+									taskErr := runningTasks[taskID].Start()
 									if taskErr == nil {
-										taskStdouts[taskID] = taskStdout
 										fmt.Fprintf(theResponseWriter, "OK")
 									} else {
 										fmt.Fprintf(theResponseWriter, "ERROR: " + taskErr.Error())
 									}
 								} else if strings.HasPrefix(theRequest.URL.Path, "/api/getJobOutput") {
-									//Read(p []byte) (n int, err error)
 									fmt.Fprintf(theResponseWriter, taskStdouts[taskID].String())
 								} else if strings.HasPrefix(theRequest.URL.Path, "/api/") {
 									fmt.Fprintf(theResponseWriter, "ERROR: Unknown API call: %s", theRequest.URL.Path)
