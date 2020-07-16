@@ -59,12 +59,13 @@ func clearExpiredTokens() {
 
 func parseCommandString(theString string) []string {
 	var result []string
+	var stringSplit []string
 	for theString != "" {
 		theString = strings.TrimSpace(theString)
 		if strings.HasPrefix(theString, "\"") {
 			stringSplit = strings.SplitN(theString[1:], "\"", 2)
 		} else {
-			stringSplit = strings.SplitN(theString[1:], " ", 2)
+			stringSplit = strings.SplitN(theString, " ", 2)
 		}
 		result = append(result, stringSplit[0])
 		if len(stringSplit) > 0 {
