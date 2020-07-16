@@ -142,8 +142,10 @@ func main() {
 									taskOutput, taskErr := runningTasks[taskID].CombinedOutput()
 									if taskErr == nil {
 										taskOutputs[taskID] = taskOutput
+										fmt.Printf("Running: " + taskDetails["command"])
 										fmt.Fprintf(theResponseWriter, "OK")
 									} else {
+										fmt.Printf("ERROR: " + taskErr.Error())
 										fmt.Fprintf(theResponseWriter, "ERROR: " + taskErr.Error())
 									}
 								} else if strings.HasPrefix(theRequest.URL.Path, "/api/getJobOutput") {
