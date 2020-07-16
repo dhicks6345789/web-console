@@ -149,7 +149,7 @@ func main() {
 										fmt.Fprintf(theResponseWriter, "ERROR: " + taskErr.Error())
 									}
 								} else if strings.HasPrefix(theRequest.URL.Path, "/api/getJobOutput") {
-									Read(p []byte) (n int, err error)
+									//Read(p []byte) (n int, err error)
 									fmt.Fprintf(theResponseWriter, taskStdouts[taskID].String())
 								} else if strings.HasPrefix(theRequest.URL.Path, "/api/") {
 									fmt.Fprintf(theResponseWriter, "ERROR: Unknown API call: %s", theRequest.URL.Path)
