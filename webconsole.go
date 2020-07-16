@@ -31,6 +31,7 @@ const tokenCheckPeriod = 60
 var tokens = map[string]int64{}
 
 var runningTasks = map[string]*exec.Cmd{}
+var taskStdouts = map[string]*io.ReadCloser{}
 
 // Generate a new, random 16-character ID.
 func generateIDString() string {
@@ -139,6 +140,8 @@ func main() {
 								} else if strings.HasPrefix(theRequest.URL.Path, "/api/runTask") {
 									runningTasks[taskID] = exec.Command(taskDetails["command"])
 									runningTasks[taskID].Start()
+									taskStdout, taskErr := runningTasks[taskID].StdoutPipe()
+									taskStdouts[taskID] = taskStdout
 									fmt.Fprintf(theResponseWriter, "OK")
 								} else if strings.HasPrefix(theRequest.URL.Path, "/api/") {
 									fmt.Fprintf(theResponseWriter, "ERROR: Unknown API call: %s", theRequest.URL.Path)
