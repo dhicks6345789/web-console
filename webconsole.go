@@ -146,7 +146,7 @@ func main() {
 										taskStdouts[taskID] = taskStdout
 										fmt.Fprintf(theResponseWriter, "OK")
 									} else {
-										fmt.Fprintf(theResponseWriter, "ERROR: " + string(err))
+										fmt.Fprintf(theResponseWriter, "ERROR: " + string(taskErr))
 									}
 								} else if strings.HasPrefix(theRequest.URL.Path, "/api/") {
 									fmt.Fprintf(theResponseWriter, "ERROR: Unknown API call: %s", theRequest.URL.Path)
