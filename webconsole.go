@@ -188,6 +188,7 @@ func main() {
 									}
 								} else if strings.HasPrefix(theRequest.URL.Path, "/api/getTaskRunning") {
 									if taskIDValue, taskIDFound := runningTasks[taskID]; taskIDFound {
+										taskIDValue = taskIDValue
 										fmt.Fprintf(theResponseWriter, "YES")
 									} else {
 										fmt.Fprintf(theResponseWriter, "NO")
