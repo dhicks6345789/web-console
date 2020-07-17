@@ -167,8 +167,11 @@ func main() {
 									}
 									runningTasks[taskID] = exec.Command(commandArray[0], commandArgs...)
 									runningTasks[taskID].Dir = "tasks/" + taskID
-									taskOutputs[taskID] = runningTasks[taskID].StdoutPipe()
-									taskErr := runningTasks[taskID].Start()
+									var taskErr error
+									taskOutputs[taskID], taskErr = runningTasks[taskID].StdoutPipe()
+									if taskErr == nil {
+										taskErr = runningTasks[taskID].Start()
+									}
 									if taskErr == nil {
 										fmt.Fprintf(theResponseWriter, "OK")
 									} else {
