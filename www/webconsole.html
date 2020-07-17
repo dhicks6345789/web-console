@@ -59,13 +59,13 @@
 								if (value.startsWith("Progress:")) {
 									progressBarName = value.substring(value.indexOf(":")+1, value.lastIndexOf(" "));
 									progressBarValue = value.substring(value.lastIndexOf(" ")+1, value.length-1);
-									$("#taskAlerts").html(progressBarName + ": " + progressBarValue + "% <div class='progress' style='width:80%'><div class='progress-bar' role='progressbar' style='width:" + progressBarValue + "%' aria-valuenow='" + progressBarValue + "' aria-valuemin='0' aria-valuemax='100'></div></div>");
+									$("#taskProgress").html(progressBarName + ": " + progressBarValue + "% <div class='progress' style='width:80%'><div class='progress-bar' role='progressbar' style='width:" + progressBarValue + "%' aria-valuenow='" + progressBarValue + "' aria-valuemin='0' aria-valuemax='100'></div></div>");
 								// If a string starts with "ERROR:", format the line in red and set the running state to "error".
 								} else if (value.startsWith("ERROR:")) {
 									$("#taskAlerts").html("<div style='color:red'>" + value + "</div>");
 								// Otherwise, display the line as a message for the user.
 								} else {
-									$("#taskAlerts").html($("#taskAlerts").html() + value);
+									$("#taskAlerts").html(value);
 									$("#taskOutput").html($("#taskOutput").html() + value);
 								}
 							}
@@ -105,6 +105,7 @@
 		</div>
 		<div class="container-fluid" id="webconsole">
 			<button class="btn btn-success" type="button" id="runTaskButton" onclick="runTask()">Run</button>
+			<div id="taskProgress"></div>
 			<div id="taskAlerts"></div>
 			<button class="btn btn-primary" type="button" id="showOutputButton" data-toggle="collapse" data-target="#taskOutput" aria-expanded="false" aria-controls="taskOutput" onclick="flipOutputMessage()">Show output</button>
 			<div class="collapse text-monospace" style="white-space:pre-line" id="taskOutput"></div>
