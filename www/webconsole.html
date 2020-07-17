@@ -22,9 +22,9 @@
 			
 			function runTask() {
 				$("#runTaskButton").prop("disabled", true);
-				$("#runTaskButton").html("<span class='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span>Running...");
+				$("#runTaskButton").html("<span class='spinner-border spinner-border-sm' role='status'></span>Running...");
 				$("#consoleAlerts").html("");
-				$("#consoleOutput").html("<div>Running...</div>");
+				$("#consoleOutput").html("");
 				
 				// Run the job (if the job is already running, this has no effect).
 				doAPICall("runTask", {}, function(result) {
