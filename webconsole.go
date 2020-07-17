@@ -186,6 +186,12 @@ func main() {
 									} else {
 										fmt.Fprintf(theResponseWriter, "ERROR: " + readErr.Error())
 									}
+								} else if strings.HasPrefix(theRequest.URL.Path, "/api/getTaskRunning") {
+									if taskIDValue, taskIDFound := runningTasks[taskID]; taskIDFound {
+										fmt.Fprintf(theResponseWriter, "YES")
+									} else {
+										fmt.Fprintf(theResponseWriter, "NO")
+									}
 								} else if strings.HasPrefix(theRequest.URL.Path, "/api/") {
 									fmt.Fprintf(theResponseWriter, "ERROR: Unknown API call: %s", theRequest.URL.Path)
 								}
