@@ -22,9 +22,9 @@
 			
 			function runTask() {
 				$("#runTaskButton").prop("disabled", true);
+				$("#runTaskButton").html("<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>Running...");
 				$("#consoleAlerts").html("");
-				$("#consoleOutput").html("<div>Checking...</div>");
-				$("#consoleSpinner").show();
+				$("#consoleOutput").html("<div>running...</div>");
 				
 				// Run the job (if the job is already running, this has no effect).
 				doAPICall("runTask", {}, function(result) {
@@ -38,10 +38,10 @@
 				doAPICall("getJobOutput", {}, function(result) {
 					if (result == "ERROR: EOF") {
 						clearInterval(jobOutputInterval);
+						$("#runTaskButton").html("Run");
 						$("#runTaskButton").prop("disabled", false);
-						$("#consoleSpinner").hide();
 					} else {
-						$("#consoleOutput").html(result);
+						$("#consoleOutput").html($("#consoleOutput").html() + result);
 					}
 				});
 			}
@@ -62,13 +62,10 @@
 			</div>
 		</div>
 		<div class="container-fluid" id="webconsole">
-			<button class="btn btn-success" role="button" id="runTaskButton" onclick="runTask()">Start</button>
+			<button class="btn btn-success" type="button" id="runTaskButton" onclick="runTask()">Run</button>
 			<div id="consoleAlerts"></div>
 			<button class="btn btn-primary" type="button" id="showOutputButton" data-toggle="collapse" data-target="#consoleOutput" aria-expanded="false" aria-controls="consoleOutput">Show output</button>
 			<div class="collapse" id="consoleOutput"></div>
-			<div id="consoleSpinner" style="display:none">
-				<div class="spinner"></div>
-			</div>
 		</div>
 	</body>
 </html>
