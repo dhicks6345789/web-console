@@ -50,6 +50,10 @@
 				});
 			}
 			
+			function flipOutputMessage() {
+				console.log("Bananas")
+			}
+			
 			$(document).ready(function() {
 				doAPICall("getTaskTitle", {}, function(result) {
 					$("#taskTitle").html(result);
@@ -73,7 +77,7 @@
 		<div class="container-fluid" id="webconsole">
 			<button class="btn btn-success" type="button" id="runTaskButton" onclick="runTask()">Run</button>
 			<div id="consoleAlerts"></div>
-			<button class="btn btn-primary" type="button" id="showOutputButton" data-toggle="collapse" data-target="#consoleOutput" aria-expanded="false" aria-controls="consoleOutput">Show output</button>
+			<button class="btn btn-primary" type="button" id="showOutputButton" data-toggle="collapse" data-target="#consoleOutput" aria-expanded="false" aria-controls="consoleOutput" onclick="flipOutputMessage()">Show output</button>
 			<div class="collapse" id="consoleOutput"></div>
 		</div>
 	</body>
