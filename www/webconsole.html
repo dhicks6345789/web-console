@@ -38,7 +38,7 @@
 						clearInterval(intervalFunction);
 						intervalFunction = setInterval(updateJobOutput, 2000);
 					} else {
-						// To Do - add useful error message of some sort.
+						$("#consoleAlerts").html(result);
 						$("#runTaskButton").prop("disabled", false);
 					}
 				});
