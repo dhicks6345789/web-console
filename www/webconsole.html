@@ -51,7 +51,11 @@
 			}
 			
 			function flipOutputMessage() {
-				console.log("Bananas")
+				if ($("#showOutputButton").html() == "Show output") {
+					$("#showOutputButton").html("Hide output")
+				} else {
+					$("#showOutputButton").html("Show output")
+				}
 			}
 			
 			$(document).ready(function() {
