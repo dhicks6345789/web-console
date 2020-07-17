@@ -49,6 +49,11 @@
 				doAPICall("getTaskTitle", {}, function(result) {
 					$("#taskTitle").html(result);
 				});
+				doAPICall("getTaskRunning", {}, function(result) {
+					if (result == "YES") {
+						runTask();
+					}
+				});
 			});
 		</script>
 	</head>
