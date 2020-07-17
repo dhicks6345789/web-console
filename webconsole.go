@@ -180,12 +180,9 @@ func main() {
 									}
 								} else if strings.HasPrefix(theRequest.URL.Path, "/api/getJobOutput") {
 									readBuffer := make([]byte, 10240)
-									fmt.Printf("Called getJobOutput...\n")
 									readSize, readErr := taskOutputs[taskID].Read(readBuffer)
 									if readErr == nil {
-										taskOutput := string(readBuffer[0:readSize])
-										fmt.Printf(taskOutput)
-										fmt.Fprintf(theResponseWriter, taskOutput)
+										fmt.Fprintf(theResponseWriter, string(readBuffer[0:readSize]))
 									} else {
 										fmt.Fprintf(theResponseWriter, "ERROR: " + readErr.Error())
 									}
