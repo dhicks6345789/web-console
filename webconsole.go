@@ -198,7 +198,7 @@ func main() {
 										fmt.Fprintf(theResponseWriter, string(readBuffer[0:readSize]))
 									} else {
 										if readErr.Error() == "EOF" {
-											delete(runningsTasks, taskID)
+											delete(runningTasks, taskID)
 											delete(taskOutputs, taskID)
 										}
 										fmt.Fprintf(theResponseWriter, "ERROR: " + readErr.Error())
