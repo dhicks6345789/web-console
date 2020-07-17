@@ -31,7 +31,7 @@ const tokenCheckPeriod = 60
 var tokens = map[string]int64{}
 
 var runningTasks = map[string]*exec.Cmd{}
-var taskOutputs = map[string][]byte{}
+var taskOutputs = map[string]io.ReadCloser{}
 
 // Generate a new, random 16-character ID.
 func generateIDString() string {
@@ -166,9 +166,9 @@ func main() {
 									}
 									runningTasks[taskID] = exec.Command(commandArray[0], commandArgs...)
 									runningTasks[taskID].Dir = "tasks/" + taskID
-									taskOutput, taskErr := runningTasks[taskID].CombinedOutput()
+									taskOutputs[taskID] = runningTasks[taskID].StdoutPipe()
+									taskErr := runningTasks[taskID].Start()
 									if taskErr == nil {
-										taskOutputs[taskID] = taskOutput
 										fmt.Fprintf(theResponseWriter, "OK")
 									} else {
 										fmt.Printf("ERROR: " + taskErr.Error())
