@@ -12,15 +12,15 @@
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 		
 		<script>
+			var jobOutputInterval;
 			taskID = "";
 			token = "";
-			
+						
 			function doAPICall(functionName, parameters, resultFunction) {
 				$.post("/api/" + functionName, $.extend({taskID:taskID, token:token}, parameters), resultFunction);
 			}
 			
 			function runTask() {
-				console.log("Starting task...")
 				$("#runTaskButton").prop("disabled", true);
 				$("#consoleAlerts").html("");
 				$("#consoleOutput").html("<div>Checking...</div>");
@@ -30,27 +30,21 @@
 				doAPICall("runTask", {}, function(result) {
 					// If the call returns "OK" then the job is running, subsequent calls to getJobOutput will return the console output of the job as it runs.
 					updateJobOutput();
-					setInterval(updateJobOutput, 10000);
+					jobOutputInterval = setInterval(updateJobOutput, 10000);
 				});
 			}
 			
 			function updateJobOutput() {
-				console.log("Called updateJobOutput.")
 				doAPICall("getJobOutput", {}, function(result) {
-					$("#consoleOutput").html(result);
+					if (result == "ERROR: EOF") {
+						clearInterval(jobOutputInterval);
+						$("#runTaskButton").prop("disabled", false);
+						$("#consoleSpinner").hide();
+					} else {
+						$("#consoleOutput").html(result);
+					}
 				});
 			}
-			
-			//doAPICall("getRunTokens", {jobID:context.params.jobID}, function(result) {
-			//	jsonResult = $.parseJSON(result);
-			//	$.each(jsonResult, function(runTokenCount, runTokenItem) {
-			//		newRunJobConsoleTokenLine = $("#runJobConsoleTokenLine").clone();
-			//		newRunJobConsoleTokenLine.attr("id", "runJobConsoleTokenLine" + runTokenCount);
-			//		newRunJobConsoleTokenLine.html("<a href='https://dev.sansay.co.uk/api/runJob?runToken=" + runTokenItem["id"] + "'>" + runTokenItem["comment"] + "</a>");
-			//		$("#runJobConsoleTokenList").append(newRunJobConsoleTokenLine);
-			//		$("#runJobConsoleTokenLine" + runTokenCount).show();
-			//	});
-			//});
 			
 			$(document).ready(function() {
 				doAPICall("getTaskTitle", {}, function(result) {
