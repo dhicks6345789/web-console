@@ -79,6 +79,15 @@ func parseCommandString(theString string) []string {
 	return result
 }
 
+// Returns true if the given Task is currently running, false otherwise.
+func taskIsRunning(theTaskID string) bool {
+	if taskIDValue, taskIDFound := runningTasks[theTaskID]; taskIDFound {
+		taskIDValue = taskIDValue
+		return true
+	}
+	return false
+}
+
 // The main body of the program - parse user-provided command-line paramaters, or start the main web server process.
 func main() {
 	// Start the thread that checks for and clears expired tokens.
@@ -160,23 +169,27 @@ func main() {
 									fmt.Fprintf(theResponseWriter, taskDetails["title"])
 								// API - Run a given Task.
 								} else if strings.HasPrefix(theRequest.URL.Path, "/api/runTask") {
-									commandArray := parseCommandString(taskDetails["command"])
-									var commandArgs []string
-									if len(commandArray) > 0 {
-										commandArgs = commandArray[1:]
-									}
-									runningTasks[taskID] = exec.Command(commandArray[0], commandArgs...)
-									runningTasks[taskID].Dir = "tasks/" + taskID
-									var taskErr error
-									taskOutputs[taskID], taskErr = runningTasks[taskID].StdoutPipe()
-									if taskErr == nil {
-										taskErr = runningTasks[taskID].Start()
-									}
-									if taskErr == nil {
+									if taskIsRunning(taskID) {
 										fmt.Fprintf(theResponseWriter, "OK")
 									} else {
-										fmt.Printf("ERROR: " + taskErr.Error())
-										fmt.Fprintf(theResponseWriter, "ERROR: " + taskErr.Error())
+										commandArray := parseCommandString(taskDetails["command"])
+										var commandArgs []string
+										if len(commandArray) > 0 {
+											commandArgs = commandArray[1:]
+										}
+										runningTasks[taskID] = exec.Command(commandArray[0], commandArgs...)
+										runningTasks[taskID].Dir = "tasks/" + taskID
+										var taskErr error
+										taskOutputs[taskID], taskErr = runningTasks[taskID].StdoutPipe()
+										if taskErr == nil {
+											taskErr = runningTasks[taskID].Start()
+										}
+										if taskErr == nil {
+											fmt.Fprintf(theResponseWriter, "OK")
+										} else {
+											fmt.Printf("ERROR: " + taskErr.Error())
+											fmt.Fprintf(theResponseWriter, "ERROR: " + taskErr.Error())
+										}
 									}
 								} else if strings.HasPrefix(theRequest.URL.Path, "/api/getJobOutput") {
 									readBuffer := make([]byte, 10240)
@@ -187,8 +200,7 @@ func main() {
 										fmt.Fprintf(theResponseWriter, "ERROR: " + readErr.Error())
 									}
 								} else if strings.HasPrefix(theRequest.URL.Path, "/api/getTaskRunning") {
-									if taskIDValue, taskIDFound := runningTasks[taskID]; taskIDFound {
-										taskIDValue = taskIDValue
+									if taskIsRunning(taskID) {
 										fmt.Fprintf(theResponseWriter, "YES")
 									} else {
 										fmt.Fprintf(theResponseWriter, "NO")
