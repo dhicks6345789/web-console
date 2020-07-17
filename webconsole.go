@@ -180,9 +180,15 @@ func main() {
 									}
 								} else if strings.HasPrefix(theRequest.URL.Path, "/api/getJobOutput") {
 									fmt.Printf("Called getJobOutput...\n")
-									taskOutput := taskOutputs[taskID].Read()
-									fmt.Printf(taskOutput)
-									fmt.Fprintf(theResponseWriter, taskOutput)
+									readSize, readErr := taskOutputs[taskID].Read()
+									if readErr == nil {
+										if readSize > 0 {
+											fmt.Printf(taskOutput)
+											fmt.Fprintf(theResponseWriter, taskOutput)
+										}
+									} else {
+										fmt.Fprintf(theResponseWriter, "ERROR: " + readErr.Error())
+									}
 								} else if strings.HasPrefix(theRequest.URL.Path, "/api/") {
 									fmt.Fprintf(theResponseWriter, "ERROR: Unknown API call: %s", theRequest.URL.Path)
 								}
