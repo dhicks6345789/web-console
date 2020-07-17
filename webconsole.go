@@ -160,14 +160,12 @@ func main() {
 								// API - Run a given Task.
 								} else if strings.HasPrefix(theRequest.URL.Path, "/api/runTask") {
 									commandArray := parseCommandString(taskDetails["command"])
-									//commandArray := []string{"C:\\Windows\\System32\\cmd.exe", "/C", "dir"}
 									var commandArgs []string
 									if len(commandArray) > 0 {
 										commandArgs = commandArray[1:]
 									}
-									fmt.Printf("Running: " + commandArray[0] + "\n")
-									//fmt.Printf("   Args: " + commandArgs + "\n")
 									runningTasks[taskID] = exec.Command(commandArray[0], commandArgs...)
+									runningTasks[taskID].Dir = "tasks/" + taskID
 									taskOutput, taskErr := runningTasks[taskID].CombinedOutput()
 									if taskErr == nil {
 										taskOutputs[taskID] = taskOutput
