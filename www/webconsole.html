@@ -65,10 +65,10 @@
 									$("#taskAlerts").html("<div style='color:red'>" + value + "</div>");
 								// Otherwise, display the line as a message for the user.
 								} else {
-									console.log(value);
+									//console.log(value);
 									//$("#taskAlerts").html($("#taskAlerts").html() + value);
-									console.log($("#taskOutput").html());
-									$("#taskOutput").html(value);
+									//console.log($("#taskOutput").html());
+									$("#taskOutput").html($("#taskOutput").html() + value);
 								}
 							}
 						});
@@ -108,7 +108,7 @@
 		<div class="container-fluid" id="webconsole">
 			<button class="btn btn-success" type="button" id="runTaskButton" onclick="runTask()">Run</button>
 			<div id="taskAlerts"></div>
-			<button class="btn btn-primary" type="button" id="showOutputButton" data-toggle="collapse" data-target="#consoleOutput" aria-expanded="false" aria-controls="consoleOutput" onclick="flipOutputMessage()">Show output</button>
+			<button class="btn btn-primary" type="button" id="showOutputButton" data-toggle="collapse" data-target="#taskOutput" aria-expanded="false" aria-controls="taskOutput" onclick="flipOutputMessage()">Show output</button>
 			<div class="collapse text-monospace" style="white-space:pre-line" id="taskOutput"></div>
 		</div>
 	</body>
