@@ -21,15 +21,20 @@
 			
 			function runTask() {
 				$("#runTaskButton").prop("disabled", true);
-				$("#runTaskButton").html("<span class='spinner-border spinner-border-sm' role='status'></span> Running...");
-				$("#consoleAlerts").html("");
-				$("#consoleOutput").html("");
-				
 				// Run the job (if the job is already running, this has no effect).
 				doAPICall("runTask", {}, function(result) {
-					// If the call returns "OK" then the job is running, subsequent calls to getJobOutput will return the console output of the job as it runs.
-					updateJobOutput();
-					jobOutputInterval = setInterval(updateJobOutput, 2000);
+					if (result == "OK") {
+						$("#runTaskButton").html("<span class='spinner-border spinner-border-sm' role='status'></span> Running...");
+						$("#consoleAlerts").html("");
+						$("#consoleOutput").html("");
+						
+						// If the call returns "OK" then the job is running, subsequent calls to getJobOutput will return the console output of the job as it runs.
+						updateJobOutput();
+						jobOutputInterval = setInterval(updateJobOutput, 2000);
+					} else {
+						// To Do - add useful error message of some sort.
+						$("#runTaskButton").prop("disabled", false);
+					}
 				});
 			}
 			
