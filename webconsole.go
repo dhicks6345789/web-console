@@ -197,6 +197,10 @@ func main() {
 									if readErr == nil {
 										fmt.Fprintf(theResponseWriter, string(readBuffer[0:readSize]))
 									} else {
+										if readErr.Error() == "EOF" {
+											delete(runningsTasks, taskID)
+											delete(taskOutputs, taskID)
+										}
 										fmt.Fprintf(theResponseWriter, "ERROR: " + readErr.Error())
 									}
 								} else if strings.HasPrefix(theRequest.URL.Path, "/api/getTaskRunning") {
