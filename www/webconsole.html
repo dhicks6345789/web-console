@@ -21,7 +21,7 @@
 			
 			function runTask() {
 				$("#runTaskButton").prop("disabled", true);
-				$("#runTaskButton").html("<span class='spinner-border spinner-border-sm' role='status'></span>Running...");
+				$("#runTaskButton").html("<span class='spinner-border spinner-border-sm' role='status'></span> Running...");
 				$("#consoleAlerts").html("");
 				$("#consoleOutput").html("");
 				
@@ -65,11 +65,6 @@
 			<div id="consoleAlerts"></div>
 			<button class="btn btn-primary" type="button" id="showOutputButton" data-toggle="collapse" data-target="#consoleOutput" aria-expanded="false" aria-controls="consoleOutput">Show output</button>
 			<div class="collapse" id="consoleOutput"></div>
-			
-			<button class="btn btn-primary" type="button" disabled>
-				<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-				Loading...
-			</button>
 		</div>
 	</body>
 </html>
