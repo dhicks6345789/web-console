@@ -11,12 +11,17 @@
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 		
 		<script>
-			var jobOutputInterval;
+			var intervalFunction;
 			taskID = "";
 			token = "";
 						
 			function doAPICall(functionName, parameters, resultFunction) {
 				$.post("/api/" + functionName, $.extend({taskID:taskID, token:token}, parameters), resultFunction);
+			}
+			
+			function keepAlive() {
+				doAPICall("keepAlive", {}, function(result) {
+				}
 			}
 			
 			function runTask() {
@@ -30,7 +35,8 @@
 						
 						// If the call returns "OK" then the job is running, subsequent calls to getJobOutput will return the console output of the job as it runs.
 						updateJobOutput();
-						jobOutputInterval = setInterval(updateJobOutput, 2000);
+						clearInterval(intervalFunction);
+						intervalFunction = setInterval(updateJobOutput, 2000);
 					} else {
 						// To Do - add useful error message of some sort.
 						$("#runTaskButton").prop("disabled", false);
@@ -41,7 +47,8 @@
 			function updateJobOutput() {
 				doAPICall("getJobOutput", {}, function(result) {
 					if (result == "ERROR: EOF") {
-						clearInterval(jobOutputInterval);
+						clearInterval(intervalFunction);
+						intervalFunction = setInterval(keepAlive, 30000);
 						$("#runTaskButton").html("Run");
 						$("#runTaskButton").prop("disabled", false);
 					} else {
@@ -67,6 +74,7 @@
 						runTask();
 					}
 				});
+				intervalFunction = setInterval(keepAlive, 30000);
 			});
 		</script>
 	</head>
