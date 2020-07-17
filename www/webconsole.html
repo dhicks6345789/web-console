@@ -53,7 +53,6 @@
 						$("#runTaskButton").prop("disabled", false);
 					} else {
 						$.each(result.split("\n"), function(index, value) {
-							console.log("Val: " + value)
 							// If a string begins with "Progress: ", interpret the following number as a percentage completion value, and
 							// update the progress bar accordingly.
 							if (value.startsWith("Progress:")) {
@@ -65,7 +64,7 @@
 								$("#taskAlerts").html("<div style='color:red'>" + value + "</div>");
 							// Otherwise, display the line as a message for the user.
 							} else {
-								console.log("Is: " + value)
+								console.log("Value: " + value)
 								//$("#taskAlerts").html($("#taskAlerts").html() + value);
 								$("#taskOutput").html(value);
 							}
