@@ -65,9 +65,7 @@
 									$("#taskAlerts").html("<div style='color:red'>" + value + "</div>");
 								// Otherwise, display the line as a message for the user.
 								} else {
-									//console.log(value);
-									//$("#taskAlerts").html($("#taskAlerts").html() + value);
-									//console.log($("#taskOutput").html());
+									$("#taskAlerts").html($("#taskAlerts").html() + value);
 									$("#taskOutput").html($("#taskOutput").html() + value);
 								}
 							}
