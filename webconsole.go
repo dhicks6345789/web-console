@@ -205,6 +205,8 @@ func main() {
 									} else {
 										fmt.Fprintf(theResponseWriter, "NO")
 									}
+								} else if strings.HasPrefix(theRequest.URL.Path, "/api/keepAlive") {
+									fmt.Fprintf(theResponseWriter, "OK")
 								} else if strings.HasPrefix(theRequest.URL.Path, "/api/") {
 									fmt.Fprintf(theResponseWriter, "ERROR: Unknown API call: %s", theRequest.URL.Path)
 								}
