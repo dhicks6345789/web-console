@@ -26,26 +26,26 @@
 			
 			function runTask() {
 				$("#runTaskButton").prop("disabled", true);
-				// Run the job (if the job is already running, this has no effect).
+				// Run the Task (if the Task is already running, this has no effect).
 				doAPICall("runTask", {}, function(result) {
 					if (result == "OK") {
 						$("#runTaskButton").html("<span class='spinner-border spinner-border-sm' role='status'></span> Running...");
-						$("#consoleAlerts").html("");
-						$("#consoleOutput").html("");
+						$("#taskAlerts").html("");
+						$("#taskOutput").html("");
 						
-						// If the call returns "OK" then the job is running, subsequent calls to getJobOutput will return the console output of the job as it runs.
-						updateJobOutput();
+						// If the call returns "OK" then the task is running, subsequent calls to getTaaskOutput will return the console output of the Task as it runs.
+						updateTaskOutput();
 						clearInterval(intervalFunction);
-						intervalFunction = setInterval(updateJobOutput, 2000);
+						intervalFunction = setInterval(updateTaskOutput, 2000);
 					} else {
-						$("#consoleAlerts").html(result);
+						$("#taskAlerts").html(result);
 						$("#runTaskButton").prop("disabled", false);
 					}
 				});
 			}
 			
-			function updateJobOutput() {
-				doAPICall("getJobOutput", {}, function(result) {
+			function updateTaskOutput() {
+				doAPICall("getTaskOutput", {}, function(result) {
 					if (result == "ERROR: EOF") {
 						clearInterval(intervalFunction);
 						intervalFunction = setInterval(keepAlive, 30000);
@@ -59,14 +59,14 @@
 							if (value.startsWith("Progress:")) {
 								progressBarName = value.substring(value.indexOf(":")+1, value.lastIndexOf(" "));
 								progressBarValue = value.substring(value.lastIndexOf(" ")+1, value.length-1);
-								$("#consoleAlerts").html(progressBarName + ": " + progressBarValue + "% <div class='progress' style='width:80%'><div class='progress-bar' role='progressbar' style='width:" + progressBarValue + "%' aria-valuenow='" + progressBarValue + "' aria-valuemin='0' aria-valuemax='100'></div></div>");
+								$("#taskAlerts").html(progressBarName + ": " + progressBarValue + "% <div class='progress' style='width:80%'><div class='progress-bar' role='progressbar' style='width:" + progressBarValue + "%' aria-valuenow='" + progressBarValue + "' aria-valuemin='0' aria-valuemax='100'></div></div>");
 							// If a string starts with "ERROR:", format the line in red and set the running state to "error".
 							} else if (value.startsWith("ERROR:")) {
-								$("#runJobConsoleAlerts").html("<div style='color:red'>" + value + "</div>");
+								$("#taskAlerts").html("<div style='color:red'>" + value + "</div>");
 							// Otherwise, display the line as a message for the user.
 							} else {
-								$("#consoleAlerts").html($("#consoleAlerts").html() + value);
-								$("#consoleOutput").html($("#consoleOutput").html() + value);
+								$("#taskAlerts").html($("#taskAlerts").html() + value);
+								$("#taskOutput").html($("#taskOutput").html() + value);
 							}
 						});
 					}
@@ -104,9 +104,9 @@
 		</div>
 		<div class="container-fluid" id="webconsole">
 			<button class="btn btn-success" type="button" id="runTaskButton" onclick="runTask()">Run</button>
-			<div id="consoleAlerts"></div>
+			<div id="taskAlerts"></div>
 			<button class="btn btn-primary" type="button" id="showOutputButton" data-toggle="collapse" data-target="#consoleOutput" aria-expanded="false" aria-controls="consoleOutput" onclick="flipOutputMessage()">Show output</button>
-			<div class="collapse text-monospace" style="white-space:pre-line" id="consoleOutput"></div>
+			<div class="collapse text-monospace" style="white-space:pre-line" id="taskOutput"></div>
 		</div>
 	</body>
 </html>
