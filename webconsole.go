@@ -47,6 +47,69 @@ func (theProgram *program) Start(theService service.Service) error {
 }
 
 func (theProgram *program) run() {
+	runWebServer()
+}
+
+func (theProgram *program) Stop(theService service.Service) error {
+	// Stop should not block. Return with a few seconds.
+	return nil
+}
+
+// Generate a new, random 16-character ID.
+func generateIDString() string {
+	rand.Seed(time.Now().UnixNano())
+	result := make([]byte, 16)
+	for pl := range result {
+		result[pl] = letters[rand.Intn(len(letters))]
+	}
+	return string(result)
+}
+
+// Clear any expired tokens from memory.
+func clearExpiredTokens() {
+	// This is a periodic task, it runs in a separate thread.
+	for true {
+		currentTimestamp := time.Now().Unix()
+		for token, timestamp := range tokens { 
+			if currentTimestamp - tokenTimeout > timestamp {
+				delete(tokens, token)
+			}
+		}
+		time.Sleep(tokenCheckPeriod * time.Second)
+	}
+}
+
+// Split a string representing a command line with paramaters, possibly with quoted sections, into an array of strings.
+func parseCommandString(theString string) []string {
+	var result []string
+	var stringSplit []string
+	for theString != "" {
+		theString = strings.TrimSpace(theString)
+		if strings.HasPrefix(theString, "\"") {
+			stringSplit = strings.SplitN(theString[1:], "\"", 2)
+		} else {
+			stringSplit = strings.SplitN(theString, " ", 2)
+		}
+		result = append(result, stringSplit[0])
+		if len(stringSplit) > 1 {
+			theString = stringSplit[1]
+		} else {
+			theString = ""
+		}
+	}
+	return result
+}
+
+// Returns true if the given Task is currently running, false otherwise.
+func taskIsRunning(theTaskID string) bool {
+	if taskIDValue, taskIDFound := runningTasks[theTaskID]; taskIDFound {
+		taskIDValue = taskIDValue
+		return true
+	}
+	return false
+}
+
+func runWebServer() {
 	// We write our own function to parse the request URL.
 	http.HandleFunc("/", func (theResponseWriter http.ResponseWriter, theRequest *http.Request) {
 		// Make sure submitted form values are parsed.
@@ -181,65 +244,6 @@ func (theProgram *program) run() {
 	log.Fatal(http.ListenAndServe(":8090", nil))
 }
 
-func (theProgram *program) Stop(theService service.Service) error {
-	// Stop should not block. Return with a few seconds.
-	return nil
-}
-
-// Generate a new, random 16-character ID.
-func generateIDString() string {
-	rand.Seed(time.Now().UnixNano())
-	result := make([]byte, 16)
-	for pl := range result {
-		result[pl] = letters[rand.Intn(len(letters))]
-	}
-	return string(result)
-}
-
-// Clear any expired tokens from memory.
-func clearExpiredTokens() {
-	// This is a periodic task, it runs in a separate thread.
-	for true {
-		currentTimestamp := time.Now().Unix()
-		for token, timestamp := range tokens { 
-			if currentTimestamp - tokenTimeout > timestamp {
-				delete(tokens, token)
-			}
-		}
-		time.Sleep(tokenCheckPeriod * time.Second)
-	}
-}
-
-// Split a string representing a command line with paramaters, possibly with quoted sections, into an array of strings.
-func parseCommandString(theString string) []string {
-	var result []string
-	var stringSplit []string
-	for theString != "" {
-		theString = strings.TrimSpace(theString)
-		if strings.HasPrefix(theString, "\"") {
-			stringSplit = strings.SplitN(theString[1:], "\"", 2)
-		} else {
-			stringSplit = strings.SplitN(theString, " ", 2)
-		}
-		result = append(result, stringSplit[0])
-		if len(stringSplit) > 1 {
-			theString = stringSplit[1]
-		} else {
-			theString = ""
-		}
-	}
-	return result
-}
-
-// Returns true if the given Task is currently running, false otherwise.
-func taskIsRunning(theTaskID string) bool {
-	if taskIDValue, taskIDFound := runningTasks[theTaskID]; taskIDFound {
-		taskIDValue = taskIDValue
-		return true
-	}
-	return false
-}
-
 // The main body of the program - parse user-provided command-line paramaters, or start the main web server process.
 func main() {
 	if len(os.Args) == 1 {
@@ -249,7 +253,7 @@ func main() {
 		// If no parameters are given, simply start the web server.
 		fmt.Println("Starting web server...")
 		
-		run()
+		runWebServer()
 	} else if os.Args[1] == "-list" {
 		// Print a list of existing IDs.
 		items, err := ioutil.ReadDir("tasks")
