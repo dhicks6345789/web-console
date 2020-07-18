@@ -289,7 +289,9 @@ func main() {
 		theProgram := &program{}
 		theService, serviceErr := service.New(theProgram, serviceConfig)
 		if serviceErr == nil {
+			fmt.Printf("Before Run")
 			serviceErr = theService.Run()
+			fmt.Printf("After Run")
 		}
 		if serviceErr != nil {
 			fmt.Printf(serviceErr.Error())
