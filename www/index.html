@@ -14,7 +14,7 @@
 			function submitForm() {
 				console.log($("#taskIDInput").val());
 				console.log($("#secretInput").val());
-				$.post("/api/getToken", {taskID:$("#taskIDInput").val(), secret:$("#secretInput").val()}, function(result) {
+				$.post("api/getToken", {taskID:$("#taskIDInput").val(), secret:$("#secretInput").val()}, function(result) {
 					// Code goes here - check for errors, print a useful error message.
 					$("#hiddenTaskID").val($("#taskIDInput").val());
 					$("#hiddenToken").val(result);
