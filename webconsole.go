@@ -29,15 +29,17 @@ import (
 type program struct{}
 
 func (theProgram *program) Start(theService service.Service) error {
+	fmt.Printf("Starting service...")
 	// Start should not block. Do the actual work async.
 	//go theProgram.run()
 	go runWebServer()
+	fmt.Printf("After server run...")
 	return nil
 }
 
-func (theProgram *program) run() {
-	runWebServer()
-}
+//func (theProgram *program) run() {
+//	runWebServer()
+//}
 
 func (theProgram *program) Stop(theService service.Service) error {
 	// Stop should not block. Return with a few seconds.
