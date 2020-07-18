@@ -16,7 +16,7 @@
 			token = "";
 						
 			function doAPICall(functionName, parameters, resultFunction) {
-				$.post("/api/" + functionName, $.extend({taskID:taskID, token:token}, parameters), resultFunction);
+				$.post("api/" + functionName, $.extend({taskID:taskID, token:token}, parameters), resultFunction);
 			}
 			
 			function keepAlive() {
