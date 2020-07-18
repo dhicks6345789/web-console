@@ -101,6 +101,7 @@ func main() {
 		http.HandleFunc("/", func (theResponseWriter http.ResponseWriter, theRequest *http.Request) {
 			// Make sure submitted form values are parsed.
 			theRequest.ParseForm()
+			fmt.Printf("Request!")
 			fmt.Printf(theRequest.URL.Path + "\n")
 			
 			// The default root - serve index.html.
