@@ -40,7 +40,7 @@
 				<small id="secretHelp" class="form-text text-muted">Leave blank if no secret is needed for this Task.</small>
 			</div>
 			<button type="button" onclick="submitForm()" class="btn btn-primary">Go</button>
-			<form id="hiddenForm" action="/view" method="post">
+			<form id="hiddenForm" action="task" method="post">
 				<input type="hidden" id="hiddenTaskID" name="taskID"/>
 				<input type="hidden" id="hiddenToken" name="token"/>
 			</form>
