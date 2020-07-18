@@ -248,6 +248,8 @@ func main() {
 		
 		// If no parameters are given, simply start the web server.
 		fmt.Println("Starting web server...")
+		
+		run()
 	} else if os.Args[1] == "-list" {
 		// Print a list of existing IDs.
 		items, err := ioutil.ReadDir("tasks")
