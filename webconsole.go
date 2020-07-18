@@ -18,7 +18,13 @@ import (
 	"math/rand"
 	"io/ioutil"
 	"net/http"
+	
+	// Kardianos Service - a cross platform library to install applications as services / deamons.
+	"github.com/kardianos/service"
 )
+
+// Used by the Service library to store information.
+type program struct{}
 
 // Characters to use to generate new ID strings. Lowercase only - any user-provided IDs will be lowercased before use.
 const letters = "abcdefghijklmnopqrstuvwxyz1234567890"
@@ -33,6 +39,21 @@ var tokens = map[string]int64{}
 
 var runningTasks = map[string]*exec.Cmd{}
 var taskOutputs = map[string]io.ReadCloser{}
+
+func (theProgram *program) Start(theService service.Service) error {
+	// Start should not block. Do the actual work async.
+	go theProgram.run()
+	return nil
+}
+
+func (theProgram *program) run() {
+	// Do work here
+}
+
+func (theProgram *program) Stop(theService service.Service) error {
+	// Stop should not block. Return with a few seconds.
+	return nil
+}
 
 // Generate a new, random 16-character ID.
 func generateIDString() string {
@@ -90,9 +111,10 @@ func taskIsRunning(theTaskID string) bool {
 
 // The main body of the program - parse user-provided command-line paramaters, or start the main web server process.
 func main() {
-	// Start the thread that checks for and clears expired tokens.
-	go clearExpiredTokens()
 	if len(os.Args) == 1 {
+		// Start the thread that checks for and clears expired tokens.
+		go clearExpiredTokens()
+		
 		// If no parameters are given, simply start the web server.
 		fmt.Println("Starting web server...")
 		
@@ -246,6 +268,21 @@ func main() {
 				fmt.Println("New Task generated: " + newTaskID)
 				break
 			}
+		}
+	} else if os.Args[1] == "-install" {
+		serviceConfig := &service.Config {
+			Name: "WebConsole",
+			DisplayName: "WebConsole Server",
+			Description: "A small web server that runs command line applications.",
+		}
+		
+		theProgram := &program{}
+		theService, serviceErr := service.New(theProgram, serviceConfig)
+		if serviceErr == nil {
+			serviceErr = theService.Run()
+		}
+		if serviceErr != nil {
+			fmt.Printf(serviceErr.Error())
 		}
 	}
 }
