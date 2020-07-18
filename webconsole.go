@@ -35,7 +35,7 @@ func (theProgram *program) Start(theService service.Service) error {
 }
 
 func (theProgram *program) run() {
-	runWebServer()
+	go runWebServer()
 }
 
 func (theProgram *program) Stop(theService service.Service) error {
