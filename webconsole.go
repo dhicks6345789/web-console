@@ -30,7 +30,8 @@ type program struct{}
 
 func (theProgram *program) Start(theService service.Service) error {
 	// Start should not block. Do the actual work async.
-	go theProgram.run()
+	//go theProgram.run()
+	go runWebServer()
 	return nil
 }
 
