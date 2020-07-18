@@ -23,22 +23,10 @@ import (
 	"github.com/kardianos/service"
 )
 
-// Used by the Service library to store information.
+
+
+// Set up the struct and methods used by the Service library.
 type program struct{}
-
-// Characters to use to generate new ID strings. Lowercase only - any user-provided IDs will be lowercased before use.
-const letters = "abcdefghijklmnopqrstuvwxyz1234567890"
-
-// The timeout, in seconds, of token validity.
-const tokenTimeout = 600
-// How often, in seconds, to check token for expired tokens.
-const tokenCheckPeriod = 60
-
-// Set up the tokens map.
-var tokens = map[string]int64{}
-
-var runningTasks = map[string]*exec.Cmd{}
-var taskOutputs = map[string]io.ReadCloser{}
 
 func (theProgram *program) Start(theService service.Service) error {
 	// Start should not block. Do the actual work async.
@@ -54,6 +42,22 @@ func (theProgram *program) Stop(theService service.Service) error {
 	// Stop should not block. Return with a few seconds.
 	return nil
 }
+
+
+
+// Characters to use to generate new ID strings. Lowercase only - any user-provided IDs will be lowercased before use.
+const letters = "abcdefghijklmnopqrstuvwxyz1234567890"
+
+// The timeout, in seconds, of token validity.
+const tokenTimeout = 600
+// How often, in seconds, to check token for expired tokens.
+const tokenCheckPeriod = 60
+
+// Set up the tokens map.
+var tokens = map[string]int64{}
+
+var runningTasks = map[string]*exec.Cmd{}
+var taskOutputs = map[string]io.ReadCloser{}
 
 // Generate a new, random 16-character ID.
 func generateIDString() string {
@@ -252,7 +256,6 @@ func main() {
 		
 		// If no parameters are given, simply start the web server.
 		fmt.Println("Starting web server...")
-		
 		runWebServer()
 	} else if os.Args[1] == "-list" {
 		// Print a list of existing IDs.
@@ -283,7 +286,7 @@ func main() {
 		theProgram := &program{}
 		theService, serviceErr := service.New(theProgram, serviceConfig)
 		if serviceErr == nil {
-			serviceErr = theService.Start()
+			serviceErr = theService.Run()
 		}
 		if serviceErr != nil {
 			fmt.Printf(serviceErr.Error())
