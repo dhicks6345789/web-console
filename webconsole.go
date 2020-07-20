@@ -99,6 +99,7 @@ func getTaskDetails(theResponseWriter http.ResponseWriter, theTaskID string) map
 			fmt.Fprintf(theResponseWriter, "ERROR: Can't open Task config file.")
 		} else {
 			// Read the Task's details from its config file.
+			taskDetails["taskID"] = theTaskID
 			taskDetails["title"] = ""
 			taskDetails["secret"] = ""
 			taskDetails["command"] = ""
@@ -116,16 +117,18 @@ func getTaskDetails(theResponseWriter http.ResponseWriter, theTaskID string) map
 }
 
 // Returns a list of task details.
-func getTaskList() []map[string]string {
+func getTaskList(theResponseWriter http.ResponseWriter) []map[string]string {
 	var taskList []map[string]string
 	var task map[string]string
 	taskIDs, readDirErr := ioutil.ReadDir("tasks")
 	if readDirErr == nil {
 		for _, taskID := range taskIDs {
-			task = make(map[string]string)
-			task["taskID"] = taskID.Name()
+			taskDetails := getTaskDetails(theResponseWriter, taskID.Name())
+			task["taskID"] = 
 			taskList = append(taskList, task)
 		}
+	} else {
+		fmt.Fprintf(theResponseWriter, "ERROR: Can't read Tasks folder.")
 	}
 	return taskList
 }
@@ -252,7 +255,8 @@ func main() {
 	} else if os.Args[1] == "-list" {
 		taskList := getTaskList()
 		for _, task := range taskList {
-			fmt.Println(task["taskID"])
+			fmt.Println(task["taskID"] + "\n")
+			fmt.Println(task["title"] + "\n")
 		}
 	} else if os.Args[1] == "-new" {
 		// Generate a new task ID, and create a matching folder.
