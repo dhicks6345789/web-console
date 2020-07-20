@@ -88,6 +88,18 @@ func taskIsRunning(theTaskID string) bool {
 	return false
 }
 
+// Returns a list of task details.
+func getTaskList() []string{} {
+	result := make(map[string][]string)
+	items, readDirErr := ioutil.ReadDir("tasks")
+	if readDirErr == nil {
+		for _, item := range items {
+			fmt.Println(item.Name())
+		}
+	}
+	return result
+}
+
 // The main body of the program - parse user-provided command-line paramaters, or start the main web server process.
 func main() {
 	if len(os.Args) == 1 {
@@ -230,15 +242,11 @@ func main() {
 		})
 		log.Fatal(http.ListenAndServe(":8090", nil))
 	} else if os.Args[1] == "-list" {
-		// Print a list of existing IDs.
-		items, err := ioutil.ReadDir("tasks")
-		if err != nil {
-			log.Fatal(err)
+		taskList = getTaskList()
+		for _, item := range taskList {
+			fmt.Println(item["name"])
 		}
-		for _, item := range items {
-			fmt.Println(item.Name())
-		}
-	} else if os.Args[1] == "-generate" {
+	} else if os.Args[1] == "-new" {
 		// Generate a new task ID, and create a matching folder.
 		for {
 			newTaskID := generateIDString()
