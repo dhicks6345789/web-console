@@ -124,7 +124,7 @@ func getTaskList() ([]map[string]string, error) {
 	if readDirErr == nil {
 		for _, taskID := range taskIDs {
 			taskDetails, taskErr := getTaskDetails(taskID.Name())
-			if taskErr == nil) {
+			if taskErr == nil {
 				taskList = append(taskList, taskDetails)
 			} else {
 				return taskList, taskErr
