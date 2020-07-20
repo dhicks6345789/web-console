@@ -97,7 +97,7 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 	if _, err := os.Stat(configPath); !os.IsNotExist(err) {
 		inFile, inFileErr := os.Open(configPath)
 		if inFileErr != nil {
-			return taskDetails, errors.new("Can't open Task config file.")
+			return taskDetails, errors.New("Can't open Task config file.")
 		} else {
 			// Read the Task's details from its config file.
 			taskDetails["taskID"] = theTaskID
@@ -112,7 +112,7 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 			inFile.Close()
 		}
 	} else {
-		return taskDetails, errors.new("Invalid taskID")
+		return taskDetails, errors.New("Invalid taskID")
 	}
 	return taskDetails, nil
 }
@@ -131,7 +131,7 @@ func getTaskList() ([]map[string]string, error) {
 			}
 		}
 	} else {
-		return (taskList, errors.new("Can't read Tasks folder."))
+		return (taskList, errors.New("Can't read Tasks folder."))
 	}
 	return (taskList, nil)
 }
