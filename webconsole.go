@@ -119,13 +119,11 @@ func getTaskDetails(theResponseWriter http.ResponseWriter, theTaskID string) map
 // Returns a list of task details.
 func getTaskList(theResponseWriter http.ResponseWriter) []map[string]string {
 	var taskList []map[string]string
-	var task map[string]string
 	taskIDs, readDirErr := ioutil.ReadDir("tasks")
 	if readDirErr == nil {
 		for _, taskID := range taskIDs {
 			taskDetails := getTaskDetails(theResponseWriter, taskID.Name())
-			task["taskID"] = 
-			taskList = append(taskList, task)
+			taskList = append(taskList, taskDetails)
 		}
 	} else {
 		fmt.Fprintf(theResponseWriter, "ERROR: Can't read Tasks folder.")
