@@ -97,7 +97,7 @@ func getTaskList() []map[string]string {
 		for _, taskID := range taskIDs {
 			task = make(map[string]string)
 			task["taskID"] = taskID.Name()
-			taskList = append(taskList, resultItem)
+			taskList = append(taskList, task)
 		}
 	}
 	return taskList
