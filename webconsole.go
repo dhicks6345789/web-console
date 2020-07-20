@@ -13,6 +13,7 @@ import (
 	"log"
 	"time"
 	"bufio"
+	"errors"
 	"strings"
 	"os/exec"
 	"math/rand"
@@ -89,14 +90,14 @@ func taskIsRunning(theTaskID string) bool {
 }
 
 // Read the Task's details from its config file.
-func getTaskDetails(theResponseWriter http.ResponseWriter, theTaskID string) map[string]string {
+func getTaskDetails(theTaskID string) (map[string]string, error) {
 	taskDetails := make(map[string]string)
 	configPath := "tasks/" + theTaskID + "/config.txt"
 	// Check to see if we have a valid task ID.
 	if _, err := os.Stat(configPath); !os.IsNotExist(err) {
 		inFile, inFileErr := os.Open(configPath)
 		if inFileErr != nil {
-			fmt.Fprintf(theResponseWriter, "ERROR: Can't open Task config file.")
+			return (taskDetails, errors.new("Can't open Task config file."))
 		} else {
 			// Read the Task's details from its config file.
 			taskDetails["taskID"] = theTaskID
@@ -111,24 +112,28 @@ func getTaskDetails(theResponseWriter http.ResponseWriter, theTaskID string) map
 			inFile.Close()
 		}
 	} else {
-		fmt.Fprintf(theResponseWriter, "ERROR: Invalid taskID.")
+		return (taskDetails, errors.new("Invalid taskID"))
 	}
-	return taskDetails
+	return (taskDetails, nil)
 }
 
 // Returns a list of task details.
-func getTaskList(theResponseWriter http.ResponseWriter) []map[string]string {
+func getTaskList() ([]map[string]string, error) {
 	var taskList []map[string]string
 	taskIDs, readDirErr := ioutil.ReadDir("tasks")
 	if readDirErr == nil {
 		for _, taskID := range taskIDs {
-			taskDetails := getTaskDetails(theResponseWriter, taskID.Name())
-			taskList = append(taskList, taskDetails)
+			(taskDetails, taskErr) := getTaskDetails(taskID.Name())
+			if taskErr == nil) {
+				taskList = append(taskList, taskDetails)
+			} else {
+				return(taskList, taskErr)
+			}
 		}
 	} else {
-		fmt.Fprintf(theResponseWriter, "ERROR: Can't read Tasks folder.")
+		return (taskList, errors.new("Can't read Tasks folder."))
 	}
-	return taskList
+	return (taskList, nil)
 }
 
 // The main body of the program - parse user-provided command-line paramaters, or start the main web server process.
@@ -155,7 +160,7 @@ func main() {
 				if taskID == "" {
 					fmt.Fprintf(theResponseWriter, "ERROR: Missing parameter taskID.")
 				} else {
-					taskDetails := getTaskDetails(theResponseWriter, taskID)							
+					taskDetails := getTaskDetails(theResponseWriter, taskID)
 					authorised := false
 					authorisationError := "unknown error"
 					currentTimestamp := time.Now().Unix()
