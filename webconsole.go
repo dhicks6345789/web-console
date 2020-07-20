@@ -260,10 +260,13 @@ func main() {
 		})
 		log.Fatal(http.ListenAndServe(":8090", nil))
 	} else if os.Args[1] == "-list" {
-		taskList := getTaskList()
-		for _, task := range taskList {
-			fmt.Println(task["taskID"] + "\n")
-			fmt.Println(task["title"] + "\n")
+		taskList, taskErr := getTaskList()
+		if taskErr == nil {
+			for _, task := range taskList {
+				fmt.Println(task["taskID"] + ":" + task["title"] + "\n")
+			}
+		} else {
+			fmt.Printf("ERROR: " + taskErr.Error())
 		}
 	} else if os.Args[1] == "-new" {
 		// Generate a new task ID, and create a matching folder.
