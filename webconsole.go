@@ -88,6 +88,33 @@ func taskIsRunning(theTaskID string) bool {
 	return false
 }
 
+// Read the Task's details from its config file.
+func getTaskDetails(theResponseWriter http.ResponseWriter, theTaskID string) map[string]string {
+	taskDetails := make(map[string]string)
+	configPath := "tasks/" + theTaskID + "/config.txt"
+	// Check to see if we have a valid task ID.
+	if _, err := os.Stat(configPath); !os.IsNotExist(err) {
+		inFile, inFileErr := os.Open(configPath)
+		if inFileErr != nil {
+			fmt.Fprintf(theResponseWriter, "ERROR: Can't open Task config file.")
+		} else {
+			// Read the Task's details from its config file.
+			taskDetails["title"] = ""
+			taskDetails["secret"] = ""
+			taskDetails["command"] = ""
+			scanner := bufio.NewScanner(inFile)
+			for scanner.Scan() {
+				itemSplit := strings.SplitN(scanner.Text(), ":", 2)
+				taskDetails[strings.TrimSpace(itemSplit[0])] = strings.TrimSpace(itemSplit[1])
+			}
+			inFile.Close()
+		}
+	} else {
+		fmt.Fprintf(theResponseWriter, "ERROR: Invalid taskID.")
+	}
+	return taskDetails
+}
+
 // Returns a list of task details.
 func getTaskList() []map[string]string {
 	var taskList []map[string]string
@@ -127,115 +154,93 @@ func main() {
 				if taskID == "" {
 					fmt.Fprintf(theResponseWriter, "ERROR: Missing parameter taskID.")
 				} else {
-					configPath := "tasks/" + taskID + "/config.txt"
-					// Check to see if we have a valid task ID.
-					if _, err := os.Stat(configPath); !os.IsNotExist(err) {
-						inFile, inFileErr := os.Open(configPath)
-						if inFileErr != nil {
-							fmt.Fprintf(theResponseWriter, "ERROR: Can't open Task config file.")
+					taskDetails := getTaskDetails(theResponseWriter, taskID)							
+					authorised := false
+					authorisationError := "unknown error"
+					currentTimestamp := time.Now().Unix()
+					if token != "" {
+						if tokens[token] == 0 {
+							authorisationError = "invalid or expired token"
 						} else {
-							// Read the Task's details from its config file.
-							taskDetails := make(map[string]string)
-							taskDetails["title"] = ""
-							taskDetails["secret"] = ""
-							taskDetails["command"] = ""							
-							scanner := bufio.NewScanner(inFile)
-							for scanner.Scan() {
-								itemSplit := strings.SplitN(scanner.Text(), ":", 2)
-								taskDetails[strings.TrimSpace(itemSplit[0])] = strings.TrimSpace(itemSplit[1])
-							}
-							inFile.Close()
-							
-							authorised := false
-							authorisationError := "unknown error"
-							currentTimestamp := time.Now().Unix()
-							if token != "" {
-								if tokens[token] == 0 {
-									authorisationError = "invalid or expired token"
-								} else {
-									authorised = true
-								}
-							} else if theRequest.Form.Get("secret") == taskDetails["secret"] {								
-								authorised = true
+							authorised = true
+						}
+					} else if theRequest.Form.Get("secret") == taskDetails["secret"] {								
+						authorised = true
+					} else {
+						authorisationError = "incorrect secret"
+					}
+					if authorised {
+						if token == "" {
+							token = generateIDString()
+						}
+						tokens[token] = currentTimestamp
+						// Handle Task requests.
+						if strings.HasPrefix(theRequest.URL.Path, "/task") {
+							// Serve the webconsole.html file, first adding in the Task ID value so it can be used client-side.
+							webconsoleBuffer, fileReadErr := ioutil.ReadFile("www/webconsole.html")
+							if fileReadErr == nil {
+								webconsoleString := string(webconsoleBuffer)
+								webconsoleString = strings.Replace(webconsoleString, "taskID = \"\"", "taskID = \"" + taskID + "\"", -1)
+								webconsoleString = strings.Replace(webconsoleString, "token = \"\"", "token = \"" + token + "\"", -1)
+								http.ServeContent(theResponseWriter, theRequest, "webconsole.html", time.Now(), strings.NewReader(webconsoleString))
 							} else {
-								authorisationError = "incorrect secret"
+								authorisationError = "couldn't read webconsole.html"
 							}
-							if authorised {
-								if token == "" {
-									token = generateIDString()
+						// API - Exchange the secret for a token.
+						} else if strings.HasPrefix(theRequest.URL.Path, "/api/getToken") {
+							fmt.Fprintf(theResponseWriter, token)
+						// API - Return the Task's title.
+						} else if strings.HasPrefix(theRequest.URL.Path, "/api/getTaskTitle") {
+							fmt.Fprintf(theResponseWriter, taskDetails["title"])
+						// API - Run a given Task.
+						} else if strings.HasPrefix(theRequest.URL.Path, "/api/runTask") {
+							if taskIsRunning(taskID) {
+								fmt.Fprintf(theResponseWriter, "OK")
+							} else {
+								commandArray := parseCommandString(taskDetails["command"])
+								var commandArgs []string
+								if len(commandArray) > 0 {
+									commandArgs = commandArray[1:]
 								}
-								tokens[token] = currentTimestamp
-								// Handle Task requests.
-								if strings.HasPrefix(theRequest.URL.Path, "/task") {
-									// Serve the webconsole.html file, first adding in the Task ID value so it can be used client-side.
-									webconsoleBuffer, fileReadErr := ioutil.ReadFile("www/webconsole.html")
-									if fileReadErr == nil {
-										webconsoleString := string(webconsoleBuffer)
-										webconsoleString = strings.Replace(webconsoleString, "taskID = \"\"", "taskID = \"" + taskID + "\"", -1)
-										webconsoleString = strings.Replace(webconsoleString, "token = \"\"", "token = \"" + token + "\"", -1)
-										http.ServeContent(theResponseWriter, theRequest, "webconsole.html", time.Now(), strings.NewReader(webconsoleString))
-									} else {
-										authorisationError = "couldn't read webconsole.html"
-									}
-								// API - Exchange the secret for a token.
-								} else if strings.HasPrefix(theRequest.URL.Path, "/api/getToken") {
-									fmt.Fprintf(theResponseWriter, token)
-								// API - Return the Task's title.
-								} else if strings.HasPrefix(theRequest.URL.Path, "/api/getTaskTitle") {
-									fmt.Fprintf(theResponseWriter, taskDetails["title"])
-								// API - Run a given Task.
-								} else if strings.HasPrefix(theRequest.URL.Path, "/api/runTask") {
-									if taskIsRunning(taskID) {
-										fmt.Fprintf(theResponseWriter, "OK")
-									} else {
-										commandArray := parseCommandString(taskDetails["command"])
-										var commandArgs []string
-										if len(commandArray) > 0 {
-											commandArgs = commandArray[1:]
-										}
-										runningTasks[taskID] = exec.Command(commandArray[0], commandArgs...)
-										runningTasks[taskID].Dir = "tasks/" + taskID
-										var taskErr error
-										taskOutputs[taskID], taskErr = runningTasks[taskID].StdoutPipe()
-										if taskErr == nil {
-											taskErr = runningTasks[taskID].Start()
-										}
-										if taskErr == nil {
-											fmt.Fprintf(theResponseWriter, "OK")
-										} else {
-											fmt.Printf("ERROR: " + taskErr.Error())
-											fmt.Fprintf(theResponseWriter, "ERROR: " + taskErr.Error())
-										}
-									}
-								} else if strings.HasPrefix(theRequest.URL.Path, "/api/getTaskOutput") {
-									readBuffer := make([]byte, 10240)
-									readSize, readErr := taskOutputs[taskID].Read(readBuffer)
-									if readErr == nil {
-										fmt.Fprintf(theResponseWriter, string(readBuffer[0:readSize]))
-									} else {
-										if readErr.Error() == "EOF" {
-											delete(runningTasks, taskID)
-											delete(taskOutputs, taskID)
-										}
-										fmt.Fprintf(theResponseWriter, "ERROR: " + readErr.Error())
-									}
-								} else if strings.HasPrefix(theRequest.URL.Path, "/api/getTaskRunning") {
-									if taskIsRunning(taskID) {
-										fmt.Fprintf(theResponseWriter, "YES")
-									} else {
-										fmt.Fprintf(theResponseWriter, "NO")
-									}
-								} else if strings.HasPrefix(theRequest.URL.Path, "/api/keepAlive") {
+								runningTasks[taskID] = exec.Command(commandArray[0], commandArgs...)
+								runningTasks[taskID].Dir = "tasks/" + taskID
+								var taskErr error
+								taskOutputs[taskID], taskErr = runningTasks[taskID].StdoutPipe()
+								if taskErr == nil {
+									taskErr = runningTasks[taskID].Start()
+								}
+								if taskErr == nil {
 									fmt.Fprintf(theResponseWriter, "OK")
-								} else if strings.HasPrefix(theRequest.URL.Path, "/api/") {
-									fmt.Fprintf(theResponseWriter, "ERROR: Unknown API call: %s", theRequest.URL.Path)
+								} else {
+									fmt.Printf("ERROR: " + taskErr.Error())
+									fmt.Fprintf(theResponseWriter, "ERROR: " + taskErr.Error())
 								}
-							} else {
-								fmt.Fprintf(theResponseWriter, "ERROR: Not authorised - %s.", authorisationError)
 							}
+						} else if strings.HasPrefix(theRequest.URL.Path, "/api/getTaskOutput") {
+							readBuffer := make([]byte, 10240)
+							readSize, readErr := taskOutputs[taskID].Read(readBuffer)
+							if readErr == nil {
+								fmt.Fprintf(theResponseWriter, string(readBuffer[0:readSize]))
+							} else {
+								if readErr.Error() == "EOF" {
+									delete(runningTasks, taskID)
+									delete(taskOutputs, taskID)
+								}
+								fmt.Fprintf(theResponseWriter, "ERROR: " + readErr.Error())
+							}
+						} else if strings.HasPrefix(theRequest.URL.Path, "/api/getTaskRunning") {
+							if taskIsRunning(taskID) {
+								fmt.Fprintf(theResponseWriter, "YES")
+							} else {
+								fmt.Fprintf(theResponseWriter, "NO")
+							}
+						} else if strings.HasPrefix(theRequest.URL.Path, "/api/keepAlive") {
+							fmt.Fprintf(theResponseWriter, "OK")
+						} else if strings.HasPrefix(theRequest.URL.Path, "/api/") {
+							fmt.Fprintf(theResponseWriter, "ERROR: Unknown API call: %s", theRequest.URL.Path)
 						}
 					} else {
-						fmt.Fprintf(theResponseWriter, "ERROR: Invalid taskID.")
+						fmt.Fprintf(theResponseWriter, "ERROR: Not authorised - %s.", authorisationError)
 					}
 				}
 			// Otherwise, try and find the static file referred to by the request URL.
