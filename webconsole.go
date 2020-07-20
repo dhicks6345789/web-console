@@ -90,11 +90,14 @@ func taskIsRunning(theTaskID string) bool {
 
 // Returns a list of task details.
 func getTaskList() []map[string]string {
-	result := make(map[string]string)
+	var result []map[string]string
+	var resultItem map[string]string
 	items, readDirErr := ioutil.ReadDir("tasks")
 	if readDirErr == nil {
 		for _, item := range items {
-			fmt.Println(item.Name())
+			resultItem = make(map[string]string)
+			resultItem["taskID"] = item.Name()
+			append(result, resultItem)
 		}
 	}
 	return result
