@@ -263,7 +263,7 @@ func main() {
 		taskList, taskErr := getTaskList()
 		if taskErr == nil {
 			for _, task := range taskList {
-				fmt.Println(task["taskID"] + ":" + task["title"] + "\n")
+				fmt.Println(task["taskID"] + ": " + task["title"] + "\n")
 			}
 		} else {
 			fmt.Printf("ERROR: " + taskErr.Error())
