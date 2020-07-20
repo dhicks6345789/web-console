@@ -123,17 +123,17 @@ func getTaskList() ([]map[string]string, error) {
 	taskIDs, readDirErr := ioutil.ReadDir("tasks")
 	if readDirErr == nil {
 		for _, taskID := range taskIDs {
-			(taskDetails, taskErr) := getTaskDetails(taskID.Name())
+			taskDetails, taskErr := getTaskDetails(taskID.Name())
 			if taskErr == nil) {
 				taskList = append(taskList, taskDetails)
 			} else {
-				return(taskList, taskErr)
+				return taskList, taskErr
 			}
 		}
 	} else {
-		return (taskList, errors.New("Can't read Tasks folder."))
+		return taskList, errors.New("Can't read Tasks folder.")
 	}
-	return (taskList, nil)
+	return taskList, nil
 }
 
 // The main body of the program - parse user-provided command-line paramaters, or start the main web server process.
