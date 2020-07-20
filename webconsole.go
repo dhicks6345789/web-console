@@ -97,7 +97,7 @@ func getTaskList() []map[string]string {
 		for _, item := range items {
 			resultItem = make(map[string]string)
 			resultItem["taskID"] = item.Name()
-			append(result, resultItem)
+			result = append(result, resultItem)
 		}
 	}
 	return result
@@ -245,9 +245,9 @@ func main() {
 		})
 		log.Fatal(http.ListenAndServe(":8090", nil))
 	} else if os.Args[1] == "-list" {
-		taskList = getTaskList()
+		taskList := getTaskList()
 		for _, item := range taskList {
-			fmt.Println(item["name"])
+			fmt.Println(item["taskID"])
 		}
 	} else if os.Args[1] == "-new" {
 		// Generate a new task ID, and create a matching folder.
