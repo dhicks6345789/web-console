@@ -22,13 +22,13 @@
 			
 			$(document).ready(function() {
 				$.post("api/getPublicTaskList", {}, function(result) {
-					//publicTaskList = "";
+					rowCount = 1;
 					$.each(JSON.parse(result), function(taskID, taskTitle) {
 						publicTaskRow = $("#publicTaskRow").clone();
-						//publicTaskList = publicTaskList + "<div>" + taskTitle + ": " + taskID + "</div";
+						publicTaskRow.find("span").attr("id","publicTaskTitle-" + rowCount);
 						$("#publicTaskList").append(publicTaskRow);
+						rowCount = rowCount + 1;
 					});
-					//$("#publicTaskList").html(publicTaskList);
 				});
 			});
 		</script>
