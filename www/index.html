@@ -22,9 +22,9 @@
 			
 			$(document).ready(function() {
 				$.post("api/getPublicTaskList", {}, function(result) {
-					publicTaskList = ""
+					publicTaskList = "";
 					$.each(JSON.parse(result), function(taskID, taskTitle) {
-						publicTaskList = publicTaskList + "<div>" + taskTitle + ": " + value + "</div";
+						publicTaskList = publicTaskList + "<div>" + taskTitle + ": " + taskID + "</div";
 					});
 					//$("#publicTaskList").html(publicTaskList);
 				});
@@ -40,9 +40,8 @@
 			</div>
 			<div id="publicTaskList">
 				<div id="publicTaskTemplateDiv">
-					publicTaskTemplateTitle
 					<label for="publicTaskTemplateSecretInput">Secret:</label>
-					<input type="password" class="form-control" id="publicTaskTemplateSecretInput" aria-describedby="publicTaskTemplateSecretHelp" placeholder="Secret"/>
+					publicTaskTemplateTitle <input type="password" class="form-control" id="publicTaskTemplateSecretInput" aria-describedby="publicTaskTemplateSecretHelp" placeholder="Secret"/>
 					<small id="publicTaskTemplateSecretHelp" class="form-text text-muted">Leave blank if no secret is needed for this Task.</small>
 				</div>
 			</div>
