@@ -23,10 +23,10 @@
 			$(document).ready(function() {
 				$.post("api/getPublicTaskList", {}, function(result) {
 					publicTaskList = ""
-					$.each(JSON.parse(result), function(key, value) {
-						publicTaskList = publicTaskList + "<div>" + key + " : " + value + "</div";
+					$.each(JSON.parse(result), function(taskID, taskTitle) {
+						publicTaskList = publicTaskList + "<div>" + taskTitle + ": " + value + "</div";
 					});
-					$("#publicTaskList").html(publicTaskList);
+					//$("#publicTaskList").html(publicTaskList);
 				});
 			});
 		</script>
@@ -38,7 +38,14 @@
 					<h1 class="text-center">Web Console.</h1>
 				</div>
 			</div>
-			<div id="publicTaskList"></div>
+			<div id="publicTaskList">
+				<div id="publicTaskTemplateDiv">
+					publicTaskTemplateTitle
+					<label for="publicTaskTemplateSecretInput">Secret:</label>
+					<input type="password" class="form-control" id="publicTaskTemplateSecretInput" aria-describedby="publicTaskTemplateSecretHelp" placeholder="Secret"/>
+					<small id="publicTaskTemplateSecretHelp" class="form-text text-muted">Leave blank if no secret is needed for this Task.</small>
+				</div>
+			</div>
 			<div class="form-group">
 				<label for="taskIDInput">Task ID:</label>
 				<input type="text" class="form-control" id="taskIDInput" aria-describedby="taskIDHelp" placeholder="Enter a 16-digit Task ID"/>
