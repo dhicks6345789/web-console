@@ -19,6 +19,9 @@ import (
 	"math/rand"
 	"io/ioutil"
 	"net/http"
+	
+	// Bcrypt for password hashing.
+	"golang.org/x/crypto/bcrypt"
 )
 
 // Characters to use to generate new ID strings. Lowercase only - any user-provided IDs will be lowercased before use.
@@ -43,6 +46,16 @@ func generateIDString() string {
 		result[pl] = letters[rand.Intn(len(letters))]
 	}
 	return string(result)
+}
+
+func hashPassword(thePassword string) (string, error) {
+	bytes, cryptErr := bcrypt.GenerateFromPassword([]byte(thePassword), 14)
+	return string(bytes), cryptErr
+}
+
+func checkPasswordHash(thePassword, theHash string) bool {
+	cryptErr := bcrypt.CompareHashAndPassword([]byte(theHash), []byte(thePassword))
+	return cryptErr == nil
 }
 
 // Clear any expired tokens from memory.
@@ -319,7 +332,7 @@ func main() {
 			
 			outputString := ""
 			if newTaskSecret != "" {
-				outputString = outputString + "secret: " + newTaskSecret + "\n"
+				outputString = outputString + "secret: " + hashPassword(newTaskSecret) + "\n"
 			}
 			outputString = outputString + "title: " + newTaskTitle + "\npublic: " + newTaskPublic + "\ncommand: " + newTaskCommand
 			writeFileErr := ioutil.WriteFile("tasks/" + newTaskID + "/config.txt", []byte(outputString), 0644)
