@@ -181,6 +181,7 @@ func main() {
 				http.ServeFile(theResponseWriter, theRequest, "www/index.html")
 			// Handle the getPublicTaskList API call.
 			} else if strings.HasPrefix(theRequest.URL.Path, "/api/getPublicTaskList") {
+				fmt.println("Called getPublicTaskList")
 				taskList, taskErr := getTaskList()
 				if taskErr == nil {
 					fmt.Fprintf(theResponseWriter, "[")
