@@ -297,6 +297,9 @@ func main() {
 			newTaskName := "Task " + newTaskID
 			newTaskName = getUserInput(newTaskName, "Enter a name (hit enter for \"" + newTaskName + "\")")
 			
+			newTaskSecret := ""
+			newTaskSecret = getUserInput(newTaskSecret, "Set secret (type secret, or hit enter to skip)")
+			
 			var newTaskPublic string
 			for {
 				newTaskPublic = "N"
@@ -305,6 +308,9 @@ func main() {
 					break
 				}
 			}
+			
+			newTaskCommand := ""
+			newTaskCommand = getUserCommand(newTaskCommand, "Set command (type command, or hit enter to skip)")
 		} else {
 			fmt.Println("ERROR: A task with ID " + newTaskID + " already exists.")
 		}		
