@@ -294,7 +294,7 @@ func main() {
 			os.Mkdir("tasks/" + newTaskID, os.ModePerm)
 			fmt.Printf("New Task: " + newTaskID)
 			newtaskName := "Task " + newTaskID
-			newTaskName = getUserInput(, "Enter a name (enter for \"" + newTaskName + "\")")
+			newTaskName = getUserInput(newTaskName, "Enter a name (enter for \"" + newTaskName + "\")")
 		} else {
 			fmt.Printf("ERROR: A task with ID " + newTaskID + " already exists.\n")
 		}		
