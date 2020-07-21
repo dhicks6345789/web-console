@@ -189,7 +189,7 @@ func main() {
 						for _, task := range taskList {
 							taskListString = taskListString + "\"" + task["taskID"] + "\":\"" + task["title"] + "\","
 						}
-						fmt.Fprintf(theResponseWriter, taskListString[:-1] + "}")
+						fmt.Fprintf(theResponseWriter, taskListString[:len(taskListString)-1] + "}")
 					} else {
 						fmt.Fprintf(theResponseWriter, "{}")
 					}
