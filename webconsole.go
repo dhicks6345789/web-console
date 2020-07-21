@@ -187,7 +187,7 @@ func main() {
 					if len(taskList) > 0 {
 						taskListString := "{"
 						for _, task := range taskList {
-							taskListString = taskListString + "\"" + task["taskID"] + "\"" + ":\"" + task["title"] + "\",")
+							taskListString = taskListString + "\"" + task["taskID"] + "\":\"" + task["title"] + "\","
 						}
 						fmt.Fprintf(theResponseWriter, taskListString[:-1] + "}")
 					} else {
