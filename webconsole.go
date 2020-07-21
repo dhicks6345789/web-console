@@ -296,7 +296,7 @@ func main() {
 			newTaskName := "Task " + newTaskID
 			newTaskName = getUserInput(newTaskName, "Enter a name (enter for \"" + newTaskName + "\")")
 		} else {
-			fmt.Println("ERROR: A task with ID " + newTaskID + " already exists.)
+			fmt.Println("ERROR: A task with ID " + newTaskID + " already exists.")
 		}		
 	}
 }
