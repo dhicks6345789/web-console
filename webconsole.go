@@ -142,6 +142,7 @@ func getUserInput(defaultValue string, messageString string) string {
 	fmt.Print(messageString + ": ")
 	result, _ := inputReader.ReadString('\n')
 	if result == "" {
+		print "Blank"
 		return defaultValue
 	}
 	return result
