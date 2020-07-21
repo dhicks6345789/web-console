@@ -303,7 +303,7 @@ func main() {
 			var newTaskPublic string
 			for {
 				newTaskPublic = "N"
-				newTaskPublic = strings.ToUpper(getUserInput(newTaskName, "Make this task public (\"Y\" or \"N\", hit enter for \"N\")"))
+				newTaskPublic = strings.ToUpper(getUserInput(newTaskPublic, "Make this task public (\"Y\" or \"N\", hit enter for \"N\")"))
 				if newTaskPublic == "Y" || newTaskPublic == "N" {
 					break
 				}
@@ -311,6 +311,8 @@ func main() {
 			
 			newTaskCommand := ""
 			newTaskCommand = getUserInput(newTaskCommand, "Set command (type command, or hit enter to skip)")
+			
+			writeFileErr := ioutil.WriteFile("tasks/" + newTaskID + "/config.txt", "title: " + newTaskTitle, 0644)
 		} else {
 			fmt.Println("ERROR: A task with ID " + newTaskID + " already exists.")
 		}		
