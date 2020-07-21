@@ -179,6 +179,18 @@ func main() {
 			// The default root - serve index.html.
 			if theRequest.URL.Path == "/" {
 				http.ServeFile(theResponseWriter, theRequest, "www/index.html")
+			// Handle the getPublicTaskList API call.
+			} else if strings.HasPrefix(theRequest.URL.Path, "/api/getPublicTaskList") {
+				taskList, taskErr := getTaskList()
+				if taskErr == nil {
+					fmt.Fprintf(theResponseWriter, "[")
+					for _, task := range taskList {
+						fmt.Fprintf(theResponseWriter, "\"" + taskID + "\"" + ",\"" + task["title"] + "\"")
+					}
+					fmt.Fprintf(theResponseWriter, "]")
+				} else {
+					fmt.Fprintf(theResponseWriter, "ERROR: " + taskErr.Error())
+				}
 			// Handle a Task or API request. taskID needs to be provided as a parameter, either via GET or POST.
 			} else if strings.HasPrefix(theRequest.URL.Path, "/task") || strings.HasPrefix(theRequest.URL.Path, "/api/") {
 				taskID := theRequest.Form.Get("taskID")
@@ -269,17 +281,6 @@ func main() {
 								}
 							} else if strings.HasPrefix(theRequest.URL.Path, "/api/keepAlive") {
 								fmt.Fprintf(theResponseWriter, "OK")
-							} else if strings.HasPrefix(theRequest.URL.Path, "/api/getPublicTaskList") {
-								taskList, taskErr := getTaskList()
-								if taskErr == nil {
-									fmt.Fprintf(theResponseWriter, "[")
-									for _, task := range taskList {
-										fmt.Fprintf(theResponseWriter, "\"" + taskID + "\"" + ",\"" + task["title"] + "\"")
-									}
-									fmt.Fprintf(theResponseWriter, "]")
-								} else {
-									fmt.Fprintf(theResponseWriter, "ERROR: " + taskErr.Error())
-								}
 							} else if strings.HasPrefix(theRequest.URL.Path, "/api/") {
 								fmt.Fprintf(theResponseWriter, "ERROR: Unknown API call: %s", theRequest.URL.Path)
 							}
