@@ -313,6 +313,9 @@ func main() {
 			newTaskCommand = getUserInput(newTaskCommand, "Set command (type command, or hit enter to skip)")
 			
 			writeFileErr := ioutil.WriteFile("tasks/" + newTaskID + "/config.txt", []byte("title: " + newTaskTitle), 0644)
+			if writeFileErr != nil {
+				fmt.Println("ERROR: Couldn't write config for Task " + newTaskID + ".")
+			}
 		} else {
 			fmt.Println("ERROR: A task with ID " + newTaskID + " already exists.")
 		}		
