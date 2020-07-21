@@ -332,7 +332,12 @@ func main() {
 			
 			outputString := ""
 			if newTaskSecret != "" {
-				outputString = outputString + "secret: " + hashPassword(newTaskSecret) + "\n"
+				hashedPassword, hashErr := hashPassword(newTaskSecret)
+				if hashErr == nil {
+					outputString = outputString + "secret: " + hashedPassword + "\n"
+				} else {
+					fmt.Println("ERROR: Problem hashing password - " + hashErr.Error())
+				}
 			}
 			outputString = outputString + "title: " + newTaskTitle + "\npublic: " + newTaskPublic + "\ncommand: " + newTaskCommand
 			writeFileErr := ioutil.WriteFile("tasks/" + newTaskID + "/config.txt", []byte(outputString), 0644)
