@@ -294,8 +294,8 @@ func main() {
 			os.Mkdir("tasks/" + newTaskID, os.ModePerm)
 			fmt.Println("New Task: " + newTaskID)
 			
-			newTaskName := "Task " + newTaskID
-			newTaskName = getUserInput(newTaskName, "Enter a name (hit enter for \"" + newTaskName + "\")")
+			newTaskTitle := "Task " + newTaskID
+			newTaskTitle = getUserInput(newTaskTitle, "Enter a title (hit enter for \"" + newTaskTitle + "\")")
 			
 			newTaskSecret := ""
 			newTaskSecret = getUserInput(newTaskSecret, "Set secret (type secret, or hit enter to skip)")
