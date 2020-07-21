@@ -278,7 +278,7 @@ func main() {
 				fmt.Println(task["taskID"] + ": " + task["title"] + "\n")
 			}
 		} else {
-			fmt.Printf("ERROR: " + taskErr.Error() + "\n")
+			fmt.Println("ERROR: " + taskErr.Error())
 		}
 	} else if os.Args[1] == "-new" {
 		// Generate a new, unique Task ID.
@@ -292,11 +292,11 @@ func main() {
 		newTaskID = getUserInput(newTaskID, "Enter a new Task ID (hit enter to generate an ID)")
 		if _, err := os.Stat("tasks/" + newTaskID); os.IsNotExist(err) {
 			os.Mkdir("tasks/" + newTaskID, os.ModePerm)
-			fmt.Printf("New Task: " + newTaskID)
+			fmt.Println("New Task: " + newTaskID)
 			newTaskName := "Task " + newTaskID
 			newTaskName = getUserInput(newTaskName, "Enter a name (enter for \"" + newTaskName + "\")")
 		} else {
-			fmt.Printf("ERROR: A task with ID " + newTaskID + " already exists.\n")
+			fmt.Println("ERROR: A task with ID " + newTaskID + " already exists.)
 		}		
 	}
 }
