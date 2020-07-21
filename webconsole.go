@@ -310,7 +310,7 @@ func main() {
 			}
 			
 			newTaskCommand := ""
-			newTaskCommand = getUserCommand(newTaskCommand, "Set command (type command, or hit enter to skip)")
+			newTaskCommand = getUserInput(newTaskCommand, "Set command (type command, or hit enter to skip)")
 		} else {
 			fmt.Println("ERROR: A task with ID " + newTaskID + " already exists.")
 		}		
