@@ -312,7 +312,7 @@ func main() {
 			newTaskCommand := ""
 			newTaskCommand = getUserInput(newTaskCommand, "Set command (type command, or hit enter to skip)")
 			
-			writeFileErr := ioutil.WriteFile("tasks/" + newTaskID + "/config.txt", "title: " + newTaskTitle, 0644)
+			writeFileErr := ioutil.WriteFile("tasks/" + newTaskID + "/config.txt", []byte("title: " + newTaskTitle), 0644)
 		} else {
 			fmt.Println("ERROR: A task with ID " + newTaskID + " already exists.")
 		}		
