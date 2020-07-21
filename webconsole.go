@@ -316,7 +316,7 @@ func main() {
 			if newTaskSecret != "" {
 				outputString = outputString + "secret: " + newTaskSecret + "\n"
 			}
-			outputString = "title: " + newTaskTitle + "\npublic: " + newTaskPublic + "\ncommand: " + newTaskCommand + "\n"
+			outputString = outputString + "title: " + newTaskTitle + "\npublic: " + newTaskPublic + "\ncommand: " + newTaskCommand
 			writeFileErr := ioutil.WriteFile("tasks/" + newTaskID + "/config.txt", []byte(outputString), 0644)
 			if writeFileErr != nil {
 				fmt.Println("ERROR: Couldn't write config for Task " + newTaskID + ".")
