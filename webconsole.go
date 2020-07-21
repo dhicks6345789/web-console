@@ -293,8 +293,18 @@ func main() {
 		if _, err := os.Stat("tasks/" + newTaskID); os.IsNotExist(err) {
 			os.Mkdir("tasks/" + newTaskID, os.ModePerm)
 			fmt.Println("New Task: " + newTaskID)
+			
 			newTaskName := "Task " + newTaskID
-			newTaskName = getUserInput(newTaskName, "Enter a name (enter for \"" + newTaskName + "\")")
+			newTaskName = getUserInput(newTaskName, "Enter a name (hit enter for \"" + newTaskName + "\")")
+			
+			var newTaskPublic string
+			for {
+				newTaskPublic = "N"
+				newTaskPublic = strings.ToUpper(getUserInput(newTaskName, "Make this task public (\"Y\" or \"N\", hit enter for \"N\")"))
+				if newTaskPublic != "Y" && newTaskPublic != "N" {
+					break
+				}
+			}
 		} else {
 			fmt.Println("ERROR: A task with ID " + newTaskID + " already exists.")
 		}		
