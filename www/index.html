@@ -12,8 +12,6 @@
 		
 		<script>
 			function submitForm() {
-				console.log($("#taskIDInput").val());
-				console.log($("#secretInput").val());
 				$.post("api/getToken", {taskID:$("#taskIDInput").val(), secret:$("#secretInput").val()}, function(result) {
 					// Code goes here - check for errors, print a useful error message.
 					$("#hiddenTaskID").val($("#taskIDInput").val());
@@ -24,6 +22,7 @@
 			
 			$(document).ready(function() {
 				$.post("api/getPublicTaskList", {}, function(result) {
+					console.log(result);
 					publicTaskList = ""
 					resultSplit = result.split("\n")
 					for (pl = 0; pl < resultSplit.length; pl = pl + 1) {
