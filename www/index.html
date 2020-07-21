@@ -23,7 +23,7 @@
 			$(document).ready(function() {
 				$.post("api/getPublicTaskList", {}, function(result) {
 					publicTaskList = ""
-					$.each(JSON.parse(result, function(key, value) {
+					$.each(JSON.parse(result), function(key, value) {
 						publicTaskList = publicTaskList + "<div>" + key + " : " + value + "</div";
 					});
 					$("#publicTaskList").html(publicTaskList);
