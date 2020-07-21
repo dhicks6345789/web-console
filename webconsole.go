@@ -184,14 +184,16 @@ func main() {
 				println("Called getPublicTaskList")
 				taskList, taskErr := getTaskList()
 				if taskErr == nil {
-					if len(taskList) > 0 {
-						taskListString := "{"
-						for _, task := range taskList {
+					taskListString := "{"
+					for _, task := range taskList {
+						if task["public"]  == "Y" {
 							taskListString = taskListString + "\"" + task["taskID"] + "\":\"" + task["title"] + "\","
 						}
-						fmt.Fprintf(theResponseWriter, taskListString[:len(taskListString)-1] + "}")
-					} else {
+					}
+					if taskListString == "{" {
 						fmt.Fprintf(theResponseWriter, "{}")
+					} else {
+						fmt.Fprintf(theResponseWriter, taskListString[:len(taskListString)-1] + "}")
 					}
 				} else {
 					fmt.Fprintf(theResponseWriter, "ERROR: " + taskErr.Error())
