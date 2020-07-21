@@ -292,7 +292,9 @@ func main() {
 		newTaskID = getUserInput(newTaskID, "Enter a new Task ID (hit enter to generate an ID)")
 		if _, err := os.Stat("tasks/" + newTaskID); os.IsNotExist(err) {
 			os.Mkdir("tasks/" + newTaskID, os.ModePerm)
-			fmt.Println("New Task: " + newTaskID)
+			fmt.Printf("New Task: " + newTaskID)
+			newtaskName := "Task " + newTaskID
+			newTaskName = getUserInput(, "Enter a name (enter for \"" + newTaskName + "\")")
 		} else {
 			fmt.Printf("ERROR: A task with ID " + newTaskID + " already exists.\n")
 		}		
