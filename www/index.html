@@ -23,13 +23,13 @@
 			$(document).ready(function() {
 				$.post("api/getPublicTaskList", {}, function(result) {
 					console.log(result);
-					publicTaskList = ""
-					resultSplit = result.split("\n")
-					for (pl = 0; pl < resultSplit.length; pl = pl + 1) {
-						publicTaskList = publicTaskList + "<div>" + resultSplit[pl] + "</div>"
-					}
-					$("#publicTaskList").html(publicTaskList)
-				}
+					publicTaskList = "taskListGoesHere";
+					//resultSplit = result.split("\n");
+					//for (pl = 0; pl < resultSplit.length; pl = pl + 1) {
+						//publicTaskList = publicTaskList + "<div>" + resultSplit[pl] + "</div>"
+					//}
+					$("#publicTaskList").html(publicTaskList);
+				});
 			}
 		</script>
 	</head>
