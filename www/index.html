@@ -26,6 +26,8 @@
 					$.each(JSON.parse(result), function(taskID, taskTitle) {
 						publicTaskRow = $("#publicTaskRow").clone();
 						publicTaskRow.find("span").attr("id","publicTaskTitle-" + rowCount);
+						publicTaskRow.find("input").attr("id","publicTaskSecretInput-" + rowCount);
+						publicTaskRow.find("button").attr("id","publicTaskButton-" + rowCount);
 						$("#publicTaskList").append(publicTaskRow);
 						rowCount = rowCount + 1;
 					});
