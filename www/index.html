@@ -22,12 +22,10 @@
 			
 			$(document).ready(function() {
 				$.post("api/getPublicTaskList", {}, function(result) {
-					console.log(result);
-					publicTaskList = "taskListGoesHere";
-					//resultSplit = result.split("\n");
-					//for (pl = 0; pl < resultSplit.length; pl = pl + 1) {
-						//publicTaskList = publicTaskList + "<div>" + resultSplit[pl] + "</div>"
-					//}
+					publicTaskList = ""
+					$.each(JSON.parse(result, function(key, value) {
+						publicTaskList = publicTaskList + "<div>" + key + " : " + value + "</div";
+					});
 					$("#publicTaskList").html(publicTaskList);
 				});
 			});
