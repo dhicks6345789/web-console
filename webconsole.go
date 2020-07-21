@@ -136,6 +136,17 @@ func getTaskList() ([]map[string]string, error) {
 	return taskList, nil
 }
 
+// Get an input string from the user.
+func getUserInput(defaultValue, messageString) string {
+	inputReader := bufio.NewReader(os.Stdin)
+	fmt.Print(messageString + ": ")
+	result, _ := reader.ReadString('\n')
+	if result == "" {
+		return defaultValue
+	}
+	return result
+}
+
 // The main body of the program - parse user-provided command-line paramaters, or start the main web server process.
 func main() {
 	if len(os.Args) == 1 {
@@ -266,17 +277,23 @@ func main() {
 				fmt.Println(task["taskID"] + ": " + task["title"] + "\n")
 			}
 		} else {
-			fmt.Printf("ERROR: " + taskErr.Error())
+			fmt.Printf("ERROR: " + taskErr.Error() + "\n")
 		}
 	} else if os.Args[1] == "-new" {
-		// Generate a new task ID, and create a matching folder.
+		// Generate a new, unique Task ID.
+		var newTaskID string
 		for {
-			newTaskID := generateIDString()
+			newTaskID = generateIDString()
 			if _, err := os.Stat("tasks/" + newTaskID); os.IsNotExist(err) {
-				os.Mkdir("tasks/" + newTaskID, os.ModePerm)
-				fmt.Println("New Task generated: " + newTaskID)
 				break
 			}
 		}
+		newTaskID = getUserInput(newTaskID, "Enter a new Task ID (hit enter to generate an ID)")
+		if _, err := os.Stat("tasks/" + newTaskID); os.IsNotExist(err) {
+			os.Mkdir("tasks/" + newTaskID, os.ModePerm)
+			fmt.Println("New Task: " + newTaskID)
+		} else {
+			fmt.Printf("ERROR: A task with ID " + newTaskID + " already exists.\n")
+		}		
 	}
 }
