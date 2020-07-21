@@ -137,7 +137,7 @@ func getTaskList() ([]map[string]string, error) {
 }
 
 // Get an input string from the user.
-func getUserInput(defaultValue, messageString) string {
+func getUserInput(defaultValue string, messageString string) string {
 	inputReader := bufio.NewReader(os.Stdin)
 	fmt.Print(messageString + ": ")
 	result, _ := reader.ReadString('\n')
