@@ -21,6 +21,17 @@
 					$("#hiddenForm").submit();
 				});
 			}
+			
+			$(document).ready(function() {
+				$.post("api/getPublicTaskList", {}, function(result) {
+					publicTaskList = ""
+					resultSplit = result.split("\n")
+					for (pl = 0; pl < resultSplit.length; pl = pl + 1) {
+						publicTaskList = publicTaskList + "<div>" + resultSplit[pl] + "</div>"
+					}
+					$("#publicTaskList").html(publicTaskList)
+				}
+			}
 		</script>
 	</head>
 	<body>
@@ -30,6 +41,7 @@
 					<h1 class="text-center">Web Console.</h1>
 				</div>
 			</div>
+			<div id="publicTaskList"></div>
 			<div class="form-group">
 				<label for="taskIDInput">Task ID:</label>
 				<input type="text" class="form-control" id="taskIDInput" aria-describedby="taskIDHelp" placeholder="Enter a 16-digit Task ID"/>
