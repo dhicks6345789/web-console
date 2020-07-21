@@ -103,7 +103,7 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 			taskDetails["taskID"] = theTaskID
 			taskDetails["title"] = ""
 			taskDetails["secret"] = ""
-			taskDetails["public"] = ""
+			taskDetails["public"] = "N"
 			taskDetails["command"] = ""
 			scanner := bufio.NewScanner(inFile)
 			for scanner.Scan() {
