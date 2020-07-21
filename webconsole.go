@@ -301,7 +301,7 @@ func main() {
 			for {
 				newTaskPublic = "N"
 				newTaskPublic = strings.ToUpper(getUserInput(newTaskName, "Make this task public (\"Y\" or \"N\", hit enter for \"N\")"))
-				if newTaskPublic != "Y" && newTaskPublic != "N" {
+				if newTaskPublic == "Y" || newTaskPublic == "N" {
 					break
 				}
 			}
