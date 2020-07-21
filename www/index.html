@@ -38,11 +38,17 @@
 					<h1 class="text-center">Web Console.</h1>
 				</div>
 			</div>
-			<div id="publicTaskList">
-				<div class="form-inline" id="publicTaskDiv">
-					<span id="publicTaskTitle">Secret:</span>
-					<input id="publicTaskSecretInput" type="password" class="form-control" aria-describedby="publicTaskTemplateSecretHelp" placeholder="Secret"/>
-					<button id="publicTaskButton" type="button" class="btn btn-primary" onclick="submitForm()">Go</button>
+			<div id="publicTaskList" class="container">
+				<div class="row">
+					<div class="col-sm-2"></div>
+					<div class="col-sm-8">
+						<div class="form-inline" id="publicTaskDiv">
+							<span id="publicTaskTitle">Secret:</span>
+							<input id="publicTaskSecretInput" type="password" class="form-control" aria-describedby="publicTaskTemplateSecretHelp" placeholder="Secret"/>
+							<button id="publicTaskButton" type="button" class="btn btn-primary" onclick="submitForm()">Go</button>
+						</div>
+					</div>
+					<div class="col-sm-2"></div>
 				</div>
 			</div>
 			<div class="form-group">
