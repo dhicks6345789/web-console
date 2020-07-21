@@ -14,6 +14,7 @@ import (
 	"time"
 	"bufio"
 	"errors"
+	"reader"
 	"strings"
 	"os/exec"
 	"math/rand"
