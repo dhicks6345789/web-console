@@ -22,9 +22,11 @@
 			
 			$(document).ready(function() {
 				$.post("api/getPublicTaskList", {}, function(result) {
-					publicTaskList = "";
+					//publicTaskList = "";
 					$.each(JSON.parse(result), function(taskID, taskTitle) {
-						publicTaskList = publicTaskList + "<div>" + taskTitle + ": " + taskID + "</div";
+						publicTaskRow = $("#publicTaskRow").clone();
+						//publicTaskList = publicTaskList + "<div>" + taskTitle + ": " + taskID + "</div";
+						$("#publicTaskList").append(publicTaskRow);
 					});
 					//$("#publicTaskList").html(publicTaskList);
 				});
@@ -39,10 +41,10 @@
 				</div>
 			</div>
 			<div id="publicTaskList" class="container">
-				<div class="row">
+				<div id="publicTaskRow" class="row">
 					<div class="col-sm-2"></div>
 					<div class="col-sm-8">
-						<div class="form-inline" id="publicTaskDiv">
+						<div class="form-inline">
 							<span id="publicTaskTitle">Secret:</span>
 							<input id="publicTaskSecretInput" type="password" class="form-control" aria-describedby="publicTaskTemplateSecretHelp" placeholder="Secret"/>
 							<button id="publicTaskButton" type="button" class="btn btn-primary" onclick="submitForm()">Go</button>
