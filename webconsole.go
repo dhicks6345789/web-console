@@ -186,7 +186,7 @@ func main() {
 				if taskErr == nil {
 					fmt.Fprintf(theResponseWriter, "[")
 					for _, task := range taskList {
-						fmt.Fprintf(theResponseWriter, "\"" + taskID + "\"" + ",\"" + task["title"] + "\"")
+						fmt.Fprintf(theResponseWriter, "\"" + task["taskID"] + "\"" + ",\"" + task["title"] + "\"")
 					}
 					fmt.Fprintf(theResponseWriter, "]")
 				} else {
