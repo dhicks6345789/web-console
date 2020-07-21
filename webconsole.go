@@ -269,6 +269,17 @@ func main() {
 								}
 							} else if strings.HasPrefix(theRequest.URL.Path, "/api/keepAlive") {
 								fmt.Fprintf(theResponseWriter, "OK")
+							} else if strings.HasPrefix(theRequest.URL.Path, "/api/getPublicTaskList") {
+								taskList, taskErr := getTaskList()
+								if taskErr == nil {
+									fmt.Fprintf(theResponseWriter, "[")
+									for _, task := range taskList {
+										fmt.Fprintf(theResponseWriter, "\"" + taskID + "\"" + ",\"" + task["title"] + "\"")
+									}
+									fmt.Fprintf(theResponseWriter, "]")
+								} else {
+									fmt.Fprintf(theResponseWriter, "ERROR: " + taskErr.Error())
+								}
 							} else if strings.HasPrefix(theRequest.URL.Path, "/api/") {
 								fmt.Fprintf(theResponseWriter, "ERROR: Unknown API call: %s", theRequest.URL.Path)
 							}
