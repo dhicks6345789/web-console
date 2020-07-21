@@ -141,7 +141,8 @@ func getUserInput(defaultValue string, messageString string) string {
 	inputReader := bufio.NewReader(os.Stdin)
 	fmt.Print(messageString + ": ")
 	result, _ := inputReader.ReadString('\n')
-	if result == nil {
+	print("AA" + result + "BB")
+	if result == "" {
 		print("Blank")
 		return defaultValue
 	}
