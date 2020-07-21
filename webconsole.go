@@ -14,7 +14,6 @@ import (
 	"time"
 	"bufio"
 	"errors"
-	"reader"
 	"strings"
 	"os/exec"
 	"math/rand"
@@ -141,7 +140,7 @@ func getTaskList() ([]map[string]string, error) {
 func getUserInput(defaultValue string, messageString string) string {
 	inputReader := bufio.NewReader(os.Stdin)
 	fmt.Print(messageString + ": ")
-	result, _ := reader.ReadString('\n')
+	result, _ := inputReader.ReadString('\n')
 	if result == "" {
 		return defaultValue
 	}
