@@ -1,4 +1,9 @@
 @echo off
+if "%1"=="" (
+  echo How to use...
+  goto end
+)
+
 echo Installing...
 
 set key=""
@@ -50,3 +55,5 @@ if not "%key" == "" (
     net start TunnelTo
   )
 )
+
+:end
