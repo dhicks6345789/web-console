@@ -215,7 +215,8 @@ func main() {
 							} else {
 								authorised = true
 							}
-						} else if theRequest.Form.Get("secret") == taskDetails["secret"] {								
+						} else if checkPasswordHash(theRequest.Form.Get("secret"), taskDetails["secret"]) {
+						//} else if theRequest.Form.Get("secret") == taskDetails["secret"] {
 							authorised = true
 						} else {
 							authorisationError = "incorrect secret"
