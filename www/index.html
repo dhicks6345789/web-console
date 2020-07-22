@@ -18,7 +18,7 @@
 						$("#ErrorAlertMessage").html(result.slice(result.indexOf(" ")+1));
 						$("#errorAlertModal").modal("show");
 					} else {
-						$("#hiddenTaskID").val($("#taskIDInput").val());
+						$("#hiddenTaskID").val(theTaskID);
 						$("#hiddenToken").val(result);
 						$("#hiddenForm").submit();
 					}
