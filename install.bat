@@ -1,6 +1,9 @@
 @echo off
 echo Installing...
 
+set key=""
+set subdomain=""
+
 rem Parse any parameters.
 :paramLoop
 if "%1"=="" goto paramContinue
@@ -32,16 +35,18 @@ nssm-2.24\win64\nssm install WebConsole "C:\Program Files\WebConsole\webconsole.
 nssm-2.24\win64\nssm set WebConsole DisplayName "Web Console" > nul 2>&1
 nssm-2.24\win64\nssm set WebConsole AppNoConsole 1 > nul 2>&1
 nssm-2.24\win64\nssm set WebConsole Start SERVICE_AUTO_START > nul 2>&1
+net start WebConsole
 
-rem Allow the WbConsole service through the (local) Windows firewall.
+rem Allow the WebConsole service through the (local) Windows firewall.
 netsh.exe advfirewall firewall add rule name="WebConsole" program="C:\Program Files\WebConsole\webconsole.exe" protocol=tcp dir=in enable=yes action=allow profile="private,domain,public" > nul 2>&1
 
-rem Set up the TunnelTo.dev service.
-nssm-2.24\win64\nssm install TunnelTo "C:\Program Files\WebConsole\tunnelto.exe" --port 8090 --key %key% --subdomain %subdomain% > nul 2>&1
-nssm-2.24\win64\nssm set TunnelTo DisplayName "TunnelTo.dev" > nul 2>&1
-nssm-2.24\win64\nssm set TunnelTo AppNoConsole 1 > nul 2>&1
-nssm-2.24\win64\nssm set TunnelTo Start SERVICE_AUTO_START > nul 2>&1
-
-rem Start the services.
-net start WebConsole
-net start TunnelTo
+if not "%key" == "" (
+  if not "subdomain" == "" (
+    rem Set up the TunnelTo.dev service.
+    nssm-2.24\win64\nssm install TunnelTo "C:\Program Files\WebConsole\tunnelto.exe" --port 8090 --key %key% --subdomain %subdomain% > nul 2>&1
+    nssm-2.24\win64\nssm set TunnelTo DisplayName "TunnelTo.dev" > nul 2>&1
+    nssm-2.24\win64\nssm set TunnelTo AppNoConsole 1 > nul 2>&1
+    nssm-2.24\win64\nssm set TunnelTo Start SERVICE_AUTO_START > nul 2>&1
+    net start TunnelTo
+  )
+)
