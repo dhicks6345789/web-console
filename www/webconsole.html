@@ -87,7 +87,8 @@
 					$("#taskTitle").html(result);
 				});
 				pageURL = window.location.href.split("?")[0]
-				$("#webHookLink").html(pageURL.slice(0, pageURL.lastIndexOf("/")) + "/run?taskID=" + taskID);
+				//$("#webHookLink").html(pageURL.slice(0, pageURL.lastIndexOf("/")) + "/run?taskID=" + taskID);
+				$("#webHookLink").html(pageURL.slice(0, pageURL.lastIndexOf("/")) + "/api/runTask?taskID=" + taskID);
 				if (pageURL.endsWith("/run")) {
 					runTask();
 				} else {
