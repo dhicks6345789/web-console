@@ -200,8 +200,8 @@ func main() {
 				} else {
 					fmt.Fprintf(theResponseWriter, "ERROR: " + taskErr.Error())
 				}
-			// Handle a Task or API request. taskID needs to be provided as a parameter, either via GET or POST.
-			} else if strings.HasPrefix(theRequest.URL.Path, "/task") || strings.HasPrefix(theRequest.URL.Path, "/api/") {
+			// Handle a view, run or API request. taskID needs to be provided as a parameter, either via GET or POST.
+			} else if strings.HasPrefix(theRequest.URL.Path, "/view") || strings.HasPrefix(theRequest.URL.Path, "/run") || strings.HasPrefix(theRequest.URL.Path, "/api/") {
 				taskID := theRequest.Form.Get("taskID")
 				token := theRequest.Form.Get("token")
 				if taskID == "" {
@@ -229,8 +229,8 @@ func main() {
 								token = generateIDString()
 							}
 							tokens[token] = currentTimestamp
-							// Handle Task requests.
-							if strings.HasPrefix(theRequest.URL.Path, "/task") {
+							// Handle view and run requests.
+							if strings.HasPrefix(theRequest.URL.Path, "/view") || strings.HasPrefix(theRequest.URL.Path, "/run") { {
 								// Serve the webconsole.html file, first adding in the Task ID value so it can be used client-side.
 								webconsoleBuffer, fileReadErr := ioutil.ReadFile("www/webconsole.html")
 								if fileReadErr == nil {
