@@ -30,6 +30,9 @@
 						publicTaskRow.find("span").attr("id","publicTaskTitle-" + rowCount);
 						publicTaskRow.find("input").attr("id","publicTaskSecretInput-" + rowCount);
 						publicTaskRow.find("button").attr("id","publicTaskButton-" + rowCount);
+						submitString = submitForm($('#taskIDInput').val()), $('#publicTaskSecretInput-'" + rowCount + ").val())";
+						console.log(submitString);
+						publicTaskRow.find("button").attr("onclick",submitString);
 						$("#publicTaskList").append(publicTaskRow);
 						publicTaskRow.show();
 						rowCount = rowCount + 1;
@@ -55,6 +58,7 @@
 				<small id="secretHelp" class="form-text text-muted">Leave blank if no secret is needed for this Task.</small>
 			</div>
 			<button type="button" onclick="submitForm()" class="btn btn-primary">Go</button>
+publicTaskRow.find("button").attr("onclick","submitForm($("#taskIDInput").val(), $("#secretInput").val())");
 			<table id="publicTaskList" style="margin-left:auto; margin-right:auto;">
 				<tr id="publicTaskRow" style="display:none;">
 					<td class="text-right">
