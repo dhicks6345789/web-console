@@ -87,8 +87,7 @@
 					$("#taskTitle").html(result);
 				});
 				pageURL = window.location.href.split("?")[0]
-				//$("#webHookLink").html(pageURL.slice(0, pageURL.lastIndexOf("/")) + "/run?taskID=" + taskID);
-				$("#webHookLink").html(pageURL.slice(0, pageURL.lastIndexOf("/")) + "/api/runTask?taskID=" + taskID);
+				$("#webHookLink").val(pageURL.slice(0, pageURL.lastIndexOf("/")) + "/api/runTask?taskID=" + taskID);
 				if (pageURL.endsWith("/run")) {
 					runTask();
 				} else {
@@ -117,6 +116,8 @@
 			<button class="btn btn-primary" type="button" id="showOutputButton" data-toggle="collapse" data-target="#taskOutput" aria-expanded="false" aria-controls="taskOutput" onclick="flipOutputMessage()">Show output</button>
 			<div class="collapse text-monospace" style="white-space:pre-line" id="taskOutput"></div>
 		</div>
-		<div id="webHookLink"></div>
+		<div>
+			<input type="text" id="webHookLink" value="https://" readonly/>
+		</div>
 	</body>
 </html>
