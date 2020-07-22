@@ -116,8 +116,9 @@
 			<button class="btn btn-primary" type="button" id="showOutputButton" data-toggle="collapse" data-target="#taskOutput" aria-expanded="false" aria-controls="taskOutput" onclick="flipOutputMessage()">Show output</button>
 			<div class="collapse text-monospace" style="white-space:pre-line" id="taskOutput"></div>
 		</div>
-		<div>
+		<div class="container-fluid">
 			<input type="text" id="webHookLink" value="https://" readonly/>
+			<button class="btn btn-primary" type="button" onclick="copyWebHook()">Copy</button>
 		</div>
 	</body>
 </html>
