@@ -45,8 +45,8 @@ net start WebConsole
 rem Allow the WebConsole service through the (local) Windows firewall.
 netsh.exe advfirewall firewall add rule name="WebConsole" program="C:\Program Files\WebConsole\webconsole.exe" protocol=tcp dir=in enable=yes action=allow profile="private,domain,public" > nul 2>&1
 
-if not "%key" == "" (
-  if not "subdomain" == "" (
+if not "%key%"=="" (
+  if not "%subdomain%"=="" (
     rem Set up the TunnelTo.dev service.
     nssm-2.24\win64\nssm install TunnelTo "C:\Program Files\WebConsole\tunnelto.exe" --port 8090 --key %key% --subdomain %subdomain% > nul 2>&1
     nssm-2.24\win64\nssm set TunnelTo DisplayName "TunnelTo.dev" > nul 2>&1
