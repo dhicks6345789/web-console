@@ -230,7 +230,7 @@ func main() {
 							}
 							tokens[token] = currentTimestamp
 							// Handle view and run requests.
-							if strings.HasPrefix(theRequest.URL.Path, "/view") || strings.HasPrefix(theRequest.URL.Path, "/run") { {
+							if strings.HasPrefix(theRequest.URL.Path, "/view") || strings.HasPrefix(theRequest.URL.Path, "/run") {
 								// Serve the webconsole.html file, first adding in the Task ID value so it can be used client-side.
 								webconsoleBuffer, fileReadErr := ioutil.ReadFile("www/webconsole.html")
 								if fileReadErr == nil {
