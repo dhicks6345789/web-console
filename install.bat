@@ -22,7 +22,7 @@ net stop TunnelTo > nul 2>&1
 
 rem Place the executables in the appropriate folder.
 copy webconsole.exe "C:\Program Files\WebConsole" > nul 2>&1
-copy tunnelto\tunnelto.exe "C:\Program Files\WebConsole"
+copy tunnelto\tunnelto.exe "C:\Program Files\WebConsole" > nul 2>&1
 mkdir "C:\Program Files\WebConsole\www" > nul 2>&1
 mkdir "C:\Program Files\WebConsole\tasks" > nul 2>&1
 xcopy /E /Y www "C:\Program Files\WebConsole\www" > nul 2>&1
