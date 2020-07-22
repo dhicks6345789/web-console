@@ -86,8 +86,8 @@
 				doAPICall("getTaskTitle", {}, function(result) {
 					$("#taskTitle").html(result);
 				});
-				$("#webHookLink").html(window.location.href + "/run?taskID=" + taskID);
-				if (window.location.href.includes("/run")) {
+				$("#webHookLink").html(window.location.pathname + "/run?taskID=" + taskID);
+				if (window.location.pathname.includes("/run")) {
 					runTask();
 				} else {
 					doAPICall("getTaskRunning", {}, function(result) {
