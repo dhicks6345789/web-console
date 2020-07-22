@@ -243,7 +243,6 @@ func main() {
 								}
 							// API - Exchange the secret for a token.
 							} else if strings.HasPrefix(theRequest.URL.Path, "/api/getToken") {
-								println("getToken: " + taskID)
 								fmt.Fprintf(theResponseWriter, token)
 							// API - Return the Task's title.
 							} else if strings.HasPrefix(theRequest.URL.Path, "/api/getTaskTitle") {
@@ -268,7 +267,6 @@ func main() {
 									if taskErr == nil {
 										fmt.Fprintf(theResponseWriter, "OK")
 									} else {
-										fmt.Printf("ERROR: " + taskErr.Error())
 										fmt.Fprintf(theResponseWriter, "ERROR: " + taskErr.Error())
 									}
 								}
