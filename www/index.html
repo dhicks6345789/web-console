@@ -11,13 +11,14 @@
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 		
 		<script>
-			function submitForm() {
-				$.post("api/getToken", {taskID:$("#taskIDInput").val(), secret:$("#secretInput").val()}, function(result) {
-					// Code goes here - check for errors, print a useful error message.
-					$("#hiddenTaskID").val($("#taskIDInput").val());
-					$("#hiddenToken").val(result);
-					$("#hiddenForm").submit();
-				});
+			function submitForm(theTaskID, theTaskSecret) {
+				console.log(theTaskID + " : " + theTaskSecret);
+				//$.post("api/getToken", {taskID:$("#taskIDInput").val(), secret:$("#secretInput").val()}, function(result) {
+				//	// Code goes here - check for errors, print a useful error message.
+				//	$("#hiddenTaskID").val($("#taskIDInput").val());
+				//	$("#hiddenToken").val(result);
+				//	$("#hiddenForm").submit();
+				//});
 			}
 			
 			$(document).ready(function() {
@@ -57,8 +58,7 @@
 				<input type="password" class="form-control" id="secretInput" name="secret" aria-describedby="secretHelp" placeholder="Enter secret (optional)"/>
 				<small id="secretHelp" class="form-text text-muted">Leave blank if no secret is needed for this Task.</small>
 			</div>
-			<button type="button" onclick="submitForm()" class="btn btn-primary">Go</button>
-publicTaskRow.find("button").attr("onclick","submitForm($("#taskIDInput").val(), $("#secretInput").val())");
+			<button type="button" onclick="submitForm($('#taskIDInput').val(), $('#secretInput').val())" class="btn btn-primary">Go</button>
 			<table id="publicTaskList" style="margin-left:auto; margin-right:auto;">
 				<tr id="publicTaskRow" style="display:none;">
 					<td class="text-right">
