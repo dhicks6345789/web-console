@@ -12,13 +12,12 @@
 		
 		<script>
 			function submitForm(theTaskID, theTaskSecret) {
-				console.log(theTaskID + " : " + theTaskSecret);
-				//$.post("api/getToken", {taskID:$("#taskIDInput").val(), secret:$("#secretInput").val()}, function(result) {
-				//	// Code goes here - check for errors, print a useful error message.
-				//	$("#hiddenTaskID").val($("#taskIDInput").val());
-				//	$("#hiddenToken").val(result);
-				//	$("#hiddenForm").submit();
-				//});
+				$.post("api/getToken", {taskID:theTaskID, secret:theTaskSecret}, function(result) {
+					// Code goes here - check for errors, print a useful error message.
+					$("#hiddenTaskID").val($("#taskIDInput").val());
+					$("#hiddenToken").val(result);
+					$("#hiddenForm").submit();
+				});
 			}
 			
 			$(document).ready(function() {
