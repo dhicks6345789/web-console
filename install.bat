@@ -6,8 +6,8 @@ if "%1"=="" (
 
 echo Installing...
 
-set key=""
-set subdomain=""
+set key=
+set subdomain=
 
 rem Parse any parameters.
 :paramLoop
