@@ -11,12 +11,17 @@
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 		
 		<script>
+			// There are multiple points on the page where this function can get called from - the main ID-and-secret form, or the individual public Task rows.
+			// Either way, this function first exchanges the provided Task ID and secret for a token from the server, then submits a POST to send the user
+			// to the view page for the relevant Task.
 			function submitForm(theTaskID, theTaskSecret) {
+				// Send the user-provided details to the server and, if valid, get a token back.
 				$.post("api/getToken", {taskID:theTaskID, secret:theTaskSecret}, function(result) {
 					// Check for errors returned from the API.
 					if (result.startsWith("ERROR")) {
 						$("#ErrorAlertMessage").html(result.slice(result.indexOf(" ")+1));
 						$("#errorAlertModal").modal("show");
+					// Send the user to the "view" page.
 					} else {
 						$("#hiddenTaskID").val(theTaskID);
 						$("#hiddenToken").val(result);
@@ -25,7 +30,9 @@
 				});
 			}
 			
+			// Only run once the page is ready.
 			$(document).ready(function() {
+				// Get a list of public Tasks from the server - might be empty.
 				$.post("api/getPublicTaskList", {}, function(result) {
 					rowCount = 1;
 					$.each(JSON.parse(result), function(taskID, taskTitle) {
@@ -64,11 +71,13 @@
 			</div>
 		</div>
 		<div class="container-fluid" id="mainContent">
+			<!-- The page heading. -->
 			<div class="jumbotron">
 				<div class="container">
 					<h1 class="text-center">Web Console.</h1>
 				</div>
 			</div>
+			<!-- The main ID-and-secret entry form. -->
 			<div class="form-group">
 				<label for="taskIDInput">Task ID:</label>
 				<input type="text" class="form-control" id="taskIDInput" aria-describedby="taskIDHelp" placeholder="Enter a 16-digit Task ID"/>
@@ -79,6 +88,7 @@
 				<small id="secretHelp" class="form-text text-muted">Leave blank if no secret is needed for this Task.</small>
 			</div>
 			<button type="button" onclick="submitForm($('#taskIDInput').val(), $('#secretInput').val())" class="btn btn-primary">Go</button>
+			<!-- A list of any public Tasks, dynamically loaded from the server.. -->
 			<table id="publicTaskList" style="margin-left:auto; margin-right:auto;">
 				<tr id="publicTaskRow" style="display:none;">
 					<td class="text-right">
@@ -92,7 +102,8 @@
 					</td>
 				</tr>
 			</table>
-			<form id="hiddenForm" action="task" method="post">
+			<!-- A completly hidden form - the user doesn't see it, but this is the form used to actually submit data to the server. -->
+			<form id="hiddenForm" action="view" method="post">
 				<input type="hidden" id="hiddenTaskID" name="taskID"/>
 				<input type="hidden" id="hiddenToken" name="token"/>
 			</form>
