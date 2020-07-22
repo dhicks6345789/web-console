@@ -27,7 +27,7 @@
 					$.each(JSON.parse(result), function(taskID, taskTitle) {
 						publicTaskRow = $("#publicTaskRow").clone();
 						publicTaskRow.attr("id","publicTaskRow-" + rowCount);
-						publicTaskRow.find("span").html(taskTitle + ". Secret:&nbsp;")
+						publicTaskRow.find("span").html(taskTitle + ". Secret:")
 						publicTaskRow.find("span").attr("name", taskID);
 						publicTaskRow.find("span").attr("id","publicTaskTitle-" + rowCount);
 						publicTaskRow.find("input").attr("id","publicTaskSecretInput-" + rowCount);
@@ -63,7 +63,7 @@
 			<table id="publicTaskList" style="margin-left:auto; margin-right:auto;">
 				<tr id="publicTaskRow" style="display:none;">
 					<td class="text-right">
-						<span id="publicTaskTitle">Secret:&nbsp;</span>
+						<span id="publicTaskTitle">Secret:</span>
 					</td>
 					<td>
 						<input id="publicTaskSecretInput" type="password" class="form-control" aria-describedby="publicTaskTemplateSecretHelp" placeholder="Secret"/>
