@@ -14,10 +14,13 @@
 			function submitForm(theTaskID, theTaskSecret) {
 				$.post("api/getToken", {taskID:theTaskID, secret:theTaskSecret}, function(result) {
 					// Code goes here - check for errors, print a useful error message.
-					console.log(result);
-					$("#hiddenTaskID").val($("#taskIDInput").val());
-					$("#hiddenToken").val(result);
-					$("#hiddenForm").submit();
+					if (result.startsWith("ERROR")) {
+						console.log(result);
+					} else {
+						$("#hiddenTaskID").val($("#taskIDInput").val());
+						$("#hiddenToken").val(result);
+						$("#hiddenForm").submit();
+					}
 				});
 			}
 			
