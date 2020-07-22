@@ -86,6 +86,7 @@
 				doAPICall("getTaskTitle", {}, function(result) {
 					$("#taskTitle").html(result);
 				});
+				$("#webHookLink").html(window.location.href + "/run?taskID=" + taskID);
 				if (window.location.href.includes("/run")) {
 					runTask();
 				} else {
@@ -114,5 +115,6 @@
 			<button class="btn btn-primary" type="button" id="showOutputButton" data-toggle="collapse" data-target="#taskOutput" aria-expanded="false" aria-controls="taskOutput" onclick="flipOutputMessage()">Show output</button>
 			<div class="collapse text-monospace" style="white-space:pre-line" id="taskOutput"></div>
 		</div>
+		<div id="webHookLink"></div>
 	</body>
 </html>
