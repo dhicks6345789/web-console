@@ -47,6 +47,8 @@ netsh.exe advfirewall firewall add rule name="WebConsole" program="C:\Program Fi
 
 if not "%key%"=="" (
   if not "%subdomain%"=="" (
+    echo %key
+    echo %subdomain
     rem Set up the TunnelTo.dev service.
     nssm-2.24\win64\nssm install TunnelTo "C:\Program Files\WebConsole\tunnelto.exe" --port 8090 --key %key% --subdomain %subdomain% > nul 2>&1
     nssm-2.24\win64\nssm set TunnelTo DisplayName "TunnelTo.dev" > nul 2>&1
