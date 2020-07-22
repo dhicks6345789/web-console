@@ -25,6 +25,7 @@
 					rowCount = 1;
 					$.each(JSON.parse(result), function(taskID, taskTitle) {
 						publicTaskRow = $("#publicTaskRow").clone();
+						publicTaskRow.attr("id","publicTaskRow-" + rowCount);
 						publicTaskRow.find("span").html(taskTitle + ". Secret:&nbsp;")
 						publicTaskRow.find("span").attr("id","publicTaskTitle-" + rowCount);
 						publicTaskRow.find("input").attr("id","publicTaskSecretInput-" + rowCount);
