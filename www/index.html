@@ -32,9 +32,7 @@
 						publicTaskRow.find("span").attr("id","publicTaskTitle-" + rowCount);
 						publicTaskRow.find("input").attr("id","publicTaskSecretInput-" + rowCount);
 						publicTaskRow.find("button").attr("id","publicTaskButton-" + rowCount);
-						submitString = "submitForm($('#publicTaskTitle-" + rowCount + "').attr('name'), $('#publicTaskSecretInput-" + rowCount + "').val())";
-						console.log(submitString);
-						publicTaskRow.find("button").attr("onclick",submitString);
+						publicTaskRow.find("button").attr("onclick", "submitForm($('#publicTaskTitle-" + rowCount + "').attr('name'), $('#publicTaskSecretInput-" + rowCount + "').val())");
 						$("#publicTaskList").append(publicTaskRow);
 						publicTaskRow.show();
 						rowCount = rowCount + 1;
