@@ -86,11 +86,15 @@
 				doAPICall("getTaskTitle", {}, function(result) {
 					$("#taskTitle").html(result);
 				});
-				doAPICall("getTaskRunning", {}, function(result) {
-					if (result == "YES") {
-						runTask();
-					}
-				});
+				if (window.location.includes("/run")) {
+					runTask();
+				} else {
+					doAPICall("getTaskRunning", {}, function(result) {
+						if (result == "YES") {
+							runTask();
+						}
+					});
+				}
 				intervalFunction = setInterval(keepAlive, 30000);
 			});
 		</script>
