@@ -86,7 +86,7 @@
 				doAPICall("getTaskTitle", {}, function(result) {
 					$("#taskTitle").html(result);
 				});
-				if (str(window.location).includes("/run")) {
+				if (window.location.href.includes("/run")) {
 					runTask();
 				} else {
 					doAPICall("getTaskRunning", {}, function(result) {
