@@ -15,6 +15,7 @@
 				$.post("api/getToken", {taskID:theTaskID, secret:theTaskSecret}, function(result) {
 					// Check for errors returned from the API.
 					if (result.startsWith("ERROR")) {
+						$("#errorAlertModal").modal("show");
 						console.log(result);
 					} else {
 						$("#hiddenTaskID").val($("#taskIDInput").val());
@@ -46,7 +47,7 @@
 	</head>
 	<body>
 		<!-- Error alert box. -->
-		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal fade" id="errorAlertModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
