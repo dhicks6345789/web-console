@@ -15,7 +15,7 @@
 				$.post("api/getToken", {taskID:theTaskID, secret:theTaskSecret}, function(result) {
 					// Check for errors returned from the API.
 					if (result.startsWith("ERROR")) {
-						console.log(result.split(" "));
+						console.log(result.split(" ", 1));
 						$("#ErrorAlertMessage").html(result.split(" ", 1)[1]);
 						$("#errorAlertModal").modal("show");
 					} else {
