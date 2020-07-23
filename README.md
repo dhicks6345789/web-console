@@ -5,7 +5,7 @@ Cross-platform (written in Go), runs as a self-contained executable complete wit
 
 Python (Flask) version also available to run on (for instance) [PythonAnywhere](https://www.pythonanywhere.com/).
 
-Simple API, handles authentication, provides a mechanism for third-parties to handle authorisation.
+Simple API, handles authentication (without using cookies), provides a mechanism for third-parties to handle authorisation.
 
 ![Screenshot of Web Console's main user interface](https://raw.githubusercontent.com/dhicks6345789/web-console/master/docs/example1.png)
 
