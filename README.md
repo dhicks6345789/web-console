@@ -7,7 +7,7 @@ Python (Flask) version also available to run on (for instance) PythonAnywhere.
 
 Supports any target language, simply runs any command-line based script or executable.
 
-![Screenshot of Web Console's main user interface](http://url/to/img.png)
+![Screenshot of Web Console's main user interface](https://raw.githubusercontent.com/dhicks6345789/web-console/master/docs/example1.png)
 
 ## Installation
 
