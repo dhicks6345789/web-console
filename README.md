@@ -9,6 +9,27 @@ Simple API, handles authentication (without using cookies), provides a mechanism
 
 ![Screenshot of Web Console's main user interface](https://raw.githubusercontent.com/dhicks6345789/web-console/master/docs/example1.png)
 
+## Live Demo
+
+Link to live demo goes here.
+
+The above link runs the following simple Python 3 application:
+
+```
+import sys
+import time
+
+wordArray = ["The","Quick","Brown","Fox","Jumped","Over","The","Lazy","Dog"]
+
+for pl in range(0, len(wordArray)):
+    print (wordArray[pl])
+    print ("Progress: Progress " + str(int(round(pl / (len(wordArray)-1), 2) * 100)))
+    sys.stdout.flush()
+    time.sleep(2)
+```
+
+The demo application simply prints a sentance a word at a time, one word every two seconds. It also prints a progress percentage, which is displayed by Web Console as a progress bar.
+
 ## Installation
 
 Further instructions to go here.
