@@ -14,11 +14,13 @@ import (
 )
 
 func runCommand (theCommandString string, theCommandArgs ...string) string {
+	fmt.Println("Running: " + theCommandString, theCommandArgs)
 	theCommand := exec.Command(theCommandString, theCommandArgs...)
 	commandOutput, commandErr := theCommand.CombinedOutput()
+	fmt.Println("Output: " + commandOutput)
 	if commandErr != nil {
 		fmt.Println("Error running command: " + theCommandString, theCommandArgs)
-		println("ERROR: " + commandErr.Error())
+		fmt.Println("ERROR: " + commandErr.Error())
 	} else if strings.HasSuffix(string(commandOutput), "\"Ready\"") {
 		return "READY"
 	} else if strings.HasSuffix(string(commandOutput), "\"Running\"") {
@@ -35,13 +37,13 @@ func main() {
 		runState := "RUNNING"
 		for runState == "RUNNING" {
 			time.Sleep(4 * time.Second)
-			println("Progress: ")
+			fmt.Println("Progress: ")
 			runState = runCommand("C:\\Windows\\System32\\schtasks.exe", "/QUERY", "/TN", os.Args[1], "/FO", "CSV", "/NH")
 		}
 		endTime := time.Now().Unix()
 	
-		println(endTime - startTime)
+		fmt.Println(endTime - startTime)
 	} else {
-		println("Usage: runScheduledTask NameOfWindowsScheduledTask")
+		fmt.Println("Usage: runScheduledTask NameOfWindowsScheduledTask")
 	}
 }
