@@ -32,9 +32,9 @@ func runCommand (theCommandString string, theCommandArgs ...string) string {
 func main() {
 	if len(os.Args) == 2 {
 		var runTimes []int
-		runTimesString, fileErr := ioutil.ReadFile("runScheduledTask.txt")
+		runTimesBytes, fileErr := ioutil.ReadFile("runScheduledTask.txt")
 		if fileErr == nil {
-			for pl, runTimeString := range strings.Split(runTimesString, "\n") {
+			for pl, runTimeString := range strings.Split(string(runTimesBytes), "\n") {
 				runTimes = runTimes.append(runTimes, int(runTimeString))
 			}
 		}
