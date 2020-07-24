@@ -6,6 +6,7 @@ package main
 
 import (
 	// Standard libraries.
+	"os"
 	"time"
 	"strings"
 	"os/exec"
@@ -25,16 +26,20 @@ func runCommand (theCommandString string, theCommandArgs ...string) string {
 }
 
 func main() {
-	startTime := time.Now().Unix()
+	if len(os.Args) == 2 {
+		startTime := time.Now().Unix()
 	
-	runCommand("C:\\Windows\\System32\\schtasks.exe", "/RUN", "/TN", "Salamander - Diary")
-	runState := "RUNNING"
-	for runState == "RUNNING" {
-		time.Sleep(4 * time.Second)
-		println("Progress: ")
-		runState = runCommand("C:\\Windows\\System32\\schtasks.exe", "/QUERY", "/TN", "Salamander - Diary", "/FO", "CSV", "/NH")
+		runCommand("C:\\Windows\\System32\\schtasks.exe", "/RUN", "/TN", os.Args[1])
+		runState := "RUNNING"
+		for runState == "RUNNING" {
+			time.Sleep(4 * time.Second)
+			println("Progress: ")
+			runState = runCommand("C:\\Windows\\System32\\schtasks.exe", "/QUERY", "/TN", os.Args[1], "/FO", "CSV", "/NH")
+		}
+		endTime := time.Now().Unix()
+	
+		println(endTime - startTime)
+	} else {
+		println("Usage: runScheduledTask NameOfWindowsScheduledTask")
 	}
-	endTime := time.Now().Unix()
-	
-	println(endTime - startTime)
 }
