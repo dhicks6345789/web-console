@@ -45,7 +45,8 @@ func main() {
 			}
 		}
 		
-		totalRunTime := 0
+		var totalRunTime int64
+		totalRunTime = 0
 		for pl := 0; pl < len(runTimes); pl = pl + 1 {
 			totalRunTime = totalRunTime + runTimes[pl]
 		}
