@@ -55,13 +55,16 @@ func main() {
 		startTime := time.Now().Unix()
 		
 		fmt.Println("Running \"" + os.Args[1] + "\"...")
-		fmt.Printf("Guess: %d\n", int(runTimeGuess))
 		runCommand("C:\\Windows\\System32\\schtasks.exe", "/RUN", "/TN", os.Args[1])
 		runState := "RUNNING"
 		for runState == "RUNNING" {
 			time.Sleep(4 * time.Second)
 			currentTime := time.Now().Unix()
-			fmt.Printf("Progress: " + os.Args[1] + " %d\n", int((float64(currentTime - startTime) / runTimeGuess) * 100))
+			percentage := int((float64(currentTime - startTime) / runTimeGuess) * 100)
+			if percentage > 100 {
+				percentage = 100
+			}
+			fmt.Printf("Progress: " + os.Args[1] + " %d\n", percentage)
 			runState = runCommand("C:\\Windows\\System32\\schtasks.exe", "/QUERY", "/TN", os.Args[1], "/FO", "CSV", "/NH")
 		}
 		endTime := time.Now().Unix()
