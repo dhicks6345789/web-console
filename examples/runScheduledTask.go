@@ -67,7 +67,7 @@ func main() {
 		}
 		outputString := ""
 		for pl := 0; pl < len(runTimes); pl = pl + 1 {
-			outputString = outputString + strconv.Itoa(runTimes[pl])
+			outputString = outputString + strconv.FormatInt(runTimes[pl], 10)
 			if pl < len(runTimes)-1 {
 				outputString = outputString + "\n"
 			}
