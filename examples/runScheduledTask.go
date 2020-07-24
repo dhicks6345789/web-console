@@ -10,6 +10,7 @@ import (
 	"fmt"
 	"time"
 	"strings"
+	"strconv"
 	"os/exec"
 	"io/ioutil"
 )
@@ -35,7 +36,10 @@ func main() {
 		runTimesBytes, fileErr := ioutil.ReadFile("runScheduledTask.txt")
 		if fileErr == nil {
 			for pl, runTimeString := range strings.Split(string(runTimesBytes), "\n") {
-				runTimes = append(runTimes, int(runTimeString))
+				runTimeVal, runTimeErr := strconv.Atoi(runTimeString)
+				if runTimeErr == nil {
+					runTimes = append(runTimes, runTimeVal)
+				}
 			}
 		}
 		println(runTimes)
