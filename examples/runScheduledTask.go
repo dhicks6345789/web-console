@@ -9,16 +9,15 @@ import (
 	"os"
 	"fmt"
 	"time"
+	"ioutil"
 	"strings"
 	"os/exec"
 )
 
 func runCommand (theCommandString string, theCommandArgs ...string) string {
-	fmt.Println("Running: " + theCommandString, theCommandArgs)
 	theCommand := exec.Command(theCommandString, theCommandArgs...)
 	commandOutput, commandErr := theCommand.CombinedOutput()
 	commandOutputString := strings.TrimSpace(string(commandOutput))
-	fmt.Println("Output: " + commandOutputString)
 	if commandErr != nil {
 		fmt.Println("Error running command: " + theCommandString, theCommandArgs)
 		fmt.Println("ERROR: " + commandErr.Error())
@@ -32,8 +31,18 @@ func runCommand (theCommandString string, theCommandArgs ...string) string {
 
 func main() {
 	if len(os.Args) == 2 {
+		var runTimes []int
+		runTimesString, fileErr := ioutil.ReadFile("runScheduledTask.txt")
+		if fileErr == nil {
+			for pl, runTimeString := range strings.Split(runTimesString, "\n") {
+				runTimes = runTimes.append(runTimes, int(runTimeString))
+			}
+		}
+		println(runTimes)
+		
 		startTime := time.Now().Unix()
-	
+		
+		fmt.Println("Running \"" + os.Args[1] + "\"...")
 		runCommand("C:\\Windows\\System32\\schtasks.exe", "/RUN", "/TN", os.Args[1])
 		runState := "RUNNING"
 		for runState == "RUNNING" {
@@ -43,7 +52,8 @@ func main() {
 		}
 		endTime := time.Now().Unix()
 	
-		fmt.Println(endTime - startTime)
+		runTime := endTime - startTime
+		fmt.Println("Done - runtime " + string(runTime) + " seconds.")
 	} else {
 		fmt.Println("Usage: runScheduledTask NameOfWindowsScheduledTask")
 	}
