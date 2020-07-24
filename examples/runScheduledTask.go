@@ -8,6 +8,8 @@ import (
 	"os/exec"
 )
 
+startTime := time.Now().Unix()
+
 theCommand = exec.Command("C:\Windows\System32\schtasks.exe", "/RUN", "/TN", "Salamander - Diary")
 taskOutput, taskErr := theCommand.StdoutPipe()
 if taskErr == nil {
@@ -19,5 +21,10 @@ if taskErr == nil {
 	println("ERROR: " + taskErr.Error())
 }
 
-// C:\Windows\System32\schtasks.exe /RUN /TN "Salamander - Diary"
+time.Sleep(4 * time.Second)
+
 // C:\Windows\System32\schtasks.exe /QUERY /TN "Salamander - Diary" /FO CSV /NH
+
+endTime := time.Now().Unix()
+
+println(endTime - startTime)
