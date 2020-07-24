@@ -50,7 +50,7 @@ func main() {
 		for pl := 0; pl < len(runTimes); pl = pl + 1 {
 			totalRunTime = totalRunTime + runTimes[pl]
 		}
-		runTimeGuess := totalRunTime / len(runTimes)
+		runTimeGuess := totalRunTime / int64(len(runTimes))
 		
 		startTime := time.Now().Unix()
 		
