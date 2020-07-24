@@ -35,7 +35,7 @@ func main() {
 		runTimesBytes, fileErr := ioutil.ReadFile("runScheduledTask.txt")
 		if fileErr == nil {
 			for pl, runTimeString := range strings.Split(string(runTimesBytes), "\n") {
-				runTimes = runTimes.append(runTimes, int(runTimeString))
+				runTimes = append(runTimes, int(runTimeString))
 			}
 		}
 		println(runTimes)
