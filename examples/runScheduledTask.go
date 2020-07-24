@@ -72,7 +72,7 @@ func main() {
 				outputString = outputString + "\n"
 			}
 		}
-		ioutil.WriteFile("runScheduledTask.txt", []byte(outputString))
+		ioutil.WriteFile("runScheduledTask.txt", []byte(outputString), 0644)
 	} else {
 		fmt.Println("Usage: runScheduledTask NameOfWindowsScheduledTask")
 	}
