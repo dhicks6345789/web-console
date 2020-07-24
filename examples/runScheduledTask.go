@@ -17,7 +17,7 @@ func runCommand (theCommandString string, theCommandArgs ...string) string {
 	fmt.Println("Running: " + theCommandString, theCommandArgs)
 	theCommand := exec.Command(theCommandString, theCommandArgs...)
 	commandOutput, commandErr := theCommand.CombinedOutput()
-	commandOutputString := strings.Trim(string(commandOutput))
+	commandOutputString := strings.TrimSpace(string(commandOutput))
 	fmt.Println("Output: " + commandOutputString)
 	if commandErr != nil {
 		fmt.Println("Error running command: " + theCommandString, theCommandArgs)
