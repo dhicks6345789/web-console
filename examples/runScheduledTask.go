@@ -16,9 +16,9 @@ func runCommand (theCommandString string, theCommandArgs []string) string {
 	commandOutput, commandErr := theCommand.CombinedOutput()
 	if commandErr != nil {
 		println(commandErr.Error())
-	} else if strings.HasSuffix(commandOutput, "\"Ready\"") {
+	} else if strings.HasSuffix(string(commandOutput), "\"Ready\"") {
 		return "READY"
-	} else if strings.HasSuffix(commandOutput, "\"Running\"") {
+	} else if strings.HasSuffix(string(commandOutput), "\"Running\"") {
 		return "RUNNING"
 	}
 	return ""
@@ -27,7 +27,7 @@ func runCommand (theCommandString string, theCommandArgs []string) string {
 func main() {
 	startTime := time.Now().Unix()
 	
-	runCommand("C:\Windows\System32\schtasks.exe", "/RUN", "/TN", "Salamander - Diary")
+	runCommand("C:\\Windows\\System32\\schtasks.exe", "/RUN", "/TN", "Salamander - Diary")
 	runState := "RUNNING"
 	for runState == "RUNNING" {
 		time.Sleep(4 * time.Second)
