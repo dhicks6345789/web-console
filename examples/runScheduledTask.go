@@ -44,7 +44,12 @@ func main() {
 				}
 			}
 		}
-		println(runTimes)
+		
+		totalRunTime := 0
+		for pl := 0; pl < len(runTimes); pl = pl + 1 {
+			totalRunTime = totalRunTime + runTimes[pl]
+		}
+		runTimeGuess := totalRunTime / len(runTimes)
 		
 		startTime := time.Now().Unix()
 		
@@ -53,13 +58,14 @@ func main() {
 		runState := "RUNNING"
 		for runState == "RUNNING" {
 			time.Sleep(4 * time.Second)
-			fmt.Println("Progress: ")
+			currentTime := time.Now().Unix()
+			fmt.Printf("Progress: " + os.Args[1] + " %d", (runTimeGuess / (currentTime - startTime)) * 100)
 			runState = runCommand("C:\\Windows\\System32\\schtasks.exe", "/QUERY", "/TN", os.Args[1], "/FO", "CSV", "/NH")
 		}
 		endTime := time.Now().Unix()
 	
 		runTime := endTime - startTime
-		fmt.Printf("Done - runtime %d seconds.", runTime)
+		fmt.Printf("Done - runtime %d seconds.\n", runTime)
 		runTimes = append(runTimes, runTime)
 		sort.Slice(runTimes, func(i, j int) bool { return runTimes[i] < runTimes[j] })
 		for len(runTimes) >= 10 {
