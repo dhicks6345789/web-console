@@ -1,3 +1,5 @@
+package main
+
 // A Go application that uses the Windows schtasks tool to run a given schedualed task.
 // Doesn't exit until the schedualed task has finished, and prints out a status indicator as the task is running.
 // Uses previous run times to guess the total time the shedualed task will take.
@@ -21,16 +23,17 @@ func runCommand (theCommandString string, theCommandArgs []string) string {
 	return ""
 }
 
-startTime := time.Now().Unix()
-
-runCommand("C:\Windows\System32\schtasks.exe", "/RUN", "/TN", "Salamander - Diary")
-runState := "RUNNING"
-for runState == "RUNNING" {
-	time.Sleep(4 * time.Second)
-	println("Progress: ")
-	runState = runCommand("C:\Windows\System32\schtasks.exe", "/QUERY", "/TN", "Salamander - Diary", "/FO", "CSV", "/NH")
+func main() {
+	startTime := time.Now().Unix()
+	
+	runCommand("C:\Windows\System32\schtasks.exe", "/RUN", "/TN", "Salamander - Diary")
+	runState := "RUNNING"
+	for runState == "RUNNING" {
+		time.Sleep(4 * time.Second)
+		println("Progress: ")
+		runState = runCommand("C:\Windows\System32\schtasks.exe", "/QUERY", "/TN", "Salamander - Diary", "/FO", "CSV", "/NH")
+	}
+	endTime := time.Now().Unix()
+	
+	println(endTime - startTime)
 }
-
-endTime := time.Now().Unix()
-
-println(endTime - startTime)
