@@ -55,6 +55,7 @@ func main() {
 		startTime := time.Now().Unix()
 		
 		fmt.Println("Running \"" + os.Args[1] + "\"...")
+		fmt.Printf("Guess: %d\n", runTimeGuess)
 		runCommand("C:\\Windows\\System32\\schtasks.exe", "/RUN", "/TN", os.Args[1])
 		runState := "RUNNING"
 		for runState == "RUNNING" {
