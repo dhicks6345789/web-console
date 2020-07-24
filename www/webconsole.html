@@ -55,6 +55,8 @@
 			
 			function updateTaskOutput() {
 				doAPICall("getTaskOutput", {}, function(result) {
+					console.log(result);
+					console.log("---");
 					if (result == "ERROR: EOF") {
 						clearInterval(intervalFunction);
 						intervalFunction = setInterval(keepAlive, 30000);
