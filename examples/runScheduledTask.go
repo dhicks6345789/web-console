@@ -9,6 +9,7 @@ import (
 	"os"
 	"fmt"
 	"time"
+	"sort"
 	"strings"
 	"strconv"
 	"os/exec"
@@ -58,7 +59,19 @@ func main() {
 		endTime := time.Now().Unix()
 	
 		runTime := endTime - startTime
-		fmt.Println("Done - runtime " + string(runTime) + " seconds.")
+		fmt.Println("Done - runtime %d seconds.", runTime)
+		runTimes = sort.Sort(append(runTimes, runTime))
+		for len(runTimes) >= 10 {
+			runTimes = runTimes[1:len(runTimes)-2]
+		}
+		outputString := ""
+		for pl := 0; pl < len(runTimes); pl = pl + 1 {
+			outputString = outputString + strconv.Itoa(runTimes[pl])
+			if pl < len(runTimes)-1 {
+				outputString = outputString + "\n"
+			}
+		}
+		ioutil.WriteFile("runScheduledTask.txt", []byte(outputString))
 	} else {
 		fmt.Println("Usage: runScheduledTask NameOfWindowsScheduledTask")
 	}
