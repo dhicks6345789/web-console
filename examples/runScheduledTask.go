@@ -61,7 +61,7 @@ func main() {
 		runTime := endTime - startTime
 		fmt.Println("Done - runtime %d seconds.", runTime)
 		runTimes = append(runTimes, runTime)
-		sort.Ints(runTimes)
+		sort.Slice(runTimes, func(i, j int) bool { return runTimes[i] < runTimes[j] })
 		for len(runTimes) >= 10 {
 			runTimes = runTimes[1:len(runTimes)-2]
 		}
