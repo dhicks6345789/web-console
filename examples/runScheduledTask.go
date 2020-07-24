@@ -59,7 +59,7 @@ func main() {
 		endTime := time.Now().Unix()
 	
 		runTime := endTime - startTime
-		fmt.Println("Done - runtime %d seconds.", runTime)
+		fmt.Printf("Done - runtime %d seconds.", runTime)
 		runTimes = append(runTimes, runTime)
 		sort.Slice(runTimes, func(i, j int) bool { return runTimes[i] < runTimes[j] })
 		for len(runTimes) >= 10 {
