@@ -8,22 +8,28 @@ import (
 	"os/exec"
 )
 
+func runCommand (theCommandString string, theCommandArgs []string) string {
+	theCommand := exec.Command(theCommandString, theCommandArgs...)
+	commandOutput, commandErr := theCommand.CombinedOutput()
+	if commandErr != nil {
+		println(commandErr.Error())
+	} else if strings.HasSuffix(commandOutput, "\"Ready\"") {
+		return "READY"
+	} else if strings.HasSuffix(commandOutput, "\"Running\"") {
+		return "RUNNING"
+	}
+	return ""
+}
+
 startTime := time.Now().Unix()
 
-theCommand = exec.Command("C:\Windows\System32\schtasks.exe", "/RUN", "/TN", "Salamander - Diary")
-taskOutput, taskErr := theCommand.StdoutPipe()
-if taskErr == nil {
-	taskErr = theCommand.Start()
+runCommand("C:\Windows\System32\schtasks.exe", "/RUN", "/TN", "Salamander - Diary")
+runState := "RUNNING"
+for runState == "RUNNING" {
+	time.Sleep(4 * time.Second)
+	println("Progress: ")
+	runState = runCommand("C:\Windows\System32\schtasks.exe", "/QUERY", "/TN", "Salamander - Diary", "/FO", "CSV", "/NH")
 }
-if taskErr == nil {
-	println("OK")
-} else {
-	println("ERROR: " + taskErr.Error())
-}
-
-time.Sleep(4 * time.Second)
-
-// C:\Windows\System32\schtasks.exe /QUERY /TN "Salamander - Diary" /FO CSV /NH
 
 endTime := time.Now().Unix()
 
