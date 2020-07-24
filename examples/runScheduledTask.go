@@ -17,13 +17,14 @@ func runCommand (theCommandString string, theCommandArgs ...string) string {
 	fmt.Println("Running: " + theCommandString, theCommandArgs)
 	theCommand := exec.Command(theCommandString, theCommandArgs...)
 	commandOutput, commandErr := theCommand.CombinedOutput()
-	fmt.Println("Output: " + string(commandOutput))
+	commandOutputString := strings.Trim(string(commandOutput))
+	fmt.Println("Output: " + commandOutputString)
 	if commandErr != nil {
 		fmt.Println("Error running command: " + theCommandString, theCommandArgs)
 		fmt.Println("ERROR: " + commandErr.Error())
-	} else if strings.HasSuffix(string(commandOutput), "\"Ready\"") {
+	} else if strings.HasSuffix(commandOutputString, "\"Ready\"") {
 		return "READY"
-	} else if strings.HasSuffix(string(commandOutput), "\"Running\"") {
+	} else if strings.HasSuffix(commandOutputString, "\"Running\"") {
 		return "RUNNING"
 	}
 	return ""
