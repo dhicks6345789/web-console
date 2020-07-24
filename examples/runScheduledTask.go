@@ -9,9 +9,9 @@ import (
 	"os"
 	"fmt"
 	"time"
-	"ioutil"
 	"strings"
 	"os/exec"
+	"io/ioutil"
 )
 
 func runCommand (theCommandString string, theCommandArgs ...string) string {
