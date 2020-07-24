@@ -60,7 +60,7 @@ func main() {
 		for runState == "RUNNING" {
 			time.Sleep(4 * time.Second)
 			currentTime := time.Now().Unix()
-			fmt.Printf("Progress: " + os.Args[1] + " %d", (runTimeGuess / (currentTime - startTime)) * 100)
+			fmt.Printf("Progress: " + os.Args[1] + " %d\n", ((currentTime - startTime) / runTimeGuess) * 100)
 			runState = runCommand("C:\\Windows\\System32\\schtasks.exe", "/QUERY", "/TN", os.Args[1], "/FO", "CSV", "/NH")
 		}
 		endTime := time.Now().Unix()
