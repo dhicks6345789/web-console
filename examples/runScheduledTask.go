@@ -7,6 +7,7 @@ package main
 import (
 	// Standard libraries.
 	"os"
+	"fmt"
 	"time"
 	"strings"
 	"os/exec"
@@ -16,7 +17,7 @@ func runCommand (theCommandString string, theCommandArgs ...string) string {
 	theCommand := exec.Command(theCommandString, theCommandArgs...)
 	commandOutput, commandErr := theCommand.CombinedOutput()
 	if commandErr != nil {
-		println("Error running command: " + theCommandString, theCommandArgs...)
+		fmt.Println("Error running command: " + theCommandString, theCommandArgs...)
 		println("ERROR: " + commandErr.Error())
 	} else if strings.HasSuffix(string(commandOutput), "\"Ready\"") {
 		return "READY"
