@@ -11,7 +11,7 @@ import (
 	"os/exec"
 )
 
-func runCommand (theCommandString string, theCommandArgs []string) string {
+func runCommand (theCommandString string, theCommandArgs ...string) string {
 	theCommand := exec.Command(theCommandString, theCommandArgs...)
 	commandOutput, commandErr := theCommand.CombinedOutput()
 	if commandErr != nil {
@@ -32,7 +32,7 @@ func main() {
 	for runState == "RUNNING" {
 		time.Sleep(4 * time.Second)
 		println("Progress: ")
-		runState = runCommand("C:\Windows\System32\schtasks.exe", "/QUERY", "/TN", "Salamander - Diary", "/FO", "CSV", "/NH")
+		runState = runCommand("C:\\Windows\\System32\\schtasks.exe", "/QUERY", "/TN", "Salamander - Diary", "/FO", "CSV", "/NH")
 	}
 	endTime := time.Now().Unix()
 	
