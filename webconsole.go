@@ -100,7 +100,7 @@ func parseCommandString(theString string) []string {
 func startTask(theTaskID string) {
 	readBuffer := make([]byte, 10240)
 	taskOutputs[theTaskID] = ""
-	taskOutput, taskErr = runningTasks[taskID].StdoutPipe()
+	taskOutput, taskErr := runningTasks[taskID].StdoutPipe()
 	if taskErr == nil {
 		taskErr = runningTasks[theTaskID].Start()
 		if taskErr == nil {
@@ -242,7 +242,6 @@ func main() {
 								authorised = true
 							}
 						} else if checkPasswordHash(theRequest.Form.Get("secret"), taskDetails["secret"]) {
-						//} else if theRequest.Form.Get("secret") == taskDetails["secret"] {
 							authorised = true
 						} else {
 							authorisationError = "incorrect secret"
@@ -282,29 +281,10 @@ func main() {
 									}
 									runningTasks[taskID] = exec.Command(commandArray[0], commandArgs...)
 									runningTasks[taskID].Dir = "tasks/" + taskID
-									var taskErr error
-									taskOutputs[taskID], taskErr = runningTasks[taskID].StdoutPipe()
-									if taskErr == nil {
-										go startTask(taskID)
-										//taskErr = runningTasks[taskID].Start()
-									}
-									if taskErr == nil {
-										fmt.Fprintf(theResponseWriter, "OK")
-									} else {
-										fmt.Fprintf(theResponseWriter, "ERROR: " + taskErr.Error())
-									}
+									go startTask(taskID)
 								}
 							} else if strings.HasPrefix(theRequest.URL.Path, "/api/getTaskOutput") {
-								readSize, readErr := taskOutputs[taskID].Read(readBuffer)
-								if readErr == nil {
-									fmt.Fprintf(theResponseWriter, string(readBuffer[0:readSize]))
-								} else {
-									if readErr.Error() == "EOF" {
-										delete(runningTasks, taskID)
-										delete(taskOutputs, taskID)
-									}
-									fmt.Fprintf(theResponseWriter, "ERROR: " + readErr.Error())
-								}
+								fmt.Fprintf(theResponseWriter, taskOutputs[taskID])
 							} else if strings.HasPrefix(theRequest.URL.Path, "/api/getTaskRunning") {
 								if taskIsRunning(taskID) {
 									fmt.Fprintf(theResponseWriter, "YES")
