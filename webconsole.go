@@ -99,7 +99,7 @@ func parseCommandString(theString string) []string {
 func startTask(theTaskID string) {
 	readBuffer := make([]byte, 10240)
 	taskOutputs[theTaskID] = ""
-	taskOutput, taskErr := runningTasks[taskID].StdoutPipe()
+	taskOutput, taskErr := runningTasks[theTaskID].StdoutPipe()
 	if taskErr == nil {
 		taskErr = runningTasks[theTaskID].Start()
 		if taskErr == nil {
@@ -112,8 +112,8 @@ func startTask(theTaskID string) {
 					taskRunning = false
 				}
 			}
-			delete(runningTasks, taskID)
-			delete(taskOutputs, taskID)
+			delete(runningTasks, theTaskID)
+			delete(taskOutputs, theTaskID)
 		}
 	}
 }
