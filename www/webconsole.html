@@ -67,6 +67,7 @@
 						$("#runTaskButton").prop("disabled", false);
 					} else {
 						$.each(result.split("\n"), function(index, value) {
+							outputLine = outputLine + 1;
 							if (value.trim() != "") {
 								// If a string begins with "Progress: ", interpret the following number as a percentage completion value, and
 								// update the progress bar accordingly.
