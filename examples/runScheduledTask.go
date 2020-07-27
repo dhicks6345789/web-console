@@ -66,7 +66,7 @@ func main() {
 				percentage = 100
 			}
 			//fmt.Printf("Progress: " + os.Args[1] + " %d%%\n", percentage)
-			fmt.Printf("Progress: 10%%\n")
+			fmt.Printf("Progress: 10\n")
 			runState = runCommand("C:\\Windows\\System32\\schtasks.exe", "/QUERY", "/TN", os.Args[1], "/FO", "CSV", "/NH")
 		}
 		endTime := time.Now().Unix()
