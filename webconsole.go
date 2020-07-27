@@ -275,8 +275,8 @@ func main() {
 							} else if strings.HasPrefix(theRequest.URL.Path, "/api/getTaskOutput") {
 								readSize, readErr := taskOutputs[taskID].Read(readBuffer)
 								if readErr == nil {
-									println(string(readBuffer[0:readSize]))
-									fmt.Fprintf(theResponseWriter, string(readBuffer[0:readSize]))
+									fmt.printf(string(readBuffer[0:readSize]) + "\n")
+									fmt.Fprintf(theResponseWriter, string(readBuffer[0:readSize]) + "\n")
 								} else {
 									if readErr.Error() == "EOF" {
 										delete(runningTasks, taskID)
