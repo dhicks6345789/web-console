@@ -37,12 +37,13 @@
 				$("#runTaskButton").prop("disabled", true);
 				// Run the Task (if the Task is already running, this has no effect).
 				doAPICall("runTask", {}, function(result) {
+					console.log("runTask: " + result);
 					if (result == "OK") {
 						$("#runTaskButton").html("<span class='spinner-border spinner-border-sm' role='status'></span> Running...");
 						$("#taskAlerts").html("");
 						$("#taskOutput").html("");
 						
-						// If the call returns "OK" then the task is running, subsequent calls to getTaaskOutput will return the console output of the Task as it runs.
+						// If the call returns "OK" then the task is running, subsequent calls to getTaskOutput will return the console output of the Task as it runs.
 						updateTaskOutput();
 						clearInterval(intervalFunction);
 						intervalFunction = setInterval(updateTaskOutput, 2000);
