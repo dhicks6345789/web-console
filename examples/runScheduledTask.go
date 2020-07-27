@@ -19,7 +19,6 @@ import (
 func runCommand (theCommandString string, theCommandArgs ...string) string {
 	theCommand := exec.Command(theCommandString, theCommandArgs...)
 	commandOutput, commandErr := theCommand.CombinedOutput()
-	//commandOutput, commandErr := theCommand.Output()
 	commandOutputString := strings.TrimSpace(string(commandOutput))
 	fmt.Println(commandOutputString)
 	if commandErr != nil {
@@ -66,7 +65,8 @@ func main() {
 			if percentage > 100 {
 				percentage = 100
 			}
-			fmt.Printf("Progress: " + os.Args[1] + " %d%%\n", percentage)
+			//fmt.Printf("Progress: " + os.Args[1] + " %d%%\n", percentage)
+			fmt.printf("Progress: 10%%\n")
 			runState = runCommand("C:\\Windows\\System32\\schtasks.exe", "/QUERY", "/TN", os.Args[1], "/FO", "CSV", "/NH")
 		}
 		endTime := time.Now().Unix()
