@@ -108,7 +108,7 @@ func startTask(theTaskID string) {
 			for taskRunning {
 				readSize, readErr := taskOutput.Read(readBuffer)
 				if readErr == nil {
-					taskOutputs[theTaskID] = taskOutputs[theTaskID] + string(readBuffer[0:readSize]))
+					taskOutputs[theTaskID] = taskOutputs[theTaskID] + string(readBuffer[0:readSize])
 				} else {
 					taskRunning = false
 				}
