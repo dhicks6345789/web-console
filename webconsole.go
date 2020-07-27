@@ -167,6 +167,8 @@ func getUserInput(defaultValue string, messageString string) string {
 
 // The main body of the program - parse user-provided command-line paramaters, or start the main web server process.
 func main() {
+	readBuffer := make([]byte, 10240)
+	
 	if len(os.Args) == 1 {
 		// Start the thread that checks for and clears expired tokens.
 		go clearExpiredTokens()
@@ -271,7 +273,6 @@ func main() {
 									}
 								}
 							} else if strings.HasPrefix(theRequest.URL.Path, "/api/getTaskOutput") {
-								readBuffer := make([]byte, 10240)
 								readSize, readErr := taskOutputs[taskID].Read(readBuffer)
 								if readErr == nil {
 									println(string(readBuffer[0:readSize]))
