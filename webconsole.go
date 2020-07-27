@@ -36,7 +36,8 @@ const tokenCheckPeriod = 60
 var tokens = map[string]int64{}
 
 var runningTasks = map[string]*exec.Cmd{}
-var taskOutputs = map[string]io.ReadCloser{}
+//var taskOutputs = map[string]io.ReadCloser{}
+var taskOutouts = map[string]string
 
 // Generate a new, random 16-character ID.
 func generateIDString() string {
@@ -94,6 +95,28 @@ func parseCommandString(theString string) []string {
 		}
 	}
 	return result
+}
+
+func startTask(theTaskID string) {
+	readBuffer := make([]byte, 10240)
+	taskOutputs[theTaskID] = ""
+	taskOutput, taskErr = runningTasks[taskID].StdoutPipe()
+	if taskErr == nil {
+		taskErr = runningTasks[theTaskID].Start()
+		if taskErr == nil {
+			taskRunning := true
+			for taskRunning {
+				readSize, readErr := taskOutput.Read(readBuffer)
+				if readErr == nil {
+					taskOutputs[theTaskID] = taskOutputs[theTaskID] + string(readBuffer[0:readSize]))
+				} else {
+					taskRunning = false
+				}
+			}
+			delete(runningTasks, taskID)
+			delete(taskOutputs, taskID)
+		}
+	}
 }
 
 // Returns true if the given Task is currently running, false otherwise.
@@ -167,8 +190,6 @@ func getUserInput(defaultValue string, messageString string) string {
 
 // The main body of the program - parse user-provided command-line paramaters, or start the main web server process.
 func main() {
-	readBuffer := make([]byte, 10240)
-	
 	if len(os.Args) == 1 {
 		// Start the thread that checks for and clears expired tokens.
 		go clearExpiredTokens()
@@ -264,7 +285,8 @@ func main() {
 									var taskErr error
 									taskOutputs[taskID], taskErr = runningTasks[taskID].StdoutPipe()
 									if taskErr == nil {
-										taskErr = runningTasks[taskID].Start()
+										go startTask(taskID)
+										//taskErr = runningTasks[taskID].Start()
 									}
 									if taskErr == nil {
 										fmt.Fprintf(theResponseWriter, "OK")
