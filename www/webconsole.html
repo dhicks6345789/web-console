@@ -112,10 +112,11 @@
 					doAPICall("getTaskRunning", {}, function(result) {
 						if (result == "YES") {
 							runTask();
+						} else {
+							intervalFunction = setInterval(keepAlive, 30000);
 						}
 					});
 				}
-				intervalFunction = setInterval(keepAlive, 30000);
 			});
 		</script>
 	</head>
