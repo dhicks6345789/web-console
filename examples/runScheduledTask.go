@@ -18,7 +18,8 @@ import (
 
 func runCommand (theCommandString string, theCommandArgs ...string) string {
 	theCommand := exec.Command(theCommandString, theCommandArgs...)
-	commandOutput, commandErr := theCommand.CombinedOutput()
+	//commandOutput, commandErr := theCommand.CombinedOutput()
+	commandOutput, commandErr := theCommand.Output()
 	commandOutputString := strings.TrimSpace(string(commandOutput))
 	fmt.Println(commandOutputString)
 	if commandErr != nil {
