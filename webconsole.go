@@ -274,6 +274,7 @@ func main() {
 								readBuffer := make([]byte, 10240)
 								readSize, readErr := taskOutputs[taskID].Read(readBuffer)
 								if readErr == nil {
+									println(string(readBuffer[0:readSize]))
 									fmt.Fprintf(theResponseWriter, string(readBuffer[0:readSize]))
 								} else {
 									if readErr.Error() == "EOF" {
