@@ -55,6 +55,7 @@
 			}
 			
 			function updateTaskOutput() {
+				console.log("Calling updateTaskOutput...");
 				doAPICall("getTaskOutput", {}, function(result) {
 					console.log(result);
 					if (result == "ERROR: EOF") {
