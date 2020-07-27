@@ -9,7 +9,6 @@ import (
 	// Standard libraries.
 	"fmt"
 	"os"
-	"io"
 	"log"
 	"time"
 	"bufio"
@@ -37,7 +36,7 @@ var tokens = map[string]int64{}
 
 var runningTasks = map[string]*exec.Cmd{}
 //var taskOutputs = map[string]io.ReadCloser{}
-var taskOutouts = map[string]string
+var taskOutouts = map[string]string{}
 
 // Generate a new, random 16-character ID.
 func generateIDString() string {
