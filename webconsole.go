@@ -286,7 +286,10 @@ func main() {
 							} else if strings.HasPrefix(theRequest.URL.Path, "/api/getTaskOutput") {
 								outputLineNumber := 0
 								if theRequest.Form.Get("line") != "" {
-									outputLineNumber = strconv.Atoi(theRequest.Form.Get("line"))
+									outputLineNumber, atoiErr = strconv.Atoi(theRequest.Form.Get("line"))
+									if atoiErr != nil {
+										outputLineNumber = 0
+									}
 								}
 								fmt.Fprintf(theResponseWriter, taskOutputs[taskID][outputLineNumber])
 							} else if strings.HasPrefix(theRequest.URL.Path, "/api/getTaskRunning") {
