@@ -284,15 +284,15 @@ func main() {
 									go startTask(taskID)
 								}
 							} else if strings.HasPrefix(theRequest.URL.Path, "/api/getTaskOutput") {
-								outputLineNumber := 0
-								atoiErr := nil
 								if theRequest.Form.Get("line") != "" {
-									outputLineNumber, atoiErr = strconv.Atoi(theRequest.Form.Get("line"))
+									outputLineNumber, atoiErr := strconv.Atoi(theRequest.Form.Get("line"))
 									if atoiErr != nil {
-										outputLineNumber = 0
+										fmt.Fprintf(theResponseWriter, "ERROR: Line number not parsable.")
+									} else {
+										fmt.Fprintf(theResponseWriter, taskOutputs[taskID][outputLineNumber])
 									}
 								}
-								fmt.Fprintf(theResponseWriter, taskOutputs[taskID][outputLineNumber])
+								
 							} else if strings.HasPrefix(theRequest.URL.Path, "/api/getTaskRunning") {
 								if taskIsRunning(taskID) {
 									fmt.Fprintf(theResponseWriter, "YES")
