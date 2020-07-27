@@ -285,6 +285,7 @@ func main() {
 								}
 							} else if strings.HasPrefix(theRequest.URL.Path, "/api/getTaskOutput") {
 								outputLineNumber := 0
+								atoiErr := nil
 								if theRequest.Form.Get("line") != "" {
 									outputLineNumber, atoiErr = strconv.Atoi(theRequest.Form.Get("line"))
 									if atoiErr != nil {
