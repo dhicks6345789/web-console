@@ -23,6 +23,7 @@
 			var intervalFunction;
 			taskID = "";
 			token = "";
+			outputLine = 0;
 						
 			function doAPICall(functionName, parameters, resultFunction) {
 				$.post("api/" + functionName, $.extend({taskID:taskID, token:token}, parameters), resultFunction);
@@ -42,6 +43,7 @@
 						$("#runTaskButton").html("<span class='spinner-border spinner-border-sm' role='status'></span> Running...");
 						$("#taskAlerts").html("");
 						$("#taskOutput").html("");
+						outputLine = 0;
 						
 						// If the call returns "OK" then the task is running, subsequent calls to getTaskOutput will return the console output of the Task as it runs.
 						updateTaskOutput();
@@ -56,7 +58,7 @@
 			
 			function updateTaskOutput() {
 				console.log("Calling updateTaskOutput...");
-				doAPICall("getTaskOutput", {}, function(result) {
+				doAPICall("getTaskOutput", {"line":outputLine}, function(result) {
 					console.log(result);
 					if (result == "ERROR: EOF") {
 						clearInterval(intervalFunction);
