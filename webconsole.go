@@ -14,6 +14,7 @@ import (
 	"bufio"
 	"errors"
 	"strings"
+	"strconv"
 	"os/exec"
 	"math/rand"
 	"io/ioutil"
@@ -36,7 +37,7 @@ var tokens = map[string]int64{}
 
 var runningTasks = map[string]*exec.Cmd{}
 //var taskOutputs = map[string]io.ReadCloser{}
-var taskOutputs = map[string]string{}
+var taskOutputs = map[string][]string{}
 
 // Generate a new, random 16-character ID.
 func generateIDString() string {
@@ -107,7 +108,7 @@ func startTask(theTaskID string) {
 			for taskRunning {
 				readSize, readErr := taskOutput.Read(readBuffer)
 				if readErr == nil {
-					taskOutputs[theTaskID] = taskOutputs[theTaskID] + string(readBuffer[0:readSize])
+					taskOutputs[theTaskID] = append(taskOutputs[theTaskID], string(readBuffer[0:readSize].split("\n"))
 				} else {
 					taskRunning = false
 				}
@@ -283,7 +284,11 @@ func main() {
 									go startTask(taskID)
 								}
 							} else if strings.HasPrefix(theRequest.URL.Path, "/api/getTaskOutput") {
-								fmt.Fprintf(theResponseWriter, taskOutputs[taskID])
+								outputLineNumber := 0
+								if theRequest.Form.Get("line") != "" {
+									outputLineNumber = strconv.Atoi(theRequest.Form.Get("line"))
+								}
+								fmt.Fprintf(theResponseWriter, taskOutputs[taskID][outputLineNumber])
 							} else if strings.HasPrefix(theRequest.URL.Path, "/api/getTaskRunning") {
 								if taskIsRunning(taskID) {
 									fmt.Fprintf(theResponseWriter, "YES")
