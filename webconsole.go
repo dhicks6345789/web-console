@@ -303,7 +303,7 @@ func main() {
 								} else {
 									if outputLineNumber == len(taskOutputs[taskID]) {
 										fmt.Fprintf(theResponseWriter, "ERROR: EOF")
-										delete(taskOutputs, theTaskID)
+										delete(taskOutputs, taskID)
 									}
 								}
 							} else if strings.HasPrefix(theRequest.URL.Path, "/api/getTaskRunning") {
