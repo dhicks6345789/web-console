@@ -302,7 +302,7 @@ func main() {
 										outputLineNumber = outputLineNumber + 1
 									}
 								} else {
-									fmt.Fprintf(theResponseWriter, "ERROR: EOF\n")
+									fmt.Fprintf(theResponseWriter, "ERROR: EOF")
 								}
 							} else if strings.HasPrefix(theRequest.URL.Path, "/api/getTaskRunning") {
 								if taskIsRunning(taskID) {
