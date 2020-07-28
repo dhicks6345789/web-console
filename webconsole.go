@@ -296,7 +296,6 @@ func main() {
 								}
 								fmt.Fprintf(theResponseWriter, "OK")
 							} else if strings.HasPrefix(theRequest.URL.Path, "/api/getTaskOutput") {
-								println("Called getTaskOutput.")
 								outputLineNumber := 0
 								var atoiErr error
 								if theRequest.Form.Get("line") != "" {
@@ -305,6 +304,7 @@ func main() {
 										fmt.Fprintf(theResponseWriter, "ERROR: Line number not parsable.")
 									}
 								}
+								println("Called getTaskOutput." + string(outputLineNumber))
 								for outputLineNumber < len(taskOutputs[taskID]) {
 									fmt.Fprintf(theResponseWriter, taskOutputs[taskID][outputLineNumber] + "\n")
 									outputLineNumber = outputLineNumber + 1
