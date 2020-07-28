@@ -109,7 +109,10 @@ func startTask(theTaskID string) {
 				println("Reading from task:")
 				readSize, readErr := taskOutput.Read(readBuffer)
 				if readErr == nil {
-					taskOutputs[theTaskID] = append(taskOutputs[theTaskID], strings.Split(string(readBuffer[0:readSize]), "\n")...)
+					bufferSplit := strings.Split(string(readBuffer[0:readSize]), "\n")
+					for pl := 0; pl < len(bufferSplit); pl++ {
+						taskOutputs[theTaskID] = append(taskOutputs[theTaskID], strings.TrimSpace(bufferSplit[pl]))
+					}
 					for pl := 0; pl < len(taskOutputs[theTaskID]); pl++ {
 						println(taskOutputs[theTaskID][pl])
 					}
