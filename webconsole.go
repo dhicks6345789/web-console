@@ -296,12 +296,12 @@ func main() {
 									}
 								}
 								if runningTask, runningTaskFound := runningTasks[taskID]; runningTaskFound {
-									for outputLineNumber < len(taskOutput) {
+									for outputLineNumber < len(taskOutputs[taskID]) {
 										fmt.Fprintf(theResponseWriter, taskOutputs[taskID][outputLineNumber] + "\n")
 										outputLineNumber = outputLineNumber + 1
 									}
 								} else {
-									if outputLineNumber == len(taskOutput) {
+									if outputLineNumber == len(taskOutputs[taskID]) {
 										fmt.Fprintf(theResponseWriter, "ERROR: EOF")
 										delete(taskOutputs, theTaskID)
 									}
