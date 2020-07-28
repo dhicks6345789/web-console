@@ -104,6 +104,9 @@ func startTask(theTaskID string) {
 	if taskErr == nil {
 		taskErr = runningTasks[theTaskID].Start()
 		if taskErr == nil {
+			go func() {
+				runningTasks[theTaskID].Wait()
+			}()
 			taskRunning := true
 			for taskRunning {
 				println("Reading from task:")
@@ -280,9 +283,7 @@ func main() {
 								fmt.Fprintf(theResponseWriter, taskDetails["title"])
 							// API - Run a given Task.
 							} else if strings.HasPrefix(theRequest.URL.Path, "/api/runTask") {
-								if taskIsRunning(taskID) {
-									fmt.Fprintf(theResponseWriter, "OK")
-								} else {
+								if !taskIsRunning(taskID) {
 									commandArray := parseCommandString(taskDetails["command"])
 									var commandArgs []string
 									if len(commandArray) > 0 {
@@ -292,6 +293,7 @@ func main() {
 									runningTasks[taskID].Dir = "tasks/" + taskID
 									go startTask(taskID)
 								}
+								fmt.Fprintf(theResponseWriter, "OK")
 							} else if strings.HasPrefix(theRequest.URL.Path, "/api/getTaskOutput") {
 								outputLineNumber := 0
 								var atoiErr error
