@@ -295,6 +295,7 @@ func main() {
 								}
 								fmt.Fprintf(theResponseWriter, "OK")
 							} else if strings.HasPrefix(theRequest.URL.Path, "/api/getTaskOutput") {
+								println("Called getTaskOutput.")
 								outputLineNumber := 0
 								var atoiErr error
 								if theRequest.Form.Get("line") != "" {
