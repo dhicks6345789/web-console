@@ -31,7 +31,6 @@
 			
 			function keepAlive() {
 				doAPICall("keepAlive", {}, function(result) {
-					console.log("Still alive!")
 				});
 			}
 			
@@ -57,7 +56,6 @@
 			}
 			
 			function updateTaskOutput() {
-				console.log("Calling updateTaskOutput...");
 				doAPICall("getTaskOutput", {"line":outputLine}, function(result) {
 					if (result.trim() == "ERROR: EOF") {
 						clearInterval(intervalFunction);
