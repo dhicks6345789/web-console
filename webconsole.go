@@ -106,7 +106,6 @@ func startTask(theTaskID string) {
 		if taskErr == nil {
 			taskRunning := true
 			for taskRunning {
-				println("Reading from task:")
 				readSize, readErr := taskOutput.Read(readBuffer)
 				if readErr == nil {
 					bufferSplit := strings.Split(string(readBuffer[0:readSize]), "\n")
@@ -115,14 +114,10 @@ func startTask(theTaskID string) {
 							taskOutputs[theTaskID] = append(taskOutputs[theTaskID], bufferSplit[pl])
 						}
 					}
-					for pl := 0; pl < len(taskOutputs[theTaskID]); pl++ {
-						println(taskOutputs[theTaskID][pl])
-					}
 				} else {
 					taskRunning = false
 				}
 			}
-			println("Task done!")
 			delete(runningTasks, theTaskID)
 			delete(taskOutputs, theTaskID)
 		}
@@ -301,10 +296,13 @@ func main() {
 										fmt.Fprintf(theResponseWriter, "ERROR: Line number not parsable.")
 									}
 								}
-								fmt.Printf("Called getTaskOutput: %d\n", outputLineNumber)
-								for outputLineNumber < len(taskOutputs[taskID]) {
-									fmt.Fprintf(theResponseWriter, taskOutputs[taskID][outputLineNumber] + "\n")
-									outputLineNumber = outputLineNumber + 1
+								if taskOutput, taskOutputFound := taskOutputs[taskID]; taskOutputFound {
+									for outputLineNumber < len(taskOutput) {
+										fmt.Fprintf(theResponseWriter, taskOutputs[taskID][outputLineNumber] + "\n")
+										outputLineNumber = outputLineNumber + 1
+									}
+								} else {
+									fmt.Fprintf(theResponseWriter, "ERROR: EOF\n")
 								}
 							} else if strings.HasPrefix(theRequest.URL.Path, "/api/getTaskRunning") {
 								if taskIsRunning(taskID) {
