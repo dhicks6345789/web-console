@@ -119,7 +119,6 @@ func startTask(theTaskID string) {
 				}
 			}
 			delete(runningTasks, theTaskID)
-			delete(taskOutputs, theTaskID)
 		}
 	}
 }
@@ -296,13 +295,16 @@ func main() {
 										fmt.Fprintf(theResponseWriter, "ERROR: Line number not parsable.")
 									}
 								}
-								if taskOutput, taskOutputFound := taskOutputs[taskID]; taskOutputFound {
+								if runningTask, runningTaskFound := runningTasks[taskID]; runningTaskFound {
 									for outputLineNumber < len(taskOutput) {
 										fmt.Fprintf(theResponseWriter, taskOutputs[taskID][outputLineNumber] + "\n")
 										outputLineNumber = outputLineNumber + 1
 									}
 								} else {
-									fmt.Fprintf(theResponseWriter, "ERROR: EOF")
+									if outputLineNumber == len(taskOutput) {
+										fmt.Fprintf(theResponseWriter, "ERROR: EOF")
+										delete(taskOutputs, theTaskID)
+									}
 								}
 							} else if strings.HasPrefix(theRequest.URL.Path, "/api/getTaskRunning") {
 								if taskIsRunning(taskID) {
