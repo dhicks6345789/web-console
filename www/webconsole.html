@@ -38,7 +38,6 @@
 				$("#runTaskButton").prop("disabled", true);
 				// Run the Task (if the Task is already running, this has no effect).
 				doAPICall("runTask", {}, function(result) {
-					console.log("runTask: " + result);
 					if (result == "OK") {
 						$("#runTaskButton").html("<span class='spinner-border spinner-border-sm' role='status'></span> Running...");
 						$("#taskAlerts").html("");
@@ -59,8 +58,7 @@
 			function updateTaskOutput() {
 				console.log("Calling updateTaskOutput...");
 				doAPICall("getTaskOutput", {"line":outputLine}, function(result) {
-					console.log(result);
-					if (result == "ERROR: EOF") {
+					if (result.trim() == "ERROR: EOF") {
 						clearInterval(intervalFunction);
 						intervalFunction = setInterval(keepAlive, 30000);
 						$("#runTaskButton").html("Run");
