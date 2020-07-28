@@ -104,9 +104,6 @@ func startTask(theTaskID string) {
 	if taskErr == nil {
 		taskErr = runningTasks[theTaskID].Start()
 		if taskErr == nil {
-			//go func() {
-			//	runningTasks[theTaskID].Wait()
-			//}()
 			taskRunning := true
 			for taskRunning {
 				println("Reading from task:")
