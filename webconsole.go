@@ -293,7 +293,7 @@ func main() {
 									}
 								}
 								for outputLineNumber < len(taskOutputs[taskID]) {
-									fmt.Fprintf(theResponseWriter, taskOutputs[taskID][outputLineNumber])
+									fmt.Fprintf(theResponseWriter, taskOutputs[taskID][outputLineNumber] + "\n")
 									outputLineNumber = outputLineNumber + 1
 								}
 							} else if strings.HasPrefix(theRequest.URL.Path, "/api/getTaskRunning") {
