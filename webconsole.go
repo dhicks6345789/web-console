@@ -283,21 +283,23 @@ func main() {
 								fmt.Fprintf(theResponseWriter, taskDetails["title"])
 							// API - Run a given Task.
 							} else if strings.HasPrefix(theRequest.URL.Path, "/api/runTask") {
-								if !taskIsRunning(taskID) {
-									commandArray := parseCommandString(taskDetails["command"])
-									var commandArgs []string
-									if len(commandArray) > 0 {
-										commandArgs = commandArray[1:]
-									}
-									runningTasks[taskID] = exec.Command(commandArray[0], commandArgs...)
-									runningTasks[taskID].Dir = "tasks/" + taskID
+								if taskIsRunning(taskID) {
+									fmt.Fprintf(theResponseWriter, "OK")
+								} else {
 									if currentTimestamp - taskStopTimes[taskID] < int64(rateLimit) {
 										fmt.Fprintf(theResponseWriter, "ERROR: Rate limit (%d seconds) exceeded - try again in %d seconds.", rateLimit, int64(rateLimit) - (currentTimestamp - taskStopTimes[taskID]))
 									} else {
+										commandArray := parseCommandString(taskDetails["command"])
+										var commandArgs []string
+										if len(commandArray) > 0 {
+											commandArgs = commandArray[1:]
+										}
+										runningTasks[taskID] = exec.Command(commandArray[0], commandArgs...)
+										runningTasks[taskID].Dir = "tasks/" + taskID
 										go startTask(taskID)
+										fmt.Fprintf(theResponseWriter, "OK")
 									}
 								}
-								fmt.Fprintf(theResponseWriter, "OK")
 							} else if strings.HasPrefix(theRequest.URL.Path, "/api/getTaskOutput") {
 								outputLineNumber := 0
 								var atoiErr error
