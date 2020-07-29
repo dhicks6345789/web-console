@@ -1,9 +1,6 @@
 package main
-
-/*
-Web Console - lets end-users run command-line applications via a web page, complete with authentication and a user interface.
-Acts as its own self-contained web server.
-*/
+// Web Console - lets end-users run command-line applications via a web page, complete with authentication and a user interface.
+// For more details, see project page at: https://github.com/dhicks6345789/web-console
 
 import (
 	// Standard libraries.
@@ -27,11 +24,12 @@ import (
 // Characters to use to generate new ID strings. Lowercase only - any user-provided IDs will be lowercased before use.
 const letters = "abcdefghijklmnopqrstuvwxyz1234567890"
 
+// We use tokens for session management, not cookies.
 // The timeout, in seconds, of token validity.
 const tokenTimeout = 600
 // How often, in seconds, to check for expired tokens.
 const tokenCheckPeriod = 60
-// Set up the tokens map.
+// A map of current valid tokens.
 var tokens = map[string]int64{}
 
 // A list of currently running Tasks.
@@ -41,8 +39,8 @@ var taskOutputs = map[string][]string{}
 // We record the last stop times for each Task so we can implement rate limiting.
 var taskStopTimes = map[string]int64{}
 
-// Generate a new, random 16-character ID.
-func generateIDString() string {
+// Generate a new, random 16-character string, used for tokens and Task IDs.
+func generateRandomString() string {
 	rand.Seed(time.Now().UnixNano())
 	result := make([]byte, 16)
 	for pl := range result {
@@ -51,11 +49,13 @@ func generateIDString() string {
 	return string(result)
 }
 
+// Use the Bcrypt hashing algorithm to encode a password string.
 func hashPassword(thePassword string) (string, error) {
 	bytes, cryptErr := bcrypt.GenerateFromPassword([]byte(thePassword), 14)
 	return string(bytes), cryptErr
 }
 
+// Check a plaint text password with a Bcrypt-hashed string, returns true if they match.
 func checkPasswordHash(thePassword, theHash string) bool {
 	if thePassword == "" && theHash == "" {
 		return true
@@ -66,7 +66,7 @@ func checkPasswordHash(thePassword, theHash string) bool {
 
 // Clear any expired tokens from memory.
 func clearExpiredTokens() {
-	// This is a periodic task, it runs in a separate thread (goroutine).
+	// This is a periodic task, it runs in a separate thread (goroutine) - the time period is set by the tokenCheckPeriod constant set at the top of the script.
 	for true {
 		currentTimestamp := time.Now().Unix()
 		for token, timestamp := range tokens { 
@@ -99,7 +99,9 @@ func parseCommandString(theString string) []string {
 	return result
 }
 
-func startTask(theTaskID string) {
+// Runs a task, capturing output from stdout and placing it in a buffer. Designed to be run as a goroutine, so a task can be run in the background
+// and output captured while the user does other stuff.
+func runTask(theTaskID string) {
 	readBuffer := make([]byte, 10240)
 	taskOutputs[theTaskID] = make([]string, 0)
 	taskOutput, taskErr := runningTasks[theTaskID].StdoutPipe()
@@ -184,7 +186,7 @@ func getTaskList() ([]map[string]string, error) {
 	return taskList, nil
 }
 
-// Get an input string from the user.
+// Get an input string from the user via stdin.
 func getUserInput(defaultValue string, messageString string) string {
 	inputReader := bufio.NewReader(os.Stdin)
 	fmt.Printf(messageString + ": ")
@@ -198,6 +200,8 @@ func getUserInput(defaultValue string, messageString string) string {
 
 // The main body of the program - parse user-provided command-line paramaters, or start the main web server process.
 func main() {
+	// This application is both a web server for handling API requests and displaying a web-based front end, and a command-line application for handling
+	// configuration and setup.
 	if len(os.Args) == 1 {
 		// Start the thread that checks for and clears expired tokens.
 		go clearExpiredTokens()
@@ -205,7 +209,7 @@ func main() {
 		// If no parameters are given, simply start the web server.
 		fmt.Println("Starting web server...")
 		
-		// We write our own function to parse the request URL.
+		// Handle the request URL.
 		http.HandleFunc("/", func (theResponseWriter http.ResponseWriter, theRequest *http.Request) {
 			// Make sure submitted form values are parsed.
 			theRequest.ParseForm()
@@ -213,10 +217,12 @@ func main() {
 			// The default root - serve index.html.
 			if theRequest.URL.Path == "/" {
 				http.ServeFile(theResponseWriter, theRequest, "www/index.html")
-			// Handle the getPublicTaskList API call.
+			// Handle the getPublicTaskList API call (the one API call that doesn't require authentication).
 			} else if strings.HasPrefix(theRequest.URL.Path, "/api/getPublicTaskList") {
 				taskList, taskErr := getTaskList()
 				if taskErr == nil {
+					// We return the list of public tasks in JSON format. Note that public tasks might still need a secret to run, "public"
+					// here just means that they are listed by this API call for display on the landing page.
 					taskListString := "{"
 					for _, task := range taskList {
 						if task["public"]  == "Y" {
@@ -238,6 +244,7 @@ func main() {
 				if taskID == "" {
 					fmt.Fprintf(theResponseWriter, "ERROR: Missing parameter taskID.")
 				} else {
+					// If we get to this point, we know we have a valid Task ID.
 					taskDetails, taskErr := getTaskDetails(taskID)
 					if taskErr == nil {
 						authorised := false
@@ -259,13 +266,16 @@ func main() {
 							authorisationError = "incorrect secret"
 						}
 						if authorised {
+							// If we get this far, we know the user is authorised for this Task - they've either provided a valid
+							// secret or no secret is set.
 							if token == "" {
-								token = generateIDString()
+								token = generateRandomString()
 							}
 							tokens[token] = currentTimestamp
-							// Handle view and run requests.
+							// Handle view and run requests - no difference server-side, only the client-side treates the URLs differently
+							// (the "runTask" method gets called by the client-side code if the URL contains "run" rather than "view").
 							if strings.HasPrefix(theRequest.URL.Path, "/view") || strings.HasPrefix(theRequest.URL.Path, "/run") {
-								// Serve the webconsole.html file, first adding in the Task ID value so it can be used client-side.
+								// Serve the webconsole.html file, first adding in the Task ID  and token values to be used client-side.
 								webconsoleBuffer, fileReadErr := ioutil.ReadFile("www/webconsole.html")
 								if fileReadErr == nil {
 									webconsoleString := string(webconsoleBuffer)
@@ -283,12 +293,16 @@ func main() {
 								fmt.Fprintf(theResponseWriter, taskDetails["title"])
 							// API - Run a given Task.
 							} else if strings.HasPrefix(theRequest.URL.Path, "/api/runTask") {
+								// If the Task is already running, simply return "OK".
 								if taskIsRunning(taskID) {
 									fmt.Fprintf(theResponseWriter, "OK")
 								} else {
+									// Check to see if there's any rate limit set for this task, and don't run the Task if we're still
+									// within the rate limited time.
 									if currentTimestamp - taskStopTimes[taskID] < int64(rateLimit) {
 										fmt.Fprintf(theResponseWriter, "ERROR: Rate limit (%d seconds) exceeded - try again in %d seconds.", rateLimit, int64(rateLimit) - (currentTimestamp - taskStopTimes[taskID]))
 									} else {
+										// Run the task - first, set up the details...
 										commandArray := parseCommandString(taskDetails["command"])
 										var commandArgs []string
 										if len(commandArray) > 0 {
@@ -296,35 +310,47 @@ func main() {
 										}
 										runningTasks[taskID] = exec.Command(commandArray[0], commandArgs...)
 										runningTasks[taskID].Dir = "tasks/" + taskID
-										go startTask(taskID)
+										// ...then run the Task as a goroutine (thread) in the background.
+										go runTask(taskID)
+										// Respond to the front-end code that all is okay.
 										fmt.Fprintf(theResponseWriter, "OK")
 									}
 								}
+							// Designed to be called periodically, will return the given Tasks' output as a simple string,
+							// with lines separated by newlines. Takes one parameter, "line", indicating which output line
+							// it should return output from, to save the client-side code having to be sent all of the output each time.
 							} else if strings.HasPrefix(theRequest.URL.Path, "/api/getTaskOutput") {
-								outputLineNumber := 0
 								var atoiErr error
+								// Parse the "line" parameter - defaults to 0, so if not set this method will simply return
+								// all current output.
+								outputLineNumber := 0
 								if theRequest.Form.Get("line") != "" {
 									outputLineNumber, atoiErr = strconv.Atoi(theRequest.Form.Get("line"))
 									if atoiErr != nil {
 										fmt.Fprintf(theResponseWriter, "ERROR: Line number not parsable.")
 									}
 								}
+								// Return to the user all the output lines from the given starting point.
 								for outputLineNumber < len(taskOutputs[taskID]) {
 									fmt.Fprintf(theResponseWriter, taskOutputs[taskID][outputLineNumber] + "\n")
 									outputLineNumber = outputLineNumber + 1
 								}
+								// If the Task is no longer running, make sure we tell the client-side code that.
 								if _, runningTaskFound := runningTasks[taskID]; !runningTaskFound {
 									fmt.Fprintf(theResponseWriter, "ERROR: EOF")
-									delete(taskOutputs, taskID)
+									//delete(taskOutputs, taskID)
 								}
+							// Simply returns "YES" if a given Task is running, "NO" otherwise.
 							} else if strings.HasPrefix(theRequest.URL.Path, "/api/getTaskRunning") {
 								if taskIsRunning(taskID) {
 									fmt.Fprintf(theResponseWriter, "YES")
 								} else {
 									fmt.Fprintf(theResponseWriter, "NO")
 								}
+							// A simple call that doesn't do anything except serve to keep the timestamp for the given Task up-to-date.
 							} else if strings.HasPrefix(theRequest.URL.Path, "/api/keepAlive") {
 								fmt.Fprintf(theResponseWriter, "OK")
+							// To do: return API documentation here.
 							} else if strings.HasPrefix(theRequest.URL.Path, "/api/") {
 								fmt.Fprintf(theResponseWriter, "ERROR: Unknown API call: %s", theRequest.URL.Path)
 							}
@@ -340,7 +366,10 @@ func main() {
 				http.ServeFile(theResponseWriter, theRequest, "www" + theRequest.URL.Path)
 			}
 		})
+		// Run the main web server loop.
+		// To do: replace with Caddy so we can handle HTTPS easily.
 		log.Fatal(http.ListenAndServe(":8090", nil))
+	// Command-line option to print a list of all Tasks.
 	} else if os.Args[1] == "-list" {
 		taskList, taskErr := getTaskList()
 		if taskErr == nil {
@@ -354,26 +383,33 @@ func main() {
 		} else {
 			fmt.Println("ERROR: " + taskErr.Error())
 		}
+	// Command-line option to generate a new Task.
 	} else if os.Args[1] == "-new" {
 		// Generate a new, unique Task ID.
 		var newTaskID string
 		for {
-			newTaskID = generateIDString()
+			newTaskID = generateRandomString()
 			if _, err := os.Stat("tasks/" + newTaskID); os.IsNotExist(err) {
 				break
 			}
 		}
+		// Ask the user to provide a Task ID (or they can use the one we just generated).
 		newTaskID = getUserInput(newTaskID, "Enter a new Task ID (hit enter to generate an ID)")
 		if _, err := os.Stat("tasks/" + newTaskID); os.IsNotExist(err) {
+			// We use simple text files in folders for data storage, rather than a database. It seemed the most logical choice - you can stick
+			// any resources associated with a Task in that Task's folder, and editing options can be done with a basic text editor.
 			os.Mkdir("tasks/" + newTaskID, os.ModePerm)
 			fmt.Println("New Task: " + newTaskID)
 			
+			// Get a title for the Task.
 			newTaskTitle := "Task " + newTaskID
 			newTaskTitle = getUserInput(newTaskTitle, "Enter a title (hit enter for \"" + newTaskTitle + "\")")
 			
+			// Get a secret for the Task - blank by default, although that's not the same as a public Task.
 			newTaskSecret := ""
 			newTaskSecret = getUserInput(newTaskSecret, "Set secret (type secret, or hit enter to skip)")
 			
+			// Ask the user if this Task should be public, "N" by default.
 			var newTaskPublic string
 			for {
 				newTaskPublic = "N"
@@ -383,9 +419,12 @@ func main() {
 				}
 			}
 			
+			// The command the Task runs. Can be anything the system will run as an executable application, which of course depends on which platform
+			// you are running.
 			newTaskCommand := ""
 			newTaskCommand = getUserInput(newTaskCommand, "Set command (type command, or hit enter to skip)")
 			
+			// Hash the secret (if not just blank).
 			outputString := ""
 			if newTaskSecret != "" {
 				hashedPassword, hashErr := hashPassword(newTaskSecret)
@@ -395,6 +434,8 @@ func main() {
 					fmt.Println("ERROR: Problem hashing password - " + hashErr.Error())
 				}
 			}
+			
+			// Write the config file - a simple text file, one value per line.
 			outputString = outputString + "title: " + newTaskTitle + "\npublic: " + newTaskPublic + "\ncommand: " + newTaskCommand
 			writeFileErr := ioutil.WriteFile("tasks/" + newTaskID + "/config.txt", []byte(outputString), 0644)
 			if writeFileErr != nil {
