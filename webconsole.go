@@ -29,15 +29,17 @@ const letters = "abcdefghijklmnopqrstuvwxyz1234567890"
 
 // The timeout, in seconds, of token validity.
 const tokenTimeout = 600
-// How often, in seconds, to check token for expired tokens.
+// How often, in seconds, to check for expired tokens.
 const tokenCheckPeriod = 60
-
 // Set up the tokens map.
 var tokens = map[string]int64{}
 
+// A list of currently running Tasks.
 var runningTasks = map[string]*exec.Cmd{}
-//var taskOutputs = map[string]io.ReadCloser{}
+// The outputs from Tasks.
 var taskOutputs = map[string][]string{}
+// We record the last stop times for each Task so we can implement rate limiting.
+var taskStopTimes = map[string]int64{}
 
 // Generate a new, random 16-character ID.
 func generateIDString() string {
@@ -64,7 +66,7 @@ func checkPasswordHash(thePassword, theHash string) bool {
 
 // Clear any expired tokens from memory.
 func clearExpiredTokens() {
-	// This is a periodic task, it runs in a separate thread.
+	// This is a periodic task, it runs in a separate thread (goroutine).
 	for true {
 		currentTimestamp := time.Now().Unix()
 		for token, timestamp := range tokens { 
@@ -118,6 +120,7 @@ func startTask(theTaskID string) {
 					taskRunning = false
 				}
 			}
+			taskStopTimes[theTaskID] = time.Now().Unix()
 			delete(runningTasks, theTaskID)
 		}
 	}
@@ -147,6 +150,7 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 			taskDetails["title"] = ""
 			taskDetails["secret"] = ""
 			taskDetails["public"] = "N"
+			taskDetails["ratelimit"] = "0"
 			taskDetails["command"] = ""
 			scanner := bufio.NewScanner(inFile)
 			for scanner.Scan() {
@@ -239,6 +243,7 @@ func main() {
 						authorised := false
 						authorisationError := "unknown error"
 						currentTimestamp := time.Now().Unix()
+						rateLimit := strconv.Atoi(taskDetails["ratelimit"])
 						if token != "" {
 							if tokens[token] == 0 {
 								authorisationError = "invalid or expired token"
@@ -283,7 +288,11 @@ func main() {
 									}
 									runningTasks[taskID] = exec.Command(commandArray[0], commandArgs...)
 									runningTasks[taskID].Dir = "tasks/" + taskID
-									go startTask(taskID)
+									if currentTimestamp - taskStopTimes[theTaskID] < rateLimit {
+										fmt.Fprintf(theResponseWriter, "ERROR: Rate limit (%s seconds) exceeded - try again in %s seconds.", rateLimit, rateLimit - (currentTimestamp - taskStopTimes[theTaskID]))
+									} else {
+										go startTask(taskID)
+									}
 								}
 								fmt.Fprintf(theResponseWriter, "OK")
 							} else if strings.HasPrefix(theRequest.URL.Path, "/api/getTaskOutput") {
