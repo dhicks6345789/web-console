@@ -1,8 +1,7 @@
 package main
 
-// A Go application that uses the Windows schtasks tool to run a given schedualed task.
-// Doesn't exit until the schedualed task has finished, and prints out a status indicator as the task is running.
-// Uses previous run times to guess the total time the shedualed task will take.
+// A Go application that runs any arbitary command but adds progress (percentage complete) reports every few seconds.
+// Guesses run time from previous runtimes.
 
 import (
 	// Standard libraries.
@@ -16,8 +15,10 @@ import (
 	"io/ioutil"
 )
 
-func runCommand (theCommandString string, theCommandArgs ...string) string {
-	theCommand := exec.Command(theCommandString, theCommandArgs...)
+var commandOutput = []string{}
+
+func runCommand (theCommandArgs ...string) string {
+	theCommand := exec.Command(theCommandArgs...)
 	commandOutput, commandErr := theCommand.CombinedOutput()
 	commandOutputString := strings.TrimSpace(string(commandOutput))
 	if commandErr != nil {
@@ -55,7 +56,7 @@ func main() {
 		startTime := time.Now().Unix()
 		
 		fmt.Println("Running \"" + os.Args[1] + "\"...")
-		runCommand("C:\\Windows\\System32\\schtasks.exe", "/RUN", "/TN", os.Args[1])
+		runCommand(os.Args[1:]...)
 		runState := "RUNNING"
 		for runState == "RUNNING" {
 			time.Sleep(4 * time.Second)
