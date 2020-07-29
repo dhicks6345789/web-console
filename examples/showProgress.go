@@ -17,8 +17,8 @@ import (
 
 var commandOutput = []string{}
 
-func runCommand (theCommand, theCommandArgs ...string) string {
-	theCommand := exec.Command(theCommand, theCommandArgs...)
+func runCommand (theCommandName, theCommandArgs ...string) string {
+	theCommand := exec.Command(theCommandName, theCommandArgs...)
 	commandOutput, commandErr := theCommand.CombinedOutput()
 	commandOutputString := strings.TrimSpace(string(commandOutput))
 	if commandErr != nil {
