@@ -17,8 +17,8 @@ import (
 
 var commandOutput = []string{}
 
-func runCommand (theCommandArgs ...string) string {
-	theCommand := exec.Command(theCommandArgs...)
+func runCommand (theCommand, theCommandArgs ...string) string {
+	theCommand := exec.Command(theCommand, theCommandArgs...)
 	commandOutput, commandErr := theCommand.CombinedOutput()
 	commandOutputString := strings.TrimSpace(string(commandOutput))
 	if commandErr != nil {
@@ -56,7 +56,7 @@ func main() {
 		startTime := time.Now().Unix()
 		
 		fmt.Println("Running \"" + os.Args[1] + "\"...")
-		runCommand(os.Args[1:]...)
+		runCommand(os.Args[1], os.Args[2:]...)
 		runState := "RUNNING"
 		for runState == "RUNNING" {
 			time.Sleep(4 * time.Second)
