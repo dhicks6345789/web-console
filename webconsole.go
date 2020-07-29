@@ -301,7 +301,7 @@ func main() {
 										outputLineNumber = outputLineNumber + 1
 									}
 								} else {
-									if outputLineNumber == len(taskOutputs[taskID]) {
+									if outputLineNumber == len(taskOutputs[taskID])-1 {
 										fmt.Fprintf(theResponseWriter, "ERROR: EOF")
 										delete(taskOutputs, taskID)
 									}
