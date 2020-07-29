@@ -295,13 +295,14 @@ func main() {
 										fmt.Fprintf(theResponseWriter, "ERROR: Line number not parsable.")
 									}
 								}
+								fmt.Printf("getTaskOutput - lineNumber: %d\n", outputLineNumber)
 								if _, runningTaskFound := runningTasks[taskID]; runningTaskFound {
 									for outputLineNumber < len(taskOutputs[taskID]) {
 										fmt.Fprintf(theResponseWriter, taskOutputs[taskID][outputLineNumber] + "\n")
 										outputLineNumber = outputLineNumber + 1
 									}
 								} else {
-									if outputLineNumber == len(taskOutputs[taskID])-1 {
+									if outputLineNumber >= len(taskOutputs[taskID])-1 {
 										fmt.Fprintf(theResponseWriter, "ERROR: EOF")
 										delete(taskOutputs, taskID)
 									}
