@@ -291,8 +291,8 @@ func main() {
 									}
 									runningTasks[taskID] = exec.Command(commandArray[0], commandArgs...)
 									runningTasks[taskID].Dir = "tasks/" + taskID
-									if currentTimestamp - taskStopTimes[theTaskID] < rateLimit {
-										fmt.Fprintf(theResponseWriter, "ERROR: Rate limit (%s seconds) exceeded - try again in %s seconds.", rateLimit, rateLimit - (currentTimestamp - taskStopTimes[theTaskID]))
+									if currentTimestamp - taskStopTimes[taskID] < rateLimit {
+										fmt.Fprintf(theResponseWriter, "ERROR: Rate limit (%s seconds) exceeded - try again in %s seconds.", rateLimit, rateLimit - (currentTimestamp - taskStopTimes[taskID]))
 									} else {
 										go startTask(taskID)
 									}
