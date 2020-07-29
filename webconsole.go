@@ -243,7 +243,10 @@ func main() {
 						authorised := false
 						authorisationError := "unknown error"
 						currentTimestamp := time.Now().Unix()
-						rateLimit := strconv.Atoi(taskDetails["ratelimit"])
+						rateLimit, rateLimitErr := strconv.Atoi(taskDetails["ratelimit"])
+						if rateLimitErr != nil {
+							rateLimit = 0
+						}
 						if token != "" {
 							if tokens[token] == 0 {
 								authorisationError = "invalid or expired token"
