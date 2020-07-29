@@ -57,14 +57,14 @@
 			
 			function updateTaskOutput() {
 				doAPICall("getTaskOutput", {"line":outputLine}, function(result) {
-					if (result.trim() == "ERROR: EOF") {
-						clearInterval(intervalFunction);
-						intervalFunction = setInterval(keepAlive, 30000);
-						$("#runTaskButton").html("Run");
-						$("#runTaskButton").prop("disabled", false);
-					} else {
-						$.each(result.split("\n"), function(index, value) {
-							if (value.trim() != "") {
+					$.each(result.split("\n"), function(index, value) {
+						if (value.trim() != "") {
+							if (value.trim() == "ERROR: EOF") {
+								clearInterval(intervalFunction);
+								intervalFunction = setInterval(keepAlive, 30000);
+								$("#runTaskButton").html("Run");
+								$("#runTaskButton").prop("disabled", false);
+							} else {
 								// If a string begins with "Progress: ", interpret the following number as a percentage completion value, and
 								// update the progress bar accordingly.
 								if (value.toLowerCase().startsWith("progress:")) {
@@ -77,7 +77,7 @@
 								// Otherwise, display the line as a message for the user.
 								} else {
 									$("#taskAlerts").html(value);
-									$("#taskOutput").html($("#taskOutput").html() + value);
+									$("#taskOutput").html($("#taskOutput").html() + value + "\n");
 								}
 								outputLine = outputLine + 1;
 							}
