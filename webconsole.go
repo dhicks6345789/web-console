@@ -394,9 +394,11 @@ func main() {
 								}
 								// If the Task is no longer running, make sure we tell the client-side code that.
 								if _, runningTaskFound := runningTasks[taskID]; !runningTaskFound {
+									if taskDetails["progress"] == "Y" {
+										fmt.Fprintf(theResponseWriter, "Progress: Progress 100\n")
+										fmt.Fprintf(theResponseWriter, "Done - runtime %d seconds.\n", taskRunTimes[taskID])
+									}
 									fmt.Fprintf(theResponseWriter, "ERROR: EOF")
-									//fmt.Printf("Progress: " + os.Args[1] + " 100\n")
-									//fmt.Printf("Done - runtime %d seconds.\n", runTime)
 									//delete(taskOutputs, taskID)
 								}
 							// Simply returns "YES" if a given Task is running, "NO" otherwise.
