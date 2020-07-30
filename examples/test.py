@@ -4,11 +4,17 @@
 import sys
 import time
 
-sentence = ["The","Quick","Brown","Fox","Jumped","Over","The","Lazy","Dog"]
+sentence = ["The","Quick","Brown","Fox","Jumps","Over","The","Lazy","Dog"]
 wordArray = sentence.split(" ")
+
+displayProgress = True
+if len(sys.argv) > 1:
+	if sys.argv[1] == "--NOPROGRESS":
+		displayProgress = False
 
 for pl in range(0, len(wordArray)):
 	print (wordArray[pl])
-	print ("Progress: Progress " + str(int(round(pl / (len(wordArray)-1), 2) * 100)) + "%")
+	if displayProgress:
+		print ("Progress: Progress " + str(int(round(pl / (len(wordArray)-1), 2) * 100)) + "%")
 	sys.stdout.flush()
 	time.sleep(2)
