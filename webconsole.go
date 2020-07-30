@@ -396,7 +396,6 @@ func main() {
 								if _, runningTaskFound := runningTasks[taskID]; !runningTaskFound {
 									if taskDetails["progress"] == "Y" {
 										fmt.Fprintf(theResponseWriter, "Progress: Progress 100\n")
-										fmt.Fprintf(theResponseWriter, "Done - runtime %d seconds.\n",  taskStopTimes[taskID] - taskStartTimes[taskID])
 									}
 									fmt.Fprintf(theResponseWriter, "ERROR: EOF")
 									//delete(taskOutputs, taskID)
