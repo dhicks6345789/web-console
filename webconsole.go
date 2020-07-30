@@ -128,15 +128,15 @@ func runTask(theTaskID string) {
 			}
 			taskStopTimes[theTaskID] = time.Now().Unix()
 			runTime := taskStopTimes[theTaskID] - taskStartTimes[theTaskID]
-			taskRuntimes[theTaskID] = append(taskRuntimes[theTaskID], runTime)
-			sort.Slice(taskRuntimes[theTaskID], func(i, j int) bool { return taskRuntimes[theTaskID][i] < taskRuntimes[theTaskID][j] })
-			for len(taskRuntimes[theTaskID]) >= 10 {
-				taskRuntimes[theTaskID] = taskRuntimes[theTaskID][1:len(taskRuntimes[theTaskID])-2]
+			taskRunTimes[theTaskID] = append(taskRunTimes[theTaskID], runTime)
+			sort.Slice(taskRunTimes[theTaskID], func(i, j int) bool { return taskRunTimes[theTaskID][i] < taskRunTimes[theTaskID][j] })
+			for len(taskRunTimes[theTaskID]) >= 10 {
+				taskRunTimes[theTaskID] = taskRunTimes[theTaskID][1:len(taskRunTimes[theTaskID])-2]
 			}
 			outputString := ""
 			for pl := 0; pl < len(runTimes); pl = pl + 1 {
-				outputString = outputString + strconv.FormatInt(taskRuntimes[theTaskID][pl], 10)
-				if pl < len(taskRuntimes[theTaskID])-1 {
+				outputString = outputString + strconv.FormatInt(taskRunTimes[theTaskID][pl], 10)
+				if pl < len(taskRunTimes[theTaskID])-1 {
 					outputString = outputString + "\n"
 				}
 			}
