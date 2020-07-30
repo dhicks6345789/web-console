@@ -127,6 +127,21 @@ func runTask(theTaskID string) {
 				}
 			}
 			taskStopTimes[theTaskID] = time.Now().Unix()
+			runTime := taskStopTimes[theTaskID] - taskStartTimes[theTaskID]
+			taskRuntimes[theTaskID] = append(taskRuntimes[theTaskID], runTime)
+			sort.Slice(taskRuntimes[theTaskID], func(i, j int) bool { return taskRuntimes[theTaskID][i] < taskRuntimes[theTaskID][j] })
+			for len(taskRuntimes[theTaskID]) >= 10 {
+				taskRuntimes[theTaskID] = taskRuntimes[theTaskID][1:len(taskRuntimes[theTaskID])-2]
+			}
+			outputString := ""
+			for pl := 0; pl < len(runTimes); pl = pl + 1 {
+				outputString = outputString + strconv.FormatInt(taskRuntimes[theTaskID][pl], 10)
+				if pl < len(taskRuntimes[theTaskID])-1 {
+					outputString = outputString + "\n"
+				}
+			}
+			ioutil.WriteFile("tasks/" + theTaskID + "/runTimes.txt", []byte(outputString), 0644)
+			
 			delete(runningTasks, theTaskID)
 		}
 	}
@@ -379,6 +394,8 @@ func main() {
 								// If the Task is no longer running, make sure we tell the client-side code that.
 								if _, runningTaskFound := runningTasks[taskID]; !runningTaskFound {
 									fmt.Fprintf(theResponseWriter, "ERROR: EOF")
+									//fmt.Printf("Progress: " + os.Args[1] + " 100\n")
+									//fmt.Printf("Done - runtime %d seconds.\n", runTime)
 									//delete(taskOutputs, taskID)
 								}
 							// Simply returns "YES" if a given Task is running, "NO" otherwise.
