@@ -365,6 +365,17 @@ func main() {
 									fmt.Fprintf(theResponseWriter, taskOutputs[taskID][outputLineNumber] + "\n")
 									outputLineNumber = outputLineNumber + 1
 								}
+								// If the job details have the "progress" option set to "Y", output a (best guess, using previous
+								// run times) progresss report line.
+								if taskDetails["progress"] == "Y" {
+									currentTime := time.Now().Unix()
+									percentage := int((float64(currentTime - taskStartTimes[taskID]) / taskRuntimeGuesses[taskID]) * 100)
+									if percentage > 100 {
+										percentage = 100
+									}
+									//fmt.Printf("Progress: " + os.Args[1] + " %d%%\n", percentage)
+									fmt.Printf("Progress: " + os.Args[1] + " %d\n", percentage)
+								}
 								// If the Task is no longer running, make sure we tell the client-side code that.
 								if _, runningTaskFound := runningTasks[taskID]; !runningTaskFound {
 									fmt.Fprintf(theResponseWriter, "ERROR: EOF")
