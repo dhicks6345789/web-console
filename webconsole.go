@@ -376,11 +376,6 @@ func main() {
 										fmt.Fprintf(theResponseWriter, "ERROR: Line number not parsable.")
 									}
 								}
-								// Return to the user all the output lines from the given starting point.
-								for outputLineNumber < len(taskOutputs[taskID]) {
-									fmt.Fprintf(theResponseWriter, taskOutputs[taskID][outputLineNumber] + "\n")
-									outputLineNumber = outputLineNumber + 1
-								}
 								// If the job details have the "progress" option set to "Y", output a (best guess, using previous
 								// run times) progresss report line.
 								if taskDetails["progress"] == "Y" {
@@ -390,7 +385,12 @@ func main() {
 										percentage = 100
 									}
 									//fmt.Printf("Progress: " + os.Args[1] + " %d%%\n", percentage)
-									fmt.Fprintf(theResponseWriter, "Progress: Progress %d\n", percentage)
+									taskOutputs[taskID] = append(taskOutputs[taskID], "Progress: Progress " + string(percentage))
+								}
+								// Return to the user all the output lines from the given starting point.
+								for outputLineNumber < len(taskOutputs[taskID]) {
+									fmt.Fprintf(theResponseWriter, taskOutputs[taskID][outputLineNumber] + "\n")
+									outputLineNumber = outputLineNumber + 1
 								}
 								// If the Task is no longer running, make sure we tell the client-side code that.
 								if _, runningTaskFound := runningTasks[taskID]; !runningTaskFound {
