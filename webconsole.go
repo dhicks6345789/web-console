@@ -36,7 +36,11 @@ var tokens = map[string]int64{}
 var runningTasks = map[string]*exec.Cmd{}
 // The outputs from Tasks.
 var taskOutputs = map[string][]string{}
-// We record the last stop times for each Task so we can implement rate limiting.
+// We record the start time and an array of recent runtimes for each Task so we can guess at this run's liklely time and print a progress report if wanted.
+var taskStartTimes = map[string]int64{}
+var taskRunTimes = map[string][]int64{}
+var taskRuntimeGuesses = map[string]int64{}
+// We record the stop time for each Task so we can implement rate limiting.
 var taskStopTimes = map[string]int64{}
 
 // Generate a new, random 16-character string, used for tokens and Task IDs.
@@ -311,6 +315,27 @@ func main() {
 										}
 										runningTasks[taskID] = exec.Command(commandArray[0], commandArgs...)
 										runningTasks[taskID].Dir = "tasks/" + taskID
+										
+										taskRunTimes[taskID] = []int64
+										runTimesBytes, fileErr := ioutil.ReadFile("tasks/" + taskID + "/runTimes.txt")
+										if fileErr == nil {
+											runTimeSplit := strings.Split(string(runTimesBytes), "\n")
+											for pl := 0; pl < len(runTimeSplit); pl = pl + 1 {
+												runTimeVal, runTimeErr := strconv.Atoi(runTimeSplit[pl])
+												if runTimeErr == nil {
+													runTimes = append(taskRunTimes[taskID], int64(runTimeVal))
+												}
+											}
+										}
+										
+										var totalRunTime int64
+										totalRunTime = 0
+										for pl := 0; pl < len(taskRunTimes[taskID]); pl = pl + 1 {
+											totalRunTime = totalRunTime + taskRunTimes[taskID][pl]
+										}
+										taskRuntimeGuesses[taskID] := float64(totalRunTime / int64(len(taskRunTimes[taskID])))
+										taskStartTimes[taskID] := time.Now().Unix()
+										
 										// ...then run the Task as a goroutine (thread) in the background.
 										go runTask(taskID)
 										// Respond to the front-end code that all is okay.
