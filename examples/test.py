@@ -4,7 +4,7 @@
 import sys
 import time
 
-sentence = ["The","Quick","Brown","Fox","Jumps","Over","The","Lazy","Dog"]
+sentence = "The Quick Brown Fox Jumps Over The Lazy Dog"
 wordArray = sentence.split(" ")
 
 displayProgress = True
