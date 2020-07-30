@@ -71,7 +71,6 @@
 				doAPICall("getTaskOutput", {"line":outputLine}, function(result) {
 					$.each(result.split("\n"), function(index, value) {
 						if (value.trim() != "") {
-							console.log(value);
 							// If the Task has finished, reset the "Run" button state.
 							if (value.trim() == "ERROR: EOF") {
 								clearInterval(intervalFunction);
