@@ -8,11 +8,8 @@ import (
 	"os"
 	"fmt"
 	"time"
-	"sort"
 	"strings"
-	"strconv"
 	"os/exec"
-	"io/ioutil"
 )
 
 func runCommand (theCommandString string, theCommandArgs ...string) string {
