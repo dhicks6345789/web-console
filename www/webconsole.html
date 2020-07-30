@@ -118,9 +118,11 @@
 			
 			// Called when the document is first loaded and ready.
 			$(document).ready(function() {
-				// Get the Task's title.
-				doAPICall("getTaskTitle", {}, function(result) {
-					$("#taskTitle").html(result);
+				// Get the Task's title and description.
+				doAPICall("getTaskDetails", {}, function(result) {
+					resultSplit = result.split("\n");
+					$("#taskTitle").html(resultSplit[0]);
+					$("#taskDescription").html(resultSplit[1]);
 				});
 				// Set the webhook value for the user - the "run" API call for this Task, handy for services such as IFTTT and Zapier.
 				pageURL = window.location.href.split("?")[0]
@@ -149,6 +151,9 @@
 					<h1 class="text-center" id="taskTitle"></h1>
 				</div>
 			</div>
+		</div>
+		<div>
+			<h1 class="text-center" id="taskDescription"></h1>
 		</div>
 		<!-- The main "console" section where most of the output for the user goes. -->
 		<div class="container-fluid" id="webconsole">
