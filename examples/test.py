@@ -1,5 +1,6 @@
-# A basic Python 3 test script that simply prints a sentence a word at a time, with a pause between each word.
-# Simulates a script that takes a few seconds to complete. Outputs progress information for the user which is displayed as a progress bar by Web Console.
+# A basic Python 3 test script that simply prints a sentence a word at a time, with a pause between each word, simulating a script that takes a few seconds to complete.
+# By default, outputs progress information for the user which is displayed as a progress bar by Web Console, but that can be turned off if you want Web Console to provide
+# the progress bar instead.
 
 import sys
 import time
