@@ -398,15 +398,13 @@ func main() {
 								}
 								// Return to the user all the output lines from the given starting point.
 								for outputLineNumber < len(taskOutputs[taskID]) {
-									//println(taskOutputs[taskID][outputLineNumber])
-									//fmt.Printf(taskOutputs[taskID][outputLineNumber])
 									fmt.Fprintln(theResponseWriter, taskOutputs[taskID][outputLineNumber])
 									outputLineNumber = outputLineNumber + 1
 								}
 								// If the Task is no longer running, make sure we tell the client-side code that.
 								if _, runningTaskFound := runningTasks[taskID]; !runningTaskFound {
 									if taskDetails["progress"] == "Y" {
-										fmt.Fprintf(theResponseWriter, "Progress: Progress 100%%25\n")
+										fmt.Fprintf(theResponseWriter, "Progress: Progress 100%%\n")
 									}
 									fmt.Fprintf(theResponseWriter, "ERROR: EOF")
 									//delete(taskOutputs, taskID)
