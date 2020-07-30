@@ -177,6 +177,7 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 			// Read the Task's details from its config file.
 			taskDetails["taskID"] = theTaskID
 			taskDetails["title"] = ""
+			taskDetails["description"] = ""
 			taskDetails["secret"] = ""
 			taskDetails["public"] = "N"
 			taskDetails["ratelimit"] = "0"
@@ -317,8 +318,8 @@ func main() {
 							} else if strings.HasPrefix(theRequest.URL.Path, "/api/getToken") {
 								fmt.Fprintf(theResponseWriter, token)
 							// API - Return the Task's title.
-							} else if strings.HasPrefix(theRequest.URL.Path, "/api/getTaskTitle") {
-								fmt.Fprintf(theResponseWriter, taskDetails["title"])
+							} else if strings.HasPrefix(theRequest.URL.Path, "/api/getTaskDetails") {
+								fmt.Fprintf(theResponseWriter, taskDetails["title"] + "\n" + taskDetails["description"])
 							// API - Run a given Task.
 							} else if strings.HasPrefix(theRequest.URL.Path, "/api/runTask") {
 								// If the Task is already running, simply return "OK".
