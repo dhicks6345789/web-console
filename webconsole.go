@@ -14,7 +14,6 @@ import (
 	"strings"
 	"strconv"
 	"os/exec"
-	"net/url"
 	"net/http"
 	"math/rand"
 	"io/ioutil"
@@ -399,7 +398,9 @@ func main() {
 								}
 								// Return to the user all the output lines from the given starting point.
 								for outputLineNumber < len(taskOutputs[taskID]) {
-									fmt.Fprintf(theResponseWriter, url.QueryEscape(taskOutputs[taskID][outputLineNumber]) + "\n")
+									println(taskOutputs[taskID][outputLineNumber])
+									fmt.Printf(taskOutputs[taskID][outputLineNumber])
+									fmt.Fprintf(theResponseWriter, taskOutputs[taskID][outputLineNumber] + "\n")
 									outputLineNumber = outputLineNumber + 1
 								}
 								// If the Task is no longer running, make sure we tell the client-side code that.
