@@ -395,7 +395,7 @@ func main() {
 										percentage = 100
 									}
 									//fmt.Printf("Progress: " + os.Args[1] + " %d%%\n", percentage)
-									taskOutputs[taskID] = append(taskOutputs[taskID], "Progress: Progress " + fmt.Sprintf("%d", percentage))
+									taskOutputs[taskID] = append(taskOutputs[taskID], fmt.Sprintf("Progress: Progress %d%%\n", percentage))
 								}
 								// Return to the user all the output lines from the given starting point.
 								for outputLineNumber < len(taskOutputs[taskID]) {
