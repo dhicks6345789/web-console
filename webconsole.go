@@ -374,7 +374,7 @@ func main() {
 										percentage = 100
 									}
 									//fmt.Printf("Progress: " + os.Args[1] + " %d%%\n", percentage)
-									fmt.Fprintf(theResponseWriter, "Progress: " + taskDetails["title"] + " %d\n", percentage)
+									fmt.Fprintf(theResponseWriter, "Progress: Progress %d\n", percentage)
 								}
 								// If the Task is no longer running, make sure we tell the client-side code that.
 								if _, runningTaskFound := runningTasks[taskID]; !runningTaskFound {
