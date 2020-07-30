@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"os"
 	"log"
+	"sort"
 	"time"
 	"bufio"
 	"errors"
@@ -134,7 +135,7 @@ func runTask(theTaskID string) {
 				taskRunTimes[theTaskID] = taskRunTimes[theTaskID][1:len(taskRunTimes[theTaskID])-2]
 			}
 			outputString := ""
-			for pl := 0; pl < len(runTimes); pl = pl + 1 {
+			for pl := 0; pl < len(taskRunTimes[theTaskID]); pl = pl + 1 {
 				outputString = outputString + strconv.FormatInt(taskRunTimes[theTaskID][pl], 10)
 				if pl < len(taskRunTimes[theTaskID])-1 {
 					outputString = outputString + "\n"
