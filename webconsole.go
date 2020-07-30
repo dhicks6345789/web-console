@@ -14,9 +14,10 @@ import (
 	"strings"
 	"strconv"
 	"os/exec"
+	"net/url"
+	"net/http"
 	"math/rand"
 	"io/ioutil"
-	"net/http"
 	
 	// Bcrypt for password hashing.
 	"golang.org/x/crypto/bcrypt"
@@ -394,11 +395,11 @@ func main() {
 									if percentage > 100 {
 										percentage = 100
 									}
-									taskOutputs[taskID] = append(taskOutputs[taskID], fmt.Sprintf("Progress: Progress %d%%\n", percentage))
+									taskOutputs[taskID] = append(taskOutputs[taskID], fmt.Sprintf("Progress: Progress %d%%", percentage))
 								}
 								// Return to the user all the output lines from the given starting point.
 								for outputLineNumber < len(taskOutputs[taskID]) {
-									fmt.Fprintf(theResponseWriter, taskOutputs[taskID][outputLineNumber] + "\n")
+									fmt.Fprintf(theResponseWriter, url.QueryEscape(taskOutputs[taskID][outputLineNumber]) + "\n")
 									outputLineNumber = outputLineNumber + 1
 								}
 								// If the Task is no longer running, make sure we tell the client-side code that.
