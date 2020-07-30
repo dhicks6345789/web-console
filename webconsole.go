@@ -395,7 +395,7 @@ func main() {
 										percentage = 100
 									}
 									// We need to escape "%" once for printf and once for HTML encoding, hence "%" becomes "%%25".
-									taskOutputs[taskID] = append(taskOutputs[taskID], fmt.Sprintf("Progress: Progress %d&#37;\n", percentage))
+									taskOutputs[taskID] = append(taskOutputs[taskID], "Progress: Progress " + fmt.Sprintf("%d", percentage) + "%\n")
 								}
 								// Return to the user all the output lines from the given starting point.
 								for outputLineNumber < len(taskOutputs[taskID]) {
