@@ -394,8 +394,8 @@ func main() {
 									if percentage > 100 {
 										percentage = 100
 									}
-									//fmt.Printf("Progress: " + os.Args[1] + " %d%%\n", percentage)
-									taskOutputs[taskID] = append(taskOutputs[taskID], fmt.Sprintf("Progress: Progress %d%%\n", percentage))
+									// We need to escape "%" once for printf and once for HTML encoding, hence "%" becomes "%%25".
+									taskOutputs[taskID] = append(taskOutputs[taskID], fmt.Sprintf("Progress: Progress %d%%25\n", percentage))
 								}
 								// Return to the user all the output lines from the given starting point.
 								for outputLineNumber < len(taskOutputs[taskID]) {
@@ -405,7 +405,7 @@ func main() {
 								// If the Task is no longer running, make sure we tell the client-side code that.
 								if _, runningTaskFound := runningTasks[taskID]; !runningTaskFound {
 									if taskDetails["progress"] == "Y" {
-										fmt.Fprintf(theResponseWriter, "Progress: Progress 100\n")
+										fmt.Fprintf(theResponseWriter, "Progress: Progress 100%%25\n")
 									}
 									fmt.Fprintf(theResponseWriter, "ERROR: EOF")
 									//delete(taskOutputs, taskID)
