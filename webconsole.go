@@ -39,7 +39,7 @@ var taskOutputs = map[string][]string{}
 // We record the start time and an array of recent runtimes for each Task so we can guess at this run's liklely time and print a progress report if wanted.
 var taskStartTimes = map[string]int64{}
 var taskRunTimes = map[string][]int64{}
-var taskRuntimeGuesses = map[string]int64{}
+var taskRuntimeGuesses = map[string]float64{}
 // We record the stop time for each Task so we can implement rate limiting.
 var taskStopTimes = map[string]int64{}
 
@@ -323,7 +323,7 @@ func main() {
 											for pl := 0; pl < len(runTimeSplit); pl = pl + 1 {
 												runTimeVal, runTimeErr := strconv.Atoi(runTimeSplit[pl])
 												if runTimeErr == nil {
-													runTimes = append(taskRunTimes[taskID], int64(runTimeVal))
+													taskRunTimes[taskID] = append(taskRunTimes[taskID], int64(runTimeVal))
 												}
 											}
 										}
