@@ -316,7 +316,7 @@ func main() {
 										runningTasks[taskID] = exec.Command(commandArray[0], commandArgs...)
 										runningTasks[taskID].Dir = "tasks/" + taskID
 										
-										taskRunTimes[taskID] = []int64
+										taskRunTimes[taskID] = make([]int64, 0)
 										runTimesBytes, fileErr := ioutil.ReadFile("tasks/" + taskID + "/runTimes.txt")
 										if fileErr == nil {
 											runTimeSplit := strings.Split(string(runTimesBytes), "\n")
@@ -333,8 +333,8 @@ func main() {
 										for pl := 0; pl < len(taskRunTimes[taskID]); pl = pl + 1 {
 											totalRunTime = totalRunTime + taskRunTimes[taskID][pl]
 										}
-										taskRuntimeGuesses[taskID] := float64(totalRunTime / int64(len(taskRunTimes[taskID])))
-										taskStartTimes[taskID] := time.Now().Unix()
+										taskRuntimeGuesses[taskID] = float64(totalRunTime / int64(len(taskRunTimes[taskID])))
+										taskStartTimes[taskID] = time.Now().Unix()
 										
 										// ...then run the Task as a goroutine (thread) in the background.
 										go runTask(taskID)
