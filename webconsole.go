@@ -114,6 +114,7 @@ func runTask(theTaskID string) {
 		taskErr = runningTasks[theTaskID].Start()
 		if taskErr == nil {
 			taskRunning := true
+			// Loop until the Task (an external executable) has finished.
 			for taskRunning {
 				readSize, readErr := taskOutput.Read(readBuffer)
 				if readErr == nil {
@@ -127,13 +128,18 @@ func runTask(theTaskID string) {
 					taskRunning = false
 				}
 			}
+			// When we get here, the Task has finished running. We record the finish time and work out the total run time for this run
+			// and update (or create) the list of recent run times for this Task.
 			taskStopTimes[theTaskID] = time.Now().Unix()
 			runTime := taskStopTimes[theTaskID] - taskStartTimes[theTaskID]
 			taskRunTimes[theTaskID] = append(taskRunTimes[theTaskID], runTime)
+			// We don't just record every runtime, we sort the times and trim them to a set of 10 at most, that way we get a reasonable
+			// guess at an average run time, assuming run times are similar each time.
 			sort.Slice(taskRunTimes[theTaskID], func(i, j int) bool { return taskRunTimes[theTaskID][i] < taskRunTimes[theTaskID][j] })
 			for len(taskRunTimes[theTaskID]) >= 10 {
 				taskRunTimes[theTaskID] = taskRunTimes[theTaskID][1:len(taskRunTimes[theTaskID])-2]
 			}
+			// Write the runTimes.txt file for this Task.
 			outputString := ""
 			for pl := 0; pl < len(taskRunTimes[theTaskID]); pl = pl + 1 {
 				outputString = outputString + strconv.FormatInt(taskRunTimes[theTaskID][pl], 10)
@@ -142,7 +148,8 @@ func runTask(theTaskID string) {
 				}
 			}
 			ioutil.WriteFile("tasks/" + theTaskID + "/runTimes.txt", []byte(outputString), 0644)
-			
+			// Remove this Task from the runnings Tasks list. We don't remove the output right away - client-side code might
+			// still not have received all the output yet.
 			delete(runningTasks, theTaskID)
 		}
 	}
@@ -323,7 +330,7 @@ func main() {
 									if currentTimestamp - taskStopTimes[taskID] < int64(rateLimit) {
 										fmt.Fprintf(theResponseWriter, "ERROR: Rate limit (%d seconds) exceeded - try again in %d seconds.", rateLimit, int64(rateLimit) - (currentTimestamp - taskStopTimes[taskID]))
 									} else {
-										// Run the task - first, set up the details...
+										// Get ready to run the Task - set up the Task's details...
 										commandArray := parseCommandString(taskDetails["command"])
 										var commandArgs []string
 										if len(commandArray) > 0 {
@@ -332,6 +339,7 @@ func main() {
 										runningTasks[taskID] = exec.Command(commandArray[0], commandArgs...)
 										runningTasks[taskID].Dir = "tasks/" + taskID
 										
+										// ...get a list (if available) of recent run times...
 										taskRunTimes[taskID] = make([]int64, 0)
 										runTimesBytes, fileErr := ioutil.ReadFile("tasks/" + taskID + "/runTimes.txt")
 										if fileErr == nil {
@@ -344,6 +352,8 @@ func main() {
 											}
 										}
 										
+										// ...use those to guess the run time for this time (just use a simple mean of the
+										// existing runtimes)...
 										var totalRunTime int64
 										totalRunTime = 0
 										for pl := 0; pl < len(taskRunTimes[taskID]); pl = pl + 1 {
