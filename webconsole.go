@@ -333,7 +333,11 @@ func main() {
 										for pl := 0; pl < len(taskRunTimes[taskID]); pl = pl + 1 {
 											totalRunTime = totalRunTime + taskRunTimes[taskID][pl]
 										}
-										taskRuntimeGuesses[taskID] = float64(totalRunTime / int64(len(taskRunTimes[taskID])))
+										if len(taskRunTimes[taskID]) == 0 {
+											taskRuntimeGuesses[taskID] = float64(10)
+										} else {
+											taskRuntimeGuesses[taskID] = float64(totalRunTime / int64(len(taskRunTimes[taskID])))
+										}
 										taskStartTimes[taskID] = time.Now().Unix()
 										
 										// ...then run the Task as a goroutine (thread) in the background.
