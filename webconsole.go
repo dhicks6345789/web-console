@@ -233,7 +233,7 @@ func main() {
 	// configuration and setup.
 	
 	// First, parse any command line arguments.
-	for _, argVal := range os.args {
+	for _, argVal := range os.Args {
 		fmt.Println(argVal)
 	}
 	
