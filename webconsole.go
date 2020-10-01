@@ -236,7 +236,7 @@ func main() {
 	// configuration and setup.
 	
 	// First, parse any command line arguments.
-	currentArgKey = ""
+	currentArgKey := ""
 	for _, argVal := range os.Args {
 		if strings.HasPrefix(argVal, "--") {
 			currentArgKey = argVal
