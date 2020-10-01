@@ -25,6 +25,9 @@ import (
 // Characters to use to generate new ID strings. Lowercase only - any user-provided IDs will be lowercased before use.
 const letters = "abcdefghijklmnopqrstuvwxyz1234567890"
 
+// A map to store any arguments passed on the command line.
+var arguments = map[string]string{}
+
 // We use tokens for session management, not cookies.
 // The timeout, in seconds, of token validity.
 const tokenTimeout = 600
@@ -233,9 +236,18 @@ func main() {
 	// configuration and setup.
 	
 	// First, parse any command line arguments.
+	currentArgKey = ""
 	for _, argVal := range os.Args {
-		fmt.Println(argVal)
+		if strings.HasPrefix(argVal, "--") {
+			currentArgKey = argVal
+		} else {
+			if currentArgKey != "" {
+				arguments[currentArgKey] = argVal
+			}
+			currentArgKey = ""
+		}
 	}
+	fmt.Println(arguments)
 	
 	if len(os.Args) == 1 {
 		// Start the thread that checks for and clears expired tokens.
