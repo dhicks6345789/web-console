@@ -231,6 +231,12 @@ func getUserInput(defaultValue string, messageString string) string {
 func main() {
 	// This application is both a web server for handling API requests and displaying a web-based front end, and a command-line application for handling
 	// configuration and setup.
+	
+	// First, parse any command line arguments.
+	for _, argVal := range os.args {
+		fmt.Println(argVal)
+	}
+	
 	if len(os.Args) == 1 {
 		// Start the thread that checks for and clears expired tokens.
 		go clearExpiredTokens()
