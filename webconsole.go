@@ -242,7 +242,7 @@ func main() {
 			currentArgKey = argVal
 		} else {
 			if currentArgKey != "" {
-				arguments[currentArgKey] = argVal
+				arguments[currentArgKey[2:]] = argVal
 			}
 			currentArgKey = ""
 		}
