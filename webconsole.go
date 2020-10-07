@@ -280,7 +280,7 @@ func main() {
 					if csvDataErr != nil {
 						fmt.Println("ERROR: " + csvDataErr.Error())
 					} else {
-						fmt.Printf("Col: %s Val %s\n", csvDataRecord[0], csvDataRecord[1])
+						arguments[csvDataRecord[0]] = csvDataRecord[1]
 					}
 				}
 			} else {
