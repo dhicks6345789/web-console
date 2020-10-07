@@ -253,6 +253,9 @@ func main() {
 	currentArgKey := ""
 	for _, argVal := range os.Args {
 		if strings.HasPrefix(argVal, "--") {
+			if currentArgKey != "" {
+				arguments[currentArgKey[2:]] = "true"
+			}
 			currentArgKey = argVal
 		} else {
 			if currentArgKey != "" {
@@ -299,7 +302,7 @@ func main() {
 		}
 	}
 	
-	if (arguments["start"] == "true") {
+	if arguments["start"] == "true" {
 		// Start the thread that checks for and clears expired tokens.
 		go clearExpiredTokens()
 		
