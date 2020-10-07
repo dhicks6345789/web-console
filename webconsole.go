@@ -297,9 +297,7 @@ func main() {
 		}
 	}
 	
-	if (arguments["start"] == "true") {
-		fmt.Println("Starting web server...")
-		
+	if (arguments["start"] == "true") {		
 		// Start the thread that checks for and clears expired tokens.
 		go clearExpiredTokens()
 		
@@ -504,9 +502,11 @@ func main() {
 		// Run the main web server loop.
 		hostname := ""
 		if (arguments["localOnly"] == "true") {
+			fmt.Println("Web server limited to localhost only.")
 			hostname = "localhost"
 		}
-		log.Fatal(http.ListenAndServe(hostname+":"+arguments["port"], nil))
+		fmt.Println("Starting web server on port " + arguments["port"])
+		log.Fatal(http.ListenAndServe(hostname + ": " + arguments["port"], nil))
 	// Command-line option to print a list of all Tasks.
 	} else if os.Args[1] == "-list" {
 		taskList, taskErr := getTaskList()
