@@ -297,14 +297,11 @@ func main() {
 		}
 	}
 	
-	fmt.Println(arguments)
-	
 	if (arguments["start"] == "true") {
+		fmt.Println("Starting web server...")
+		
 		// Start the thread that checks for and clears expired tokens.
 		go clearExpiredTokens()
-		
-		// If no parameters are given, simply start the web server.
-		fmt.Println("Starting web server...")
 		
 		// Handle the request URL.
 		http.HandleFunc("/", func (theResponseWriter http.ResponseWriter, theRequest *http.Request) {
@@ -505,8 +502,11 @@ func main() {
 			}
 		})
 		// Run the main web server loop.
-		// To do: replace with Caddy so we can handle HTTPS easily.
-		log.Fatal(http.ListenAndServe(":8090", nil))
+		hostname = ""
+		if (arguments["localOnly"] == "true") {
+			hostname = "localhost"
+		}
+		log.Fatal(http.ListenAndServe(hostname+":"+arguments["port"], nil))
 	// Command-line option to print a list of all Tasks.
 	} else if os.Args[1] == "-list" {
 		taskList, taskErr := getTaskList()
