@@ -240,7 +240,15 @@ func main() {
 	// This application is both a web server for handling API requests and displaying a web-based front end, and a command-line application for handling
 	// configuration and setup.
 	
-	// First, parse any command line arguments.
+	// Set some default argument values.
+	arguments["port"] = "8090"
+	arguments["localOnly"] = "true"
+	arguments["start"] = "true"
+	if len(os.Args) != 1 {
+		arguments["start"] = "false"
+	}
+	
+	// Parse any command line arguments.
 	currentArgKey := ""
 	for _, argVal := range os.Args {
 		if strings.HasPrefix(argVal, "--") {
@@ -288,11 +296,10 @@ func main() {
 			}
 		}
 	}
-
 	
 	fmt.Println(arguments)
 	
-	if len(os.Args) == 1 {
+	if (arguments["start"] == "true") {
 		// Start the thread that checks for and clears expired tokens.
 		go clearExpiredTokens()
 		
