@@ -253,11 +253,11 @@ func main() {
 	// If we have an arument called "config", try and load the given config file (either an Excel or CSV file).
 	if configPath, configFound := dict["config"]; configFound {
 		if strings.HasSuffix(strings.ToLower(configPath), "xlsx") {
-			f, err := excelize.OpenFile(configPath)
-			if err != nil {
-				fmt.Println(err)
-				return
+			excelFile, excelErr := excelize.OpenFile(configPath)
+			if excelErr != nil {
+				fmt.Println("ERROR: " + excelErr)
 			}
+		}
 	}
 	fmt.Println(arguments)
 	
