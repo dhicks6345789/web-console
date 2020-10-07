@@ -276,7 +276,7 @@ func main() {
 						break
 					}
 					if csvDataErr != nil {
-						fmt.println("ERROR: " + csvDataErr.Error())
+						fmt.Println("ERROR: " + csvDataErr.Error())
 					} else {
 						fmt.Printf("Col: %s Val %s\n", csvDataRecord[0], csvDataRecord[1])
 					}
