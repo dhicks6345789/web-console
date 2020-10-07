@@ -312,6 +312,7 @@ func main() {
 			theRequest.ParseForm()
 			
 			// The default root - serve index.html.
+			fmt.Fprintf(theResponseWriter, theRequest.URL.Path)
 			if theRequest.URL.Path == "/" {
 				http.ServeFile(theResponseWriter, theRequest, arguments["webroot"] + "/index.html")
 			// Handle the getPublicTaskList API call (the one API call that doesn't require authentication).
