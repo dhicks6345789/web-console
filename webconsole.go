@@ -244,6 +244,7 @@ func main() {
 	arguments["port"] = "8090"
 	arguments["localOnly"] = "true"
 	arguments["start"] = "true"
+	arguments["webroot"] = "www"
 	if len(os.Args) != 1 {
 		arguments["start"] = "false"
 	}
@@ -260,6 +261,7 @@ func main() {
 			currentArgKey = ""
 		}
 	}
+	
 	// If we have an arument called "config", try and load the given config file (either an Excel or CSV file).
 	if configPath, configFound := arguments["config"]; configFound {
 		// Is the config file an Excel file?
@@ -297,7 +299,7 @@ func main() {
 		}
 	}
 	
-	if (arguments["start"] == "true") {		
+	if (arguments["start"] == "true") {
 		// Start the thread that checks for and clears expired tokens.
 		go clearExpiredTokens()
 		
@@ -308,7 +310,7 @@ func main() {
 			
 			// The default root - serve index.html.
 			if theRequest.URL.Path == "/" {
-				http.ServeFile(theResponseWriter, theRequest, "www/index.html")
+				http.ServeFile(theResponseWriter, theRequest, arguments["webroot"] + "/index.html")
 			// Handle the getPublicTaskList API call (the one API call that doesn't require authentication).
 			} else if strings.HasPrefix(theRequest.URL.Path, "/api/getPublicTaskList") {
 				taskList, taskErr := getTaskList()
@@ -496,7 +498,7 @@ func main() {
 				}
 			// Otherwise, try and find the static file referred to by the request URL.
 			} else {
-				http.ServeFile(theResponseWriter, theRequest, "www" + theRequest.URL.Path)
+				http.ServeFile(theResponseWriter, theRequest,  arguments["webroot"] + theRequest.URL.Path)
 			}
 		})
 		// Run the main web server loop.
