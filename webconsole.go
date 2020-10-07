@@ -269,7 +269,7 @@ func main() {
 			}
 		} else if strings.HasSuffix(strings.ToLower(configPath), "csv") {
 			csvFile, csvErr := os.Open(configPath)
-			if err == nil {
+			if csvErr == nil {
 				csvData := csv.NewReader(csvfile)
 				for {
 					csvDataRecord, csvDataErr := csvData.Read()
@@ -283,7 +283,7 @@ func main() {
 					}
 				}
 			} else {
-				fmt.println("ERROR: " + csvErr.Error())
+				fmt.Println("ERROR: " + csvErr.Error())
 			}
 		}
 	}
