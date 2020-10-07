@@ -256,12 +256,13 @@ func main() {
 		if strings.HasSuffix(strings.ToLower(configPath), "xlsx") {
 			excelFile, excelErr := excelize.OpenFile(configPath)
 			if excelErr == nil {
-				argName, cellErr := excelFile.GetSheetName(0)
-    if err != nil {
-        fmt.Println(err)
-        return
-    }
-				excelFile
+				excelSheetName := excelFile.GetSheetName(0)
+				excelCells, cellErr := excelFile.GetRows(excelSheetName)
+				if cellErr == nil {
+					fmt.Println(excelCells)
+				} else {
+					fmt.Println("ERROR: " + cellErr.Error())
+				}
 			} else {
 				fmt.Println("ERROR: " + excelErr.Error())
 			}
