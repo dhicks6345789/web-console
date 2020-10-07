@@ -20,6 +20,9 @@ import (
 	
 	// Bcrypt for password hashing.
 	"golang.org/x/crypto/bcrypt"
+	
+	// Excelize for loading in Excel files.
+	"github.com/360EntSecGroup-Skylar/excelize"
 )
 
 // Characters to use to generate new ID strings. Lowercase only - any user-provided IDs will be lowercased before use.
@@ -246,6 +249,15 @@ func main() {
 			}
 			currentArgKey = ""
 		}
+	}
+	// If we have an arument called "config", try and load the given config file (either an Excel or CSV file).
+	if configPath, configFound := dict["config"]; configFound {
+		if strings.HasSuffix(strings.ToLower(configPath), "xlsx") {
+			f, err := excelize.OpenFile(configPath)
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
 	}
 	fmt.Println(arguments)
 	
