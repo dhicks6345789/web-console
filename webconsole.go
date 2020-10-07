@@ -266,8 +266,28 @@ func main() {
 			} else {
 				fmt.Println("ERROR: " + excelErr.Error())
 			}
+		} else if strings.HasSuffix(strings.ToLower(configPath), "csv") {
+			csvFile, csvErr := os.Open(configPath)
+			if err == nil {
+				csvData := csv.NewReader(csvfile)
+				for {
+					csvDataRecord, csvDataErr := csvData.Read()
+					if csvDataErr == io.EOF {
+						break
+					}
+					if csvDataErr != nil {
+						fmt.println("ERROR: " + csvDataErr.Error())
+					} else {
+						fmt.Printf("Col: %s Val %s\n", csvDataRecord[0], csvDataRecord[1])
+					}
+				}
+			} else {
+				fmt.println("ERROR: " + csvErr.Error())
+			}
 		}
 	}
+
+	
 	fmt.Println(arguments)
 	
 	if len(os.Args) == 1 {
