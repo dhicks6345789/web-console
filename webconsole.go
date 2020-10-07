@@ -255,7 +255,7 @@ func main() {
 		if strings.HasSuffix(strings.ToLower(configPath), "xlsx") {
 			excelFile, excelErr := excelize.OpenFile(configPath)
 			if excelErr != nil {
-				fmt.Println("ERROR: " + excelErr)
+				fmt.Println("ERROR: " + excelErr.Error())
 			}
 		}
 	}
