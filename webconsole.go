@@ -511,7 +511,7 @@ func main() {
 			hostname = "localhost"
 		}
 		fmt.Println("Starting web server on port " + arguments["port"])
-		log.Fatal(http.ListenAndServe(hostname + ": " + arguments["port"], nil))
+		log.Fatal(http.ListenAndServe(hostname + ":" + arguments["port"], nil))
 	// Command-line option to print a list of all Tasks.
 	} else if os.Args[1] == "-list" {
 		taskList, taskErr := getTaskList()
