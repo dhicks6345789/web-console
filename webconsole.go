@@ -502,7 +502,7 @@ func main() {
 			}
 		})
 		// Run the main web server loop.
-		hostname = ""
+		hostname := ""
 		if (arguments["localOnly"] == "true") {
 			hostname = "localhost"
 		}
