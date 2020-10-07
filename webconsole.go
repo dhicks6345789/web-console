@@ -17,6 +17,7 @@ import (
 	"net/http"
 	"math/rand"
 	"io/ioutil"
+	"encoding/csv"
 	
 	// Bcrypt for password hashing.
 	"golang.org/x/crypto/bcrypt"
