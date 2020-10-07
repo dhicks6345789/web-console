@@ -4,6 +4,7 @@ package main
 
 import (
 	// Standard libraries.
+	"io"
 	"fmt"
 	"os"
 	"log"
@@ -270,7 +271,7 @@ func main() {
 		} else if strings.HasSuffix(strings.ToLower(configPath), "csv") {
 			csvFile, csvErr := os.Open(configPath)
 			if csvErr == nil {
-				csvData := csv.NewReader(csvfile)
+				csvData := csv.NewReader(csvFile)
 				for {
 					csvDataRecord, csvDataErr := csvData.Read()
 					if csvDataErr == io.EOF {
