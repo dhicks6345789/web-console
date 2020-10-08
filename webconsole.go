@@ -321,7 +321,7 @@ func main() {
 			if requestPath == "/" {
 				http.ServeFile(theResponseWriter, theRequest, arguments["webroot"] + "/index.html")
 			// Handle the getPublicTaskList API call (the one API call that doesn't require authentication).
-			} else if strings.HasPrefix(theRequest.URL.Path, "/api/getPublicTaskList") {
+			} else if strings.HasPrefix(requestPath, "/api/getPublicTaskList") {
 				taskList, taskErr := getTaskList()
 				if taskErr == nil {
 					// We return the list of public tasks in JSON format. Note that public tasks might still need a secret to run, "public"
@@ -341,7 +341,7 @@ func main() {
 					fmt.Fprintf(theResponseWriter, "ERROR: " + taskErr.Error())
 				}
 			// Handle a view, run or API request. taskID needs to be provided as a parameter, either via GET or POST.
-			} else if strings.HasPrefix(theRequest.URL.Path, "/view") || strings.HasPrefix(theRequest.URL.Path, "/run") || strings.HasPrefix(theRequest.URL.Path, "/api/") {
+			} else if strings.HasPrefix(requestPath, "/view") || strings.HasPrefix(requestPath, "/run") || strings.HasPrefix(requestPath, "/api/") {
 				taskID := theRequest.Form.Get("taskID")
 				token := theRequest.Form.Get("token")
 				if taskID == "" {
@@ -377,7 +377,7 @@ func main() {
 							tokens[token] = currentTimestamp
 							// Handle view and run requests - no difference server-side, only the client-side treates the URLs differently
 							// (the "runTask" method gets called by the client-side code if the URL contains "run" rather than "view").
-							if strings.HasPrefix(theRequest.URL.Path, "/view") || strings.HasPrefix(theRequest.URL.Path, "/run") {
+							if strings.HasPrefix(requestPath, "/view") || strings.HasPrefix(requestPath, "/run") {
 								// Serve the webconsole.html file, first adding in the Task ID  and token values to be used client-side.
 								webconsoleBuffer, fileReadErr := ioutil.ReadFile("www/webconsole.html")
 								if fileReadErr == nil {
@@ -389,13 +389,13 @@ func main() {
 									authorisationError = "couldn't read webconsole.html"
 								}
 							// API - Exchange the secret for a token.
-							} else if strings.HasPrefix(theRequest.URL.Path, "/api/getToken") {
+							} else if strings.HasPrefix(requestPath, "/api/getToken") {
 								fmt.Fprintf(theResponseWriter, token)
 							// API - Return the Task's title.
-							} else if strings.HasPrefix(theRequest.URL.Path, "/api/getTaskDetails") {
+							} else if strings.HasPrefix(requestPath, "/api/getTaskDetails") {
 								fmt.Fprintf(theResponseWriter, taskDetails["title"] + "\n" + taskDetails["description"])
 							// API - Run a given Task.
-							} else if strings.HasPrefix(theRequest.URL.Path, "/api/runTask") {
+							} else if strings.HasPrefix(requestPath, "/api/runTask") {
 								// If the Task is already running, simply return "OK".
 								if taskIsRunning(taskID) {
 									fmt.Fprintf(theResponseWriter, "OK")
@@ -450,7 +450,7 @@ func main() {
 							// Designed to be called periodically, will return the given Tasks' output as a simple string,
 							// with lines separated by newlines. Takes one parameter, "line", indicating which output line
 							// it should return output from, to save the client-side code having to be sent all of the output each time.
-							} else if strings.HasPrefix(theRequest.URL.Path, "/api/getTaskOutput") {
+							} else if strings.HasPrefix(requestPath, "/api/getTaskOutput") {
 								var atoiErr error
 								// Parse the "line" parameter - defaults to 0, so if not set this method will simply return
 								// all current output.
@@ -485,18 +485,18 @@ func main() {
 									//delete(taskOutputs, taskID)
 								}
 							// Simply returns "YES" if a given Task is running, "NO" otherwise.
-							} else if strings.HasPrefix(theRequest.URL.Path, "/api/getTaskRunning") {
+							} else if strings.HasPrefix(requestPath, "/api/getTaskRunning") {
 								if taskIsRunning(taskID) {
 									fmt.Fprintf(theResponseWriter, "YES")
 								} else {
 									fmt.Fprintf(theResponseWriter, "NO")
 								}
 							// A simple call that doesn't do anything except serve to keep the timestamp for the given Task up-to-date.
-							} else if strings.HasPrefix(theRequest.URL.Path, "/api/keepAlive") {
+							} else if strings.HasPrefix(requestPath, "/api/keepAlive") {
 								fmt.Fprintf(theResponseWriter, "OK")
 							// To do: return API documentation here.
-							} else if strings.HasPrefix(theRequest.URL.Path, "/api/") {
-								fmt.Fprintf(theResponseWriter, "ERROR: Unknown API call: %s", theRequest.URL.Path)
+							} else if strings.HasPrefix(requestPath, "/api/") {
+								fmt.Fprintf(theResponseWriter, "ERROR: Unknown API call: %s", requestPath)
 							}
 						} else {
 							fmt.Fprintf(theResponseWriter, "ERROR: Not authorised - %s.", authorisationError)
@@ -507,7 +507,7 @@ func main() {
 				}
 			// Otherwise, try and find the static file referred to by the request URL.
 			} else {
-				http.ServeFile(theResponseWriter, theRequest,  arguments["webroot"] + theRequest.URL.Path)
+				http.ServeFile(theResponseWriter, theRequest,  arguments["webroot"] + requestPath)
 			}
 		})
 		// Run the main web server loop.
