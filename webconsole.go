@@ -175,7 +175,7 @@ func taskIsRunning(theTaskID string) bool {
 // Read the Task's details from its config file.
 func getTaskDetails(theTaskID string) (map[string]string, error) {
 	taskDetails := make(map[string]string)
-	configPath := "tasks/" + theTaskID + "/config.txt"
+	configPath := arguments["taskroot"] + "/" + theTaskID + "/config.txt"
 	// Check to see if we have a valid task ID.
 	if _, err := os.Stat(configPath); !os.IsNotExist(err) {
 		inFile, inFileErr := os.Open(configPath)
@@ -207,7 +207,7 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 // Returns a list of task details.
 func getTaskList() ([]map[string]string, error) {
 	var taskList []map[string]string
-	taskIDs, readDirErr := ioutil.ReadDir("tasks")
+	taskIDs, readDirErr := ioutil.ReadDir(arguments["taskroot"])
 	if readDirErr == nil {
 		for _, taskID := range taskIDs {
 			taskDetails, taskErr := getTaskDetails(taskID.Name())
