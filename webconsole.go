@@ -245,6 +245,7 @@ func main() {
 	arguments["localOnly"] = "true"
 	arguments["start"] = "true"
 	arguments["webroot"] = "www"
+	arguments["pathPrefix"] = ""
 	if len(os.Args) != 1 {
 		arguments["start"] = "false"
 	}
@@ -312,9 +313,12 @@ func main() {
 			theRequest.ParseForm()
 			
 			// The default root - serve index.html.
-			fmt.Fprintf(theResponseWriter, theRequest.URL.Path + "---")
-			fmt.Fprintf(theResponseWriter, theRequest.Host + "---")
-			if theRequest.URL.Path == "/" {
+			requestPath := theRequest.URL.Path
+			if strings.HasPrefix(requestPath, arguments["pathPrefix"]) {
+				requestPath = requestPath[len(arguments["pathPrefix"]):]
+			}
+			fmt.Fprintf(theResponseWriter, requestPath + "---")
+			if requestPath == "/" {
 				http.ServeFile(theResponseWriter, theRequest, arguments["webroot"] + "/index.html")
 			// Handle the getPublicTaskList API call (the one API call that doesn't require authentication).
 			} else if strings.HasPrefix(theRequest.URL.Path, "/api/getPublicTaskList") {
