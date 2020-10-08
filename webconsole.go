@@ -253,9 +253,10 @@ func main() {
 	arguments["port"] = "8090"
 	arguments["localOnly"] = "true"
 	arguments["start"] = "true"
-	setArgumentIfPathExists("webroot", []string {"www","/etc/webconsole/www"})
-	arguments["pathPrefix"] = ""
 	setArgumentIfPathExists("config", []string {"/etc/webconsole/config.csv"})
+	setArgumentIfPathExists("webroot", []string {"www","/etc/webconsole/www", ""})
+	setArgumentIfPathExists("taskroot", []string {"tasks", "/etc/webconsole/tasks", ""})
+	arguments["pathPrefix"] = ""
 	if len(os.Args) != 1 {
 		arguments["start"] = "false"
 	}
@@ -526,6 +527,7 @@ func main() {
 			fmt.Println("Web server limited to localhost only.")
 			hostname = "localhost"
 		}
+		fmt.Println("Web server using webroot " + arguments["webroot"] + ", taskroot " + arguments["taskroot"] + ".")
 		if arguments["pathPrefix"] == "" {
 			fmt.Println("Web server available at: http://" + hostname + ":" + arguments["port"] + "/")
 		} else {
