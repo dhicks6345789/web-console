@@ -235,6 +235,14 @@ func getUserInput(defaultValue string, messageString string) string {
 	return result
 }
 
+func setArgumentIfPathExists(theArgument, thePaths) {
+	for _, path := range thePaths {
+		if _, existsErr := os.Stat(path); !os.IsNotExist(existsErr) {
+			arguments[theArgument] = path
+		}
+	}
+}
+
 // The main body of the program - parse user-provided command-line paramaters, or start the main web server process.
 func main() {
 	// This application is both a web server for handling API requests and displaying a web-based front end, and a command-line application for handling
