@@ -410,6 +410,7 @@ func main() {
 							// API - Run a given Task.
 							} else if strings.HasPrefix(requestPath, "/api/runTask") {
 								// If the Task is already running, simply return "OK".
+								log.Print("taskID: " + taskID)
 								if taskIsRunning(taskID) {
 									fmt.Fprintf(theResponseWriter, "OK")
 								} else {
@@ -425,11 +426,11 @@ func main() {
 											commandArgs = commandArray[1:]
 										}
 										runningTasks[taskID] = exec.Command(commandArray[0], commandArgs...)
-										runningTasks[taskID].Dir = "tasks/" + taskID
+										runningTasks[taskID].Dir = arguments["taskroot"] + "/" + taskID
 										
 										// ...get a list (if available) of recent run times...
 										taskRunTimes[taskID] = make([]int64, 0)
-										runTimesBytes, fileErr := ioutil.ReadFile("tasks/" + taskID + "/runTimes.txt")
+										runTimesBytes, fileErr := ioutil.ReadFile(arguments["taskroot"] + "/" + taskID + "/runTimes.txt")
 										if fileErr == nil {
 											runTimeSplit := strings.Split(string(runTimesBytes), "\n")
 											for pl := 0; pl < len(runTimeSplit); pl = pl + 1 {
