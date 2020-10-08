@@ -390,7 +390,7 @@ func main() {
 							// (the "runTask" method gets called by the client-side code if the URL contains "run" rather than "view").
 							if strings.HasPrefix(requestPath, "/view") || strings.HasPrefix(requestPath, "/run") {
 								// Serve the webconsole.html file, first adding in the Task ID  and token values to be used client-side.
-								webconsoleBuffer, fileReadErr := ioutil.ReadFile("www/webconsole.html")
+								webconsoleBuffer, fileReadErr := ioutil.ReadFile(arguments["webroot"] + "/webconsole.html")
 								if fileReadErr == nil {
 									webconsoleString := string(webconsoleBuffer)
 									webconsoleString = strings.Replace(webconsoleString, "taskID = \"\"", "taskID = \"" + taskID + "\"", -1)
