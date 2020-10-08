@@ -235,7 +235,7 @@ func getUserInput(defaultValue string, messageString string) string {
 	return result
 }
 
-func setArgumentIfPathExists(theArgument string, thePaths string[]) {
+func setArgumentIfPathExists(theArgument string, thePaths []string) {
 	for _, path := range thePaths {
 		if _, existsErr := os.Stat(path); !os.IsNotExist(existsErr) {
 			arguments[theArgument] = path
