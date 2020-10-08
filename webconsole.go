@@ -239,6 +239,7 @@ func setArgumentIfPathExists(theArgument string, thePaths []string) {
 	for _, path := range thePaths {
 		if _, existsErr := os.Stat(path); !os.IsNotExist(existsErr) {
 			arguments[theArgument] = path
+			return
 		}
 	}
 }
@@ -252,7 +253,7 @@ func main() {
 	arguments["port"] = "8090"
 	arguments["localOnly"] = "true"
 	arguments["start"] = "true"
-	arguments["webroot"] = "www"
+	setArgumentIfPathExists("webroot", []string {"www","/etc/webconsole/www"})
 	arguments["pathPrefix"] = ""
 	setArgumentIfPathExists("config", []string {"/etc/webconsole/config.csv"})
 	if len(os.Args) != 1 {
