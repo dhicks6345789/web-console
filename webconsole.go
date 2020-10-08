@@ -525,7 +525,7 @@ func main() {
 			fmt.Println("Web server limited to localhost only.")
 			hostname = "localhost"
 		}
-		fmt.Println("Web server available at: http://" + hostname + arguments[pathPrefix] + ":" + arguments["port"] + "/")
+		fmt.Println("Web server available at: http://" + hostname + arguments["pathPrefix"] + ":" + arguments["port"] + "/")
 		log.Fatal(http.ListenAndServe(hostname + ":" + arguments["port"], nil))
 	// Command-line option to print a list of all Tasks.
 	} else if os.Args[1] == "-list" {
