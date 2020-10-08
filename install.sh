@@ -4,3 +4,4 @@ go get github.com/360EntSecGroup-Skylar/excelize
 go build webconsole.go
 cp webconsole /usr/local/bin
 mkdir /etc/webconsole
+cp --recursive www /etc/webconsole
