@@ -246,6 +246,7 @@ func main() {
 	arguments["start"] = "true"
 	arguments["webroot"] = "www"
 	arguments["pathPrefix"] = ""
+	setArgumentIfPathExists("config", ["/etc/webconsole/config.csv"])
 	if len(os.Args) != 1 {
 		arguments["start"] = "false"
 	}
