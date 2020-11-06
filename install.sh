@@ -10,6 +10,6 @@ cp --recursive www /etc/webconsole
 systemctl stop webconsole
 # ...then set up systemd to run Webconsole.
 cp webconsole.service /etc/systemd/system/webconsole.service
-chmod /etc/systemd/system/webconsole.service 644
+chmod 644 /etc/systemd/system/webconsole.service
 systemctl start webconsole
 systemctl enable webconsole
