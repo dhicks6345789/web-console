@@ -8,7 +8,7 @@ Type=simple
 
 ExecStart=/usr/local/bin/webconsole
 
-ExecStop=/usr/bin/fusermount -u /mnt/content
+ExecStop=kill $MAINPID
 Restart=always
 RestartSec=4
  
