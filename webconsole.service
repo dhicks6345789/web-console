@@ -1,14 +1,12 @@
 [Unit]
-Description=RClone Content
-AssertPathIsDirectory=/mnt/content
+Description=Webconsole
 Wants=network-online.target
 After=network-online.target
  
 [Service]
 Type=simple
-Environment=RCLONE_CONFIG=/root/.config/rclone/rclone.conf
 
-ExecStart=/usr/bin/rclone mount content: /mnt/content --cache-dir /var/cache/rclone-content --vfs-cache-max-age 25h0m0s --vfs-cache-mode full --vfs-cache-poll-interval 55m0s --vfs-cache-max-size 5G --allow-other
+ExecStart=/usr/local/bin/webconsole
 
 ExecStop=/usr/bin/fusermount -u /mnt/content
 Restart=always
