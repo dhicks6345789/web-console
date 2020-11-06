@@ -280,6 +280,8 @@ func main() {
 		}
 	}
 	
+	fmt.Println(arguments)
+	
 	if arguments["help"] == "true" {
 		fmt.Println("Webconsole - a simple way to turn a command line application into a web app.")
 		fmt.Println("Usage: webconsole [--start] [--port int] [--localOnly true/false] [--config path] [--webroot path] [--taskroot path]")
