@@ -252,6 +252,8 @@ func main() {
 	// Set some default argument values.
 	arguments["help"] = "false"
 	arguments["start"] = "true"
+	arguments["list"] = "false"
+	arguments["new"] = "false"
 	arguments["port"] = "8090"
 	arguments["localOnly"] = "true"
 	setArgumentIfPathExists("config", []string {"/etc/webconsole/config.csv"})
@@ -282,8 +284,6 @@ func main() {
 	if currentArgKey != "" {
 		arguments[currentArgKey[2:]] = "true"
 	}
-	
-	fmt.Println(arguments)
 	
 	// Print the help / usage documentation if the user wanted.
 	if arguments["help"] == "true" {
@@ -554,7 +554,7 @@ func main() {
 		}
 		log.Fatal(http.ListenAndServe(hostname + ":" + arguments["port"], nil))
 	// Command-line option to print a list of all Tasks.
-	} else if os.Args[1] == "-list" {
+	} else if arguments["list"] == "true" {
 		taskList, taskErr := getTaskList()
 		if taskErr == nil {
 			for _, task := range taskList {
@@ -567,8 +567,8 @@ func main() {
 		} else {
 			fmt.Println("ERROR: " + taskErr.Error())
 		}
-	// Command-line option to generate a new Task.
-	} else if os.Args[1] == "-new" {
+	// Generate a new Task.
+	} else if arguments["new"] == "true" {
 		// Generate a new, unique Task ID.
 		var newTaskID string
 		for {
