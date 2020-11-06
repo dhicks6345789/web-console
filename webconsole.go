@@ -288,8 +288,24 @@ func main() {
 	// Print the help / usage documentation if the user wanted.
 	if arguments["help"] == "true" {
 		fmt.Println("Webconsole - a simple way to turn a command line application into a web app.")
-		fmt.Println("Usage: webconsole [--start] [--port int] [--localOnly true/false] [--config path] [--webroot path] [--taskroot path]")
+		fmt.Println("Runs as a simple web server to host Task pages that allow the end-user to simply click a")
+		fmt.Println("button to run a batch / script / etc file. Note that by itself, Webconsole doesn't handle HTTPS. If you are installing on a world-facing")
+		fmt.Println("server you should use a proxy server that handles HTTPS - we recommend Caddy as it will automatically handle Let's Encrypt certificates.")
+		fmt.Println("If you are behind a firewall then we recommend tunnelto.dev, giving you an HTTPS-secured URL to access. Both options can be installed via")
+		fmt.Println("the install.bat / install.sh scripts.")
 		fmt.Println("")
+		fmt.Println("Usage: webconsole [--new] [--list] [--start] [--localOnly true/false] [--port int] [--config path] [--webroot path] [--taskroot path]")
+		fmt.Println("--new: creates a new Task. Each Task has a unique 16-character ID which can be passed as part of the URL or via a POST request, so")
+		fmt.Println("  for basic security you can give a user a URL with an embedded ID. Use an external authentication service for better security.")
+		fmt.Println("--list: prints a list of existing Tasks.")
+		fmt.Println("--start: runs as a web server, waiting for requests. Logs are printed straight to stdout - hit Ctrl-C to quit.")
+		fmt.Println("  By itself, the start command can be handy for quickly debugging.")
+		fmt.Println("  Run install.bat / install.sh to create a Windows service or Linux / MacOS deamon.")
+		fmt.Println("--localOnly: default is \"true\", in which case the built-in webserver will only respond to requests from the local server.")
+		fmt.Println("--port: the port number the web server should listen out on. Defaults to 8090.")
+		fmt.Println("--config: where to find the config file. By default, on Linux this is /etc/webconsole/config.csv.")
+		fmt.Println("--webroot: the folder to use for the web root.")
+		fmt.Println("--taskroot: the folder to use to store Tasks.")
 		os.Exit(0)
 	}
 	
