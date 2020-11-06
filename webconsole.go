@@ -250,14 +250,17 @@ func main() {
 	// configuration and setup.
 	
 	// Set some default argument values.
+	arguments["help"] = "false"
+	arguments["start"] = "true"
 	arguments["port"] = "8090"
 	arguments["localOnly"] = "true"
-	arguments["start"] = "true"
 	setArgumentIfPathExists("config", []string {"/etc/webconsole/config.csv"})
 	setArgumentIfPathExists("webroot", []string {"www","/etc/webconsole/www", ""})
 	setArgumentIfPathExists("taskroot", []string {"tasks", "/etc/webconsole/tasks", ""})
 	arguments["pathPrefix"] = ""
-	if len(os.Args) != 1 {
+	if len(os.Args) == 1 {
+		fmt.Println("Webconsole - starting webserver. \"webconsole --help\" for more details.")
+	} else {
 		arguments["start"] = "false"
 	}
 	
@@ -275,6 +278,13 @@ func main() {
 			}
 			currentArgKey = ""
 		}
+	}
+	
+	if arguments["help"] == "true" {
+		fmt.Println("Webconsole - a simple way to turn a command line application into a web app.")
+		fmt.Println("Usage: webconsole [--start] [--port int] [--localOnly true/false] [--config path] [--webroot path] [--taskroot path]")
+		fmt.Println("")
+		os.Exit(0)
 	}
 	
 	// If we have an arument called "config", try and load the given config file (either an Excel or CSV file).
