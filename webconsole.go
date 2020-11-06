@@ -279,9 +279,13 @@ func main() {
 			currentArgKey = ""
 		}
 	}
+	if currentArgKey != "" {
+		arguments[currentArgKey[2:]] = "true"
+	}
 	
 	fmt.Println(arguments)
 	
+	// Print the help / usage documentation if the user wanted.
 	if arguments["help"] == "true" {
 		fmt.Println("Webconsole - a simple way to turn a command line application into a web app.")
 		fmt.Println("Usage: webconsole [--start] [--port int] [--localOnly true/false] [--config path] [--webroot path] [--taskroot path]")
