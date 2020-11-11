@@ -128,7 +128,7 @@ func runTask(theTaskID string) {
 				// Loop until the Task (an external executable) has finished.
 				for taskRunning {
 					// Read both STDERR and STDIN into a string array ready for output to the web interface.
-					readErrorSize, readErr := taskOutput.Read(errorBuffer)
+					readErrorSize, readErr := taskError.Read(errorBuffer)
 					readOutputSize, readErr := taskOutput.Read(readBuffer)
 					if readErr == nil {
 						errorSplit := strings.Split(string(errorBuffer[0:readErrorSize]), "\n")
