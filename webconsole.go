@@ -436,9 +436,16 @@ func main() {
 								webconsoleBuffer, fileReadErr := ioutil.ReadFile(arguments["webroot"] + "/webconsole.html")
 								if fileReadErr == nil {
 									webconsoleString := string(webconsoleBuffer)
-									webconsoleString = strings.Replace(webconsoleString, "taskID = \"\"", "taskID = \"" + taskID + "\"", -1)
-									webconsoleString = strings.Replace(webconsoleString, "token = \"\"", "token = \"" + token + "\"", -1)
-									http.ServeContent(theResponseWriter, theRequest, "webconsole.html", time.Now(), strings.NewReader(webconsoleString))
+									formattingJSBuffer, fileReadErr := ioutil.ReadFile(arguments["webroot"] + "/formatting.js")
+									if fileReadErr == nil {
+										formattingJSString = string(formattingJSBuffer)
+										webconsoleString = strings.Replace(webconsoleString, "taskID = \"\"", "taskID = \"" + taskID + "\"", -1)
+										webconsoleString = strings.Replace(webconsoleString, "token = \"\"", "token = \"" + token + "\"", -1)
+										webconsoleString = strings.Replace(webconsoleString, "// Include formatting.js.", formattingJSString, -1)
+										http.ServeContent(theResponseWriter, theRequest, "webconsole.html", time.Now(), strings.NewReader(webconsoleString))
+									} else {
+										authorisationError = "couldn't read formatting.js"
+									}
 								} else {
 									authorisationError = "couldn't read webconsole.html"
 								}
