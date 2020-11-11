@@ -1,6 +1,6 @@
 package main
 // Web Console - lets end-users run command-line applications via a web page, complete with authentication and a user interface.
-// For more details, see project page at: https://github.com/dhicks6345789/web-console
+// For more details, see https://www.sansay.co.uk/docs/web-console
 
 import (
 	// Standard libraries.
