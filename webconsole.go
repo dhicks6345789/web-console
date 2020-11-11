@@ -438,7 +438,7 @@ func main() {
 									webconsoleString := string(webconsoleBuffer)
 									formattingJSBuffer, fileReadErr := ioutil.ReadFile(arguments["webroot"] + "/formatting.js")
 									if fileReadErr == nil {
-										formattingJSString = string(formattingJSBuffer)
+										formattingJSString := string(formattingJSBuffer)
 										webconsoleString = strings.Replace(webconsoleString, "taskID = \"\"", "taskID = \"" + taskID + "\"", -1)
 										webconsoleString = strings.Replace(webconsoleString, "token = \"\"", "token = \"" + token + "\"", -1)
 										webconsoleString = strings.Replace(webconsoleString, "// Include formatting.js.", formattingJSString, -1)
