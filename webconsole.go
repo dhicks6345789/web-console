@@ -116,49 +116,61 @@ func parseCommandString(theString string) []string {
 // and output captured while the user does other stuff.
 func runTask(theTaskID string) {
 	readBuffer := make([]byte, 10240)
+	errorBuffer := make([]byte, 10240)
 	taskOutputs[theTaskID] = make([]string, 0)
-	taskOutput, taskErr := runningTasks[theTaskID].StdoutPipe()
-	if taskErr == nil {
-		taskErr = runningTasks[theTaskID].Start()
-		if taskErr == nil {
-			taskRunning := true
-			// Loop until the Task (an external executable) has finished.
-			for taskRunning {
-				readSize, readErr := taskOutput.Read(readBuffer)
-				if readErr == nil {
-					bufferSplit := strings.Split(string(readBuffer[0:readSize]), "\n")
-					for pl := 0; pl < len(bufferSplit); pl++ {
-						if strings.TrimSpace(bufferSplit[pl]) != "" {
-							taskOutputs[theTaskID] = append(taskOutputs[theTaskID], bufferSplit[pl])
+	taskOutput, taskOutputErr := runningTasks[theTaskID].StdoutPipe()
+	if taskOutputErr == nil {
+		taskError, taskErrorErr := runningTasks[theTaskID].StderrPipe()
+		if taskErrorErr == nil {
+			taskErr = runningTasks[theTaskID].Start()
+			if taskErr == nil {
+				taskRunning := true
+				// Loop until the Task (an external executable) has finished.
+				for taskRunning {
+					// Read both STDERR and STDIN into a string array ready for output to the web interface.
+					readErrorSize, readErr := taskOutput.Read(errorBuffer)
+					readOutputSize, readErr := taskOutput.Read(readBuffer)
+					if readErr == nil {
+						errorSplit := strings.Split(string(errorBuffer[0:readErrorSize]), "\n")
+						bufferSplit := strings.Split(string(readBuffer[0:readOutputSize]), "\n")
+						for pl := 0; pl < len(errorSplit); pl++ {
+							if strings.TrimSpace(errorSplit[pl]) != "" {
+								taskOutputs[theTaskID] = append(taskOutputs[theTaskID], errorSplit[pl])
+							}
 						}
+						for pl := 0; pl < len(bufferSplit); pl++ {
+							if strings.TrimSpace(bufferSplit[pl]) != "" {
+								taskOutputs[theTaskID] = append(taskOutputs[theTaskID], bufferSplit[pl])
+							}
+						}
+					} else {
+						taskRunning = false
 					}
-				} else {
-					taskRunning = false
 				}
-			}
-			// When we get here, the Task has finished running. We record the finish time and work out the total run time for this run
-			// and update (or create) the list of recent run times for this Task.
-			taskStopTimes[theTaskID] = time.Now().Unix()
-			runTime := taskStopTimes[theTaskID] - taskStartTimes[theTaskID]
-			taskRunTimes[theTaskID] = append(taskRunTimes[theTaskID], runTime)
-			// We don't just record every runtime, we sort the times and trim them to a set of 10 at most, that way we get a reasonable
-			// guess at an average run time, assuming run times are similar each time.
-			sort.Slice(taskRunTimes[theTaskID], func(i, j int) bool { return taskRunTimes[theTaskID][i] < taskRunTimes[theTaskID][j] })
-			for len(taskRunTimes[theTaskID]) >= 10 {
-				taskRunTimes[theTaskID] = taskRunTimes[theTaskID][1:len(taskRunTimes[theTaskID])-2]
-			}
-			// Write the runTimes.txt file for this Task.
-			outputString := ""
-			for pl := 0; pl < len(taskRunTimes[theTaskID]); pl = pl + 1 {
-				outputString = outputString + strconv.FormatInt(taskRunTimes[theTaskID][pl], 10)
-				if pl < len(taskRunTimes[theTaskID])-1 {
-					outputString = outputString + "\n"
+				// When we get here, the Task has finished running. We record the finish time and work out the total run time for this run
+				// and update (or create) the list of recent run times for this Task.
+				taskStopTimes[theTaskID] = time.Now().Unix()
+				runTime := taskStopTimes[theTaskID] - taskStartTimes[theTaskID]
+				taskRunTimes[theTaskID] = append(taskRunTimes[theTaskID], runTime)
+				// We don't just record every runtime, we sort the times and trim them to a set of 10 at most, that way we get a reasonable
+				// guess at an average run time, assuming run times are similar each time.
+				sort.Slice(taskRunTimes[theTaskID], func(i, j int) bool { return taskRunTimes[theTaskID][i] < taskRunTimes[theTaskID][j] })
+				for len(taskRunTimes[theTaskID]) >= 10 {
+					taskRunTimes[theTaskID] = taskRunTimes[theTaskID][1:len(taskRunTimes[theTaskID])-2]
 				}
+				// Write the runTimes.txt file for this Task.
+				outputString := ""
+				for pl := 0; pl < len(taskRunTimes[theTaskID]); pl = pl + 1 {
+					outputString = outputString + strconv.FormatInt(taskRunTimes[theTaskID][pl], 10)
+					if pl < len(taskRunTimes[theTaskID])-1 {
+						outputString = outputString + "\n"
+					}
+				}
+				ioutil.WriteFile("tasks/" + theTaskID + "/runTimes.txt", []byte(outputString), 0644)
+				// Remove this Task from the runnings Tasks list. We don't remove the output right away - client-side code might
+				// still not have received all the output yet.
+				delete(runningTasks, theTaskID)
 			}
-			ioutil.WriteFile("tasks/" + theTaskID + "/runTimes.txt", []byte(outputString), 0644)
-			// Remove this Task from the runnings Tasks list. We don't remove the output right away - client-side code might
-			// still not have received all the output yet.
-			delete(runningTasks, theTaskID)
 		}
 	}
 }
