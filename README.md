@@ -1,5 +1,5 @@
 # Web Console
-Provides a simple web interface for command-line applications - quickly publish your Python / Go / Bash / Powershell / etc script as a basic web app. Turns STDOUT into formatted text, alerts and progress indicators (interface written using Bootstrap / JQuery). Supports any target language, simply runs any command-line based script or executable.
+Provides a simple web interface for command-line applications - quickly publish your Python / Go / Bash / Powershell / etc script as a basic web app. Turns STDOUT / STDERR into formatted text, alerts and progress indicators (interface written using Bootstrap / JQuery). Supports any target language, simply runs any command-line based script or executable.
 
 Cross-platform (written in Go), runs as a self-contained executable complete with embedded web server on Windows, Linux and MacOS. The install process includes optional setup as a service / deamon on each platform (uses [NSSM](https://nssm.cc/) on Windows), plus the installer includes setup for [tunnelto.dev](https://tunnelto.dev/) to provide a secure connection through a firewall and a handy subdomain to point a browser at if needed.
 
@@ -63,3 +63,7 @@ progress: If "Y", then a progress bar will be presented on the page. The percent
 command: The command line to run. Pretty much any valid command line (or shell / batch script) should work.
 
 Note that changes to config.txt for any Task will be in effect the next time the Task is triggered, without any need to restart / reload anything server side or even refresh the web interface if you already have the Task's page open.
+
+## Custom Output Formatting
+
+Webconsole adds the contents of "formatting.js" to the main HTML user interface to handle text formatting. If you want to customise the way text is formatted you can use your own version. Simpy copy the formatting.js file from the web root folder (/etc/webconsole/www by default on Linux) to the tasks folder (/etc/webconsole/tasks), or to an individual task's folder if you want to customise formatting for one particular task, then make changes to that file as you wish.
