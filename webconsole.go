@@ -116,31 +116,24 @@ func parseCommandString(theString string) []string {
 // and output captured while the user does other stuff.
 func runTask(theTaskID string) {
 	readBuffer := make([]byte, 10240)
-	errorBuffer := make([]byte, 10240)
 	taskOutputs[theTaskID] = make([]string, 0)
-	taskOutput, taskOutputErr := runningTasks[theTaskID].StdoutPipe()
-	if taskOutputErr == nil {
-		taskError, taskErrorErr := runningTasks[theTaskID].StderrPipe()
-		if taskErrorErr == nil {
+	taskStdout, taskStdoutErr := runningTasks[theTaskID].StdoutPipe()
+	if taskStdoutErr == nil {
+		taskStderr, taskStderrErr := runningTasks[theTaskID].StderrPipe()
+		if taskStderrErr == nil {
+			taskOutput := io.MultiReader(taskStdout, taskStderr)
 			taskErr := runningTasks[theTaskID].Start()
 			if taskErr == nil {
 				taskRunning := true
 				// Loop until the Task (an external executable) has finished.
 				for taskRunning {
 					// Read both STDERR and STDIN into a string array ready for output to the web interface.
-					readErrorSize, readErr := taskError.Read(errorBuffer)
 					readOutputSize, readErr := taskOutput.Read(readBuffer)
 					if readErr == nil {
-						errorSplit := strings.Split(string(errorBuffer[0:readErrorSize]), "\n")
 						bufferSplit := strings.Split(string(readBuffer[0:readOutputSize]), "\n")
 						for pl := 0; pl < len(errorSplit); pl++ {
 							if strings.TrimSpace(errorSplit[pl]) != "" {
 								taskOutputs[theTaskID] = append(taskOutputs[theTaskID], errorSplit[pl])
-							}
-						}
-						for pl := 0; pl < len(bufferSplit); pl++ {
-							if strings.TrimSpace(bufferSplit[pl]) != "" {
-								taskOutputs[theTaskID] = append(taskOutputs[theTaskID], bufferSplit[pl])
 							}
 						}
 					} else {
