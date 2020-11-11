@@ -67,3 +67,19 @@ Note that changes to config.txt for any Task will be in effect the next time the
 ## Custom Output Formatting
 
 Webconsole adds the contents of "formatting.js" to the main HTML user interface to handle text formatting. If you want to customise the way text is formatted you can use your own version. Simpy copy the formatting.js file from the web root folder (/etc/webconsole/www by default on Linux) to the tasks folder (/etc/webconsole/tasks), or to an individual task's folder if you want to customise formatting for one particular task, then make changes to that file as you wish.
+
+The default contents of formatting.js are fairly simple, just formatting text in different colours if a keyword is found at the start of a line:
+
+```
+// If a string starts with "ERROR:", format the line in red.
+if (value.toLowerCase().startsWith("error: ")) {
+	value = "<span style='color:red'>" + value + "</span>"
+	$("#taskAlerts").html(value);
+} else if (value.toLowerCase().startsWith("warning: ") || value.toLowerCase().startsWith("alert: ")) {
+	value = "<span style='color:yellow'>" + value + "</span>"
+	$("#taskAlerts").html(value);
+} else if (value.toLowerCase().startsWith("status: ")) {
+	value = "<span style='color:green'>" + value.substr(8); + "</span>"
+	$("#taskAlerts").html(value);
+}
+```
