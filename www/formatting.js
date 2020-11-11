@@ -6,6 +6,6 @@
 									value = "<span style='color:yellow'>" + value + "</span>"
 									$("#taskAlerts").html(value);
 								} else if (value.toLowerCase().startsWith("status: ")) {
-									value = "<span style='color:green'>" + value.str.substr(8); + "</span>"
+									value = "<span style='color:green'>" + value.substr(8); + "</span>"
 									$("#taskAlerts").html(value);
 								}
