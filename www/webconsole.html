@@ -77,6 +77,7 @@
 								intervalFunction = setInterval(keepAlive, 30000);
 								$("#runTaskButton").html("Run");
 								$("#runTaskButton").prop("disabled", false);
+								$("#taskProgress").html("");
 							} else {
 								// Include formatting.js.
 								if (value.toLowerCase().startsWith("progress:")) {
