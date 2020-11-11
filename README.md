@@ -61,3 +61,5 @@ public: If "Y", this Task will be listed on the index page. Obviously, only use 
 ratelimit: If more than 0, then this Task will not be allowed to run more often than the given number of seconds.
 progress: If "Y", then a progress bar will be presented on the page. The percentages the progress bar shows will be guessed from previous runtimes of this Task.
 command: The command line to run. Pretty much any valid command line (or shell / batch script) should work.
+
+Note that changes to config.txt for any Task will be in effect the next time the Task is triggered, without any need to restart / reload anything server side or even refresh the web interface if you already have the Task's page open.
