@@ -443,9 +443,9 @@ func main() {
 								if fileReadErr == nil {
 									formattingJSBuffer, fileReadErr := ioutil.ReadFile(arguments["taskroot"] + "/" + taskID + "/formatting.js")
 									if fileReadErr != nil {
-										formattingJSBuffer, fileReadErr := ioutil.ReadFile(arguments["taskroot"] + "/formatting.js")
+										formattingJSBuffer, fileReadErr = ioutil.ReadFile(arguments["taskroot"] + "/formatting.js")
 										if fileReadErr != nil {
-											formattingJSBuffer, fileReadErr := ioutil.ReadFile(arguments["webroot"] + "/formatting.js")
+											formattingJSBuffer, fileReadErr = ioutil.ReadFile(arguments["webroot"] + "/formatting.js")
 										}
 									}
 									if fileReadErr == nil {
