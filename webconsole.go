@@ -122,7 +122,7 @@ func runTask(theTaskID string) {
 	if taskOutputErr == nil {
 		taskError, taskErrorErr := runningTasks[theTaskID].StderrPipe()
 		if taskErrorErr == nil {
-			taskErr = runningTasks[theTaskID].Start()
+			taskErr := runningTasks[theTaskID].Start()
 			if taskErr == nil {
 				taskRunning := true
 				// Loop until the Task (an external executable) has finished.
