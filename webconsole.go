@@ -585,10 +585,10 @@ func main() {
 				taskList, taskErr := getTaskList()
 				if taskErr == nil {
 					serveFile = true
-					for _, taskID := range taskList {
-						if strings.HasPrefix(requestPath, "/favicon/" + taskID + "/") {
-							faviconPath := arguments["taskroot"] + "/" + taskID + "/" + strings.Split(requestPath,"/")[2]
-							if fileExists(faviconPath) {
+					for _, task := range taskList {
+						if strings.HasPrefix(requestPath, "/favicon/" + task + "/") {
+							faviconPath := arguments["taskroot"] + "/" + task + "/" + strings.Split(requestPath,"/")[2]
+							if os.fileExists(faviconPath) {
 								http.ServeFile(theResponseWriter, theRequest,  faviconPath)
 								serveFile = false
 							}
