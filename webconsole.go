@@ -599,6 +599,7 @@ func main() {
 		log.Fatal(http.ListenAndServe(hostname + ":" + arguments["port"], nil))
 	// Command-line option to print a list of all Tasks.
 	} else if arguments["list"] == "true" {
+		fmt.Println("Reading Tasks from " + arguments["taskroot"])
 		taskList, taskErr := getTaskList()
 		if taskErr == nil {
 			for _, task := range taskList {
