@@ -667,7 +667,7 @@ func main() {
 			
 			// Write the config file - a simple text file, one value per line.
 			outputString = outputString + "title: " + newTaskTitle + "\npublic: " + newTaskPublic + "\ncommand: " + newTaskCommand
-			writeFileErr := ioutil.WriteFile(arguments["taskroot] + "/" + newTaskID + "/config.txt", []byte(outputString), 0644)
+			writeFileErr := ioutil.WriteFile(arguments["taskroot"] + "/" + newTaskID + "/config.txt", []byte(outputString), 0644)
 			if writeFileErr != nil {
 				fmt.Println("ERROR: Couldn't write config for Task " + newTaskID + ".")
 			}
