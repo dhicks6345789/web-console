@@ -592,6 +592,7 @@ func main() {
 								http.ServeFile(theResponseWriter, theRequest,  faviconPath)
 								serveFile = false
 							}
+						}
 					}
 				} else {
 					fmt.Fprintf(theResponseWriter, "ERROR: " + taskErr.Error())
@@ -599,7 +600,7 @@ func main() {
 			} else {
 				serveFile = true
 			}
-			if (serveFile == true) {
+			if serveFile == true {
 				http.ServeFile(theResponseWriter, theRequest,  arguments["webroot"] + requestPath)
 			}
 		})
