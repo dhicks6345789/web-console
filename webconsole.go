@@ -377,6 +377,7 @@ func main() {
 			}
 			log.Print("Request: " + requestPath)
 			
+			serveFile := false
 			if requestPath == "/" {
 				http.ServeFile(theResponseWriter, theRequest, arguments["webroot"] + "/index.html")
 			// Handle the getPublicTaskList API call (the one API call that doesn't require authentication).
@@ -581,8 +582,24 @@ func main() {
 				}
 			// Otherwise, try and find the static file referred to by the request URL.
 			} else if strings.HasPrefix(requestPath, "/favicon") {
-				http.ServeFile(theResponseWriter, theRequest,  arguments["webroot"] + requestPath)
+				taskList, taskErr := getTaskList()
+				if taskErr == nil {
+					serveFile = true
+					for _, taskID := range taskList {
+						if strings.HasPrefix(requestPath, "/favicon/" + taskID + "/") {
+							faviconPath := arguments["taskroot"] + "/" + taskID + "/" + strings.Split(requestPath,"/")[2]
+							if fileExists(faviconPath) {
+								http.ServeFile(theResponseWriter, theRequest,  faviconPath)
+								serveFile = false
+							}
+					}
+				} else {
+					fmt.Fprintf(theResponseWriter, "ERROR: " + taskErr.Error())
+				}
 			} else {
+				serveFile = true
+			}
+			if (serveFile == true) {
 				http.ServeFile(theResponseWriter, theRequest,  arguments["webroot"] + requestPath)
 			}
 		})
