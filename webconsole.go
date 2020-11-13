@@ -588,7 +588,7 @@ func main() {
 					for _, task := range taskList {
 						if strings.HasPrefix(requestPath, "/favicon/" + task["taskID"] + "/") {
 							faviconPath := arguments["taskroot"] + "/" + task["taskID"] + "/" + strings.Split(requestPath,"/")[2]
-							if os.FileExists(faviconPath) {
+							if _, fileExistsErr := os.Stat(faviconPath); os.IsNotExist(fileExistsErr) {
 								http.ServeFile(theResponseWriter, theRequest,  faviconPath)
 								serveFile = false
 							}
