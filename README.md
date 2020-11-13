@@ -11,7 +11,7 @@ Simple API, handles authentication (without using cookies), provides a mechanism
 
 ## Live Demo
 
-Link to live demo goes here.
+[See a live demo.](https://www.sansay.co.uk/web-console/view?taskID=4jaknvvu0b4zl3ee)
 
 The above link runs the following simple Python 3 application:
 
