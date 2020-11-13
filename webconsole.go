@@ -580,6 +580,8 @@ func main() {
 					}
 				}
 			// Otherwise, try and find the static file referred to by the request URL.
+			} else if strings.HasPrefix(requestPath, "/favicon") {
+				http.ServeFile(theResponseWriter, theRequest,  arguments["webroot"] + requestPath)
 			} else {
 				http.ServeFile(theResponseWriter, theRequest,  arguments["webroot"] + requestPath)
 			}
