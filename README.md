@@ -83,3 +83,8 @@ if (value.toLowerCase().startsWith("error: ")) {
 	$("#taskAlerts").html(value);
 }
 ```
+## Custom Favicon
+
+If you create a new Task via the command-line tool you will be given the option to randomly assign a favicon, selected from the "favicons" folder. You can use your own faviocn if preffered, just copy the appropriate icon to an individual Task's folder, or the root of the "tasks" folder to set the same favicon for all Tasks.
+
+A set of favicons are provided from the free "fruit" [collection](https://www.iconfinder.com/iconsets/fruits-52) from Thiago Silva.
