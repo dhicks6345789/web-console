@@ -591,7 +591,7 @@ func main() {
 						if strings.HasPrefix(requestPath, "/favicon/" + task["taskID"]) {
 							faviconPath := arguments["taskroot"] + "/" + task["taskID"] + "/" + "favicon.png"
 							if _, fileExistsErr := os.Stat(faviconPath); os.IsNotExist(fileExistsErr) {
-								faviconPath := arguments["wwwroot"] + "/" + "favicon.png"
+								faviconPath = arguments["wwwroot"] + "/" + "favicon.png"
 							}
 							// More code goes here: resize PNG according to favicon name.
 							http.ServeFile(theResponseWriter, theRequest,  faviconPath)
