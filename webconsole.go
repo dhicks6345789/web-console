@@ -619,7 +619,7 @@ func main() {
 											if faviconHeightErr == nil {
 												faviconFile, faviconFileErr := os.Open(faviconPath)
 												if faviconFileErr == nil {
-													faviconImage, faviconImageErr := image.Decode(faviconFile)
+													faviconImage, _, faviconImageErr := image.Decode(faviconFile)
 													if faviconImageErr == nil {
 														log.Print("favicon!")
 														log.Print(faviconWidth)
