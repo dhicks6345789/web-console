@@ -14,7 +14,6 @@ import (
 	"regexp"
 	"errors"
 	"image"
-	"image/png"
 	"strings"
 	"strconv"
 	"os/exec"
@@ -29,6 +28,8 @@ import (
 	// Excelize for loading in Excel files.
 	"github.com/360EntSecGroup-Skylar/excelize"
 )
+
+import _ "image/png"
 
 // Characters to use to generate new ID strings. Lowercase only - any user-provided IDs will be lowercased before use.
 const letters = "abcdefghijklmnopqrstuvwxyz1234567890"
