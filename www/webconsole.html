@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-		<title>Web Console</title>
+		<title><<TITLE>></title>
 		
 		<!-- Our user interface is constructed with Bootstrap and JQuery. -->
 		<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
@@ -12,9 +12,9 @@
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 		
 		<!-- Favicon - code and images generated at https://realfavicongenerator.net -->
-		<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-		<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-		<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+		<link rel="apple-touch-icon" sizes="180x180" href="<<FAVICONPATH>>apple-touch-icon.png">
+		<link rel="icon" type="image/png" sizes="32x32" href="<<FAVICONPATH>>favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="<<FAVICONPATH>>favicon-16x16.png">
 		<link rel="manifest" href="site.webmanifest">
 		<link rel="mask-icon" href="safari-pinned-tab.svg" color="#5bbad5">
 		<meta name="msapplication-TileColor" content="#da532c">
@@ -23,8 +23,8 @@
 		<script>
 			// If you're reading this from the Git source, these two values will be empty strings - they are filled in with values by the server-side
 			// code when this HTML file is served. If you're reading this from view-source in a web browser, these values should be populated.
-			taskID = "";
-			token = "";
+			taskID = "<<TASKID>>";
+			token = "<<TOKEN>>";
 			
 			// We either call getTaskOutput every 2 seconds to provide updates to the user for a running task, or keepAlive every 30 seconds to refresh
 			// a session's token.
