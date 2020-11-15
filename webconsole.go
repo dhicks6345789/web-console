@@ -22,6 +22,9 @@ import (
 	"io/ioutil"
 	"encoding/csv"
 	
+	// Image resizing library.
+	"github.com/nfnt/resize"
+	
 	// Bcrypt for password hashing.
 	"golang.org/x/crypto/bcrypt"
 	
@@ -29,6 +32,7 @@ import (
 	"github.com/360EntSecGroup-Skylar/excelize"
 )
 
+// Imports support for PNG files for the "image" library without importing the actual PNG "image/png" library.
 import _ "image/png"
 
 // Characters to use to generate new ID strings. Lowercase only - any user-provided IDs will be lowercased before use.
@@ -621,7 +625,8 @@ func main() {
 											if faviconHeightErr == nil {
 												faviconFile, faviconFileErr := os.Open(faviconPath)
 												if faviconFileErr == nil {
-													faviconImage, _, faviconImageErr := image.Decode(bufio.NewReader(faviconFile))
+													faviconImage, _, faviconImageErr := image.Decode(faviconFile)
+													faviconFile.Close()
 													if faviconImageErr == nil {
 														log.Print("favicon!")
 														log.Print(faviconImage)
