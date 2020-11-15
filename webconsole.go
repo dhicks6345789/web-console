@@ -452,9 +452,10 @@ func main() {
 									if fileReadErr == nil {
 										formattingJSString := string(formattingJSBuffer)
 										webconsoleString := string(webconsoleBuffer)
-										webconsoleString = strings.Replace(webconsoleString, "taskID = \"\"", "taskID = \"" + taskID + "\"", -1)
-										webconsoleString = strings.Replace(webconsoleString, "token = \"\"", "token = \"" + token + "\"", -1)
-										webconsoleString = strings.Replace(webconsoleString, "<title>Web Console</title>", "<title>" + taskDetails["title"] + "</title>", -1)
+										webconsoleString = strings.Replace(webconsoleString, "<<TASKID>>", taskID, -1)
+										webconsoleString = strings.Replace(webconsoleString, "<<TOKEN>>", token, -1)
+										webconsoleString = strings.Replace(webconsoleString, "<<TITLE>>", taskDetails["title"], -1)
+										webconsoleString = strings.Replace(webconsoleString, "<<FAVICONPATH>>", taskID + "/", -1)
 										webconsoleString = strings.Replace(webconsoleString, "// Include formatting.js.", formattingJSString, -1)
 										http.ServeContent(theResponseWriter, theRequest, "webconsole.html", time.Now(), strings.NewReader(webconsoleString))
 									} else {
