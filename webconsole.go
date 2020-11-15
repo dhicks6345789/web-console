@@ -629,7 +629,17 @@ func main() {
 													faviconFile.Close()
 													if faviconImageErr == nil {
 														resizedImage := resize.Resize(uint(faviconWidth), uint(faviconHeight), faviconImage, resize.Lanczos3)
-														log.Print(resizedImage)
+														pngErr := png.Encode(buffer, *img, nil)
+														if pngErr == nil {
+															theResponseWriter.Header().Set("Content-Type", "image/png")
+															theResponseWriter.Header().Set("Content-Length", strconv.Itoa(len(buffer.Bytes())))
+															_, imageWriteErr := theResponseWriter.Write(buffer.Bytes())
+															if imageWriteErr != nil {
+																fmt.Fprintf(theResponseWriter, "ERROR: Unable to write PNG image.\n")
+															}
+														} else {
+															fmt.Fprintf(theResponseWriter, "ERROR: Unable to encode PNG image.\n")
+														}
 													} else {
 														fmt.Fprintf(theResponseWriter, "ERROR: Couldn't decode favicon file: " + faviconPath + "\n", faviconImageErr.Error() + "\n")
 													}
