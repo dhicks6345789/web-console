@@ -14,6 +14,7 @@ import (
 	"regexp"
 	"errors"
 	"image"
+	"image/png"
 	"strings"
 	"strconv"
 	"os/exec"
