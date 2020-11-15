@@ -617,17 +617,16 @@ func main() {
 										if faviconWidthErr == nil {
 											faviconHeight, faviconHeightErr := strconv.Atoi(faviconSizeSplit[1])
 											if faviconHeightErr == nil {
-												log.Print("Have favicon size!")
 												faviconFile, faviconFileErr := os.Open(faviconPath)
 												if faviconFileErr == nil {
-													faviconImage, _, faviconImageErr := image.Decode(faviconFile)
+													faviconImage, _, faviconImageErr := image.Decode(bufio.NewReader(faviconFile))
 													if faviconImageErr == nil {
 														log.Print("favicon!")
 														log.Print(faviconImage)
 														log.Print(faviconWidth)
 														log.Print(faviconHeight)
 													} else {
-														fmt.Fprintf(theResponseWriter, "ERROR: Couldn't decode favicon file: " + faviconPath)
+														fmt.Fprintf(theResponseWriter, "ERROR: Couldn't decode favicon file: " + faviconPath, faviconImageErr)
 													}
 												} else {
 													fmt.Fprintf(theResponseWriter, "ERROR: Couldn't open favicon file: " + faviconPath)
