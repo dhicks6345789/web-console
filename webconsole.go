@@ -631,7 +631,7 @@ func main() {
 													if faviconImageErr == nil {
 														resizedImage := resize.Resize(uint(faviconWidth), uint(faviconHeight), faviconImage, resize.Lanczos3)
 														//theResponseWriter.Header().Set("Content-Length", strconv.Itoa(len(buffer.Bytes())))
-														theResponseWriter.Header().Set("Content-Length", strconv.Itoa(len(faviconImage.Bytes())))
+														theResponseWriter.Header().Set("Content-Length", strconv.Itoa(len(faviconImage)))
 														pngErr := png.Encode(theResponseWriter, resizedImage)
 														if pngErr != nil {
 															fmt.Fprintf(theResponseWriter, "ERROR: Unable to encode PNG image.\n")
