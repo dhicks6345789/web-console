@@ -612,7 +612,7 @@ func main() {
 								} else {
 									faviconSizeSplit := strings.Split(faviconSplit[1], "x")
 									if len(faviconSizeSplit) == 2 {
-										log.Print("favicon: " + faviconSizeSplit[0] + " by " + faviconSizeSplit[1])
+										log.Print("favicon: " + faviconSizeSplit[0] + " by " + strings.Split(faviconSizeSplit[1], ".")[0])
 									}
 								}
 							}
