@@ -626,7 +626,7 @@ func main() {
 														log.Print(faviconWidth)
 														log.Print(faviconHeight)
 													} else {
-														fmt.Fprintf(theResponseWriter, "ERROR: Couldn't decode favicon file: " + faviconPath + "\n", faviconImageErr, "\n")
+														fmt.Fprintf(theResponseWriter, "ERROR: Couldn't decode favicon file: " + faviconPath + "\n", faviconImageErr.Error() + "\n")
 													}
 												} else {
 													fmt.Fprintf(theResponseWriter, "ERROR: Couldn't open favicon file: " + faviconPath + "\n")
