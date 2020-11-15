@@ -597,8 +597,10 @@ func main() {
 				faviconHyphens := 0
 				faviconTitles := [4]string{ "favicon", "mstile", "android-chrome", "apple-touch-icon" }
 				for _, titleMatch := range faviconTitles {
+					log.Print("titleMatch: " + titleMatch)
 					requestMatch, _ := regexp.MatchString(".*/" + titleMatch + ".*png$", requestPath)
 					if requestMatch {
+						log.Print("RequestMatch found!")
 						faviconTitle = titleMatch
 						faviconHyphens = strings.Count(titleMatch, "-")
 					}
