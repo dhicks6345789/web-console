@@ -13,6 +13,7 @@ import (
 	"bufio"
 	"regexp"
 	"errors"
+	"image"
 	"strings"
 	"strconv"
 	"os/exec"
