@@ -593,8 +593,17 @@ func main() {
 				}
 			} else {
 				// If the request is for a favicon, produce something suitible...
+				faviconTitle := ""
 				requestMatch, _ := regexp.MatchString(".*/favicon.*png$", requestPath)
 				if requestMatch {
+					faviconTitle = "favicon"
+				} else {
+					requestMatch, _ = regexp.MatchString(".*/android-chrome.*png$", requestPath)
+					if requestMatch {
+						faviconTitle = "android-chrome"
+					}
+				}
+				if faviconTitle != "" {
 					taskList, taskErr := getTaskList()
 					if taskErr == nil {
 						serveFile = true
