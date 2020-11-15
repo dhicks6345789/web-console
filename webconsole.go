@@ -605,9 +605,16 @@ func main() {
 								// Resize the available (PNG) favicon to match the request.
 								faviconSplit := strings.Split(requestPath, "/")
 								faviconName := faviconSplit[len(faviconSplit)-1]
-								log.Print("favicon: " + faviconName)
-								http.ServeFile(theResponseWriter, theRequest,  faviconPath)
-								serveFile = false
+								faviconSplit = strings.Split(faviconName, "-")
+								if len(faviconSplit) == 1 {
+									http.ServeFile(theResponseWriter, theRequest,  faviconPath)
+									serveFile = false
+								} else {
+									faviconSizeSplit := strings.Split(faviconSplit[1], "x")
+									if len(faviconSizeSplit) == 2 {
+										log.Print("favicon: " + faviconsizeSplit[0] + " by " + faviconsizeSplit[1])
+									}
+								}
 							}
 						}
 					} else {
