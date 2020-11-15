@@ -594,13 +594,16 @@ func main() {
 			} else {
 				// If the request is for a favicon, produce something suitible...
 				faviconTitle := ""
+				faviconHyphens = 0
 				requestMatch, _ := regexp.MatchString(".*/favicon.*png$", requestPath)
 				if requestMatch {
 					faviconTitle = "favicon"
+					faviconHyphens = 1
 				} else {
 					requestMatch, _ = regexp.MatchString(".*/android-chrome.*png$", requestPath)
 					if requestMatch {
 						faviconTitle = "android-chrome"
+						faviconHyphens = 2
 					}
 				}
 				if faviconTitle != "" {
@@ -623,11 +626,11 @@ func main() {
 								faviconSplit := strings.Split(requestPath, "/")
 								faviconName := strings.Split(faviconSplit[len(faviconSplit)-1], ".")[0]
 								faviconSplit = strings.Split(faviconName, "-")
-								if len(faviconSplit) == 1 {
+								if len(faviconSplit) == faviconHyphens {
 									http.ServeFile(theResponseWriter, theRequest,  faviconPath)
 									serveFile = false
 								} else {
-									faviconSizeSplit := strings.Split(faviconSplit[1], "x")
+									faviconSizeSplit := strings.Split(faviconSplit[faviconHyphens], "x")
 									if len(faviconSizeSplit) == 2 {
 										faviconWidth, faviconWidthErr := strconv.Atoi(faviconSizeSplit[0])
 										if faviconWidthErr == nil {
