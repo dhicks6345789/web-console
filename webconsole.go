@@ -624,6 +624,9 @@ func main() {
 														log.Print(faviconWidth)
 														log.Print(faviconHeight)
 													}
+												} else {
+													fmt.Fprintf(theResponseWriter, "ERROR: Couldn't open favicon file: " + faviconPath)
+												}
 											} else {
 												fmt.Fprintf(theResponseWriter, "ERROR: Favicon height not an integer.")
 											}
