@@ -616,7 +616,14 @@ func main() {
 										if faviconWidthErr == nil {
 											faviconHeight, faviconHeightErr := strconv.Atoi(faviconSizeSplit[1])
 											if faviconHeightErr == nil {
-												log.Print("favicon: " + faviconWidth + " by " + faviconHeight)
+												faviconFile, faviconFileErr := os.Open(faviconPath)
+												if faviconFileErr == nil {
+													faviconImage, faviconImageErr := image.Decode(image.Decode(faviconFileErr))
+													if faviconImageErr == nil {
+														log.Print("favicon!")
+														log.Print(faviconWidth)
+														log.Print(faviconHeight)
+													}
 											} else {
 												fmt.Fprintf(theResponseWriter, "ERROR: Favicon height not an integer.")
 											}
