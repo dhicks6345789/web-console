@@ -587,6 +587,7 @@ func main() {
 			} else {
 				requestMatch, _ := regexp.MatchString(".*/favicon.*png$", requestPath)
 				if requestMatch {
+					log.Print("Favicon requested: " + requestPath)
 					taskList, taskErr := getTaskList()
 					if taskErr == nil {
 						serveFile = true
