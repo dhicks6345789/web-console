@@ -612,7 +612,17 @@ func main() {
 								} else {
 									faviconSizeSplit := strings.Split(faviconSplit[1], "x")
 									if len(faviconSizeSplit) == 2 {
-										log.Print("favicon: " + faviconSizeSplit[0] + " by " + faviconSizeSplit[1])
+										faviconWidth, faviconWidthErr := strconv.Atoi(faviconSizeSplit[0])
+										if faviconWidthErr == nil {
+											faviconHeight, faviconHeightErr := strconv.Atoi(faviconSizeSplit[1])
+											if faviconHeightErr == nil {
+												log.Print("favicon: " + faviconWidth + " by " + faviconHeight)
+											} else {
+												fmt.Fprintf(theResponseWriter, "ERROR: Favicon height not an integer.")
+											}
+										} else {
+											fmt.Fprintf(theResponseWriter, "ERROR: Favicon width not an integer.")
+										}
 									}
 								}
 							}
