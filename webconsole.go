@@ -594,6 +594,7 @@ func main() {
 						for _, task := range taskList {
 							if strings.HasPrefix(requestPath, "/" + task["taskID"]) {
 								faviconPath := arguments["taskroot"] + "/" + task["taskID"] + "/" + "favicon.png"
+								log.Print("Favicon path: " + faviconPath)
 								if _, fileExistsErr := os.Stat(faviconPath); os.IsNotExist(fileExistsErr) {
 									faviconPath = arguments["wwwroot"] + "/" + "favicon.png"
 								}
