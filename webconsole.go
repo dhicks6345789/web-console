@@ -597,6 +597,7 @@ func main() {
 								log.Print("Favicon path: " + faviconPath)
 								if _, fileExistsErr := os.Stat(faviconPath); os.IsNotExist(fileExistsErr) {
 									faviconPath = arguments["wwwroot"] + "/" + "favicon.png"
+									log.Print("Favion not there - new Favicon path: " + faviconPath)
 								}
 								// More code goes here: resize PNG according to favicon name.
 								http.ServeFile(theResponseWriter, theRequest,  faviconPath)
