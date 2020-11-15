@@ -594,7 +594,7 @@ func main() {
 			} else {
 				// If the request is for a favicon, produce something suitible...
 				faviconTitle := ""
-				faviconHyphens = 0
+				faviconHyphens := 0
 				requestMatch, _ := regexp.MatchString(".*/favicon.*png$", requestPath)
 				if requestMatch {
 					faviconTitle = "favicon"
