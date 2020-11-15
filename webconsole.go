@@ -617,6 +617,7 @@ func main() {
 										if faviconWidthErr == nil {
 											faviconHeight, faviconHeightErr := strconv.Atoi(faviconSizeSplit[1])
 											if faviconHeightErr == nil {
+												log.Print("Have favicon size!")
 												faviconFile, faviconFileErr := os.Open(faviconPath)
 												if faviconFileErr == nil {
 													faviconImage, _, faviconImageErr := image.Decode(faviconFile)
@@ -625,6 +626,8 @@ func main() {
 														log.Print(faviconImage)
 														log.Print(faviconWidth)
 														log.Print(faviconHeight)
+													} else {
+														fmt.Fprintf(theResponseWriter, "ERROR: Couldn't decode favicon file: " + faviconPath)
 													}
 												} else {
 													fmt.Fprintf(theResponseWriter, "ERROR: Couldn't open favicon file: " + faviconPath)
