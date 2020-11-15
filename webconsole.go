@@ -624,8 +624,8 @@ func main() {
 									faviconImage, _, faviconImageErr := image.Decode(faviconFile)
 									faviconFile.Close()
 									if faviconImageErr == nil {
-										faviconWidth := faviconImage.Width
-										faviconHeight := faviconImage.Height
+										faviconWidth := faviconImage.Bounds().Max.X
+										faviconHeight := faviconImage.Bounds().Max.Y
 										if faviconTitle == "apple-touch-icon" {
 											faviconWidth = 180
 											faviconHeight = 180
