@@ -14,6 +14,7 @@ import (
 	"regexp"
 	"errors"
 	"image"
+	"image/png"
 	"strings"
 	"strconv"
 	"os/exec"
@@ -33,7 +34,7 @@ import (
 )
 
 // Imports support for PNG files for the "image" library without importing the actual PNG "image/png" library.
-import _ "image/png"
+// import _ "image/png"
 
 // Characters to use to generate new ID strings. Lowercase only - any user-provided IDs will be lowercased before use.
 const letters = "abcdefghijklmnopqrstuvwxyz1234567890"
