@@ -595,15 +595,12 @@ func main() {
 				// If the request is for a favicon, produce something suitible...
 				faviconTitle := ""
 				faviconHyphens := 0
-				requestMatch, _ := regexp.MatchString(".*/favicon.*png$", requestPath)
-				if requestMatch {
-					faviconTitle = "favicon"
-					faviconHyphens = 1
-				} else {
-					requestMatch, _ = regexp.MatchString(".*/android-chrome.*png$", requestPath)
+				faviconTitles := [4]string{ "favicon", "mstile", "android-chrome", "apple-touch-icon" }
+				for _, titleMatch := range faviconTitles {
+					requestMatch, _ := regexp.MatchString(".*/" + titleMatch + ".*png$", requestPath)
 					if requestMatch {
-						faviconTitle = "android-chrome"
-						faviconHyphens = 2
+						faviconTitle = titleMatch
+						faviconHyphens = strings.Count(titleMatch, "-")
 					}
 				}
 				if faviconTitle != "" {
