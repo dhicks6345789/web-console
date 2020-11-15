@@ -628,10 +628,8 @@ func main() {
 													faviconImage, _, faviconImageErr := image.Decode(faviconFile)
 													faviconFile.Close()
 													if faviconImageErr == nil {
-														log.Print("favicon!")
-														log.Print(faviconImage)
-														log.Print(faviconWidth)
-														log.Print(faviconHeight)
+														resizedImage := resize.Resize(faviconWidth, faviconHeight, faviconImage, resize.Lanczos3)
+														log.Print(resizedImage)
 													} else {
 														fmt.Fprintf(theResponseWriter, "ERROR: Couldn't decode favicon file: " + faviconPath + "\n", faviconImageErr.Error() + "\n")
 													}
