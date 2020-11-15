@@ -602,6 +602,7 @@ func main() {
 						log.Print("RequestMatch found!")
 						faviconTitle = titleMatch
 						faviconHyphens = strings.Count(titleMatch, "-")
+						log.Print(faviconHyphens)
 					}
 				}
 				if faviconTitle != "" {
