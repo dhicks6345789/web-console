@@ -626,16 +626,16 @@ func main() {
 														log.Print(faviconWidth)
 														log.Print(faviconHeight)
 													} else {
-														fmt.Fprintf(theResponseWriter, "ERROR: Couldn't decode favicon file: " + faviconPath, faviconImageErr)
+														fmt.Fprintf(theResponseWriter, "ERROR: Couldn't decode favicon file: " + faviconPath + "\n", faviconImageErr + "\n")
 													}
 												} else {
-													fmt.Fprintf(theResponseWriter, "ERROR: Couldn't open favicon file: " + faviconPath)
+													fmt.Fprintf(theResponseWriter, "ERROR: Couldn't open favicon file: " + faviconPath + "\n")
 												}
 											} else {
-												fmt.Fprintf(theResponseWriter, "ERROR: Favicon height not an integer.")
+												fmt.Fprintf(theResponseWriter, "ERROR: Favicon height not an integer.\n")
 											}
 										} else {
-											fmt.Fprintf(theResponseWriter, "ERROR: Favicon width not an integer.")
+											fmt.Fprintf(theResponseWriter, "ERROR: Favicon width not an integer.\n")
 										}
 									}
 								}
