@@ -582,23 +582,26 @@ func main() {
 						fmt.Fprintf(theResponseWriter, "ERROR: %s", taskErr.Error())
 					}
 				}
-			// Otherwise, try and find the static file referred to by the request URL.
+			// If the request is for a favicon, produce something suitible.
 			} else if strings.HasPrefix(requestPath, "/favicon") {
 				taskList, taskErr := getTaskList()
 				if taskErr == nil {
 					serveFile = true
 					for _, task := range taskList {
-						if strings.HasPrefix(requestPath, "/favicon/" + task["taskID"] + "/") {
-							faviconPath := arguments["taskroot"] + "/" + task["taskID"] + "/" + strings.Split(requestPath,"/")[2]
+						if strings.HasPrefix(requestPath, "/favicon/" + task["taskID"]) {
+							faviconPath := arguments["taskroot"] + "/" + task["taskID"] + "/" + "favicon.png"
 							if _, fileExistsErr := os.Stat(faviconPath); os.IsNotExist(fileExistsErr) {
-								http.ServeFile(theResponseWriter, theRequest,  faviconPath)
-								serveFile = false
+								faviconPath := arguments["wwwroot"] + "/" + "favicon.png"
 							}
+							// More code goes here: resize PNG according to favicon name.
+							http.ServeFile(theResponseWriter, theRequest,  faviconPath)
+							serveFile = false
 						}
 					}
 				} else {
 					fmt.Fprintf(theResponseWriter, "ERROR: " + taskErr.Error())
 				}
+			// Otherwise, try and find the static file referred to by the request URL.
 			} else {
 				serveFile = true
 			}
