@@ -599,14 +599,11 @@ func main() {
 				for _, titleMatch := range faviconTitles {
 					requestMatch, _ := regexp.MatchString(".*/" + titleMatch + ".*png$", requestPath)
 					if requestMatch {
-						log.Print("RequestMatch found!")
 						faviconTitle = titleMatch
 						faviconHyphens = strings.Count(titleMatch, "-") + 1
-						log.Print(faviconHyphens)
 					}
 				}
 				if faviconTitle != "" {
-					log.Print("Title okay")
 					taskList, taskErr := getTaskList()
 					if taskErr == nil {
 						serveFile = true
@@ -622,7 +619,6 @@ func main() {
 										faviconPath = arguments["webroot"] + "/" + "favicon.png"
 									}
 								}
-								log.Print("Favicon found.")
 								// Resize the available (PNG) favicon to match the request.
 								faviconSplit := strings.Split(requestPath, "/")
 								faviconName := strings.Split(faviconSplit[len(faviconSplit)-1], ".")[0]
