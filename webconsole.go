@@ -603,7 +603,7 @@ func main() {
 									}
 								}
 								// Resize the available (PNG) favicon to match the request.
-								faviconName := string.Split(requestPath, "/")[:-1]
+								faviconName := strings.Split(requestPath, "/")[:-1]
 								log.Print("favicon: " + faviconName)
 								http.ServeFile(theResponseWriter, theRequest,  faviconPath)
 								serveFile = false
