@@ -596,7 +596,7 @@ func main() {
 								faviconPath := arguments["taskroot"] + "/" + task["taskID"] + "/" + "favicon.png"
 								log.Print("Favicon path: " + faviconPath)
 								if _, fileExistsErr := os.Stat(faviconPath); os.IsNotExist(fileExistsErr) {
-									faviconPath = arguments["wwwroot"] + "/" + "favicon.png"
+									faviconPath = arguments["webroot"] + "/" + "favicon.png"
 									log.Print("Favion not there - new Favicon path: " + faviconPath)
 								}
 								// More code goes here: resize PNG according to favicon name.
