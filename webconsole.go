@@ -619,45 +619,42 @@ func main() {
 										faviconPath = arguments["webroot"] + "/" + "favicon.png"
 									}
 								}
-								// Resize the available (PNG) favicon to match the request.
-								faviconSplit := strings.Split(requestPath, "/")
-								faviconName := strings.Split(faviconSplit[len(faviconSplit)-1], ".")[0]
-								faviconSplit = strings.Split(faviconName, "-")
-								if len(faviconSplit) == faviconHyphens {
-									http.ServeFile(theResponseWriter, theRequest,  faviconPath)
-									serveFile = false
-								} else {
-									faviconSizeSplit := strings.Split(faviconSplit[faviconHyphens], "x")
-									if len(faviconSizeSplit) == 2 {
-										faviconWidth, faviconWidthErr := strconv.Atoi(faviconSizeSplit[0])
-										if faviconWidthErr == nil {
-											faviconHeight, faviconHeightErr := strconv.Atoi(faviconSizeSplit[1])
-											if faviconHeightErr == nil {
-												faviconFile, faviconFileErr := os.Open(faviconPath)
-												if faviconFileErr == nil {
-													faviconImage, _, faviconImageErr := image.Decode(faviconFile)
-													faviconFile.Close()
-													if faviconImageErr == nil {
-														resizedImage := resize.Resize(uint(faviconWidth), uint(faviconHeight), faviconImage, resize.Lanczos3)
-														pngErr := png.Encode(theResponseWriter, resizedImage)
-														if pngErr == nil {
-															serveFile = false
-														} else {
-															fmt.Fprintf(theResponseWriter, "ERROR: Unable to encode PNG image.\n")
-														}
-													} else {
-														fmt.Fprintf(theResponseWriter, "ERROR: Couldn't decode favicon file: " + faviconPath + "\n", faviconImageErr.Error() + "\n")
-													}
-												} else {
-													fmt.Fprintf(theResponseWriter, "ERROR: Couldn't open favicon file: " + faviconPath + "\n")
-												}
-											} else {
-												fmt.Fprintf(theResponseWriter, "ERROR: Favicon height not an integer.\n")
-											}
-										} else {
-											fmt.Fprintf(theResponseWriter, "ERROR: Favicon width not an integer.\n")
+								faviconFile, faviconFileErr := os.Open(faviconPath)
+								if faviconFileErr == nil {
+									faviconImage, _, faviconImageErr := image.Decode(faviconFile)
+									faviconFile.Close()
+									if faviconImageErr == nil {
+										faviconWidth := faviconImage.Width
+										faviconHeight := faviconImage.Height
+										if faviconTitle == "apple-touch-icon" {
+											faviconWidth = 180
+											faviconHeight = 180
 										}
+										// Resize the available (PNG) favicon to match the request.
+										faviconSplit := strings.Split(requestPath, "/")
+										faviconName := strings.Split(faviconSplit[len(faviconSplit)-1], ".")[0]
+										faviconSplit = strings.Split(faviconName, "-")
+										if len(faviconSplit) != faviconHyphens {
+											faviconSizeSplit := strings.Split(faviconSplit[faviconHyphens], "x")
+											if len(faviconSizeSplit) == 2 {
+												faviconWidth, _ = strconv.Atoi(faviconSizeSplit[0])
+												if faviconWidthErr == nil {
+													faviconHeight, _ = strconv.Atoi(faviconSizeSplit[1])
+												}
+											}
+										}
+										resizedImage := resize.Resize(uint(faviconWidth), uint(faviconHeight), faviconImage, resize.Lanczos3)
+										pngErr := png.Encode(theResponseWriter, resizedImage)
+										if pngErr == nil {
+											serveFile = false
+										} else {
+											fmt.Fprintf(theResponseWriter, "ERROR: Unable to encode PNG image.\n")
+										}
+									} else {
+										fmt.Fprintf(theResponseWriter, "ERROR: Couldn't decode favicon file: " + faviconPath + "\n")
 									}
+								} else {
+									fmt.Fprintf(theResponseWriter, "ERROR: Couldn't open favicon file: " + faviconPath + "\n")
 								}
 							}
 						}
