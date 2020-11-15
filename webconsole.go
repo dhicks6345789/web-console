@@ -638,9 +638,7 @@ func main() {
 											faviconSizeSplit := strings.Split(faviconSplit[faviconHyphens], "x")
 											if len(faviconSizeSplit) == 2 {
 												faviconWidth, _ = strconv.Atoi(faviconSizeSplit[0])
-												if faviconWidthErr == nil {
-													faviconHeight, _ = strconv.Atoi(faviconSizeSplit[1])
-												}
+												faviconHeight, _ = strconv.Atoi(faviconSizeSplit[1])
 											}
 										}
 										resizedImage := resize.Resize(uint(faviconWidth), uint(faviconHeight), faviconImage, resize.Lanczos3)
