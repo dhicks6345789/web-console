@@ -583,27 +583,30 @@ func main() {
 					}
 				}
 			// If the request is for a favicon, produce something suitible.
-			} else if strings.HasPrefix(requestPath, "/favicon") {
-				taskList, taskErr := getTaskList()
-				if taskErr == nil {
-					serveFile = true
-					for _, task := range taskList {
-						if strings.HasPrefix(requestPath, "/favicon/" + task["taskID"]) {
-							faviconPath := arguments["taskroot"] + "/" + task["taskID"] + "/" + "favicon.png"
-							if _, fileExistsErr := os.Stat(faviconPath); os.IsNotExist(fileExistsErr) {
-								faviconPath = arguments["wwwroot"] + "/" + "favicon.png"
-							}
-							// More code goes here: resize PNG according to favicon name.
-							http.ServeFile(theResponseWriter, theRequest,  faviconPath)
-							serveFile = false
-						}
-					}
-				} else {
-					fmt.Fprintf(theResponseWriter, "ERROR: " + taskErr.Error())
-				}
-			// Otherwise, try and find the static file referred to by the request URL.
 			} else {
-				serveFile = true
+				requestMatch, _ := regexp.MatchString(".*/favicon.*png$", requestPath)
+				if requestMatch {
+					taskList, taskErr := getTaskList()
+					if taskErr == nil {
+						serveFile = true
+						for _, task := range taskList {
+							if strings.HasPrefix(requestPath, "/favicon/" + task["taskID"]) {
+								faviconPath := arguments["taskroot"] + "/" + task["taskID"] + "/" + "favicon.png"
+								if _, fileExistsErr := os.Stat(faviconPath); os.IsNotExist(fileExistsErr) {
+									faviconPath = arguments["wwwroot"] + "/" + "favicon.png"
+								}
+								// More code goes here: resize PNG according to favicon name.
+								http.ServeFile(theResponseWriter, theRequest,  faviconPath)
+								serveFile = false
+							}
+						}
+					} else {
+						fmt.Fprintf(theResponseWriter, "ERROR: " + taskErr.Error())
+					}
+				// Otherwise, try and find the static file referred to by the request URL.
+				} else {
+					serveFile = true
+				}
 			}
 			if serveFile == true {
 				http.ServeFile(theResponseWriter, theRequest,  arguments["webroot"] + requestPath)
