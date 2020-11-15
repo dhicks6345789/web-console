@@ -583,23 +583,28 @@ func main() {
 						fmt.Fprintf(theResponseWriter, "ERROR: %s", taskErr.Error())
 					}
 				}
-			// If the request is for a favicon, produce something suitible.
 			} else {
+				// If the request is for a favicon, produce something suitible...
 				requestMatch, _ := regexp.MatchString(".*/favicon.*png$", requestPath)
 				if requestMatch {
-					log.Print("Favicon requested: " + requestPath)
 					taskList, taskErr := getTaskList()
 					if taskErr == nil {
 						serveFile = true
 						for _, task := range taskList {
 							if strings.HasPrefix(requestPath, "/" + task["taskID"]) {
+								// Does this Task have a custom favicon?
 								faviconPath := arguments["taskroot"] + "/" + task["taskID"] + "/" + "favicon.png"
-								log.Print("Favicon path: " + faviconPath)
 								if _, fileExistsErr := os.Stat(faviconPath); os.IsNotExist(fileExistsErr) {
-									faviconPath = arguments["webroot"] + "/" + "favicon.png"
-									log.Print("Favion not there - new Favicon path: " + faviconPath)
+									// Does all Tasks have a custom favicon?
+									faviconPath = arguments["taskroot"] + "/" + "favicon.png"
+									if _, fileExistsErr := os.Stat(faviconPath); os.IsNotExist(fileExistsErr) {
+										// If there is no custom favicon set for this Task, use the default.
+										faviconPath = arguments["webroot"] + "/" + "favicon.png"
+									}
 								}
-								// More code goes here: resize PNG according to favicon name.
+								// Resize the available (PNG) favicon to match the request.
+								faviconName := string.Split(requestPath, "/")[:-1]
+								log.Print("favicon: " + faviconName)
 								http.ServeFile(theResponseWriter, theRequest,  faviconPath)
 								serveFile = false
 							}
@@ -607,7 +612,7 @@ func main() {
 					} else {
 						fmt.Fprintf(theResponseWriter, "ERROR: " + taskErr.Error())
 					}
-				// Otherwise, try and find the static file referred to by the request URL.
+				// ...otherwise, just serve the static file referred to by the request URL.
 				} else {
 					serveFile = true
 				}
