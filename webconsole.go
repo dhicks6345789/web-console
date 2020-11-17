@@ -27,8 +27,11 @@ import (
 	// Image resizing library.
 	"github.com/nfnt/resize"
 	
-	// Bitmap-to-SVG tracing library.
+	// An Image-to-SVG tracing library.
 	"github.com/dennwc/gotrace"
+	
+	// A .ICO format Image encoder.
+	"github.com/kodeworks/golang-image-ico"
 	
 	// Bcrypt for password hashing.
 	"golang.org/x/crypto/bcrypt"
@@ -599,7 +602,7 @@ func main() {
 				// Check to see if the request is for a favicon of some description.
 				faviconTitle := ""
 				faviconHyphens := 0
-				faviconTitles := [6]string{ "favicon.*png", "mstile.*png", "android-chrome.*png", "apple-touch-icon.*png", "safari-pinned-tab.png", "safari-pinned-tab.svg" }
+				faviconTitles := [7]string{ "favicon.*png", "mstile.*png", "android-chrome.*png", "apple-touch-icon.*png", "safari-pinned-tab.png", "safari-pinned-tab.svg", "favicon.ico" }
 				for _, titleMatch := range faviconTitles {
 					requestMatch, _ := regexp.MatchString(".*/" + titleMatch + "$", requestPath)
 					if requestMatch {
@@ -658,6 +661,9 @@ func main() {
 											if faviconTitle == "apple-touch-icon.png" {
 												faviconWidth = 180
 												faviconHeight = 180
+											} else if faviconTitle == "favicon.ico" {
+												faviconWidth = 48
+												faviconHeight = 48
 											}
 											// Resize the available (PNG) favicon to match the request.
 											faviconSplit := strings.Split(requestPath, "/")
@@ -671,11 +677,18 @@ func main() {
 												}
 											}
 											resizedImage := resize.Resize(uint(faviconWidth), uint(faviconHeight), faviconImage, resize.Lanczos3)
-											pngErr := png.Encode(theResponseWriter, resizedImage)
-											if pngErr == nil {
+											if strings.HasSuffix(faviconTitle, "ico") {
+												icoErr := ico.Encode(theResponseWriter, resizedImage)
+												if icoErr != nil {
+													fmt.Fprintf(theResponseWriter, "ERROR: Unable to encode PNG image.\n")
+												}
 												serveFile = false
 											} else {
-												fmt.Fprintf(theResponseWriter, "ERROR: Unable to encode PNG image.\n")
+												pngErr := png.Encode(theResponseWriter, resizedImage)
+												if pngErr != nil {
+													fmt.Fprintf(theResponseWriter, "ERROR: Unable to encode PNG image.\n")
+												}
+												serveFile = false
 											}
 										}
 									} else {
