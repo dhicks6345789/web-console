@@ -1,5 +1,6 @@
 echo Installing Web Console...
 go get github.com/nfnt/resize
+go get github.com/dennwc/gotrace
 go get golang.org/x/crypto/bcrypt
 go get github.com/360EntSecGroup-Skylar/excelize
 go build webconsole.go
