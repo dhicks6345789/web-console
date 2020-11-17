@@ -632,8 +632,12 @@ func main() {
 											silhouetteImage := image.NewRGBA(image.Rectangle{image.Point{0, 0}, image.Point{faviconWidth, faviconHeight}})
 											for silhouetteY := 0; silhouetteY < faviconHeight; silhouetteY++ {
 												for silhouetteX := 0; silhouetteX < faviconWidth; silhouetteX++ {
-													//r, g, b, a := faviconImage.At(silhouetteX, silhouetteY).RGBA()
-													silhouetteImage.Set(silhouetteX, silhouetteY, color.RGBA{128, 128, 128, 255})
+													r, g, b, a := faviconImage.At(silhouetteX, silhouetteY).RGBA()
+													if r < 128 || g < 128 || b < 128 || a < 128 {
+														silhouetteImage.Set(silhouetteX, silhouetteY, color.RGBA{255, 255, 255, 255})
+													} else {
+														silhouetteImage.Set(silhouetteX, silhouetteY, color.RGBA{0, 0, 0, 255})
+													}
 												}
 											}
 											pngErr := png.Encode(theResponseWriter, silhouetteImage)
