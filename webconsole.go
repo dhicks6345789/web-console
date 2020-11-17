@@ -595,7 +595,7 @@ func main() {
 				// Check to see if the request is for a favicon of some description.
 				faviconTitle := ""
 				faviconHyphens := 0
-				faviconTitles := [4]string{ "favicon.*png", "mstile.*png", "android-chrome.*png", "apple-touch-icon.*png", "safari-pinned-tab.png", "safari-pinned-tab.svg" }
+				faviconTitles := [6]string{ "favicon.*png", "mstile.*png", "android-chrome.*png", "apple-touch-icon.*png", "safari-pinned-tab.png", "safari-pinned-tab.svg" }
 				for _, titleMatch := range faviconTitles {
 					requestMatch, _ := regexp.MatchString(".*/" + titleMatch + "$", requestPath)
 					if requestMatch {
