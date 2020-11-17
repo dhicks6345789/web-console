@@ -639,7 +639,7 @@ func main() {
 													if r < 128 || g < 128 || b < 128 || a < 128 {
 														silhouetteImage.Set(silhouetteX, silhouetteY, color.RGBA{255, 255, 255, 255})
 													} else {
-														silhouetteImage.Set(silhouetteX, silhouetteY, color.RGBA{0, 0, 0, 255})
+														silhouetteImage.Set(silhouetteX, silhouetteY, color.RGBA{0, 0, 0, 0})
 													}
 												}
 											}
