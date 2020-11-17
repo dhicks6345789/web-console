@@ -15,6 +15,7 @@ import (
 	"errors"
 	"image"
 	"image/png"
+	"image/color"
 	"strings"
 	"strconv"
 	"os/exec"
