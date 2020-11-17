@@ -595,7 +595,7 @@ func main() {
 				// Check to see if the request is for a favicon of some description.
 				faviconTitle := ""
 				faviconHyphens := 0
-				faviconTitles := [4]string{ "favicon.*png", "mstile.*png", "android-chrome.*png", "apple-touch-icon.*png", "safari-pinned-tab.svg" }
+				faviconTitles := [4]string{ "favicon.*png", "mstile.*png", "android-chrome.*png", "apple-touch-icon.*png", "safari-pinned-tab.png", "safari-pinned-tab.svg" }
 				for _, titleMatch := range faviconTitles {
 					requestMatch, _ := regexp.MatchString(".*/" + titleMatch + "$", requestPath)
 					if requestMatch {
@@ -627,9 +627,12 @@ func main() {
 									if faviconImageErr == nil {
 										faviconWidth := faviconImage.Bounds().Max.X
 										faviconHeight := faviconImage.Bounds().Max.Y
-										if faviconTitle == "safari-pinned-tab.svg" {
-											gotrace(faviconImage)
-											serveresult
+										if faviconTitle == "safari-pinned-tab.png" {
+											silhouetteImage := faviconImage
+											pngErr := png.Encode(theResponseWriter, silhouetteImage)
+											if pngErr != nil {
+												fmt.Fprintf(theResponseWriter, "ERROR: Unable to encode PNG silhouette image.\n")
+											}
 											serveFile = false
 										} else {
 											if faviconTitle == "apple-touch-icon.png" {
