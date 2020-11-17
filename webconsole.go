@@ -615,6 +615,7 @@ func main() {
 				if faviconTitle != "" {
 					taskList, taskErr := getTaskList()
 					if taskErr == nil {
+						log.Print("taskErr not nil")
 						serveFile = true
 						for _, task := range taskList {
 							if strings.HasPrefix(requestPath, "/" + task["taskID"]) {
