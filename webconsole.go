@@ -629,7 +629,12 @@ func main() {
 										faviconHeight := faviconImage.Bounds().Max.Y
 										if faviconTitle == "safari-pinned-tab.png" {
 											silhouetteImage := image.NewRGBA(image.Rectangle{image.Point{0, 0}, image.Point{faviconWidth, faviconHeight}})
-											//silhouetteImage := faviconImage
+											for silhouetteY := 0; silhouetteY < faviconHeight; silhouetteY++ {
+												for silhouetteX := 0; silhouetteX < faviconWidth; silhouetteX++ {
+													r, g, b, a := faviconImage.At(silhouetteX, silhouetteY).RGBA()
+													silhouetteImage.Set(silhouetteX, silhouetteY, color.RGBA{255, 255, 255, 255})
+												}
+											}
 											pngErr := png.Encode(theResponseWriter, silhouetteImage)
 											if pngErr != nil {
 												fmt.Fprintf(theResponseWriter, "ERROR: Unable to encode PNG silhouette image.\n")
