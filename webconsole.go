@@ -628,7 +628,7 @@ func main() {
 										faviconWidth := faviconImage.Bounds().Max.X
 										faviconHeight := faviconImage.Bounds().Max.Y
 										if faviconTitle == "safari-pinned-tab.png" {
-											silhouetteImage := image.NewRGBA(image.Rectangle{image.Point{0, 0}, image.Point{faviconWidth, faviconHeight})
+											silhouetteImage := image.NewRGBA(image.Rectangle{image.Point{0, 0}, image.Point{faviconWidth, faviconHeight}})
 											//silhouetteImage := faviconImage
 											pngErr := png.Encode(theResponseWriter, silhouetteImage)
 											if pngErr != nil {
