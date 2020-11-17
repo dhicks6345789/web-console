@@ -610,13 +610,11 @@ func main() {
 						faviconHyphens = strings.Count(titleMatch, "-") + 1
 					}
 				}
-				log.Print("faviconTitle: " + faviconTitle)
 				// If the request was for a favicon, serve something suitible.
 				if faviconTitle != "" {
+					faviconPath = arguments["webroot"] + "/" + "favicon.png"
 					taskList, taskErr := getTaskList()
 					if taskErr == nil {
-						log.Print("taskErr not nil")
-						serveFile = true
 						for _, task := range taskList {
 							if strings.HasPrefix(requestPath, "/" + task["taskID"]) {
 								// Does this Task have a custom favicon?
@@ -629,80 +627,81 @@ func main() {
 										faviconPath = arguments["webroot"] + "/" + "favicon.png"
 									}
 								}
-								faviconFile, faviconFileErr := os.Open(faviconPath)
-								if faviconFileErr == nil {
-									faviconImage, _, faviconImageErr := image.Decode(faviconFile)
-									faviconFile.Close()
-									if faviconImageErr == nil {
-										faviconWidth := faviconImage.Bounds().Max.X
-										faviconHeight := faviconImage.Bounds().Max.Y
-										if faviconTitle == "safari-pinned-tab.png" || faviconTitle == "safari-pinned-tab.svg" {
-											silhouetteImage := image.NewRGBA(image.Rectangle{image.Point{0, 0}, image.Point{faviconWidth, faviconHeight}})
-											for silhouetteY := 0; silhouetteY < faviconHeight; silhouetteY++ {
-												for silhouetteX := 0; silhouetteX < faviconWidth; silhouetteX++ {
-													r, g, b, a := faviconImage.At(silhouetteX, silhouetteY).RGBA()
-													if r < 128 || g < 128 || b < 128 || a < 128 {
-														silhouetteImage.Set(silhouetteX, silhouetteY, color.RGBA{255, 255, 255, 0})
-													} else {
-														silhouetteImage.Set(silhouetteX, silhouetteY, color.RGBA{0, 0, 0, 255})
-													}
-												}
-											}
-											if faviconTitle == "safari-pinned-tab.png" {
-												pngErr := png.Encode(theResponseWriter, silhouetteImage)
-												if pngErr != nil {
-													fmt.Fprintf(theResponseWriter, "ERROR: Unable to encode PNG silhouette image.\n")
-												}
-											} else {
-												tracedImage, _ := gotrace.Trace(gotrace.NewBitmapFromImage(silhouetteImage, nil), nil)
-												theResponseWriter.Header().Set("Content-Type", "image/svg+xml")
-												gotrace.WriteSvg(theResponseWriter, silhouetteImage.Bounds(), tracedImage, "")
-											}
-											serveFile = false
-										} else {
-											if faviconTitle == "apple-touch-icon.png" {
-												faviconWidth = 180
-												faviconHeight = 180
-											} else if faviconTitle == "favicon.ico" {
-												faviconWidth = 48
-												faviconHeight = 48
-											}
-											// Resize the available (PNG) favicon to match the request.
-											faviconSplit := strings.Split(requestPath, "/")
-											faviconName := strings.Split(faviconSplit[len(faviconSplit)-1], ".")[0]
-											faviconSplit = strings.Split(faviconName, "-")
-											if len(faviconSplit) != faviconHyphens {
-												faviconSizeSplit := strings.Split(faviconSplit[faviconHyphens], "x")
-												if len(faviconSizeSplit) == 2 {
-													faviconWidth, _ = strconv.Atoi(faviconSizeSplit[0])
-													faviconHeight, _ = strconv.Atoi(faviconSizeSplit[1])
-												}
-											}
-											resizedImage := resize.Resize(uint(faviconWidth), uint(faviconHeight), faviconImage, resize.Lanczos3)
-											if strings.HasSuffix(faviconTitle, "ico") {
-												icoErr := ico.Encode(theResponseWriter, resizedImage)
-												if icoErr != nil {
-													fmt.Fprintf(theResponseWriter, "ERROR: Unable to encode PNG image.\n")
-												}
-												serveFile = false
-											} else {
-												pngErr := png.Encode(theResponseWriter, resizedImage)
-												if pngErr != nil {
-													fmt.Fprintf(theResponseWriter, "ERROR: Unable to encode PNG image.\n")
-												}
-												serveFile = false
-											}
-										}
-									} else {
-										fmt.Fprintf(theResponseWriter, "ERROR: Couldn't decode favicon file: " + faviconPath + "\n")
-									}
-								} else {
-									fmt.Fprintf(theResponseWriter, "ERROR: Couldn't open favicon file: " + faviconPath + "\n")
-								}
 							}
 						}
 					} else {
 						fmt.Fprintf(theResponseWriter, "ERROR: " + taskErr.Error())
+					}
+					faviconFile, faviconFileErr := os.Open(faviconPath)
+					if faviconFileErr == nil {
+						serveFile = true
+						faviconImage, _, faviconImageErr := image.Decode(faviconFile)
+						faviconFile.Close()
+						if faviconImageErr == nil {
+							faviconWidth := faviconImage.Bounds().Max.X
+							faviconHeight := faviconImage.Bounds().Max.Y
+							if faviconTitle == "safari-pinned-tab.png" || faviconTitle == "safari-pinned-tab.svg" {
+								silhouetteImage := image.NewRGBA(image.Rectangle{image.Point{0, 0}, image.Point{faviconWidth, faviconHeight}})
+								for silhouetteY := 0; silhouetteY < faviconHeight; silhouetteY++ {
+									for silhouetteX := 0; silhouetteX < faviconWidth; silhouetteX++ {
+										r, g, b, a := faviconImage.At(silhouetteX, silhouetteY).RGBA()
+										if r < 128 || g < 128 || b < 128 || a < 128 {
+											silhouetteImage.Set(silhouetteX, silhouetteY, color.RGBA{255, 255, 255, 0})
+										} else {
+											silhouetteImage.Set(silhouetteX, silhouetteY, color.RGBA{0, 0, 0, 255})
+										}
+									}
+								}
+								if faviconTitle == "safari-pinned-tab.png" {
+									pngErr := png.Encode(theResponseWriter, silhouetteImage)
+									if pngErr != nil {
+										fmt.Fprintf(theResponseWriter, "ERROR: Unable to encode PNG silhouette image.\n")
+									}
+								} else {
+									tracedImage, _ := gotrace.Trace(gotrace.NewBitmapFromImage(silhouetteImage, nil), nil)
+									theResponseWriter.Header().Set("Content-Type", "image/svg+xml")
+									gotrace.WriteSvg(theResponseWriter, silhouetteImage.Bounds(), tracedImage, "")
+								}
+								serveFile = false
+							} else {
+								if faviconTitle == "apple-touch-icon.png" {
+									faviconWidth = 180
+									faviconHeight = 180
+								} else if faviconTitle == "favicon.ico" {
+									faviconWidth = 48
+									faviconHeight = 48
+								}
+								// Resize the available (PNG) favicon to match the request.
+								faviconSplit := strings.Split(requestPath, "/")
+								faviconName := strings.Split(faviconSplit[len(faviconSplit)-1], ".")[0]
+								faviconSplit = strings.Split(faviconName, "-")
+								if len(faviconSplit) != faviconHyphens {
+									faviconSizeSplit := strings.Split(faviconSplit[faviconHyphens], "x")
+									if len(faviconSizeSplit) == 2 {
+										faviconWidth, _ = strconv.Atoi(faviconSizeSplit[0])
+										faviconHeight, _ = strconv.Atoi(faviconSizeSplit[1])
+									}
+								}
+								resizedImage := resize.Resize(uint(faviconWidth), uint(faviconHeight), faviconImage, resize.Lanczos3)
+								if strings.HasSuffix(faviconTitle, "ico") {
+									icoErr := ico.Encode(theResponseWriter, resizedImage)
+									if icoErr != nil {
+										fmt.Fprintf(theResponseWriter, "ERROR: Unable to encode PNG image.\n")
+									}
+									serveFile = false
+								} else {
+									pngErr := png.Encode(theResponseWriter, resizedImage)
+									if pngErr != nil {
+										fmt.Fprintf(theResponseWriter, "ERROR: Unable to encode PNG image.\n")
+									}
+									serveFile = false
+								}
+							}
+						} else {
+							fmt.Fprintf(theResponseWriter, "ERROR: Couldn't decode favicon file: " + faviconPath + "\n")
+						}
+					} else {
+						fmt.Fprintf(theResponseWriter, "ERROR: Couldn't open favicon file: " + faviconPath + "\n")
 					}
 				// ...otherwise, just serve the static file referred to by the request URL.
 				} else {
