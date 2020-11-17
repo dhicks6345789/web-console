@@ -633,7 +633,7 @@ func main() {
 											for silhouetteY := 0; silhouetteY < faviconHeight; silhouetteY++ {
 												for silhouetteX := 0; silhouetteX < faviconWidth; silhouetteX++ {
 													//r, g, b, a := faviconImage.At(silhouetteX, silhouetteY).RGBA()
-													silhouetteImage.Set(silhouetteX, silhouetteY, color.RGBA{255, 255, 255, 255})
+													silhouetteImage.Set(silhouetteX, silhouetteY, color.RGBA{128, 128, 128, 255})
 												}
 											}
 											pngErr := png.Encode(theResponseWriter, silhouetteImage)
