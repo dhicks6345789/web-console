@@ -612,13 +612,13 @@ func main() {
 				}
 				// If the request was for a favicon, serve something suitible.
 				if faviconTitle != "" {
-					faviconPath = arguments["webroot"] + "/" + "favicon.png"
+					faviconPath := arguments["webroot"] + "/" + "favicon.png"
 					taskList, taskErr := getTaskList()
 					if taskErr == nil {
 						for _, task := range taskList {
 							if strings.HasPrefix(requestPath, "/" + task["taskID"]) {
 								// Does this Task have a custom favicon?
-								faviconPath := arguments["taskroot"] + "/" + task["taskID"] + "/" + "favicon.png"
+								faviconPath = arguments["taskroot"] + "/" + task["taskID"] + "/" + "favicon.png"
 								if _, fileExistsErr := os.Stat(faviconPath); os.IsNotExist(fileExistsErr) {
 									// Does all Tasks have a custom favicon?
 									faviconPath = arguments["taskroot"] + "/" + "favicon.png"
