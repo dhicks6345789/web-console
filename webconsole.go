@@ -649,9 +649,10 @@ func main() {
 													fmt.Fprintf(theResponseWriter, "ERROR: Unable to encode PNG silhouette image.\n")
 												}
 											} else {
-												tracedImage, _ := gotrace.Trace(gotrace.NewBitmapFromImage(silhouetteImage, nil), nil)
+												//tracedImage, _ := gotrace.Trace(gotrace.NewBitmapFromImage(silhouetteImage, nil), nil)
+												tracedImage, _ := gotrace.Trace(silhouetteImage, nil)
 												theResponseWriter.Header().Set("Content-Type", "image/svg+xml")
-												gotrace.WriteSvg(theResponseWriter, silhouetteImage.Bounds(), tracedImage, "")
+												gotrace.WriteSvg(theResponseWriter, silhouetteImage.Bounds(), tracedImage, "#FFFFFF")
 											}
 											serveFile = false
 										} else {
