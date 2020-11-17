@@ -651,7 +651,7 @@ func main() {
 												serveFile = false
 											} else {
 												tracedImage, _ := gotrace.Trace(gotrace.NewBitmapFromImage(silhouetteImage, nil), nil)
-												gotrace.WriteSvg(file, silhouetteImage.Bounds(), tracedImage, "")
+												gotrace.WriteSvg(theResponseWriter, silhouetteImage.Bounds(), tracedImage, "")
 											}
 										} else {
 											if faviconTitle == "apple-touch-icon.png" {
