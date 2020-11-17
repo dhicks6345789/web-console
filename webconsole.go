@@ -592,17 +592,18 @@ func main() {
 					}
 				}
 			} else {
-				// If the request is for a favicon, produce something suitible...
+				// Check to see if the request is for a favicon of some description.
 				faviconTitle := ""
 				faviconHyphens := 0
-				faviconTitles := [4]string{ "favicon", "mstile", "android-chrome", "apple-touch-icon" }
+				faviconTitles := [4]string{ "favicon.*png", "mstile.*png", "android-chrome.*png", "apple-touch-icon.*png", "safari-pinned-tab.svg" }
 				for _, titleMatch := range faviconTitles {
-					requestMatch, _ := regexp.MatchString(".*/" + titleMatch + ".*png$", requestPath)
+					requestMatch, _ := regexp.MatchString(".*/" + titleMatch + "$", requestPath)
 					if requestMatch {
 						faviconTitle = titleMatch
 						faviconHyphens = strings.Count(titleMatch, "-") + 1
 					}
 				}
+				// If the request was for a favicon, serve something suitible.
 				if faviconTitle != "" {
 					taskList, taskErr := getTaskList()
 					if taskErr == nil {
@@ -626,27 +627,33 @@ func main() {
 									if faviconImageErr == nil {
 										faviconWidth := faviconImage.Bounds().Max.X
 										faviconHeight := faviconImage.Bounds().Max.Y
-										if faviconTitle == "apple-touch-icon" {
-											faviconWidth = 180
-											faviconHeight = 180
-										}
-										// Resize the available (PNG) favicon to match the request.
-										faviconSplit := strings.Split(requestPath, "/")
-										faviconName := strings.Split(faviconSplit[len(faviconSplit)-1], ".")[0]
-										faviconSplit = strings.Split(faviconName, "-")
-										if len(faviconSplit) != faviconHyphens {
-											faviconSizeSplit := strings.Split(faviconSplit[faviconHyphens], "x")
-											if len(faviconSizeSplit) == 2 {
-												faviconWidth, _ = strconv.Atoi(faviconSizeSplit[0])
-												faviconHeight, _ = strconv.Atoi(faviconSizeSplit[1])
-											}
-										}
-										resizedImage := resize.Resize(uint(faviconWidth), uint(faviconHeight), faviconImage, resize.Lanczos3)
-										pngErr := png.Encode(theResponseWriter, resizedImage)
-										if pngErr == nil {
+										if faviconTitle == "safari-pinned-tab.svg" {
+											gotrace(faviconImage)
+											serveresult
 											serveFile = false
 										} else {
-											fmt.Fprintf(theResponseWriter, "ERROR: Unable to encode PNG image.\n")
+											if faviconTitle == "apple-touch-icon.png" {
+												faviconWidth = 180
+												faviconHeight = 180
+											}
+											// Resize the available (PNG) favicon to match the request.
+											faviconSplit := strings.Split(requestPath, "/")
+											faviconName := strings.Split(faviconSplit[len(faviconSplit)-1], ".")[0]
+											faviconSplit = strings.Split(faviconName, "-")
+											if len(faviconSplit) != faviconHyphens {
+												faviconSizeSplit := strings.Split(faviconSplit[faviconHyphens], "x")
+												if len(faviconSizeSplit) == 2 {
+													faviconWidth, _ = strconv.Atoi(faviconSizeSplit[0])
+													faviconHeight, _ = strconv.Atoi(faviconSizeSplit[1])
+												}
+											}
+											resizedImage := resize.Resize(uint(faviconWidth), uint(faviconHeight), faviconImage, resize.Lanczos3)
+											pngErr := png.Encode(theResponseWriter, resizedImage)
+											if pngErr == nil {
+												serveFile = false
+											} else {
+												fmt.Fprintf(theResponseWriter, "ERROR: Unable to encode PNG image.\n")
+											}
 										}
 									} else {
 										fmt.Fprintf(theResponseWriter, "ERROR: Couldn't decode favicon file: " + faviconPath + "\n")
