@@ -27,6 +27,9 @@ import (
 	// Image resizing library.
 	"github.com/nfnt/resize"
 	
+	// Bitmap-to-SVG tracing library.
+	"github.com/dennwc/gotrace"
+	
 	// Bcrypt for password hashing.
 	"golang.org/x/crypto/bcrypt"
 	
@@ -628,7 +631,7 @@ func main() {
 									if faviconImageErr == nil {
 										faviconWidth := faviconImage.Bounds().Max.X
 										faviconHeight := faviconImage.Bounds().Max.Y
-										if faviconTitle == "safari-pinned-tab.png" {
+										if faviconTitle == "safari-pinned-tab.png" || faviconTitle == "safari-pinned-tab.svg" {
 											silhouetteImage := image.NewRGBA(image.Rectangle{image.Point{0, 0}, image.Point{faviconWidth, faviconHeight}})
 											for silhouetteY := 0; silhouetteY < faviconHeight; silhouetteY++ {
 												for silhouetteX := 0; silhouetteX < faviconWidth; silhouetteX++ {
@@ -640,11 +643,16 @@ func main() {
 													}
 												}
 											}
-											pngErr := png.Encode(theResponseWriter, silhouetteImage)
-											if pngErr != nil {
-												fmt.Fprintf(theResponseWriter, "ERROR: Unable to encode PNG silhouette image.\n")
+											if faviconTitle == "safari-pinned-tab.png" {
+												pngErr := png.Encode(theResponseWriter, silhouetteImage)
+												if pngErr != nil {
+													fmt.Fprintf(theResponseWriter, "ERROR: Unable to encode PNG silhouette image.\n")
+												}
+												serveFile = false
+											} else {
+												tracedImage, _ := gotrace.Trace(gotrace.NewBitmapFromImage(silhouetteImage, nil), nil)
+												gotrace.WriteSvg(file, silhouetteImage.Bounds(), tracedImage, "")
 											}
-											serveFile = false
 										} else {
 											if faviconTitle == "apple-touch-icon.png" {
 												faviconWidth = 180
