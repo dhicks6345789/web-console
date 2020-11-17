@@ -648,11 +648,11 @@ func main() {
 												if pngErr != nil {
 													fmt.Fprintf(theResponseWriter, "ERROR: Unable to encode PNG silhouette image.\n")
 												}
-												serveFile = false
 											} else {
 												tracedImage, _ := gotrace.Trace(gotrace.NewBitmapFromImage(silhouetteImage, nil), nil)
 												gotrace.WriteSvg(theResponseWriter, silhouetteImage.Bounds(), tracedImage, "")
 											}
+											serveFile = false
 										} else {
 											if faviconTitle == "apple-touch-icon.png" {
 												faviconWidth = 180
