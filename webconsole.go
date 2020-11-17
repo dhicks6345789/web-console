@@ -651,7 +651,7 @@ func main() {
 											} else {
 												tracedImage, _ := gotrace.Trace(gotrace.NewBitmapFromImage(faviconImage, nil), nil)
 												theResponseWriter.Header().Set("Content-Type", "image/svg+xml")
-												gotrace.WriteSvg(theResponseWriter, silhouetteImage.Bounds(), tracedImage, "#FFFFFF")
+												gotrace.WriteSvg(theResponseWriter, silhouetteImage.Bounds(), tracedImage, "")
 											}
 											serveFile = false
 										} else {
