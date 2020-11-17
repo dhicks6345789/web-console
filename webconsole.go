@@ -637,9 +637,9 @@ func main() {
 												for silhouetteX := 0; silhouetteX < faviconWidth; silhouetteX++ {
 													r, g, b, a := faviconImage.At(silhouetteX, silhouetteY).RGBA()
 													if r < 128 || g < 128 || b < 128 || a < 128 {
-														silhouetteImage.Set(silhouetteX, silhouetteY, color.RGBA{255, 255, 255, 255})
+														silhouetteImage.Set(silhouetteX, silhouetteY, color.RGBA{0, 0, 0, 0})
 													} else {
-														silhouetteImage.Set(silhouetteX, silhouetteY, color.RGBA{0, 0, 0, 255})
+														silhouetteImage.Set(silhouetteX, silhouetteY, color.RGBA{255, 255, 255, 255})
 													}
 												}
 											}
@@ -649,7 +649,7 @@ func main() {
 													fmt.Fprintf(theResponseWriter, "ERROR: Unable to encode PNG silhouette image.\n")
 												}
 											} else {
-												tracedImage, _ := gotrace.Trace(gotrace.NewBitmapFromImage(faviconImage, nil), nil)
+												tracedImage, _ := gotrace.Trace(gotrace.NewBitmapFromImage(silhouetteImage, nil), nil)
 												theResponseWriter.Header().Set("Content-Type", "image/svg+xml")
 												gotrace.WriteSvg(theResponseWriter, silhouetteImage.Bounds(), tracedImage, "")
 											}
