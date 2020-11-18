@@ -693,7 +693,7 @@ func main() {
 								if len(faviconSplit) != faviconHyphens {
 									faviconSizeSplit := strings.Split(faviconSplit[faviconHyphens], "x")
 									if len(faviconSizeSplit) == 2 {
-										atoiError := nil
+										var atoiError error
 										faviconWidth, atoiError = strconv.Atoi(faviconSizeSplit[0])
 										if atoiError == nil {
 											faviconHeight, atoiError = strconv.Atoi(faviconSizeSplit[1])
