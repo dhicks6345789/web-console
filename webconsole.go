@@ -397,8 +397,9 @@ func main() {
 			refererMatch, _ := regexp.MatchString("^https://.*?/.*/view.*$", refererPath)
 			if refererMatch {
 				refererPath = refererPath[9 + strings.Index(refererPath[8:], "/"):]
-				refererPath = refererPath[:strings.Index(refererPath, "/view")]
-				log.Print("Referer: " + refererPath)
+				refererPath = refererPath[:strings.Index(refererPath, "/view")] + "/"
+			} else {
+				refererPath = ""
 			}
 			
 			serveFile := false
@@ -621,7 +622,7 @@ func main() {
 				webmanifestBuffer, fileReadErr := ioutil.ReadFile(arguments["webroot"] + "/" + "site.webmanifest")
 				if fileReadErr == nil {
 					webmanifestString := string(webmanifestBuffer)
-					webmanifestString = strings.Replace(webmanifestString, "<<TASKID>>", taskID, -1)
+					webmanifestString = strings.Replace(webmanifestString, "<<TASKID>>", refererPath + taskID, -1)
 					http.ServeContent(theResponseWriter, theRequest, "site.webmanifest", time.Now(), strings.NewReader(webmanifestString))
 				} else {
 					fmt.Fprintf(theResponseWriter, "ERROR: Couldn't read site.webmanifest.")
