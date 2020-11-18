@@ -598,6 +598,16 @@ func main() {
 						fmt.Fprintf(theResponseWriter, "ERROR: %s", taskErr.Error())
 					}
 				}
+			} else if strings.HasSuffix(requestPath, "/site.webmanifest") {
+				taskID := theRequest.Form.Get("taskID")
+				webmanifestBuffer, fileReadErr := ioutil.ReadFile(arguments["webroot"] + "/site.webmanifest")
+				if fileReadErr == nil {
+					webmanifestString := string(webmanifestBuffer)
+					webmanifestString = strings.Replace(webmanifestString, "<<TASKID>>", taskID, -1)
+					http.ServeContent(theResponseWriter, theRequest, "site.webmanifest", time.Now(), strings.NewReader(webmanifestString))
+				} else {
+					fmt.Fprintf(theResponseWriter, "ERROR: Couldn't read site.webmanifest.")
+				}
 			} else {
 				// Check to see if the request is for a favicon of some description.
 				faviconTitle := ""
