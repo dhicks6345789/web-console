@@ -613,11 +613,7 @@ func main() {
 				webmanifestBuffer, fileReadErr := ioutil.ReadFile(arguments["webroot"] + "/" + "site.webmanifest")
 				if fileReadErr == nil {
 					webmanifestString := string(webmanifestBuffer)
-					pathPrepend := ""
-					if arguments["pathPrefix"] != "" {
-						pathPrepend = arguments["pathPrefix"] + "/"
-					}
-					webmanifestString = strings.Replace(webmanifestString, "<<TASKID>>", pathPrepend + taskID, -1)
+					webmanifestString = strings.Replace(webmanifestString, "<<TASKID>>", arguments["pathPrefix"] + "/" + taskID, -1)
 					http.ServeContent(theResponseWriter, theRequest, "site.webmanifest", time.Now(), strings.NewReader(webmanifestString))
 				} else {
 					fmt.Fprintf(theResponseWriter, "ERROR: Couldn't read site.webmanifest.")
