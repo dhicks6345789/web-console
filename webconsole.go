@@ -646,7 +646,9 @@ func main() {
 									for silhouetteX := 0; silhouetteX < faviconWidth; silhouetteX++ {
 										r, g, b, a := faviconImage.At(silhouetteX, silhouetteY).RGBA()
 										//if r < 128 || g < 128 || b < 128 || a < 128 {
-										if r > 128 || g > 128 || b > 128 || a > 128 {
+										if a < 255 {
+											silhouetteImage.Set(silhouetteX, silhouetteY, color.RGBA{255, 255, 255, 0})
+										} else if r > 128 || g > 128 || b > 128 {
 											//silhouetteImage.Set(silhouetteX, silhouetteY, color.RGBA{255, 255, 255, 0})
 											silhouetteImage.Set(silhouetteX, silhouetteY, color.RGBA{0, 0, 0, 255})
 										} else {
