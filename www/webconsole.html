@@ -115,6 +115,13 @@
 				document.execCommand("copy");
 			}
 			
+			// Copy the CURL command to the clipboard for the user.
+			function copyCURLCommand() {
+				copyText = $("#CURLCommand")
+				copyText.select();
+				document.execCommand("copy");
+			}
+			
 			// Called when the document is first loaded and ready.
 			$(document).ready(function() {
 				// Get the Task's title and description.
@@ -126,6 +133,8 @@
 				// Set the webhook value for the user - the "run" API call for this Task, handy for services such as IFTTT and Zapier.
 				pageURL = window.location.href.split("?")[0]
 				$("#webHookLink").val(pageURL.slice(0, pageURL.lastIndexOf("/")) + "/api/runTask?taskID=" + taskID);
+				// Set the CURL command webhook value for the user - the "run" API call for this Task, handy for calling from the command line or a cron job / Windows schedualed task.
+				$("#CURLCommand").val("curl " + pageURL.slice(0, pageURL.lastIndexOf("/")) + "/api/runTask?taskID=" + taskID);
 				// If the URL includes "run" rather than "view", run the Task right away - handy for some users.
 				if (pageURL.endsWith("/run")) {
 					runTask();
@@ -162,9 +171,15 @@
 		</div>
 		<!-- The "webhook" link, with handy copy-to-clipboard button. -->
 		<div class="container-fluid">
-			<input type="text" id="webHookLink" value="https://" readonly/>
+			Webhook URL: <input type="text" id="webHookLink" value="https://" readonly/>
 			<button type="button" class="btn btn-default" aria-label="Copy Webhook URL" onclick="copyWebHook()">
 				<img src="copyIcon.svg" alt="Copy Webhook URL" width="32" height="32">
+			</button>
+		</div>
+		<div class="container-fluid">
+			CURL command: <input type="text" id="CURLCommand" value="https://" readonly/>
+			<button type="button" class="btn btn-default" aria-label="Copy CURL command" onclick="copyCURLCommand()">
+				<img src="copyIcon.svg" alt="Copy CURL command" width="32" height="32">
 			</button>
 		</div>
 	</body>
