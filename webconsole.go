@@ -649,11 +649,11 @@ func main() {
 										if a < 255 {
 											silhouetteImage.Set(silhouetteX, silhouetteY, color.RGBA{255, 255, 255, 0})
 										} else if r > 128 || g > 128 || b > 128 {
-											//silhouetteImage.Set(silhouetteX, silhouetteY, color.RGBA{255, 255, 255, 0})
-											silhouetteImage.Set(silhouetteX, silhouetteY, color.RGBA{0, 0, 0, 255})
-										} else {
 											silhouetteImage.Set(silhouetteX, silhouetteY, color.RGBA{255, 255, 255, 0})
 											//silhouetteImage.Set(silhouetteX, silhouetteY, color.RGBA{0, 0, 0, 255})
+										} else {
+											//silhouetteImage.Set(silhouetteX, silhouetteY, color.RGBA{255, 255, 255, 0})
+											silhouetteImage.Set(silhouetteX, silhouetteY, color.RGBA{0, 0, 0, 255})
 										}
 									}
 								}
