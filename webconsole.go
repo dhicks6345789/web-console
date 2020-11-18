@@ -388,7 +388,6 @@ func main() {
 			if strings.HasPrefix(requestPath, arguments["pathPrefix"]) {
 				requestPath = requestPath[len(arguments["pathPrefix"]):]
 			}
-			log.Print("Request: " + requestPath)
 			
 			serveFile := false
 			if requestPath == "/" {
@@ -486,7 +485,6 @@ func main() {
 							// API - Run a given Task.
 							} else if strings.HasPrefix(requestPath, "/api/runTask") {
 								// If the Task is already running, simply return "OK".
-								log.Print("taskID: " + taskID)
 								if taskIsRunning(taskID) {
 									fmt.Fprintf(theResponseWriter, "OK")
 								} else {
@@ -695,8 +693,15 @@ func main() {
 								if len(faviconSplit) != faviconHyphens {
 									faviconSizeSplit := strings.Split(faviconSplit[faviconHyphens], "x")
 									if len(faviconSizeSplit) == 2 {
-										faviconWidth, _ = strconv.Atoi(faviconSizeSplit[0])
-										faviconHeight, _ = strconv.Atoi(faviconSizeSplit[1])
+										atoiError := nil
+										faviconWidth, atoiError = strconv.Atoi(faviconSizeSplit[0])
+										if atoiError == nil {
+											faviconHeight, atoiError = strconv.Atoi(faviconSizeSplit[1])
+										}
+										if atoiError != nil {
+											fmt.Fprintf(theResponseWriter, "ERROR: Non-integer in image dimensions.\n")
+											serveFile = false
+										}
 									}
 								}
 								resizedImage := resize.Resize(uint(faviconWidth), uint(faviconHeight), faviconImage, resize.Lanczos3)
