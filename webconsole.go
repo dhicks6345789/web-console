@@ -604,7 +604,7 @@ func main() {
 				if taskErr == nil {
 					for _, task := range taskList {
 						if strings.HasPrefix(requestPath, "/" + task["taskID"]) {
-							taskID = task["taskID"]
+							taskID = task["taskID"] + "/"
 						}
 					}
 				} else {
@@ -613,7 +613,7 @@ func main() {
 				webmanifestBuffer, fileReadErr := ioutil.ReadFile(arguments["webroot"] + "/" + "site.webmanifest")
 				if fileReadErr == nil {
 					webmanifestString := string(webmanifestBuffer)
-					webmanifestString = strings.Replace(webmanifestString, "<<TASKID>>", taskID + "/", -1)
+					webmanifestString = strings.Replace(webmanifestString, "<<TASKID>>", taskID, -1)
 					http.ServeContent(theResponseWriter, theRequest, "site.webmanifest", time.Now(), strings.NewReader(webmanifestString))
 				} else {
 					fmt.Fprintf(theResponseWriter, "ERROR: Couldn't read site.webmanifest.")
