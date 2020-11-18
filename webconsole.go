@@ -388,10 +388,12 @@ func main() {
 			
 			// The default root - serve index.html.
 			requestPath := theRequest.URL.Path
+			refererPath := theRequest.Referer()
 			if strings.HasPrefix(requestPath, arguments["pathPrefix"]) {
 				requestPath = requestPath[len(arguments["pathPrefix"]):]
 			}
 			log.Print("Request: " + requestPath)
+			log.Print("Referer: " + refererPath)
 			
 			serveFile := false
 			if requestPath == "/" {
