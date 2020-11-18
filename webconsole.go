@@ -396,7 +396,8 @@ func main() {
 			
 			refererMatch, _ := regexp.MatchString("^https://.*?/.*/view.*$", refererPath)
 			if refererMatch {
-				log.Print(strings.Split(refererPath[strings.Index(refererPath[8:], "/"):], "/")[0])
+				log.Print(refererPath[8:])
+				log.Print(strings.Index(refererPath[8:], "/"))
 				log.Print("Referer: " + refererPath)
 			}
 			
