@@ -401,6 +401,7 @@ func main() {
 			} else {
 				refererPath = ""
 			}
+			log.Print("Referer: " + refererPath)
 			
 			serveFile := false
 			if requestPath == "/" {
