@@ -393,6 +393,7 @@ func main() {
 				requestPath = requestPath[len(arguments["pathPrefix"]):]
 			}
 			log.Print("Request: " + requestPath)
+			log.Print("Whole request: " + theRequest.URL.RequestURI())
 			
 			refererMatch, _ := regexp.MatchString("^https://.*?/.*/view.*$", refererPath)
 			if refererMatch {
