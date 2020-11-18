@@ -393,7 +393,12 @@ func main() {
 				requestPath = requestPath[len(arguments["pathPrefix"]):]
 			}
 			log.Print("Request: " + requestPath)
-			log.Print("Referer: " + refererPath)
+			
+			refererMatch, _ := regexp.MatchString("^https://.*?/.*/view.*$", refererPath)
+			if refererMatch {
+				log.Print(strings.Split(refererPath[strings.Index(refererPath[8:], "/"):], "/")[0])
+				log.Print("Referer: " + refererPath)
+			}
 			
 			serveFile := false
 			if requestPath == "/" {
