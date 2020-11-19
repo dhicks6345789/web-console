@@ -125,11 +125,11 @@
 			// Called when the document is first loaded and ready.
 			$(document).ready(function() {
 				// Get the Task's title and description.
-				doAPICall("getTaskDetails", {}, function(result) {
+				/*doAPICall("getTaskDetails", {}, function(result) {
 					resultSplit = result.split("\n");
 					$("#taskTitle").html(resultSplit[0]);
 					$("#taskDescription").html(resultSplit[1]);
-				});
+				});*/
 				// Even if the Task isn't yet running, update the Task output section - it'll be filled with the logs of the last run if available.
 				updateTaskOutput();
 				// Set the webhook value for the user - the "run" API call for this Task, handy for services such as IFTTT and Zapier.
@@ -158,11 +158,11 @@
 		<div class="container-fluid" id="mainContent">
 			<div class="jumbotron">
 				<div class="container">
-					<h1 class="text-center" id="taskTitle"></h1>
+					<h1 class="text-center" id="taskTitle"><<TITLE>></h1>
 				</div>
 			</div>
 		</div>
-		<div class="text-center" id="taskDescription"></div>
+		<div class="text-center" id="taskDescription"><<DESCRIPTION>></div>
 		<!-- The main "console" section where most of the output for the user goes. -->
 		<div class="container-fluid" id="webconsole">
 			<button class="btn btn-success" type="button" id="runTaskButton" onclick="runTask()">Run</button>
