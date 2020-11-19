@@ -158,11 +158,12 @@ func runTask(theTaskID string) {
 							taskRunning = false
 						}
 					}
+					taskOutputs[theTaskID] = append(taskOutputs[theTaskID], "Bananas.")
 					exitErr := runningTasks[theTaskID].Wait()
 					if exitErr == nil {
 						taskOutputs[theTaskID] = append(taskOutputs[theTaskID], "WARNING: No error.")
 					}
-					taskOutputs[theTaskID] = append(taskOutputs[theTaskID], "WARNING: Finished with error message.")
+					taskOutputs[theTaskID] = append(taskOutputs[theTaskID], "Oranges.")
 					// When we get here, the Task has finished running. We record the finish time and work out the total run time for this run
 					// and update (or create) the list of recent run times for this Task.
 					taskStopTimes[theTaskID] = time.Now().Unix()
