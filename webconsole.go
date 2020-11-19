@@ -183,8 +183,6 @@ func runTask(theTaskID string) {
 					delete(runningTasks, theTaskID)
 				}
 				logfileOutput.Close()
-			} else {
-				fmt.Fprintf(theResponseWriter, "ERROR: Couldn't create log file for Task " + theTaskID + ".")
 			}
 		}
 	}
