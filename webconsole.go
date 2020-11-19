@@ -561,7 +561,7 @@ func main() {
 									// into the Task's output buffer.
 									logContents, logContentsErr := ioutil.ReadFile(arguments["taskroot"] + "/" + taskID + "/log.txt")
 									if logContentsErr == nil {
-										taskOutputs[taskID] := strings.Split(string(logContents), "\n")
+										taskOutputs[taskID] = strings.Split(string(logContents), "\n")
 									}
 								} else if taskDetails["progress"] == "Y" {
 									// If the job details have the "progress" option set to "Y", output a (best guess, using previous
