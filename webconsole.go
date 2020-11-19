@@ -81,7 +81,7 @@ func hashPassword(thePassword string) (string, error) {
 	return string(bytes), cryptErr
 }
 
-// Check a plaint text password with a Bcrypt-hashed string, returns true if they match.
+// Check a plain text password with a Bcrypt-hashed string, returns true if they match.
 func checkPasswordHash(thePassword, theHash string) bool {
 	if thePassword == "" && theHash == "" {
 		return true
@@ -140,9 +140,12 @@ func runTask(theTaskID string) {
 				taskRunning := true
 				// Loop until the Task (an external executable) has finished.
 				for taskRunning {
-					// Read both STDERR and STDIN into a string array ready for output to the web interface.
+					// Read both STDERR and STDIN.
 					readOutputSize, readErr := taskOutput.Read(readBuffer)
 					if readErr == nil {
+						// Append the output to the log file for the current Task.
+						// Code goes here.
+						// Append the output as lines of text to the array-of-strings ready for output to the web interface.
 						bufferSplit := strings.Split(string(readBuffer[0:readOutputSize]), "\n")
 						for pl := 0; pl < len(bufferSplit); pl++ {
 							if strings.TrimSpace(bufferSplit[pl]) != "" {
@@ -501,6 +504,12 @@ func main() {
 										}
 										runningTasks[taskID] = exec.Command(commandArray[0], commandArgs...)
 										runningTasks[taskID].Dir = arguments["taskroot"] + "/" + taskID
+										
+										// ...make sure the Task's log file exists and is blank...
+										_, logFileErr := os.Create(arguments["taskroot"] + "/" + taskID + "/log.txt")
+										if logFileErr != nil {
+											fmt.Fprintf(theResponseWriter, "ERROR: Couldn't create log file for Task " + taskID + ".")
+										}
 										
 										// ...get a list (if available) of recent run times...
 										taskRunTimes[taskID] = make([]int64, 0)
