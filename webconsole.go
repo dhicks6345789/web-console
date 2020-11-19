@@ -222,6 +222,10 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 				taskDetails[strings.TrimSpace(itemSplit[0])] = strings.TrimSpace(itemSplit[1])
 			}
 			inFile.Close()
+			descriptionContents, descriptionContentsErr := ioutil.ReadFile(arguments["taskroot"] + "/" + taskID + "/description.txt")
+			if descriptionContentsErr == nil {
+				taskDetails["description"] = strings.Split(string(descriptionContents), "\n")
+			}
 		}
 	} else {
 		return taskDetails, errors.New("Invalid taskID")
@@ -474,6 +478,7 @@ func main() {
 										webconsoleString = strings.Replace(webconsoleString, "<<TASKID>>", taskID, -1)
 										webconsoleString = strings.Replace(webconsoleString, "<<TOKEN>>", token, -1)
 										webconsoleString = strings.Replace(webconsoleString, "<<TITLE>>", taskDetails["title"], -1)
+										webconsoleString = strings.Replace(webconsoleString, "<<DESCRIPTION>>", taskDetails["description"], -1)
 										webconsoleString = strings.Replace(webconsoleString, "<<FAVICONPATH>>", taskID + "/", -1)
 										webconsoleString = strings.Replace(webconsoleString, "// Include formatting.js.", formattingJSString, -1)
 										http.ServeContent(theResponseWriter, theRequest, "webconsole.html", time.Now(), strings.NewReader(webconsoleString))
