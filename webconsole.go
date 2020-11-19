@@ -556,9 +556,13 @@ func main() {
 										fmt.Fprintf(theResponseWriter, "ERROR: Line number not parsable.")
 									}
 								}
-								// If the Task isn't currently running, load the previous run's log file into the Task's output buffer.
 								if _, runningTaskFound := runningTasks[taskID]; !runningTaskFound {
-									taskOutputs[taskID] = ["Bananas"]
+									// If the Task isn't currently running, load the previous run's log file (if it exists)
+									// into the Task's output buffer.
+									logContents, logContentsErr := ioutil.ReadFile(arguments["taskroot"] + "/" + taskID + "/log.txt")
+									if logContentsErr == nil {
+										taskOutputs[taskID] := strings.Split(string(logContents), "\n")
+									}
 								} else if taskDetails["progress"] == "Y" {
 									// If the job details have the "progress" option set to "Y", output a (best guess, using previous
 									// run times) progresss report line.
