@@ -224,7 +224,7 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 			inFile.Close()
 			descriptionContents, descriptionContentsErr := ioutil.ReadFile(arguments["taskroot"] + "/" + theTaskID + "/description.txt")
 			if descriptionContentsErr == nil {
-				taskDetails["description"] = strings.Split(string(descriptionContents), "\n")
+				taskDetails["description"] = string(descriptionContents)
 			}
 		}
 	} else {
