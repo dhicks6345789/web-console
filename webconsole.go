@@ -135,50 +135,56 @@ func runTask(theTaskID string) {
 		taskStderr, taskStderrErr := runningTasks[theTaskID].StderrPipe()
 		if taskStderrErr == nil {
 			taskOutput := io.MultiReader(taskStdout, taskStderr)
-			taskErr := runningTasks[theTaskID].Start()
-			if taskErr == nil {
-				taskRunning := true
-				// Loop until the Task (an external executable) has finished.
-				for taskRunning {
-					// Read both STDERR and STDIN.
-					readOutputSize, readErr := taskOutput.Read(readBuffer)
-					if readErr == nil {
-						// Append the output to the log file for the current Task.
-						// Code goes here.
-						// Append the output as lines of text to the array-of-strings ready for output to the web interface.
-						bufferSplit := strings.Split(string(readBuffer[0:readOutputSize]), "\n")
-						for pl := 0; pl < len(bufferSplit); pl++ {
-							if strings.TrimSpace(bufferSplit[pl]) != "" {
-								taskOutputs[theTaskID] = append(taskOutputs[theTaskID], bufferSplit[pl])
+			logfileOutput, logFileErr := os.Create(arguments["taskroot"] + "/" + theTaskID + "/log.txt")
+			if logFileErr == nil {
+				taskErr := runningTasks[theTaskID].Start()
+				if taskErr == nil {
+					taskRunning := true
+					// Loop until the Task (an external executable) has finished.
+					for taskRunning {
+						// Read both STDERR and STDIN.
+						readOutputSize, readErr := taskOutput.Read(readBuffer)
+						if readErr == nil {
+							// Append the output to the log file for the current Task.
+							logfileOutput.Write(readBuffer[0:readOutputSize])
+							// Append the output as lines of text to the array-of-strings ready for output to the web interface.
+							bufferSplit := strings.Split(string(readBuffer[0:readOutputSize]), "\n")
+							for pl := 0; pl < len(bufferSplit); pl++ {
+								if strings.TrimSpace(bufferSplit[pl]) != "" {
+									taskOutputs[theTaskID] = append(taskOutputs[theTaskID], bufferSplit[pl])
+								}
 							}
+						} else {
+							taskRunning = false
 						}
-					} else {
-						taskRunning = false
 					}
-				}
-				// When we get here, the Task has finished running. We record the finish time and work out the total run time for this run
-				// and update (or create) the list of recent run times for this Task.
-				taskStopTimes[theTaskID] = time.Now().Unix()
-				runTime := taskStopTimes[theTaskID] - taskStartTimes[theTaskID]
-				taskRunTimes[theTaskID] = append(taskRunTimes[theTaskID], runTime)
-				// We don't just record every runtime, we sort the times and trim them to a set of 10 at most, that way we get a reasonable
-				// guess at an average run time, assuming run times are similar each time.
-				sort.Slice(taskRunTimes[theTaskID], func(i, j int) bool { return taskRunTimes[theTaskID][i] < taskRunTimes[theTaskID][j] })
-				for len(taskRunTimes[theTaskID]) >= 10 {
-					taskRunTimes[theTaskID] = taskRunTimes[theTaskID][1:len(taskRunTimes[theTaskID])-2]
-				}
-				// Write the runTimes.txt file for this Task.
-				outputString := ""
-				for pl := 0; pl < len(taskRunTimes[theTaskID]); pl = pl + 1 {
-					outputString = outputString + strconv.FormatInt(taskRunTimes[theTaskID][pl], 10)
-					if pl < len(taskRunTimes[theTaskID])-1 {
-						outputString = outputString + "\n"
+					// When we get here, the Task has finished running. We record the finish time and work out the total run time for this run
+					// and update (or create) the list of recent run times for this Task.
+					taskStopTimes[theTaskID] = time.Now().Unix()
+					runTime := taskStopTimes[theTaskID] - taskStartTimes[theTaskID]
+					taskRunTimes[theTaskID] = append(taskRunTimes[theTaskID], runTime)
+					// We don't just record every runtime, we sort the times and trim them to a set of 10 at most, that way we get a reasonable
+					// guess at an average run time, assuming run times are similar each time.
+					sort.Slice(taskRunTimes[theTaskID], func(i, j int) bool { return taskRunTimes[theTaskID][i] < taskRunTimes[theTaskID][j] })
+					for len(taskRunTimes[theTaskID]) >= 10 {
+						taskRunTimes[theTaskID] = taskRunTimes[theTaskID][1:len(taskRunTimes[theTaskID])-2]
 					}
+					// Write the runTimes.txt file for this Task.
+					outputString := ""
+					for pl := 0; pl < len(taskRunTimes[theTaskID]); pl = pl + 1 {
+						outputString = outputString + strconv.FormatInt(taskRunTimes[theTaskID][pl], 10)
+						if pl < len(taskRunTimes[theTaskID])-1 {
+							outputString = outputString + "\n"
+						}
+					}
+					ioutil.WriteFile("tasks/" + theTaskID + "/runTimes.txt", []byte(outputString), 0644)
+					// Remove this Task from the runnings Tasks list. We don't remove the output right away - client-side code might
+					// still not have received all the output yet.
+					delete(runningTasks, theTaskID)
 				}
-				ioutil.WriteFile("tasks/" + theTaskID + "/runTimes.txt", []byte(outputString), 0644)
-				// Remove this Task from the runnings Tasks list. We don't remove the output right away - client-side code might
-				// still not have received all the output yet.
-				delete(runningTasks, theTaskID)
+				logfileOutput.Close()
+			} else {
+				fmt.Fprintf(theResponseWriter, "ERROR: Couldn't create log file for Task " + theTaskID + ".")
 			}
 		}
 	}
@@ -504,12 +510,6 @@ func main() {
 										}
 										runningTasks[taskID] = exec.Command(commandArray[0], commandArgs...)
 										runningTasks[taskID].Dir = arguments["taskroot"] + "/" + taskID
-										
-										// ...make sure the Task's log file exists and is blank...
-										_, logFileErr := os.Create(arguments["taskroot"] + "/" + taskID + "/log.txt")
-										if logFileErr != nil {
-											fmt.Fprintf(theResponseWriter, "ERROR: Couldn't create log file for Task " + taskID + ".")
-										}
 										
 										// ...get a list (if available) of recent run times...
 										taskRunTimes[taskID] = make([]int64, 0)
