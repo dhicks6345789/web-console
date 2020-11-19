@@ -556,9 +556,12 @@ func main() {
 										fmt.Fprintf(theResponseWriter, "ERROR: Line number not parsable.")
 									}
 								}
-								// If the job details have the "progress" option set to "Y", output a (best guess, using previous
-								// run times) progresss report line.
-								if taskDetails["progress"] == "Y" {
+								// If the Task isn't currently running, load the previous run's log file into the Task's output buffer.
+								if _, runningTaskFound := runningTasks[taskID]; !runningTaskFound {
+									taskOutputs[taskID] = ["Bananas"]
+								} else if taskDetails["progress"] == "Y" {
+									// If the job details have the "progress" option set to "Y", output a (best guess, using previous
+									// run times) progresss report line.
 									currentTime := time.Now().Unix()
 									percentage := int((float64(currentTime - taskStartTimes[taskID]) / taskRuntimeGuesses[taskID]) * 100)
 									if percentage > 100 {
