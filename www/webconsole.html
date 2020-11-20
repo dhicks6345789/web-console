@@ -37,7 +37,7 @@
 				$.post("api/" + functionName, $.extend({taskID:taskID, token:token}, parameters), resultFunction);
 			}
 			
-			// Simpyl calls the keepAlive API method to make sure the session's token is refreshed.
+			// Simply calls the keepAlive API method to make sure the session's token is refreshed.
 			function keepAlive() {
 				doAPICall("keepAlive", {}, function(result) {
 				});
@@ -125,14 +125,9 @@
 			
 			// Called when the document is first loaded and ready.
 			$(document).ready(function() {
-				// Get the Task's title and description.
-				/*doAPICall("getTaskDetails", {}, function(result) {
-					resultSplit = result.split("\n");
-					$("#taskTitle").html(resultSplit[0]);
-					$("#taskDescription").html(resultSplit[1]);
-				});*/
 				// Even if the Task isn't yet running, update the Task output section - it'll be filled with the logs of the last run if available.
 				updateTaskOutput();
+				$("#taskOutput").html("");
 				// Set the webhook value for the user - the "run" API call for this Task, handy for services such as IFTTT and Zapier.
 				pageURL = window.location.href.split("?")[0]
 				$("#webHookLink").val(pageURL.slice(0, pageURL.lastIndexOf("/")) + "/api/runTask?taskID=" + taskID);
