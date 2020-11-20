@@ -161,7 +161,7 @@ func runTask(theTaskID string) {
 					// Get the exit status of the running Task. If non-zero, pass the error message back to the user.
 					exitErr := runningTasks[theTaskID].Wait()
 					if exitErr != nil {
-						errorString = "ERROR: " + exitErr.Error() + "\n"
+						errorString := "ERROR: " + exitErr.Error() + "\n"
 						logfileOutput.Write([]byte(errorString))
 						taskOutputs[theTaskID] = append(taskOutputs[theTaskID], errorString)
 					}
