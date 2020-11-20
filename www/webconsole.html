@@ -30,6 +30,7 @@
 			// We either call getTaskOutput every 2 seconds to provide updates to the user for a running task, or keepAlive every 30 seconds to refresh
 			// a session's token.
 			var intervalFunction;
+			displayAlerts = false;
 			outputLine = 0;
 						
 			// A handy function to do an API call to the server.
@@ -56,6 +57,7 @@
 						outputLine = 0;
 						
 						// If the call returns "OK" then the task is running, subsequent calls to getTaskOutput will return the console output of the Task as it runs.
+						displayAlters = true;
 						updateTaskOutput();
 						clearInterval(intervalFunction);
 						intervalFunction = setInterval(updateTaskOutput, 2000);
@@ -98,7 +100,7 @@
 				});
 			}
 			
-			// Flipt the "Show/Hide Output" button.
+			// Flip the "Show/Hide Output" button.
 			function flipOutputMessage() {
 				if ($("#showOutputButton").html() == "Show output") {
 					$("#showOutputButton").html("Hide output")
@@ -124,13 +126,8 @@
 			
 			// Called when the document is first loaded and ready.
 			$(document).ready(function() {
-				console.log("Ready!")
 				// Even if the Task isn't yet running, update the Task output section - it'll be filled with the logs of the last run if available.
 				updateTaskOutput();
-				console.log("Task output updated.")
-				$("#taskAlerts").html("Wombat.");
-				console.log($("#taskAlerts").html())
-				console.log("Task output cleared?")
 				// Set the webhook value for the user - the "run" API call for this Task, handy for services such as IFTTT and Zapier.
 				pageURL = window.location.href.split("?")[0]
 				$("#webHookLink").val(pageURL.slice(0, pageURL.lastIndexOf("/")) + "/api/runTask?taskID=" + taskID);
