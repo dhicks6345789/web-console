@@ -32,7 +32,7 @@ The demo application simply prints a sentance a word at a time, one word every t
 
 ## Installation
 
-Further instructions to go here.
+Download the apprpriate binary for your platform from the [releases page](https://www.sansay.co.uk/release).
 
 ## Dependancies
 
