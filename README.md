@@ -1,9 +1,9 @@
 # Web Console
-Provides a simple web interface for command-line applications - quickly publish your Python / Go / Bash / Powershell / etc script as a basic web app. Turns STDOUT / STDERR into formatted text, alerts and progress indicators (interface written using Bootstrap / JQuery). Supports any target language, simply runs any command-line based script or executable.
+Provides a simple web interface for command-line applications - quickly publish your Python / Go / Bash / Batch / Powershell / etc script as a basic web app. Turns STDOUT / STDERR into formatted text, alerts and progress indicators (interface written using Bootstrap and JQuery). Simply runs any command-line based script or executable.
 
 Cross-platform (written in Go), runs as a self-contained executable complete with embedded web server on Windows, Linux and MacOS. The install process includes optional setup as a service / deamon on each platform (uses [NSSM](https://nssm.cc/) on Windows), plus the installer includes setup for [tunnelto.dev](https://tunnelto.dev/) to provide a secure connection through a firewall and a handy subdomain to point a browser at if needed.
 
-Python (Flask) version also available to run on (for instance) [PythonAnywhere](https://www.pythonanywhere.com/).
+Coming in verswion 2: Python (Flask) version also available to run on (for instance) [PythonAnywhere](https://www.pythonanywhere.com/).
 
 Simple API, handles authentication (without using cookies), provides a mechanism for third-parties to handle authorisation. Can be used to provide webhook URIs for your scripts for services such as [IFTTT](https://ifttt.com/) and [Zapier](https://zapier.com/).
 
@@ -88,3 +88,8 @@ if (value.toLowerCase().startsWith("error: ")) {
 If you create a new Task via the command-line tool you will be given the option to randomly assign a favicon, selected from the "favicons" folder. You can use your own faviocn if preffered, just copy the appropriate icon to an individual Task's folder, or the root of the "tasks" folder to set the same favicon for all Tasks.
 
 A set of favicons are provided from the free "fruit" [collection](https://www.iconfinder.com/iconsets/fruits-52) from Thiago Silva.
+
+## Custom Description
+
+If you need a longer description than a singble line of text, then you can place you custom description in a file called description.txt in the root of an individual Task. You can
+embed HTML in this file if you wish, complete with links or whatever other components you like.
