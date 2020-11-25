@@ -32,7 +32,9 @@ The demo application simply prints a sentance a word at a time, one word every t
 
 ## Installation
 
-Download the apprpriate binary for your platform from the [releases page](https://www.sansay.co.uk/release).
+You can download releases from the Github [releases page](https://github.com/dhicks6345789/web-console/releases).
+
+For the very latest version, you can download nightly builds from the [binaries page](https://www.sansay.co.uk/binaries/web-console).
 
 ## Dependancies
 
