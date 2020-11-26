@@ -2,7 +2,7 @@ echo Installing Web Console...
 # First, stop any existing Webconsole service...
 systemctl stop webconsole
 # ...get the binary file to run...
-curl -s https://www.sansay.co.uk/binaries/web-console/linux-amd64/webconsole -o /usr/local/bin/webconsole
+curl https://www.sansay.co.uk/binaries/web-console/linux-amd64/webconsole -o /usr/local/bin/webconsole
 chmod u+x /usr/local/bin/webconsole
 [ ! -d /etc/webconsole ] && mkdir /etc/webconsole
 [ ! -d /etc/webconsole/www ] && mkdir /etc/webconsole/www
@@ -18,7 +18,7 @@ curl -s https://www.sansay.co.uk/binaries/webconsole/www/favicons/apple.html -o 
 curl -s https://www.sansay.co.uk/binaries/webconsole/www/favicons/banana.html -o /etc/webconsole/favicons/banana.html
 
 # ...set up systemd to run Webconsole.
-curl -s https://www.sansay.co.uk/webconsole/webconsole.service -o /etc/systemd/system/webconsole.service
+curl https://www.sansay.co.uk/webconsole/webconsole.service -o /etc/systemd/system/webconsole.service
 chmod 644 /etc/systemd/system/webconsole.service
 systemctl start webconsole
 systemctl enable webconsole
