@@ -1,6 +1,5 @@
 echo Installing Web Console...
 systemctl stop webconsole
-echo Bananas
 curl https://www.sansay.co.uk/binaries/web-console/linux-amd64/webconsole -o /usr/local/bin/webconsole
 chmod u+x /usr/local/bin/webconsole
 [ ! -d /etc/webconsole ] && mkdir /etc/webconsole
