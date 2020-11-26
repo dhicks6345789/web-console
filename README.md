@@ -40,12 +40,13 @@ Or, for the very latest version (built nightly from the Github source, might hav
 | ---------------- | -------------------------------------------------------------------------------------- |
 | Windows 32-bit   | [Download](https://www.sansay.co.uk/binaries/web-console/windows-386/webconsole.exe)   |
 | Windows 64-bit   | [Download](https://www.sansay.co.uk/binaries/web-console/windows-amd64/webconsole.exe) |
+| Mac              | [Download](https://www.sansay.co.uk/binaries/web-console/darwin-amd64/webconsole)      |
 | Linux 32-bit     | [Download](https://www.sansay.co.uk/binaries/web-console/linux-386/webconsole)         |
 | Linux 64-bit     | [Download](https://www.sansay.co.uk/binaries/web-console/linux-amd64/webconsole)       |
 | Linux ARM 32-bit | [Download](https://www.sansay.co.uk/binaries/web-console/windows-arm-386/webconsole)   |
 | Linux ARM 64-bit | [Download](https://www.sansay.co.uk/binaries/web-console/windows-arm-amd64/webconsole) |
 
-### Linux
+### Mac / Linux (including Raspberry Pi)
 Run install.sh:
 ```
 curl -L https://github.com/dhicks6345789/web-console/raw/master/install.sh | sudo bash
