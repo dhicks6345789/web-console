@@ -47,7 +47,7 @@ Or, for the very latest version (built nightly from the Github source, might hav
 
 ### Linux
 Run install.sh:
-install.sh
+curl https://github.com/dhicks6345789/web-console/raw/master/install.sh | sudo bash
 
 ## Dependancies
 
