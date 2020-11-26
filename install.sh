@@ -1,6 +1,6 @@
 echo Installing Web Console...
 systemctl stop webconsole
-curl https://www.sansay.co.uk/binaries/web-console/linux-amd64/webconsole -o /usr/local/bin/webconsole
+curl https://www.sansay.co.uk/binaries/web-console/linux-amd64/webconsole -O /usr/local/bin/webconsole
 chmod u+x /usr/local/bin/webconsole
 [ ! -d /etc/webconsole ] && mkdir /etc/webconsole
 #cp --recursive www /etc/webconsole
