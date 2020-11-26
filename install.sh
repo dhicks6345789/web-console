@@ -1,14 +1,25 @@
 echo Installing Web Console...
+# First, stop any existing Webconsole service...
 systemctl stop webconsole
+# ...get the binary file to run...
 curl https://www.sansay.co.uk/binaries/web-console/linux-amd64/webconsole -o /usr/local/bin/webconsole
 chmod u+x /usr/local/bin/webconsole
 [ ! -d /etc/webconsole ] && mkdir /etc/webconsole
-#cp --recursive www /etc/webconsole
+[ ! -d /etc/webconsole/www ] && mkdir /etc/webconsole/www
+curl https://www.sansay.co.uk/binaries/web-console/www/browserconfig.xml /etc/webconsole/browserconfig.xml
+curl https://www.sansay.co.uk/binaries/web-console/www/copyIcon.svg /etc/webconsole/copyIcon.svg
+curl https://www.sansay.co.uk/binaries/web-console/www/favicon.png /etc/webconsole/favicon.png
+curl https://www.sansay.co.uk/binaries/web-console/www/formatting.js /etc/webconsole/formatting.js
+curl https://www.sansay.co.uk/binaries/web-console/www/index.html /etc/webconsole/index.html
+curl https://www.sansay.co.uk/binaries/web-console/www/site.webmanifest /etc/webconsole/site.webmanifest
+curl https://www.sansay.co.uk/binaries/web-console/www/webconsole.html /etc/webconsole/webconsole.html
+[ ! -d /etc/webconsole/www/favicons ] && mkdir /etc/webconsole/www/favicons
+curl https://www.sansay.co.uk/binaries/web-console/www/favicons/apple.html /etc/webconsole/favicons/apple.html
+curl https://www.sansay.co.uk/binaries/web-console/www/favicons/banana.html /etc/webconsole/favicons/banana.html
+#curl https://www.sansay.co.uk/binaries/web-console/www/favicons/.html /etc/webconsole/favicons/.html
 
-## Set up Webconsole as a systemd service - first, stop any existing Webconsole service...
-#systemctl stop webconsole
-## ...then set up systemd to run Webconsole.
-#cp webconsole.service /etc/systemd/system/webconsole.service
-#chmod 644 /etc/systemd/system/webconsole.service
+# ...set up systemd to run Webconsole.
+curl https://www.sansay.co.uk/binaries/web-console/webconsole.service -o /etc/systemd/system/webconsole.service
+chmod 644 /etc/systemd/system/webconsole.service
 systemctl start webconsole
 systemctl enable webconsole
