@@ -34,7 +34,14 @@ The demo application simply prints a sentance a word at a time, one word every t
 
 You can download releases from the Github [releases page](https://github.com/dhicks6345789/web-console/releases).
 
-For the very latest version, you can download nightly builds from the [binaries page](https://www.sansay.co.uk/binaries/web-console).
+Or, for the very latest version, you can download nightly builds:
+
+[Windows 32-bit](https://www.sansay.co.uk/binaries/web-console/windows-386/webconsole.exe)
+[Windows 64-bit](https://www.sansay.co.uk/binaries/web-console/windows-amd64/webconsole.exe)
+[Linux 32-bit](https://www.sansay.co.uk/binaries/web-console/linux-386/webconsole)
+[Linux 64-bit](https://www.sansay.co.uk/binaries/web-console/linux-amd64/webconsole)
+[Linux ARM 32-bit](https://www.sansay.co.uk/binaries/web-console/windows-arm-386/webconsole)
+[Linux ARM 64-bit](https://www.sansay.co.uk/binaries/web-console/windows-arm-amd64/webconsole)
 
 ## Dependancies
 
