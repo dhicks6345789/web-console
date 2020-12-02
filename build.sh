@@ -1,4 +1,8 @@
-echo Installing Web Console...
+echo Building Web Console...
+
+# Stop any existing running service.
+systemctl stop webconsole
+
 go get github.com/nfnt/resize
 go get github.com/dennwc/gotrace
 go get github.com/kodeworks/golang-image-ico
@@ -9,10 +13,6 @@ cp webconsole /usr/local/bin
 [ ! -d /etc/webconsole ] && mkdir /etc/webconsole
 cp --recursive www /etc/webconsole
 
-# Set up Webconsole as a systemd service - first, stop any existing Webconsole service...
-systemctl stop webconsole
-# ...then set up systemd to run Webconsole.
-cp webconsole.service /etc/systemd/system/webconsole.service
-chmod 644 /etc/systemd/system/webconsole.service
+# Restart the webconsole service (if it exists).
 systemctl start webconsole
 systemctl enable webconsole
