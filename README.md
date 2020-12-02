@@ -32,7 +32,13 @@ The demo application simply prints a sentance a word at a time, one word every t
 
 ## Installation
 
-Follow the instructions in the section below for your specific platform.
+### Mac / Linux (including Raspberry Pi)
+Run install.sh:
+```
+curl -s https://www.sansay.co.uk/web-console/install.sh | sudo bash
+```
+
+### From Source
 
 You can download specific releases from the Github [releases page](https://github.com/dhicks6345789/web-console/releases).
 
@@ -47,12 +53,6 @@ Or, for the very latest version (built nightly from the Github source, might hav
 | Linux 64-bit     | [Download](https://www.sansay.co.uk/web-console/binaries/linux-amd64)   |
 | Linux ARM 32-bit | [Download](https://www.sansay.co.uk/web-console/binaries/linux-arm32)   |
 | Linux ARM 64-bit | [Download](https://www.sansay.co.uk/web-console/binaries/linux-arm64)   |
-
-### Mac / Linux (including Raspberry Pi)
-Run install.sh:
-```
-curl -L https://github.com/dhicks6345789/web-console/raw/master/install.sh | sudo bash
-```
 
 ## Dependancies
 
