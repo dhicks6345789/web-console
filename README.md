@@ -9,9 +9,9 @@ Simple API, handles authentication (without using cookies), provides a mechanism
 
 ## Live Demo
 
-See a live demo [right now].(https://www.sansay.co.uk/webconsole/view?taskID=4jaknvvu0b4zl3ee)
+See a [live demo](https://www.sansay.co.uk/webconsole/view?taskID=4jaknvvu0b4zl3ee).
 
-The above link runs a simple demo application that prints a sentance a word at a time, one word every two seconds. It also prints a progress percentage, which is displayed by Web Console as a progress bar.
+The above link runs a simple [demo application](https://github.com/dhicks6345789/web-console/blob/master/examples/test.py) that prints a sentance a word at a time, one word every two seconds. It also prints a progress percentage, which is displayed by Web Console as a progress bar.
 
 ## Installation
 ### Mac / Linux (including Raspberry Pi)
