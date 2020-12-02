@@ -39,14 +39,14 @@ You can download specific releases from the Github [releases page](https://githu
 Or, for the very latest version (built nightly from the Github source, might have bugs), you can download nightly builds:
 
 | Platform         | Binary
-| ---------------- | -------------------------------------------------------------------------------------- |
-| Windows 32-bit   | [Download](https://www.sansay.co.uk/webconsole/windows-386/webconsole.exe)   |
-| Windows 64-bit   | [Download](https://www.sansay.co.uk/webconsole/windows-amd64/webconsole.exe) |
-| Mac              | [Download](https://www.sansay.co.uk/webconsole/darwin-amd64/webconsole)      |
-| Linux 32-bit     | [Download](https://www.sansay.co.uk/webconsole/linux-386/webconsole)         |
-| Linux 64-bit     | [Download](https://www.sansay.co.uk/webconsole/linux-amd64/webconsole)       |
-| Linux ARM 32-bit | [Download](https://www.sansay.co.uk/webconsole/windows-arm-386/webconsole)   |
-| Linux ARM 64-bit | [Download](https://www.sansay.co.uk/webconsole/windows-arm-amd64/webconsole) |
+| ---------------- | ----------------------------------------------------------------------- |
+| Windows 32-bit   | [Download](https://www.sansay.co.uk/web-console/binaries/win-386.exe)   |
+| Windows 64-bit   | [Download](https://www.sansay.co.uk/web-console/binaries/win-amd64.exe) |
+| Mac              | [Download](https://www.sansay.co.uk/web-console/binaries/darwin-amd64)  |
+| Linux 32-bit     | [Download](https://www.sansay.co.uk/web-console/binaries/linux-386)     |
+| Linux 64-bit     | [Download](https://www.sansay.co.uk/web-console/binaries/linux-amd64)   |
+| Linux ARM 32-bit | [Download](https://www.sansay.co.uk/web-console/binaries/linux-arm32)   |
+| Linux ARM 64-bit | [Download](https://www.sansay.co.uk/web-console/binaries/linux-arm64)   |
 
 ### Mac / Linux (including Raspberry Pi)
 Run install.sh:
