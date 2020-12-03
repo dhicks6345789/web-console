@@ -32,7 +32,7 @@ net stop TunnelTo > nul 2>&1
 echo Downloading Web Console v%VERSION% binary...
 powershell -command "& {&'Invoke-WebRequest' -Uri https://github.com/dhicks6345789/web-console/releases/download/v%VERSION%/win-amd64.exe -OutFile 'C:\Program Files\WebConsole\webconsole.exe'}"
 echo Downloading Web Console v%VERSION% support files...
-powershell -command "& {&'Invoke-WebRequest' -Uri https://github.com/dhicks6345789/web-console/archive/v$VERSION.zip -OutFile supportFiles.zip}"
+powershell -command "& {&'Invoke-WebRequest' -Uri https://github.com/dhicks6345789/web-console/archive/v%VERSION%.zip -OutFile supportFiles.zip}"
 rem xcopy /E /Y www "C:\Program Files\WebConsole\www" > nul 2>&1
 
 rem copy tunnelto\tunnelto.exe "C:\Program Files\WebConsole" > nul 2>&1
