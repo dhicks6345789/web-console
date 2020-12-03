@@ -4,8 +4,9 @@ rem   echo How to use...
 rem   goto end
 rem )
 
-echo Installing...
+echo Starting install...
 
+set VERSION=0.1-alpha
 set key=
 set subdomain=
 
@@ -28,8 +29,9 @@ rem Stop any existing running services.
 net stop WebConsole > nul 2>&1
 net stop TunnelTo > nul 2>&1
 
-rem Place the executables in the appropriate folder.
-copy webconsole.exe "C:\Program Files\WebConsole"
+echo Downloading Web Console v%VERSION%...
+powershell -command "& {&'Invoke-WebRequest' -Uri https://github.com/dhicks6345789/web-console/releases/download/v%VERSION%/win-amd64 -OutFile 'C:\Program Files\WebConsole\webconsole.exe'}"
+rem copy webconsole.exe "C:\Program Files\WebConsole"
 rem copy tunnelto\tunnelto.exe "C:\Program Files\WebConsole" > nul 2>&1
 rem mkdir "C:\Program Files\WebConsole\www" > nul 2>&1
 rem mkdir "C:\Program Files\WebConsole\tasks" > nul 2>&1
