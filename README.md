@@ -15,9 +15,15 @@ The above link runs a simple [demo application](https://github.com/dhicks6345789
 
 ## Installation
 ### Mac / Linux (including Raspberry Pi)
-On MacOS or Linux, you can download and run the install script (installs the latest release) with one command:
+On MacOS or Linux, you can download and run an install script (installs the latest release) with one command:
 ```
 curl -s https://www.sansay.co.uk/web-console/install.sh | sudo bash
+```
+
+### Mac / Linux (including Raspberry Pi)
+On Windows, you can download and run an install batch file (installs the latest release) with one command:
+```
+powershell -command "& {&'Invoke-WebRequest' -Uri https://www.sansay.co.uk/web-console/install.bat -OutFile install.sh}"
 ```
 
 ### From Source
