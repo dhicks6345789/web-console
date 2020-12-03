@@ -1,6 +1,6 @@
 @echo off
 
-net stop WebConsole
+net stop WebConsole > nul 2>&1
 erase "C:\Program Files\WebConsole\webconsole.exe" > nul 2>&1
 erase webconsole.exe > nul 2>&1
 
@@ -11,8 +11,8 @@ go get golang.org/x/crypto/bcrypt
 go get github.com/360EntSecGroup-Skylar/excelize
 go build webconsole.go
 
-copy webconsole.exe "C:\Program Files\WebConsole"
-net start WebConsole
+copy webconsole.exe "C:\Program Files\WebConsole" > nul 2>&1
+net start WebConsole > nul 2>&1
 
 rem call install.bat --key somekey --subdomain somethinggoeshere
 rem call install.bat --go
