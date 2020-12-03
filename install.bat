@@ -36,7 +36,7 @@ powershell -command "& {&'Invoke-WebRequest' -Uri https://github.com/dhicks63457
 powershell -command "Expand-Archive -Path supportFiles.zip"
 xcopy /E /Y supportFiles\web-console-%VERSION%\www "C:\Program Files\WebConsole\www" > nul 2>&1
 erase supportFiles.zip
-deltree /Y supportFiles
+rmdir /S /Q supportFiles
 
 rem copy tunnelto\tunnelto.exe "C:\Program Files\WebConsole" > nul 2>&1
 rem mkdir "C:\Program Files\WebConsole\www" > nul 2>&1
