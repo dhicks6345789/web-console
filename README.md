@@ -23,7 +23,7 @@ curl -s https://www.sansay.co.uk/web-console/install.sh | sudo bash
 ### Windows
 On Windows, you can download and run an install batch file (installs the latest release) with one command:
 ```
-powershell -command "& {&'Invoke-WebRequest' -Uri https://www.sansay.co.uk/web-console/install.bat -OutFile install.sh}"
+powershell -command "& {&'Invoke-WebRequest' -Uri https://www.sansay.co.uk/web-console/install.bat -OutFile install.bat}"
 ```
 
 ### From Source
