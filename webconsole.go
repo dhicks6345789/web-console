@@ -292,9 +292,9 @@ func main() {
 	arguments["new"] = "false"
 	arguments["port"] = "8090"
 	arguments["localOnly"] = "true"
-	setArgumentIfPathExists("config", []string {"/etc/webconsole/config.csv"})
-	setArgumentIfPathExists("webroot", []string {"www","/etc/webconsole/www", ""})
-	setArgumentIfPathExists("taskroot", []string {"tasks", "/etc/webconsole/tasks", ""})
+	setArgumentIfPathExists("config", []string {"/etc/webconsole/config.csv", "C:\\Program Files\\WebConsole\\config.csv", "config.csv"})
+	setArgumentIfPathExists("webroot", []string {"www","/etc/webconsole/www", "C:\\Program Files\\WebConsole\\www", ""})
+	setArgumentIfPathExists("taskroot", []string {"tasks", "/etc/webconsole/tasks", "C:\\Program Files\\WebConsole\\tasks", ""})
 	arguments["pathPrefix"] = ""
 	if len(os.Args) == 1 {
 		fmt.Println("Webconsole - starting webserver. \"webconsole --help\" for more details.")
