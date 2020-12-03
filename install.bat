@@ -29,13 +29,15 @@ rem Stop any existing running services.
 net stop WebConsole > nul 2>&1
 net stop TunnelTo > nul 2>&1
 
-echo Downloading Web Console v%VERSION%...
+echo Downloading Web Console v%VERSION% binary...
 powershell -command "& {&'Invoke-WebRequest' -Uri https://github.com/dhicks6345789/web-console/releases/download/v%VERSION%/win-amd64.exe -OutFile 'C:\Program Files\WebConsole\webconsole.exe'}"
-rem copy webconsole.exe "C:\Program Files\WebConsole"
+echo Downloading Web Console v%VERSION% support files...
+powershell -command "& {&'Invoke-WebRequest' -Uri https://github.com/dhicks6345789/web-console/archive/v$VERSION.zip -OutFile supportFiles.zip}"
+rem xcopy /E /Y www "C:\Program Files\WebConsole\www" > nul 2>&1
+
 rem copy tunnelto\tunnelto.exe "C:\Program Files\WebConsole" > nul 2>&1
 rem mkdir "C:\Program Files\WebConsole\www" > nul 2>&1
 rem mkdir "C:\Program Files\WebConsole\tasks" > nul 2>&1
-rem xcopy /E /Y www "C:\Program Files\WebConsole\www" > nul 2>&1
 
 rem Set up the WebConsole service.
 rem nssm-2.24\win64\nssm install WebConsole "C:\Program Files\WebConsole\webconsole.exe" > nul 2>&1
