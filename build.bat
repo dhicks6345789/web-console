@@ -2,8 +2,11 @@
 cls
 
 erase webconsole.exe > nul 2>&1
-net stop WebConsole
-erase "C:\Program Files\WebConsole\webconsole.exe" > nul 2>&1
+go get github.com/nfnt/resize
+go get github.com/dennwc/gotrace
+go get github.com/kodeworks/golang-image-ico
+go get golang.org/x/crypto/bcrypt
+go get github.com/360EntSecGroup-Skylar/excelize
 go build webconsole.go
 
 rem call install.bat --key Usff7rA5eSFtno9kpn9GSP --subdomain somethinggoeshere
