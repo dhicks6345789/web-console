@@ -91,7 +91,7 @@
 									// percentage completion value, and update the progress bar accordingly.
 									progressBarName = value.substring(value.indexOf(":")+1, value.lastIndexOf(" ")).trim();
 									progressBarValue = value.substring(value.lastIndexOf(" ")+1, value.length).replace("%","").trim();
-									$("#taskProgress").html(progressBarName + ": " + progressBarValue + "% <div class='progress' style='text-align:center; width:80%'><div class='progress-bar' role='progressbar' style='width:" + progressBarValue + "%' aria-valuenow='" + progressBarValue + "' aria-valuemin='0' aria-valuemax='100'></div></div>");
+									$("#taskProgress").html(progressBarName + ": " + progressBarValue + "% <div class='progress'><div class='progress-bar' role='progressbar' style='width:" + progressBarValue + "%' aria-valuenow='" + progressBarValue + "' aria-valuemin='0' aria-valuemax='100'></div></div>");
 								} else {
 									// Otherwise, display the line as a message for the user.
 									$("#taskOutput").html($("#taskOutput").html() + value + "\n");
