@@ -163,7 +163,7 @@
 		</div>
 		<div class="text-center" id="taskDescription"><<DESCRIPTION>></div>
 		<!-- The main "console" section where most of the output for the user goes. -->
-		<div class="container-fluid text-right" id="webconsole">
+		<div class="container-fluid" id="webconsole">
 			<button class="btn btn-success" type="button" id="runTaskButton" onclick="runTask()">Run</button>
 			<div id="taskProgress"></div>
 			<div id="taskAlerts"></div>
@@ -177,7 +177,7 @@
 				<img src="copyIcon.svg" alt="Copy Webhook URL" width="32" height="32">
 			</button>
 		</div>
-		<div class="container-fluid">
+		<div class="container-fluid text-right">
 			CURL command: <input type="text" id="CURLCommand" value="https://" readonly/>
 			<button type="button" class="btn btn-default" aria-label="Copy CURL command" onclick="copyCURLCommand()">
 				<img src="copyIcon.svg" alt="Copy CURL command" width="32" height="32">
