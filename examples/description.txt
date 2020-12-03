@@ -3,8 +3,7 @@ This is an example custom description file - place it in any Task's folder and t
 You can include HTML tags, including Javascript, if you want.
 
 <div id="taskDone" style="display:none">
-  If you include a "div" tag as formatted above, the DIV will initially be hidden and un-hidden when the task has run, giving you a way
-  to display a custom message to the user on completion. For example, you could include a link to an output folder or file:
-
-	<a href="" target="_blank">An Example</a>.
+	If you include a "div" tag as formatted above, the DIV will initially be hidden and un-hidden when the task has run, giving you a way
+	to display a custom message to the user on completion. For example, you could include a link to an output folder or file:
+	<a href="https://github.com/dhicks6345789/web-console/blob/master/examples/description.txt" target="_blank">An Example</a>.
 </div>
