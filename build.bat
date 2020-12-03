@@ -1,5 +1,4 @@
 @echo off
-cls
 
 erase webconsole.exe > nul 2>&1
 go get github.com/nfnt/resize
