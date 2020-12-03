@@ -162,14 +162,19 @@
 			</div>
 		</div>
 		<div class="text-center" id="taskDescription"><<DESCRIPTION>></div>
+		
 		<!-- The main "console" section where most of the output for the user goes. -->
 		<div class="container-fluid" id="webconsole">
 			<button class="btn btn-success" type="button" id="runTaskButton" onclick="runTask()">Run</button>
 			<div id="taskProgress"></div>
 			<div id="taskAlerts"></div>
-			<button class="btn btn-primary" type="button" id="showOutputButton" data-toggle="collapse" data-target="#taskOutput" aria-expanded="false" aria-controls="taskOutput" onclick="flipOutputMessage()">Show output</button>
 			<div class="collapse text-monospace" style="white-space:pre-line" id="taskOutput"></div>
 		</div>
+		
+		<div class="container-fluid text-right">
+			<button class="btn btn-primary" type="button" id="showOutputButton" data-toggle="collapse" data-target="#taskOutput" aria-expanded="false" aria-controls="taskOutput" onclick="flipOutputMessage()">Show output</button>
+		</div>
+		
 		<!-- The "webhook" link, with handy copy-to-clipboard button. -->
 		<div class="container-fluid text-right">
 			Webhook URL: <input type="text" id="webHookLink" value="https://" readonly/>
@@ -177,6 +182,8 @@
 				<img src="copyIcon.svg" alt="Copy Webhook URL" width="32" height="32">
 			</button>
 		</div>
+		
+		<!-- The "curl command" link, with handy copy-to-clipboard button. -->
 		<div class="container-fluid text-right">
 			CURL command: <input type="text" id="CURLCommand" value="https://" readonly/>
 			<button type="button" class="btn btn-default" aria-label="Copy CURL command" onclick="copyCURLCommand()">
