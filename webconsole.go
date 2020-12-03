@@ -292,8 +292,8 @@ func main() {
 	arguments["new"] = "false"
 	arguments["port"] = "8090"
 	arguments["localOnly"] = "true"
-	setArgumentIfPathExists("config", []string {"/etc/webconsole/config.csv", "C:\\Program Files\\WebConsole\\config.csv", "config.csv"})
-	setArgumentIfPathExists("webroot", []string {"www","/etc/webconsole/www", "C:\\Program Files\\WebConsole\\www", ""})
+	setArgumentIfPathExists("config", []string {"config.csv", "/etc/webconsole/config.csv", "C:\\Program Files\\WebConsole\\config.csv"})
+	setArgumentIfPathExists("webroot", []string {"www", "/etc/webconsole/www", "C:\\Program Files\\WebConsole\\www", ""})
 	setArgumentIfPathExists("taskroot", []string {"tasks", "/etc/webconsole/tasks", "C:\\Program Files\\WebConsole\\tasks", ""})
 	arguments["pathPrefix"] = ""
 	if len(os.Args) == 1 {
@@ -767,11 +767,7 @@ func main() {
 			hostname = "localhost"
 		}
 		fmt.Println("Web server using webroot " + arguments["webroot"] + ", taskroot " + arguments["taskroot"] + ".")
-		if arguments["pathPrefix"] == "" {
-			fmt.Println("Web server available at: http://" + hostname + ":" + arguments["port"] + "/")
-		} else {
-			fmt.Println("Web server available at: http://" + hostname + arguments["pathPrefix"] + "/")
-		}
+		fmt.Println("Web server available at: http://localhost:" + arguments["port"] + "/")
 		log.Fatal(http.ListenAndServe(hostname + ":" + arguments["port"], nil))
 	// Command-line option to print a list of all Tasks.
 	} else if arguments["list"] == "true" {
