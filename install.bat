@@ -6,6 +6,8 @@ if "%1"=="" (
 
 echo Installing...
 
+exit /b 0
+
 set key=
 set subdomain=
 
