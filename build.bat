@@ -14,6 +14,7 @@ echo Building...
 go build webconsole.go
 
 copy webconsole.exe "C:\Program Files\WebConsole" > nul 2>&1
+xcopy /E /Y www "C:\Program Files\WebConsole\www" > nul 2>&1
 net start WebConsole > nul 2>&1
 
 rem call install.bat --key somekey --subdomain somethinggoeshere
