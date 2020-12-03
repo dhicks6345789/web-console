@@ -20,7 +20,7 @@ On MacOS or Linux, you can download and run an install script (installs the late
 curl -s https://www.sansay.co.uk/web-console/install.sh | sudo bash
 ```
 
-### Mac / Linux (including Raspberry Pi)
+### Windows
 On Windows, you can download and run an install batch file (installs the latest release) with one command:
 ```
 powershell -command "& {&'Invoke-WebRequest' -Uri https://www.sansay.co.uk/web-console/install.bat -OutFile install.sh}"
