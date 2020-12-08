@@ -193,58 +193,62 @@
 				
 				<div id="accordion">
 					<div class="card">
-						<div class="card-header" id="headingOne">
+						<div class="card-header panel-title" id="headingOne">
 							<h5 class="mb-0">
-								<button class="btn btn-link panel-title" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-									Collapsible Group Item #1
+								<button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+									See All Output
 								</button>
 							</h5>
 						</div>
 						<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-							<div class="card-body">
-								Bananas
-							</div>
+							<div class="card-body" id="taskOutput"></div>
 						</div>
 					</div>
 					<div class="card">
-						<div class="card-header" id="headingTwo">
+						<div class="card-header panel-title" id="headingTwo">
 							<h5 class="mb-0">
-								<button class="btn btn-link collapsed panel-title" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-									Collapsible Group Item #2
+								<button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+									Webhooks
 								</button>
 							</h5>
 						</div>
 						<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
 							<div class="card-body">
-								Oranges
+								Webhook URL: <input type="text" id="webHookLink" value="https://" readonly/>
+								<button type="button" class="btn btn-default" aria-label="Copy Webhook URL" onclick="copyWebHook()">
+									<img src="copyIcon.svg" alt="Copy Webhook URL" width="32" height="32">
+								</button>
+								CURL command: <input type="text" id="CURLCommand" value="https://" readonly/>
+								<button type="button" class="btn btn-default" aria-label="Copy CURL command" onclick="copyCURLCommand()">
+									<img src="copyIcon.svg" alt="Copy CURL command" width="32" height="32">
+								</button>
 							</div>
 						</div>
 					</div>
 				</div>
 				
 				<!-- The "console" section, where the user can see all output if they want. -->
-				<div class="container-fluid text-right">
+				<!-- <div class="container-fluid text-right">
 					<button class="btn btn-primary" type="button" id="showOutputButton" data-toggle="collapse" data-target="#taskOutput" aria-expanded="false" aria-controls="taskOutput" onclick="flipOutputMessage()">Show output</button>
 					<div class="collapse text-monospace" style="white-space:pre-line" id="taskOutput"></div>
-				</div>
+				</div> -->
 				
-				<hr/>Webhooks
 		
 				<!-- The "webhook" link, with handy copy-to-clipboard button. -->
-				<div class="container-fluid text-right">
+				<!-- <div class="container-fluid text-right">
 					Webhook URL: <input type="text" id="webHookLink" value="https://" readonly/>
 					<button type="button" class="btn btn-default" aria-label="Copy Webhook URL" onclick="copyWebHook()">
 						<img src="copyIcon.svg" alt="Copy Webhook URL" width="32" height="32">
 					</button>
-				</div>
+				</div> -->
 		
 				<!-- The "curl command" link, with handy copy-to-clipboard button. -->
-				<div class="container-fluid text-right">
+				<!-- <div class="container-fluid text-right">
 					CURL command: <input type="text" id="CURLCommand" value="https://" readonly/>
 					<button type="button" class="btn btn-default" aria-label="Copy CURL command" onclick="copyCURLCommand()">
 						<img src="copyIcon.svg" alt="Copy CURL command" width="32" height="32">
 					</button>
-				</div>
+				</div> -->
 			</div>
 			<div class="col-sm-1 text-center align-self-center"></div>
 		</div>
