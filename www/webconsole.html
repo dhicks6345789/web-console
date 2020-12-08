@@ -193,7 +193,44 @@
 					</div>
 				</div>
 				
-				<div class="panel-group" id="accordion">
+				<div class="accordion" id="accordionExample">
+					<div class="accordion-item">
+						<h2 class="accordion-header" id="headingOne">
+							<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+								See All Output
+							</button>
+						</h2>
+						<div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+							<div class="accordion-body">
+								<div class="panel-body text-monospace text-left" style="white-space:pre-line" id="taskOutput"></div>
+							</div>
+						</div>
+					</div>
+					<div class="accordion-item">
+						<h2 class="accordion-header" id="headingTwo">
+							<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+								Webhooks
+							</button>
+						</h2>
+						<div id="collapseTwo" class="accordion-collapse collapse show" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+							<div class="accordion-body">
+								<div>
+									Webhook URL: <input type="text" id="webHookLink" value="https://" readonly/>
+									<button type="button" class="btn btn-default" aria-label="Copy Webhook URL" onclick="copyWebHook()">
+										<img src="copyIcon.svg" alt="Copy Webhook URL" width="32" height="32">
+									</button>
+								</div>
+								<div>
+									CURL command: <input type="text" id="CURLCommand" value="https://" readonly/>
+									<button type="button" class="btn btn-default" aria-label="Copy CURL command" onclick="copyCURLCommand()">
+										<img src="copyIcon.svg" alt="Copy CURL command" width="32" height="32">
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				
+				<!-- <div class="panel-group" id="accordion">
 					<div class="panel panel-default text-right">
 						<div class="panel-heading">
 							<h4 class="panel-title">
@@ -230,7 +267,7 @@
 								</div>
 							</div>
 						</div>
-					</div>
+					</div> -->
 				</div>
 			</div>
 			<div class="col-sm-1 text-center align-self-center"></div>
