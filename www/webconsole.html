@@ -24,16 +24,16 @@
 		<meta name="theme-color" content="#ffffff">
 		
 		<style>
-			.panel-title a:after {
-				#font-family:Fontawesome;
-				content:'\f077';
-				float:right;
-				font-size:10px;
-				font-weight:300;
+			.panel-heading .accordion-toggle:after {
+				/* symbol for "opening" panels */
+				font-family: 'Glyphicons Halflings';  /* essential for enabling glyphicon */
+				content: "\e114";    /* adjust as needed, taken from bootstrap.css */
+				float: right;        /* adjust as needed */
+				color: grey;         /* adjust as needed */
 			}
-			.panel-title a.collapsed:after {
-				#font-family:Fontawesome;
-				content:'\f078';
+			.panel-heading .accordion-toggle.collapsed:after {
+				/* symbol for "collapsed" panels */
+				content: "\e080";    /* adjust as needed, taken from bootstrap.css */
 			}
 		</style>
 		
@@ -187,6 +187,37 @@
 							<button class="btn btn-success" type="button" id="runTaskButton" onclick="runTask()">Run</button>
 							<div id="taskProgress"></div>
 							<div id="taskAlerts"></div>
+						</div>
+					</div>
+				</div>
+				
+				<div class="panel-group" id="accordion">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title">
+								<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+									Collapsible Group Item #1
+								</a>
+							</h4>
+						</div>
+						<div id="collapseOne" class="panel-collapse collapse in">
+							<div class="panel-body">
+								Bananas
+							</div>
+						</div>
+					</div>
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title">
+								<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+									Collapsible Group Item #2
+								</a>
+							</h4>
+						</div>
+						<div id="collapseTwo" class="panel-collapse collapse">
+							<div class="panel-body">
+								Oranges.
+							</div>
 						</div>
 					</div>
 				</div>
