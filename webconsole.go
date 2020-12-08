@@ -757,6 +757,7 @@ func main() {
 				}
 			}
 			if serveFile == true {
+				fmt.Println("Serving file: " + requestPath)
 				http.ServeFile(theResponseWriter, theRequest,  arguments["webroot"] + requestPath)
 			}
 		})
