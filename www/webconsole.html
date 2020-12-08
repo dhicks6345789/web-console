@@ -206,23 +206,30 @@
 							</div>
 						</div>
 					</div>
-					<div class="panel panel-default">
+					<div class="panel panel-default text-right">
 						<div class="panel-heading">
 							<h4 class="panel-title">
 								<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
-									Collapsible Group Item #2
+									Webhooks
 								</a>
 							</h4>
 						</div>
 						<div id="collapseTwo" class="panel-collapse collapse">
 							<div class="panel-body">
-								Oranges.
+								Webhook URL: <input type="text" id="webHookLink" value="https://" readonly/>
+								<button type="button" class="btn btn-default" aria-label="Copy Webhook URL" onclick="copyWebHook()">
+									<img src="copyIcon.svg" alt="Copy Webhook URL" width="32" height="32">
+								</button>
+								CURL command: <input type="text" id="CURLCommand" value="https://" readonly/>
+								<button type="button" class="btn btn-default" aria-label="Copy CURL command" onclick="copyCURLCommand()">
+									<img src="copyIcon.svg" alt="Copy CURL command" width="32" height="32">
+								</button>
 							</div>
 						</div>
 					</div>
 				</div>
 				
-				<div id="accordion">
+				<!-- <div id="accordion">
 					<div class="card">
 						<div class="panel-title">
 							<div class="card-header" id="headingOne">
@@ -237,7 +244,7 @@
 							<div class="card-body text-monospace" style="white-space:pre-line" id="taskOutput"></div>
 						</div>
 					</div>
-					<div class="card">
+					<div class="card text-right">
 						<div class="card-header panel-title" id="headingTwo">
 							<h5 class="mb-0">
 								<button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
@@ -258,7 +265,7 @@
 							</div>
 						</div>
 					</div>
-				</div>
+				</div> -->
 				
 				<!-- The "console" section, where the user can see all output if they want. -->
 				<!-- <div class="container-fluid text-right">
