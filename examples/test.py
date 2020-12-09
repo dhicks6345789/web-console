@@ -22,7 +22,7 @@ progress = 0
 for pl in range(0, len(outputArray)):
 	print (outputArray[pl])
 	if displayProgress:
-		print("PROGRESS: Progress " + str(int(round(pl / outputLength, 2) * 100)) + "%")
+		print("PROGRESS: Progress " + str(int(round(progress / outputLength, 2) * 100)) + "%")
 	sys.stdout.flush()
 	if outputArray[pl].split(":")[0] in keywordsArray:
 		progress = progress + 1
