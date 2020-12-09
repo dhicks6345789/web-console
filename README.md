@@ -1,7 +1,7 @@
 # Web Console
 Provides a simple web interface for command-line applications - quickly publish your Python / Go / Bash / Batch / Powershell / etc script as a basic web app. Turns STDOUT / STDERR into formatted text, alerts and progress indicators (interface written using Bootstrap 5 and JQuery) - simply runs any command-line based script or executable.
 
-Cross-platform (written in Go), binaries are available for Windows, Linux (including Raspberry Pi) and MacOS. The install process includes optional setup as a service / deamon on each platform (uses [NSSM](https://nssm.cc/) on Windows), plus the installer includes setup for the cross-platform [tunnelto.dev](https://tunnelto.dev/) service to provide an HTTPS-secured connection through a firewall and a handy subdomain to point a browser at if needed. Web Console is self-contained, it can be used from a local web browser as a user interface for a stand-alone system if wished.
+Cross-platform (written in Go), binaries are available for Windows, Linux (including Raspberry Pi) and MacOS. The install process includes optional setup as a service / deamon on each platform (uses [NSSM](https://nssm.cc/) on Windows, a systemd configuration is provided for Linux), plus the installer includes setup for the cross-platform [tunnelto.dev](https://tunnelto.dev/) service to provide an HTTPS-secured connection through a firewall and a handy subdomain to point a browser at if needed. Web Console is self-contained, it can be used from a local web browser as a user interface for a stand-alone system if wished.
 
 As well as providing a user interface, Web Console also provides a simple REST API, providing a webhook URLs for for services such as [IFTTT](https://ifttt.com/) and [Zapier](https://zapier.com/) or letting you trigger tasks from remote systems with command-line tools like [curl](https://curl.se/).
 
@@ -13,7 +13,7 @@ Coming in verswion 2:
 
 You can see see a [live demo](https://www.sansay.co.uk/webconsole/view?taskID=4jaknvvu0b4zl3ee) right now.
 
-The above link runs a simple [demo application](https://github.com/dhicks6345789/web-console/blob/master/examples/test.py) that prints a sentance a word at a time, one word every two seconds. It also prints a progress percentage, which is displayed by Web Console as a progress bar.
+The above link runs a simple [demo application](https://github.com/dhicks6345789/web-console/blob/master/examples/test.py) that produces some example output, showing the different types of output message supported. It also prints a progress percentage, which is displayed by Web Console as a progress bar.
 
 ## Installation
 
@@ -48,6 +48,18 @@ Or, for the very latest version (built nightly from the Github source, might hav
 | Linux 64-bit     | [Download](https://www.sansay.co.uk/web-console/binaries/linux-amd64)   |
 | Linux ARM 32-bit | [Download](https://www.sansay.co.uk/web-console/binaries/linux-arm32)   |
 | Linux ARM 64-bit | [Download](https://www.sansay.co.uk/web-console/binaries/linux-arm64)   |
+
+## Usage
+
+```
+webconsole --new
+```
+
+Web Console should run pretty much any existing application runable from the command line, returning any console output sent to STDOUT or STDERR to the web user interface. You can use it to run GUI applications that produce no console output, although if they don't exit then the running Task will never end.
+
+Web Console was created with the intention of making it very easy to add a basic web-accesible user interface to command-line applications - the kind of thing a single developer or system administrator might need to quickly write for a specific use case and get in front of end users as quickly as possible. In particular, it's assumed that user inputs and outputs will be provided via some other mechanism, such as files / folders stored on a cloud storage system.
+
+If you are writing a new script or command line utility (or reformatting the output from an existing utility) you can produce output specifically for Web Console to interpret and display in certain ways. Simply including the keywords "ERROR", "WARNING" or "RESULT" at the start of an output line will place those output lines in appropriate places on the output console, highlighted in different colours.
 
 ## Dependancies
 
