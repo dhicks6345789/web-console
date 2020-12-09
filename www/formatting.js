@@ -17,6 +17,6 @@
 								} else if (value.toLowerCase().startsWith("result: ")) {
 									value = "<span style='color:black'>" + value.substr(8) + "</span>"
 									if (displayAlerts == true) {
-										$("#taskResults").html($("#taskResults").html() + value);
+										$("#taskResults").html($("#taskResults").html() + "<div>" + value + "</div>");
 									}
 								}
