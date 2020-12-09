@@ -18,10 +18,12 @@ if len(sys.argv) > 1:
 	if sys.argv[1] == "--NOPROGRESS":
 		displayProgress = False
 
+progress = 0
 for pl in range(0, len(outputArray)):
 	print (outputArray[pl])
 	if displayProgress:
 		print("PROGRESS: Progress " + str(int(round(pl / outputLength, 2) * 100)) + "%")
 	sys.stdout.flush()
 	if outputArray[pl].split(":")[0] in keywordsArray:
-		time.sleep(2)
+		progress = progress + 1
+		time.sleep(3)
