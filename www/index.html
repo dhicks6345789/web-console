@@ -83,43 +83,42 @@
 						</div>
 					</div>
 				</div>
-				<div class="container-fluid" id="mainContent">
-					<!-- The page heading. -->
-					<div class="p-2 rounded m-3" style="background-color:LightSteelBlue">
-						<h1 class="text-center">Web Console</h1>
-					</div>
-					
-					<!-- The main ID-and-secret entry form. -->
-					<div class="form-group p-2 rounded m-3" style="background-color:LightSteelBlue">
-						<label for="taskIDInput">Task ID:</label>
-						<input type="text" class="form-control" id="taskIDInput" aria-describedby="taskIDHelp" placeholder="Enter a 16-digit Task ID"/>
-						<small id="taskIDHelp" class="form-text text-muted">You'll need to know a valid Task ID to run a Task.</small>
-					
-						<label for="secretInput">Secret:</label>
-						<input type="password" class="form-control" id="secretInput" name="secret" aria-describedby="secretHelp" placeholder="Enter secret (optional)"/>
-						<small id="secretHelp" class="form-text text-muted">Leave blank if no secret is needed for this Task.</small>
-					</div>
-					<button type="button" onclick="submitForm($('#taskIDInput').val(), $('#secretInput').val())" class="btn btn-primary">Go</button>
-					<!-- A list of any public Tasks, dynamically loaded from the server.. -->
-					<table id="publicTaskList" style="margin-left:auto; margin-right:auto;">
-						<tr id="publicTaskRow" style="display:none;">
-							<td class="text-right">
-								<span id="publicTaskTitle">Secret:</span>
-							</td>
-							<td>
-								<input id="publicTaskSecretInput" type="password" class="form-control" aria-describedby="publicTaskTemplateSecretHelp" placeholder="Secret"/>
-							<td>
-							<td>
-								<button id="publicTaskButton" type="button" class="btn btn-primary" onclick="submitForm()">Go</button>
-							</td>
-						</tr>
-					</table>
-					<!-- A completly hidden form - the user doesn't see it, but this is the form used to actually submit data to the server. -->
-					<form id="hiddenForm" action="view" method="post">
-						<input type="hidden" id="hiddenTaskID" name="taskID"/>
-						<input type="hidden" id="hiddenToken" name="token"/>
-					</form>
+
+				<!-- The page heading. -->
+				<div class="p-2 rounded m-3" style="background-color:LightSteelBlue">
+					<h1 class="text-center">Web Console</h1>
 				</div>
+					
+				<!-- The main ID-and-secret entry form. -->
+				<div class="form-group">
+					<label for="taskIDInput">Task ID:</label>
+					<input type="text" class="form-control" id="taskIDInput" aria-describedby="taskIDHelp" placeholder="Enter a 16-digit Task ID"/>
+					<small id="taskIDHelp" class="form-text text-muted">You'll need to know a valid Task ID to run a Task.</small>
+					
+					<label for="secretInput">Secret:</label>
+					<input type="password" class="form-control" id="secretInput" name="secret" aria-describedby="secretHelp" placeholder="Enter secret (optional)"/>
+					<small id="secretHelp" class="form-text text-muted">Leave blank if no secret is needed for this Task.</small>
+				</div>
+				<button type="button" onclick="submitForm($('#taskIDInput').val(), $('#secretInput').val())" class="btn btn-primary">Go</button>
+				<!-- A list of any public Tasks, dynamically loaded from the server.. -->
+				<table id="publicTaskList" style="margin-left:auto; margin-right:auto;">
+					<tr id="publicTaskRow" style="display:none;">
+						<td class="text-right">
+							<span id="publicTaskTitle">Secret:</span>
+						</td>
+						<td>
+							<input id="publicTaskSecretInput" type="password" class="form-control" aria-describedby="publicTaskTemplateSecretHelp" placeholder="Secret"/>
+						<td>
+						<td>
+							<button id="publicTaskButton" type="button" class="btn btn-primary" onclick="submitForm()">Go</button>
+						</td>
+					</tr>
+				</table>
+				<!-- A completly hidden form - the user doesn't see it, but this is the form used to actually submit data to the server. -->
+				<form id="hiddenForm" action="view" method="post">
+					<input type="hidden" id="hiddenTaskID" name="taskID"/>
+					<input type="hidden" id="hiddenToken" name="token"/>
+				</form>
 			</div>
 			<div class="col-sm-1 text-center align-self-center"></div>
 		</div>
