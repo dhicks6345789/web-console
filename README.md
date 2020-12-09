@@ -1,11 +1,13 @@
 # Web Console
-Provides a simple web interface for command-line applications - quickly publish your Python / Go / Bash / Batch / Powershell / etc script as a basic web app. Turns STDOUT / STDERR into formatted text, alerts and progress indicators (interface written using Bootstrap and JQuery). Simply runs any command-line based script or executable.
+Provides a simple web interface for command-line applications - quickly publish your Python / Go / Bash / Batch / Powershell / etc script as a basic web app. Turns STDOUT / STDERR into formatted text, alerts and progress indicators (interface written using Bootstrap 5 and JQuery) - simply runs any command-line based script or executable.
 
-Cross-platform (written in Go), binaries are available for Windows, Linux (including Raspberry Pi) and MacOS. The install process includes optional setup as a service / deamon on each platform (uses [NSSM](https://nssm.cc/) on Windows), plus the installer includes setup for [tunnelto.dev](https://tunnelto.dev/) to provide a secure connection through a firewall and a handy subdomain to point a browser at if needed.
+Cross-platform (written in Go), binaries are available for Windows, Linux (including Raspberry Pi) and MacOS. The install process includes optional setup as a service / deamon on each platform (uses [NSSM](https://nssm.cc/) on Windows), plus the installer includes setup for the cross-platform [tunnelto.dev](https://tunnelto.dev/) service to provide an HTTPS-secured connection through a firewall and a handy subdomain to point a browser at if needed. Web Console is self-contained, it can be used from a local web browser as a user interface for a stand-alone system if wished.
 
-Coming in verswion 2: Python (Flask) version also available to run on (for instance) [PythonAnywhere](https://www.pythonanywhere.com/).
+As well as providing a user interface, Web Console also provides a simple REST API, providing a webhook URLs for for services such as [IFTTT](https://ifttt.com/) and [Zapier](https://zapier.com/) or letting you trigger tasks from remote systems with command-line tools like curl.
 
-Simple API, handles authentication (without using cookies), provides a mechanism for third-parties to handle authorisation. Can be used to provide webhook URIs for your scripts for services such as [IFTTT](https://ifttt.com/) and [Zapier](https://zapier.com/).
+Coming in verswion 2:
+* Python (Flask) implementation to run on (for instance) [PythonAnywhere](https://www.pythonanywhere.com/).
+* Additions to the API to provide a mechanism for third-parties to handle authorisation.
 
 ## Live Demo
 
@@ -54,6 +56,8 @@ This project contains binaries from:
 [The Non-Sucking Service Manager](https://nssm.cc/) by Iain Patterson, used to set up services on Windows. Public Domain license.
 
 [tunnelto.dev](https://tunnelto.dev), Copyright (c) 2020 Alex Grinman, used to provide secure connections through firewalls. MIT license.
+
+Thw web user interface is constructed using [Bootstrap 5](https://getbootstrap.com/docs/5.0/getting-started/introduction/) and the [JQuery](https://jquery.com/) and [Popper](https://popper.js.org/) JavaScript libraries. All required library files are included in the project and release distributions so Web Console can run as a self-contained application with no Internet connection if needed.
 
 ## Customisation
 
