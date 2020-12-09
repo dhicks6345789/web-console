@@ -3,7 +3,7 @@ Provides a simple web interface for command-line applications - quickly publish 
 
 Cross-platform (written in Go), binaries are available for Windows, Linux (including Raspberry Pi) and MacOS. The install process includes optional setup as a service / deamon on each platform (uses [NSSM](https://nssm.cc/) on Windows), plus the installer includes setup for the cross-platform [tunnelto.dev](https://tunnelto.dev/) service to provide an HTTPS-secured connection through a firewall and a handy subdomain to point a browser at if needed. Web Console is self-contained, it can be used from a local web browser as a user interface for a stand-alone system if wished.
 
-As well as providing a user interface, Web Console also provides a simple REST API, providing a webhook URLs for for services such as [IFTTT](https://ifttt.com/) and [Zapier](https://zapier.com/) or letting you trigger tasks from remote systems with command-line tools like curl.
+As well as providing a user interface, Web Console also provides a simple REST API, providing a webhook URLs for for services such as [IFTTT](https://ifttt.com/) and [Zapier](https://zapier.com/) or letting you trigger tasks from remote systems with command-line tools like [curl](https://curl.se/).
 
 Coming in verswion 2:
 * Python (Flask) implementation to run on (for instance) [PythonAnywhere](https://www.pythonanywhere.com/).
