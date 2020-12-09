@@ -27,20 +27,6 @@
 		<meta name="msapplication-TileColor" content="#da532c">
 		<meta name="theme-color" content="#ffffff">
 		
-		<!-- <style>
-			.panel-heading .accordion-toggle:after {
-				/* symbol for "opening" panels */
-				font-family: 'Glyphicons Halflings';  /* essential for enabling glyphicon */
-				content: "-";    /* adjust as needed, taken from bootstrap.css */
-				float: right;        /* adjust as needed */
-				color: grey;         /* adjust as needed */
-			}
-			.panel-heading .accordion-toggle.collapsed:after {
-				/* symbol for "collapsed" panels */
-				content: "+";    /* adjust as needed, taken from bootstrap.css */
-			}
-		</style> -->
-		
 		<script>
 			taskID = "<<TASKID>>";
 			token = "<<TOKEN>>";
@@ -174,14 +160,12 @@
 		<div class="row">
 			<div class="col-sm-1 text-center align-self-center"></div>
 			<div class="col-sm-10 text-center align-self-center">
-				<!-- The main title - will hold the Task's defined title when we get it from the server. -->
-				<!-- <div class="container-fluid" id="mainContent"> -->
-					<div class="p-5 rounded m-3" style="background-color:LightSteelBlue">
-						<div class="container">
-							<h1 class="text-center" id="taskTitle"><<TITLE>></h1>
-						</div>
-					</div>
-				<!-- </div> -->
+				<!-- The main title block. -->
+				<div class="p-5 rounded m-3" style="background-color:LightSteelBlue">
+					<!-- <div class="container"> -->
+						<h1 class="text-center" id="taskTitle"><<TITLE>></h1>
+					<!-- </div> -->
+				</div>
 				
 				<!-- The main "alerts" section where the most important output for the user goes. -->
 				<div class="p-5 rounded m-3" style="background-color:LightSteelBlue">
