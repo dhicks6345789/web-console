@@ -19,7 +19,7 @@
 									if (displayAlerts == true) {
 										$("#taskResults").html($("#taskResults").html() + "<div>" + value + "</div>");
 									}
-								} else {
+								} else if (!value.toLowerCase().startsWith("progress: ")) {
 									value = "<span style='color:LightGray'>" + value + "</span>"
 								}
 
