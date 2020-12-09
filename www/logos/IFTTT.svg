@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   viewBox="0 0 100 100"
+   version="1.1"
+   id="svg872"
+   sodipodi:docname="IFTTT.svg"
+   width="100"
+   height="100"
+   inkscape:version="0.92.2 (5c3e80d, 2017-08-06)">
+  <metadata
+     id="metadata878">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>IFTTT</dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs876" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="2560"
+     inkscape:window-height="1417"
+     id="namedview874"
+     showgrid="false"
+     inkscape:zoom="4"
+     inkscape:cx="77.142327"
+     inkscape:cy="49.371627"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg872" />
+  <title
+     id="title868">IFTTT</title>
+  <path
+     d="M 0,73.478577 H 8.4337342 V 100 H 0 Z m 48.19277,0 H 33.734941 v 8.438635 h 6.024095 V 100 H 48.19277 V 81.917212 h 6.024098 v -8.438635 z m 22.891566,0 H 56.626505 v 8.438635 h 6.024097 V 100 h 8.433734 V 81.917212 h 6.024096 v -8.438635 z m 22.891566,0 H 79.51807 v 8.438635 h 6.024096 V 100 h 8.433736 V 81.917212 H 100 v -8.438635 z m -62.6506,8.438635 V 73.478577 H 12.048194 V 100 h 8.433735 v -7.233113 h 7.228915 v -8.438635 h -7.228915 v -2.41104 z"
+     id="path870"
+     inkscape:connector-curvature="0"
+     style="fill:#0099ff;stroke-width:0.20086153" />
+  <g
+     id="g917"
+     transform="matrix(1.3,0,0,1.3,-53.880629,5)">
+    <rect
+       y="0"
+       x="54.908176"
+       height="31.25"
+       width="49.996094"
+       id="rect891"
+       style="fill:#0099ff;fill-opacity:1;stroke:none;stroke-width:5.19660425;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <rect
+       y="31.25"
+       x="54.908176"
+       height="18.75"
+       width="31.35"
+       id="rect891-9"
+       style="fill:#ee4433;fill-opacity:1;stroke:none;stroke-width:3.18746924;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <rect
+       y="31.25"
+       x="86.258179"
+       height="18.75"
+       width="18.65"
+       id="rect891-2"
+       style="fill:#333333;fill-opacity:1;stroke:none;stroke-width:2.45847988;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+  </g>
+</svg>
