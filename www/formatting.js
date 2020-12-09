@@ -19,7 +19,7 @@
 									if (displayAlerts == true) {
 										$("#taskResults").html($("#taskResults").html() + "<div>" + value + "</div>");
 									}
-								} else (value.toLowerCase().startsWith("result: ")) {
+								} else {
 									value = "<span style='color:LightGray'>" + value + "</span>"
 								}
 
