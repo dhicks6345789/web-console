@@ -1,14 +1,9 @@
 # Web Console
 Provides a simple web interface for command-line applications - quickly publish your Python / Go / Bash / Batch / Powershell / etc script as a basic web app. Turns STDOUT / STDERR into formatted text, alerts and progress indicators (interface written using Bootstrap 5 and JQuery) - simply runs any command-line based script or executable.
 
-Cross-platform (written in Go), binaries are available for Windows, Linux (including Raspberry Pi) and MacOS. The install process includes optional setup as a service / deamon on each platform (uses [NSSM](https://nssm.cc/) on Windows, a systemd configuration is provided for Linux), plus the installer includes setup for the cross-platform [tunnelto.dev](https://tunnelto.dev/) service to provide an HTTPS-secured connection through a firewall and a handy subdomain to point a browser at if needed. Web Console is self-contained, it can be used from a local web browser as a user interface for a stand-alone system if wished.
+Cross-platform (written in Go), binaries are available for Windows, Linux (including Raspberry Pi) and MacOS. The install process includes optional setup as a service / deamon on each platform, plus the installer includes setup for the cross-platform [tunnelto.dev](https://tunnelto.dev/) service to provide an HTTPS-secured connection through a firewall. Web Console is self-contained, it can be used from a local web browser as a user interface for a stand-alone, non-networked system.
 
 As well as providing a user interface, Web Console also provides a simple REST API, providing a webhook URLs for for services such as [IFTTT](https://ifttt.com/) and [Zapier](https://zapier.com/) or letting you trigger tasks from remote systems with command-line tools like [curl](https://curl.se/).
-
-Features to add:
-* On Task completion, trigger update / load of "results" HTML block.
-* Python (Flask) implementation to run on (for instance) [PythonAnywhere](https://www.pythonanywhere.com/).
-* Additions to the API to provide a mechanism for third-parties to handle authorisation.
 
 ## Live Demo
 
@@ -112,3 +107,15 @@ A set of favicons are provided from the free "fruit" [collection](https://www.ic
 
 If you need a longer description than a singble line of text, then you can place you custom description in a file called description.txt in the root of an individual Task. You can
 embed HTML in this file if you wish, complete with links or whatever other components you like.
+
+## To Do
+
+### Bugs
+
+* On Windows, run batch files without having to explicitly run via cmd /c.
+
+### Features
+
+* On Task completion, trigger update / load of "results" HTML block.
+* Python (Flask) implementation to run on (for instance) [PythonAnywhere](https://www.pythonanywhere.com/).
+* Additions to the API to provide a mechanism for third-parties to handle authorisation.
