@@ -114,6 +114,7 @@ embed HTML in this file if you wish, complete with links or whatever other compo
 
 * On Windows, run batch files without having to explicitly run via cmd /c.
 * Return error message if batch file doesn't run, don't just sit.
+* Live messages view not always showing every line, only gets all lines on page refresh.
 
 ### Features
 
