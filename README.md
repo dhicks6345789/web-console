@@ -1,5 +1,5 @@
 # Web Console
-Provides a simple web interface for command-line applications - quickly publish your Python / Go / Bash / Batch / Powershell / etc script as a basic web app. Turns STDOUT / STDERR into formatted text, alerts and progress indicators.
+Provides a simple web interface for command-line applications - quickly publish your Python / Bash / Batch / Powershell / etc script as a basic web app. Turns STDOUT / STDERR into formatted text, alerts and progress indicators.
 
 Cross-platform, binaries are available for Windows, Linux (including Raspberry Pi) and MacOS. The install process includes optional setup as a service / deamon on each platform, plus the installer includes setup for the cross-platform [tunnelto.dev](https://tunnelto.dev/) service to provide an HTTPS-secured connection through a firewall. Web Console is self-contained, it can be used from a local web browser as a user interface for a stand-alone, non-networked system.
 
