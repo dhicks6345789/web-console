@@ -5,7 +5,8 @@ Cross-platform (written in Go), binaries are available for Windows, Linux (inclu
 
 As well as providing a user interface, Web Console also provides a simple REST API, providing a webhook URLs for for services such as [IFTTT](https://ifttt.com/) and [Zapier](https://zapier.com/) or letting you trigger tasks from remote systems with command-line tools like [curl](https://curl.se/).
 
-Coming in verswion 2:
+Features to add:
+* On Task completion, trigger update / load of "results" HTML block.
 * Python (Flask) implementation to run on (for instance) [PythonAnywhere](https://www.pythonanywhere.com/).
 * Additions to the API to provide a mechanism for third-parties to handle authorisation.
 
