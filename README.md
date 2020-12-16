@@ -1,7 +1,7 @@
 # Web Console
-Provides a simple web interface for command-line applications - quickly publish your Python / Go / Bash / Batch / Powershell / etc script as a basic web app. Turns STDOUT / STDERR into formatted text, alerts and progress indicators (interface written using Bootstrap 5 and JQuery) - simply runs any command-line based script or executable.
+Provides a simple web interface for command-line applications - quickly publish your Python / Go / Bash / Batch / Powershell / etc script as a basic web app. Turns STDOUT / STDERR into formatted text, alerts and progress indicators.
 
-Cross-platform (written in Go), binaries are available for Windows, Linux (including Raspberry Pi) and MacOS. The install process includes optional setup as a service / deamon on each platform, plus the installer includes setup for the cross-platform [tunnelto.dev](https://tunnelto.dev/) service to provide an HTTPS-secured connection through a firewall. Web Console is self-contained, it can be used from a local web browser as a user interface for a stand-alone, non-networked system.
+Cross-platform, binaries are available for Windows, Linux (including Raspberry Pi) and MacOS. The install process includes optional setup as a service / deamon on each platform, plus the installer includes setup for the cross-platform [tunnelto.dev](https://tunnelto.dev/) service to provide an HTTPS-secured connection through a firewall. Web Console is self-contained, it can be used from a local web browser as a user interface for a stand-alone, non-networked system.
 
 As well as providing a user interface, Web Console also provides a simple REST API, providing a webhook URLs for for services such as [IFTTT](https://ifttt.com/) and [Zapier](https://zapier.com/) or letting you trigger tasks from remote systems with command-line tools like [curl](https://curl.se/).
 
@@ -65,7 +65,7 @@ This project contains binaries from:
 
 [tunnelto.dev](https://tunnelto.dev), Copyright (c) 2020 Alex Grinman, used to provide secure connections through firewalls. MIT license.
 
-Thw web user interface is constructed using [Bootstrap 5](https://getbootstrap.com/docs/5.0/getting-started/introduction/) and the [JQuery](https://jquery.com/) and [Popper](https://popper.js.org/) JavaScript libraries. All required library files are included in the project and release distributions so Web Console can run as a self-contained application with no Internet connection if needed.
+Thw web user interface is constructed using [Bootstrap 5](https://getbootstrap.com/docs/5.0/getting-started/introduction/) and the [JQuery](https://jquery.com/) and [Popper](https://popper.js.org/) JavaScript libraries. All required library files are included in the project and release distributions so Web Console can run as a self-contained application on a non-networked workstation if needed.
 
 ## Customisation
 
