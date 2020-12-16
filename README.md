@@ -113,9 +113,11 @@ embed HTML in this file if you wish, complete with links or whatever other compo
 ### Bugs
 
 * On Windows, run batch files without having to explicitly run via cmd /c.
+* Return error message if batch file doesn't run, don't just sit.
 
 ### Features
 
 * On Task completion, trigger update / load of "results" HTML block.
 * Python (Flask) implementation to run on (for instance) [PythonAnywhere](https://www.pythonanywhere.com/).
 * Additions to the API to provide a mechanism for third-parties to handle authorisation.
+* Optional ability to stop Task(?).
