@@ -15,7 +15,7 @@ curl -L -s https://github.com/dhicks6345789/web-console/archive/v$VERSION.tar.gz
 [ ! -d /etc/webconsole ] && mkdir /etc/webconsole
 [ ! -d /etc/webconsole/tasks ] && mkdir /etc/webconsole/tasks
 [ ! -d /etc/webconsole/www ] && mkdir /etc/webconsole/www
-cp -r web-console-$VERSION/www /etc/webconsole/www
+cp -r web-console-$VERSION/www/* /etc/webconsole/www
 
 # Set up systemd to run Webconsole.
 cp web-console-$VERSION/webconsole.service /etc/systemd/system/webconsole.service
