@@ -310,18 +310,18 @@ func main() {
 	for _, argVal := range os.Args {
 		if strings.HasPrefix(argVal, "--") {
 			if currentArgKey != "" {
-				arguments[ToLower(currentArgKey[2:])] = "true"
+				arguments[strings.ToLower(currentArgKey[2:])] = "true"
 			}
 			currentArgKey = argVal
 		} else {
 			if currentArgKey != "" {
-				arguments[ToLower(currentArgKey[2:])] = argVal
+				arguments[strings.ToLower(currentArgKey[2:])] = argVal
 			}
 			currentArgKey = ""
 		}
 	}
 	if currentArgKey != "" {
-		arguments[ToLower(currentArgKey[2:])] = "true"
+		arguments[strings.ToLower(currentArgKey[2:])] = "true"
 	}
 	
 	// Print the help / usage documentation if the user wanted.
