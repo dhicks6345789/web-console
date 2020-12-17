@@ -790,9 +790,10 @@ func main() {
 	// Generate a new Task.
 	} else if arguments["new"] == "true" {
 		// Generate a new, unique Task ID.
-		// var newTaskID string
+		var newTaskID string
+		var newTaskIDExists bool
 		// Ask the user to provide a Task ID (or they can use the one we just generated).
-		if newTaskID, newTaskIDExists := arguments["newtaskid"]; !newTaskIDExists {
+		if newTaskID, newTaskIDExists = arguments["newtaskid"]; !newTaskIDExists {
 			for {
 				newTaskID = generateRandomString()
 				if _, err := os.Stat("tasks/" + newTaskID); os.IsNotExist(err) {
