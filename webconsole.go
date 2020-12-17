@@ -260,7 +260,10 @@ func getTaskList() ([]map[string]string, error) {
 }
 
 // Get an input string from the user via stdin.
-func getUserInput(defaultValue string, messageString string) string {
+func getUserInput(argumentsKey, defaultValue string, messageString string) string {
+	if argument, ok := arguments[argumentsKey]; ok {
+		return arguments[argumentsKey]
+	}
 	inputReader := bufio.NewReader(os.Stdin)
 	fmt.Printf(messageString + ": ")
 	result, _ := inputReader.ReadString('\n')
@@ -307,18 +310,18 @@ func main() {
 	for _, argVal := range os.Args {
 		if strings.HasPrefix(argVal, "--") {
 			if currentArgKey != "" {
-				arguments[currentArgKey[2:]] = "true"
+				arguments[ToLower(currentArgKey[2:])] = "true"
 			}
 			currentArgKey = argVal
 		} else {
 			if currentArgKey != "" {
-				arguments[currentArgKey[2:]] = argVal
+				arguments[ToLower(currentArgKey[2:])] = argVal
 			}
 			currentArgKey = ""
 		}
 	}
 	if currentArgKey != "" {
-		arguments[currentArgKey[2:]] = "true"
+		arguments[ToLower(currentArgKey[2:])] = "true"
 	}
 	
 	// Print the help / usage documentation if the user wanted.
@@ -788,14 +791,18 @@ func main() {
 	} else if arguments["new"] == "true" {
 		// Generate a new, unique Task ID.
 		var newTaskID string
-		for {
-			newTaskID = generateRandomString()
-			if _, err := os.Stat("tasks/" + newTaskID); os.IsNotExist(err) {
-				break
-			}
-		}
 		// Ask the user to provide a Task ID (or they can use the one we just generated).
-		newTaskID = getUserInput(newTaskID, "Enter a new Task ID (hit enter to generate an ID)")
+		if "newtaskid" in arguments.keys() {
+			newTaskID = arguments["newtaskid"]
+		} else {
+			for {
+				newTaskID = generateRandomString()
+				if _, err := os.Stat("tasks/" + newTaskID); os.IsNotExist(err) {
+					break
+				}
+			}
+			newTaskID = getUserInput("newtaskid", newTaskID, "Enter a new Task ID (hit enter to generate an ID)")
+		}
 		if _, err := os.Stat("tasks/" + newTaskID); os.IsNotExist(err) {
 			// We use simple text files in folders for data storage, rather than a database. It seemed the most logical choice - you can stick
 			// any resources associated with a Task in that Task's folder, and editing options can be done with a basic text editor.
@@ -805,17 +812,17 @@ func main() {
 			
 			// Get a title for the Task.
 			newTaskTitle := "Task " + newTaskID
-			newTaskTitle = getUserInput(newTaskTitle, "Enter a title (hit enter for \"" + newTaskTitle + "\")")
+			newTaskTitle = getUserInput("newtasktitle", newTaskTitle, "Enter a title (hit enter for \"" + newTaskTitle + "\")")
 			
 			// Get a secret for the Task - blank by default, although that's not the same as a public Task.
 			newTaskSecret := ""
-			newTaskSecret = getUserInput(newTaskSecret, "Set secret (type secret, or hit enter to skip)")
+			newTaskSecret = getUserInput("newtasksecret", newTaskSecret, "Set secret (type secret, or hit enter to skip)")
 			
 			// Ask the user if this Task should be public, "N" by default.
 			var newTaskPublic string
 			for {
 				newTaskPublic = "N"
-				newTaskPublic = strings.ToUpper(getUserInput(newTaskPublic, "Make this task public (\"Y\" or \"N\", hit enter for \"N\")"))
+				newTaskPublic = strings.ToUpper(getUserInput("newtaskpublic", newTaskPublic, "Make this task public (\"Y\" or \"N\", hit enter for \"N\")"))
 				if newTaskPublic == "Y" || newTaskPublic == "N" {
 					break
 				}
@@ -824,7 +831,7 @@ func main() {
 			// The command the Task runs. Can be anything the system will run as an executable application, which of course depends on which platform
 			// you are running.
 			newTaskCommand := ""
-			newTaskCommand = getUserInput(newTaskCommand, "Set command (type command, or hit enter to skip)")
+			newTaskCommand = getUserInput("newtaskcommand", newTaskCommand, "Set command (type command, or hit enter to skip)")
 			
 			// Hash the secret (if not just blank).
 			outputString := ""
