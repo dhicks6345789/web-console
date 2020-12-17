@@ -1,4 +1,4 @@
-VERSION="0.1-alpha"
+VERSION="0.1-beta"
 echo Installing Web Console $VERSION...
 
 # First, stop any existing Webconsole service.
