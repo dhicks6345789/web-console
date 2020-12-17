@@ -796,17 +796,17 @@ func main() {
 		if newTaskID, newTaskIDExists = arguments["newtaskid"]; !newTaskIDExists {
 			for {
 				newTaskID = generateRandomString()
-				if _, err := os.Stat("tasks/" + newTaskID); os.IsNotExist(err) {
+				if _, err := os.Stat(arguments["taskroot"] + "/" + newTaskID); os.IsNotExist(err) {
 					break
 				}
 			}
 			newTaskID = getUserInput("newtaskid", newTaskID, "Enter a new Task ID (hit enter to generate an ID)")
 		}
-		if _, err := os.Stat("tasks/" + newTaskID); os.IsNotExist(err) {
+		if _, err := os.Stat(arguments["taskroot"] + "/" + newTaskID); os.IsNotExist(err) {
 			// We use simple text files in folders for data storage, rather than a database. It seemed the most logical choice - you can stick
 			// any resources associated with a Task in that Task's folder, and editing options can be done with a basic text editor.
-			os.Mkdir("tasks", os.ModePerm)
-			os.Mkdir("tasks/" + newTaskID, os.ModePerm)
+			os.Mkdir(arguments["taskroot"], os.ModePerm)
+			os.Mkdir(arguments["taskroot"] + "/" + newTaskID, os.ModePerm)
 			fmt.Println("New Task: " + newTaskID)
 			
 			// Get a title for the Task.
