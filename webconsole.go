@@ -262,7 +262,7 @@ func getTaskList() ([]map[string]string, error) {
 // Get an input string from the user via stdin.
 func getUserInput(argumentsKey, defaultValue string, messageString string) string {
 	if argument, argumentExists := arguments[argumentsKey]; argumentExists {
-		return arguments[argumentsKey]
+		return argument
 	}
 	inputReader := bufio.NewReader(os.Stdin)
 	fmt.Printf(messageString + ": ")
