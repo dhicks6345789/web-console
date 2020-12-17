@@ -261,7 +261,7 @@ func getTaskList() ([]map[string]string, error) {
 
 // Get an input string from the user via stdin.
 func getUserInput(argumentsKey, defaultValue string, messageString string) string {
-	if argument, ok := arguments[argumentsKey]; ok {
+	if argument, argumentExists := arguments[argumentsKey]; argumentExists {
 		return arguments[argumentsKey]
 	}
 	inputReader := bufio.NewReader(os.Stdin)
@@ -790,11 +790,9 @@ func main() {
 	// Generate a new Task.
 	} else if arguments["new"] == "true" {
 		// Generate a new, unique Task ID.
-		var newTaskID string
+		// var newTaskID string
 		// Ask the user to provide a Task ID (or they can use the one we just generated).
-		if "newtaskid" in arguments.keys() {
-			newTaskID = arguments["newtaskid"]
-		} else {
+		if newTaskID, newTaskIDExists := arguments["newtaskid"]; !newTaskIDExists {
 			for {
 				newTaskID = generateRandomString()
 				if _, err := os.Stat("tasks/" + newTaskID); os.IsNotExist(err) {
