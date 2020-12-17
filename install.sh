@@ -13,6 +13,7 @@ curl -L -s https://github.com/dhicks6345789/web-console/archive/v$VERSION.tar.gz
 
 # Create the application's data folder and copy the default data files into it.
 [ ! -d /etc/webconsole ] && mkdir /etc/webconsole
+[ ! -d /etc/webconsole/tasks ] && mkdir /etc/webconsole/tasks
 [ ! -d /etc/webconsole/www ] && mkdir /etc/webconsole/www
 cp -r web-console-$VERSION/www /etc/webconsole/www
 
@@ -23,4 +24,4 @@ systemctl start webconsole
 systemctl enable webconsole
 
 # Clear out the temporary bundle folder.
-#rm -rf web-console-$VERSION
+rm -rf web-console-$VERSION
