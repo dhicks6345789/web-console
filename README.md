@@ -1,7 +1,7 @@
 # Web Console
-Provides a simple web interface for command-line applications - quickly publish your Python / Bash / Powershell / Batch / etc script as a basic web app. Turns STDOUT / STDERR into formatted text, alerts and progress indicators.
+Provides a simple web interface for command-line applications - quickly publish your Python / Bash / Powershell / Batch / etc script as a basic web app. Turns STDOUT into formatted text, alerts and progress indicators.
 
-Cross-platform, runs as a self-contained web server, binaries are available for Windows, Linux (including Raspberry Pi) and MacOS. The install process includes optional setup as a service / deamon on each platform and for the cross-platform [tunnelto.dev](https://tunnelto.dev/) service to provide an HTTPS-secured connection through a firewall. Web Console can be used behind a proxy server or from a local web browser as a user interface for a stand-alone, non-networked system.
+Cross-platform, runs as a self-contained web server, binaries are available for Windows, Linux (including Raspberry Pi) and MacOS. The install process includes optional setup as a service / deamon on each platform and for the cross-platform [tunnelto.dev](https://tunnelto.dev/) service to provide an HTTPS-secured connection through a firewall. Web Console can be used behind a proxy server or from a local web browser as a basic user interface for a stand-alone, non-networked system.
 
 As well as providing a user interface, Web Console also provides a simple REST API, providing a webhook URLs for for services such as [IFTTT](https://ifttt.com/) and [Zapier](https://zapier.com/) or letting you trigger tasks from remote systems with command-line tools like [curl](https://curl.se/).
 
@@ -105,7 +105,7 @@ A set of favicons are provided from the free "fruit" [collection](https://www.ic
 
 ### Custom Description
 
-If you need a longer description than a singble line of text, then you can place you custom description in a file called description.txt in the root of an individual Task. You can
+If you need a longer description than a single line of text, then you can place you custom description in a file called description.txt in the root of an individual Task. You can
 embed HTML in this file if you wish, complete with links or whatever other components you like.
 
 ## To Do
