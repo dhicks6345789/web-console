@@ -760,6 +760,7 @@ func main() {
 				}
 			}
 			if serveFile == true {
+				fmt.Println(requestPath)
 				taskList, taskErr := getTaskList()
 				if taskErr == nil {
 					for _, task := range taskList {
