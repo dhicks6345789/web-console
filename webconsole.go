@@ -598,7 +598,7 @@ func main() {
 									if taskDetails["progress"] == "Y" {
 										fmt.Fprintf(theResponseWriter, "Progress: Progress 100%%\n")
 									}
-									if _, err := os.Stat(arguments["taskroot"] + "/" + task["taskID"] + "/www"); err == nil {
+									if _, err := os.Stat(arguments["taskroot"] + "/" + taskID + "/www"); err == nil {
 										fmt.Fprintf(theResponseWriter, "ERROR: REDIRECT")
 									} else {
 										fmt.Fprintf(theResponseWriter, "ERROR: EOF")
