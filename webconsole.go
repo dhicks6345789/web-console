@@ -767,7 +767,7 @@ func main() {
 						if strings.HasPrefix(requestPath, "/" + task["taskID"]) && serveFile == true {
 							var filePath = strings.TrimSpace(requestPath[17:])
 							if filePath == "" || filePath == "/" {
-								filepath = "index.html"
+								filePath = "index.html"
 							}
 							var totalPath = arguments["taskroot"] + "/" + task["taskID"] + "/www" + filePath
 							fmt.Println("Serve task file: " + totalPath)
