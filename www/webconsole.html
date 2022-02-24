@@ -77,7 +77,7 @@
 						if (value.trim() != "") {
 							// If the Task has finished, reset the "Run" button state.
 							if (value.trim() == "ERROR: REDIRECT") {
-								console.log("Redirect to:" + window.location.href.split("?")[0] + "/" + taskID + "/");
+								console.log("Redirect to:" + window.location.href.split("?")[0].slice(0, -4) + taskID + "/");
 								// window.location.href = window.location.href.split("?")[0] + "/" + taskID + "/";
 							} else if (value.trim() == "ERROR: EOF") {
 								clearInterval(intervalFunction);
