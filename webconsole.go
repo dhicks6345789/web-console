@@ -598,7 +598,11 @@ func main() {
 									if taskDetails["progress"] == "Y" {
 										fmt.Fprintf(theResponseWriter, "Progress: Progress 100%%\n")
 									}
-									fmt.Fprintf(theResponseWriter, "ERROR: EOF")
+									if _, err := os.Stat(arguments["taskroot"] + "/" + task["taskID"] + "/www"); err == nil {
+										fmt.Fprintf(theResponseWriter, "ERROR: REDIRECT")
+									} else {
+										fmt.Fprintf(theResponseWriter, "ERROR: EOF")
+									}
 									//delete(taskOutputs, taskID)
 								}
 							// Simply returns "YES" if a given Task is running, "NO" otherwise.
