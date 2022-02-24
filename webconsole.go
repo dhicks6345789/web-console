@@ -760,7 +760,6 @@ func main() {
 				}
 			}
 			if serveFile == true {
-				fmt.Println("Serve file: " + requestPath)
 				taskList, taskErr := getTaskList()
 				if taskErr == nil {
 					for _, task := range taskList {
@@ -772,15 +771,12 @@ func main() {
 							if strings.HasSuffix(filePath, "/") {
 								filePath = filePath + "index.html"
 							}
-							var totalPath = arguments["taskroot"] + "/" + task["taskID"] + "/www" + filePath
-							fmt.Println("Serve task file: " + totalPath)
-							http.ServeFile(theResponseWriter, theRequest, totalPath)
+							http.ServeFile(theResponseWriter, theRequest, arguments["taskroot"] + "/" + task["taskID"] + "/www" + filePath)
 							serveFile = false
 						}
 					}
 				}
 				if serveFile == true {
-					fmt.Println("Serve webroot file: " + arguments["webroot"] + requestPath)
 					http.ServeFile(theResponseWriter, theRequest,  arguments["webroot"] + requestPath)
 				}
 			}
