@@ -766,8 +766,11 @@ func main() {
 					for _, task := range taskList {
 						if strings.HasPrefix(requestPath, "/" + task["taskID"]) && serveFile == true {
 							var filePath = strings.TrimSpace(requestPath[17:])
-							if filePath == "" || filePath == "/" {
-								filePath = "/index.html"
+							if filePath == "" {
+								filePath = "/"
+							}
+							if strings.HasSuffix(filePath, "/") {
+								filePath = filePath + "index.html"
 							}
 							var totalPath = arguments["taskroot"] + "/" + task["taskID"] + "/www" + filePath
 							fmt.Println("Serve task file: " + totalPath)
