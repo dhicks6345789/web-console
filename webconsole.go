@@ -760,7 +760,18 @@ func main() {
 				}
 			}
 			if serveFile == true {
-				http.ServeFile(theResponseWriter, theRequest,  arguments["webroot"] + requestPath)
+				taskList, taskErr := getTaskList()
+				if taskErr == nil {
+					for _, task := range taskList {
+						if strings.HasPrefix(requestPath, "/" + task) && serveFile == true {
+							http.ServeFile(theResponseWriter, theRequest,  arguments["webroot"] + os.PathSeparator + task + "www" + os.PathSeparator + requestPath)
+							serveFile = false
+						}
+					}
+				}
+				if serveFile == true {
+					http.ServeFile(theResponseWriter, theRequest,  arguments["webroot"] + requestPath)
+				}
 			}
 		})
 		// Run the main web server loop.
