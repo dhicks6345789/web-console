@@ -760,17 +760,19 @@ func main() {
 				}
 			}
 			if serveFile == true {
-				fmt.Println(requestPath)
+				fmt.Println("Serve file: " + requestPath)
 				taskList, taskErr := getTaskList()
 				if taskErr == nil {
 					for _, task := range taskList {
 						if strings.HasPrefix(requestPath, "/" + task["taskID"]) && serveFile == true {
-							http.ServeFile(theResponseWriter, theRequest,  arguments["webroot"] + string(os.PathSeparator) + task["taskID"] + "www" + string(os.PathSeparator) + requestPath)
+							fmt.Println("Serve task file: " + arguments["taskroot"] + string(os.PathSeparator) + task["taskID"] + "www" + string(os.PathSeparator) + requestPath)
+							http.ServeFile(theResponseWriter, theRequest,  arguments["taskroot"] + string(os.PathSeparator) + task["taskID"] + "www" + string(os.PathSeparator) + requestPath)
 							serveFile = false
 						}
 					}
 				}
 				if serveFile == true {
+					fmt.Println("Serve webroot file: " + arguments["webroot"] + requestPath)
 					http.ServeFile(theResponseWriter, theRequest,  arguments["webroot"] + requestPath)
 				}
 			}
