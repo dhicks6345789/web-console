@@ -765,7 +765,7 @@ func main() {
 				if taskErr == nil {
 					for _, task := range taskList {
 						if strings.HasPrefix(requestPath, "/" + task["taskID"]) && serveFile == true {
-							fmt.Println("Serve task file: " + arguments["taskroot"] + string(os.PathSeparator) + task["taskID"] + "www" + string(os.PathSeparator) + requestPath)
+							fmt.Println("Serve task file: " + arguments["taskroot"] + "/" + task["taskID"] + "www" + requestPath)
 							http.ServeFile(theResponseWriter, theRequest,  arguments["taskroot"] + string(os.PathSeparator) + task["taskID"] + "www" + string(os.PathSeparator) + requestPath)
 							serveFile = false
 						}
