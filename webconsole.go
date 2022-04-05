@@ -235,8 +235,7 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 			}
 		}
 	} else {
-		fmt.Println("Invalid task configPath: " + configPath)
-		return taskDetails, errors.New("Invalid taskID")
+		return taskDetails, errors.New("No config file for taskID: " + theTaskID)
 	}
 	return taskDetails, nil
 }
