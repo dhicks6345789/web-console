@@ -249,9 +249,10 @@ func getTaskList() ([]map[string]string, error) {
 			taskDetails, taskErr := getTaskDetails(taskID.Name())
 			if taskErr == nil {
 				taskList = append(taskList, taskDetails)
-			} else {
-				return taskList, taskErr
 			}
+			//else {
+				//return taskList, taskErr
+			//}
 		}
 	} else {
 		return taskList, errors.New("Can't read Tasks folder.")
@@ -406,7 +407,6 @@ func main() {
 			
 			// The default root - serve index.html.
 			requestPath := theRequest.URL.Path
-			fmt.Println(requestPath)
 			if strings.HasPrefix(requestPath, arguments["pathPrefix"]) {
 				requestPath = requestPath[len(arguments["pathPrefix"]):]
 			}
@@ -765,7 +765,6 @@ func main() {
 				}
 			}
 			if serveFile == true {
-				fmt.Println("Serve file: " + requestPath)
 				taskList, taskErr := getTaskList()
 				if taskErr == nil {
 					for _, task := range taskList {
