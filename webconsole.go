@@ -406,6 +406,7 @@ func main() {
 			
 			// The default root - serve index.html.
 			requestPath := theRequest.URL.Path
+			fmt.Println(requestPath)
 			if strings.HasPrefix(requestPath, arguments["pathPrefix"]) {
 				requestPath = requestPath[len(arguments["pathPrefix"]):]
 			}
