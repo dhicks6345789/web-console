@@ -250,9 +250,6 @@ func getTaskList() ([]map[string]string, error) {
 			if taskErr == nil {
 				taskList = append(taskList, taskDetails)
 			}
-			//else {
-				//return taskList, taskErr
-			//}
 		}
 	} else {
 		return taskList, errors.New("Can't read Tasks folder.")
