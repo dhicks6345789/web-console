@@ -208,6 +208,7 @@ func taskIsRunning(theTaskID string) bool {
 func getTaskDetails(theTaskID string) (map[string]string, error) {
 	taskDetails := make(map[string]string)
 	configPath := arguments["taskroot"] + "/" + theTaskID + "/config.txt"
+	fmt.Println("configPath: " + configPath)
 	// Check to see if we have a valid task ID.
 	if _, err := os.Stat(configPath); !os.IsNotExist(err) {
 		inFile, inFileErr := os.Open(configPath)
