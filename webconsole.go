@@ -784,6 +784,7 @@ func main() {
 					}
 				} else {
 					fmt.Fprintf(theResponseWriter, "ERROR: " + taskErr.Error())
+					serveFile = false
 				}
 				if serveFile == true {
 					http.ServeFile(theResponseWriter, theRequest,  arguments["webroot"] + requestPath)
