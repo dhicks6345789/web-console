@@ -765,7 +765,7 @@ func main() {
 				}
 			}
 			if serveFile == true {
-				fmt.Println("Serve file: " + arguments["taskroot"] + "/" + task["taskID"] + "/www" + filePath)
+				fmt.Println("Serve file: " + requestPath)
 				taskList, taskErr := getTaskList()
 				if taskErr == nil {
 					for _, task := range taskList {
