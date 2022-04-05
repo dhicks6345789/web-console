@@ -413,7 +413,6 @@ func main() {
 			
 			serveFile := false
 			if requestPath == "/" {
-				fmt.Println("Serve index: " + arguments["webroot"] + "/index.html")
 				http.ServeFile(theResponseWriter, theRequest, arguments["webroot"] + "/index.html")
 			// Handle the getPublicTaskList API call (the one API call that doesn't require authentication).
 			} else if strings.HasPrefix(requestPath, "/api/getPublicTaskList") {
@@ -777,6 +776,7 @@ func main() {
 							if strings.HasSuffix(filePath, "/") {
 								filePath = filePath + "index.html"
 							}
+							fmt.Println("Serve file: " + arguments["taskroot"] + "/" + task["taskID"] + "/www" + filePath)
 							http.ServeFile(theResponseWriter, theRequest, arguments["taskroot"] + "/" + task["taskID"] + "/www" + filePath)
 							serveFile = false
 						}
