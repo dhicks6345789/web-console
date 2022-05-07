@@ -113,6 +113,7 @@ embed HTML in this file if you wish, complete with links or whatever other compo
 ### Bugs
 
 * Binary download section a bit pointless as change likely to happen in support files - better point people at build.
+* Add Pi / Mac support in install.sh.
 * Explain new (v0.1.1) "www" hosting feature.
 * Authorisation config for "www" folder.
 * On Windows, run batch files without having to explicitly run via cmd /c.
@@ -122,8 +123,9 @@ embed HTML in this file if you wish, complete with links or whatever other compo
 
 ### Features
 
-* Python (Flask) implementation to run on (for instance) [PythonAnywhere](https://www.pythonanywhere.com/).
 * Additions to the API to provide a mechanism for third-parties to handle authorisation.
-* Inputs from STDIN.
 * Better admin console.
+* Python (Flask) implementation to run on (for instance) [PythonAnywhere](https://www.pythonanywhere.com/).
+* Inputs from STDIN.
 * Optional ability to stop Task(?).
+* Auto-generated favicon icon(s)?
