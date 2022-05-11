@@ -19,9 +19,8 @@ cp webconsole /usr/local/bin
 [ ! -d /etc/webconsole/www ] && mkdir /etc/webconsole/www
 cp -r www/* /etc/webconsole/www
 
-# Set up systemd to run Webconsole.
-cp webconsole.service /etc/systemd/system/webconsole.service
-chmod 644 /etc/systemd/system/webconsole.service
+# Set up systemd to run Webconsole, if it isn't already.
+[ ! -f /etc/systemd/system/webconsole.service ] && cp webconsole.service /etc/systemd/system/webconsole.service && chmod 644 /etc/systemd/system/webconsole.service
 
 # Restart the webconsole service.
 systemctl start webconsole
