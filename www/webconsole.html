@@ -74,10 +74,10 @@
 				// Run the Task (if the Task is already running, this has no effect).
 				doAPICall("runTask", {}, function(result) {
 					if (result == "OK") {
-						document.getElementById("runTaskButton").html("<span class='spinner-border spinner-border-sm' role='status'></span> Running...");
-						document.getElementById("taskAlerts").html("");
-						document.getElementById("taskOutput").html("");
-						document.getElementById("taskResults").html("");
+						document.getElementById("runTaskButton").innerHTML = "<span class='spinner-border spinner-border-sm' role='status'></span> Running...";
+						document.getElementById("taskAlerts").innerHTML = "";
+						document.getElementById("taskOutput").innerHTML = "";
+						document.getElementById("taskResults").innerHTML = "";
 						outputLine = 0;
 						
 						// If the call returns "OK" then the task is running, subsequent calls to getTaskOutput will return the console output of the Task as it runs.
@@ -87,7 +87,7 @@
 						intervalFunction = setInterval(updateTaskOutput, 2000);
 					} else {
 						// If runTask didn't return "OK" then it returned an error, which we display in red for the user.
-						document.getElementById("taskAlerts").html("<div style='color:red'>" + result + "</div>");
+						document.getElementById("taskAlerts").innerHTML = "<div style='color:red'>" + result + "</div>";
 						document.getElementById("runTaskButton").prop("disabled", false);
 					}
 				});
@@ -106,9 +106,9 @@
 							} else if (value.trim() == "ERROR: EOF") {
 								clearInterval(intervalFunction);
 								intervalFunction = setInterval(keepAlive, 30000);
-								document.getElementById("runTaskButton").html("Run");
+								document.getElementById("runTaskButton").innerHTML = "Run";
 								document.getElementById("runTaskButton").prop("disabled", false);
-								document.getElementById("taskProgress").html("");
+								document.getElementById("taskProgress").innerHTML = "";
 								if (displayAlerts == true) {
 									document.getElementById("taskDone").show();
 								}
@@ -119,7 +119,7 @@
 									// percentage completion value, and update the progress bar accordingly.
 									progressBarName = value.substring(value.indexOf(":")+1, value.lastIndexOf(" ")).trim();
 									progressBarValue = value.substring(value.lastIndexOf(" ")+1, value.length).replace("%","").trim();
-									document.getElementById("taskProgress").html(progressBarName + ": " + progressBarValue + "% <div class='progress'><div class='progress-bar' role='progressbar' style='width:" + progressBarValue + "%' aria-valuenow='" + progressBarValue + "' aria-valuemin='0' aria-valuemax='100'></div></div>");
+									document.getElementById("taskProgress").innerHTML = progressBarName + ": " + progressBarValue + "% <div class='progress'><div class='progress-bar' role='progressbar' style='width:" + progressBarValue + "%' aria-valuenow='" + progressBarValue + "' aria-valuemin='0' aria-valuemax='100'></div></div>";
 								} else {
 									// Otherwise, display the line as a message for the user.
 									document.getElementById("taskOutput").innerHTML = document.getElementById("taskOutput").innerHTML + value + "\n";
@@ -133,10 +133,10 @@
 			
 			// Flip the "Show/Hide Output" button.
 			function flipOutputMessage() {
-				if (document.getElementById("showOutputButton").html() == "Show output") {
-					document.getElementById("showOutputButton").html("Hide output")
+				if (document.getElementById("showOutputButton").innerHTML = "Show output" {
+					document.getElementById("showOutputButton").innerHTML = "Hide output";
 				} else {
-					document.getElementById("showOutputButton").html("Show output")
+					document.getElementById("showOutputButton").innerHTML = "Show output";
 				}
 			}
 			
