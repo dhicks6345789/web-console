@@ -4,7 +4,7 @@ echo Installing Web Console $VERSION...
 # Work out what architecture we are installing on.
 ARCH=$(uname -m)
 BINARY=linux-amd64
-[ $ARCH == arm* ] && BINARY=linux-arm32
+[[ $ARCH == arm* ]] && BINARY=linux-arm32
 
 # Stop any existing Webconsole service.
 systemctl stop webconsole
