@@ -96,8 +96,7 @@
 			// Called periodically (every 2 seconds) after a Task has been started to update information for the user.
 			function updateTaskOutput() {
 				doAPICall("getTaskOutput", {"line":outputLine}, function(result) {
-					for (const value of result.split("\n")) {
-					//$.each(result.split("\n"), function(index, value) {
+					for (value of result.split("\n")) {
 						if (value.trim() != "") {
 							// If the Task has finished, reset the "Run" button state.
 							if (value.trim() == "ERROR: REDIRECT") {
