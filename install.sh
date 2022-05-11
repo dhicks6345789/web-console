@@ -1,15 +1,16 @@
+VERSION="0.1-beta"
 echo Installing Web Console $VERSION...
 
-# First, work out what architecture we are installing on.
-VERSION="0.1-beta"
+# Work out what architecture we are installing on.
 ARCH=$(uname -m)
 BINARY=linux-amd64
-[[ $ARCH == arm* ]] && BINARY=linux-arm32
+[ $ARCH == arm* ] && BINARY=linux-arm32
 
 # Stop any existing Webconsole service.
 systemctl stop webconsole
 
 # Download the appropriate binary file and make sure it's executable.
+echo Downloading binary for $BINARY...
 curl -L -s https://github.com/dhicks6345789/web-console/releases/download/v$VERSION/$BINARY -o /usr/local/bin/webconsole
 chmod u+x /usr/local/bin/webconsole
 
