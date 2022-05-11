@@ -70,7 +70,7 @@
 			// Run a Task.
 			function runTask() {
 				// First thing to do is disable the "Run" button so the user can't click it repeatadly.
-				document.getElementById("runTaskButton").prop("disabled", true);
+				document.getElementById("runTaskButton").disabled = true;
 				// Run the Task (if the Task is already running, this has no effect).
 				doAPICall("runTask", {}, function(result) {
 					if (result == "OK") {
@@ -88,7 +88,7 @@
 					} else {
 						// If runTask didn't return "OK" then it returned an error, which we display in red for the user.
 						document.getElementById("taskAlerts").innerHTML = "<div style='color:red'>" + result + "</div>";
-						document.getElementById("runTaskButton").prop("disabled", false);
+						document.getElementById("runTaskButton").disabled = false;
 					}
 				});
 			}
@@ -107,7 +107,7 @@
 								clearInterval(intervalFunction);
 								intervalFunction = setInterval(keepAlive, 30000);
 								document.getElementById("runTaskButton").innerHTML = "Run";
-								document.getElementById("runTaskButton").prop("disabled", false);
+								document.getElementById("runTaskButton").disabled = false;
 								document.getElementById("taskProgress").innerHTML = "";
 								if (displayAlerts == true) {
 									document.getElementById("taskDone").show();
