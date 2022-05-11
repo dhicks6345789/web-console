@@ -32,8 +32,30 @@
 			outputLine = 0;
 						
 			// A handy function to do an API call to the server.
-			function doAPICall(functionName, parameters, resultFunction) {
-				$.post("api/" + functionName, $.extend({taskID:taskID, token:token}, parameters), resultFunction);
+			//function doAPICall(functionName, parameters, resultFunction) {
+				//$.post("api/" + functionName, $.extend({taskID:taskID, token:token}, parameters), resultFunction);
+			//}
+			
+			function doAPICall(theMethod, theParams, theSuccessFunction, callMethod="POST") {
+				var apiCall = new XMLHttpRequest();
+				apiCall.onreadystatechange = function() {
+					if (apiCall.readyState == 4 && apiCall.status == 200) {
+						theSuccessFunction(apiCall.responseText);
+					}
+				}
+				URLEncodedParams = "";
+				for (const [paramKey, paramValue] of Object.entries(theParams)) {
+					URLEncodedParams = URLEncodedParams + encodeURIComponent(paramKey) + "=" + encodeURIComponent(paramValue) + "&";
+				}
+				URLEncodedParams = URLEncodedParams.slice(0, -1);        
+				if (callMethod == "GET") {
+					apiCall.open("GET", "/api/" + theMethod + "?" + URLEncodedParams, true);
+					apiCall.send();
+				} else {
+					apiCall.open("POST", "/api/" + theMethod, true);
+					apiCall.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+					apiCall.send(URLEncodedParams);
+				}
 			}
 			
 			// Simply calls the keepAlive API method to make sure the session's token is refreshed.
@@ -45,14 +67,14 @@
 			// Run a Task.
 			function runTask() {
 				// First thing to do is disable the "Run" button so the user can't click it repeatadly.
-				$("#runTaskButton").prop("disabled", true);
+				document.getElementById("runTaskButton").prop("disabled", true);
 				// Run the Task (if the Task is already running, this has no effect).
 				doAPICall("runTask", {}, function(result) {
 					if (result == "OK") {
-						$("#runTaskButton").html("<span class='spinner-border spinner-border-sm' role='status'></span> Running...");
-						$("#taskAlerts").html("");
-						$("#taskOutput").html("");
-						$("#taskResults").html("");
+						document.getElementById("runTaskButton").html("<span class='spinner-border spinner-border-sm' role='status'></span> Running...");
+						document.getElementById("taskAlerts").html("");
+						document.getElementById("taskOutput").html("");
+						document.getElementById("taskResults").html("");
 						outputLine = 0;
 						
 						// If the call returns "OK" then the task is running, subsequent calls to getTaskOutput will return the console output of the Task as it runs.
@@ -62,8 +84,8 @@
 						intervalFunction = setInterval(updateTaskOutput, 2000);
 					} else {
 						// If runTask didn't return "OK" then it returned an error, which we display in red for the user.
-						$("#taskAlerts").html("<div style='color:red'>" + result + "</div>");
-						$("#runTaskButton").prop("disabled", false);
+						document.getElementById("taskAlerts").html("<div style='color:red'>" + result + "</div>");
+						document.getElementById("runTaskButton").prop("disabled", false);
 					}
 				});
 			}
@@ -71,7 +93,8 @@
 			// Called periodically (every 2 seconds) after a Task has been started to update information for the user.
 			function updateTaskOutput() {
 				doAPICall("getTaskOutput", {"line":outputLine}, function(result) {
-					$.each(result.split("\n"), function(index, value) {
+					for (const value of result.split("\n")) {
+					//$.each(result.split("\n"), function(index, value) {
 						if (value.trim() != "") {
 							// If the Task has finished, reset the "Run" button state.
 							if (value.trim() == "ERROR: REDIRECT") {
@@ -81,11 +104,11 @@
 							} else if (value.trim() == "ERROR: EOF") {
 								clearInterval(intervalFunction);
 								intervalFunction = setInterval(keepAlive, 30000);
-								$("#runTaskButton").html("Run");
-								$("#runTaskButton").prop("disabled", false);
-								$("#taskProgress").html("");
+								document.getElementById("runTaskButton").html("Run");
+								document.getElementById("runTaskButton").prop("disabled", false);
+								document.getElementById("taskProgress").html("");
 								if (displayAlerts == true) {
-									$("#taskDone").show();
+									document.getElementById("taskDone").show();
 								}
 							} else {
 								// Include formatting.js.
@@ -94,10 +117,10 @@
 									// percentage completion value, and update the progress bar accordingly.
 									progressBarName = value.substring(value.indexOf(":")+1, value.lastIndexOf(" ")).trim();
 									progressBarValue = value.substring(value.lastIndexOf(" ")+1, value.length).replace("%","").trim();
-									$("#taskProgress").html(progressBarName + ": " + progressBarValue + "% <div class='progress'><div class='progress-bar' role='progressbar' style='width:" + progressBarValue + "%' aria-valuenow='" + progressBarValue + "' aria-valuemin='0' aria-valuemax='100'></div></div>");
+									document.getElementById("taskProgress").html(progressBarName + ": " + progressBarValue + "% <div class='progress'><div class='progress-bar' role='progressbar' style='width:" + progressBarValue + "%' aria-valuenow='" + progressBarValue + "' aria-valuemin='0' aria-valuemax='100'></div></div>");
 								} else {
 									// Otherwise, display the line as a message for the user.
-									$("#taskOutput").html($("#taskOutput").html() + value + "\n");
+									document.getElementById("taskOutput").html(document.getElementById("taskOutput").html() + value + "\n");
 								}
 								outputLine = outputLine + 1;
 							}
@@ -108,16 +131,16 @@
 			
 			// Flip the "Show/Hide Output" button.
 			function flipOutputMessage() {
-				if ($("#showOutputButton").html() == "Show output") {
-					$("#showOutputButton").html("Hide output")
+				if (document.getElementById("showOutputButton").html() == "Show output") {
+					document.getElementById("showOutputButton").html("Hide output")
 				} else {
-					$("#showOutputButton").html("Show output")
+					document.getElementById("showOutputButton").html("Show output")
 				}
 			}
 			
 			// Copy the webhook URL to the clipboard for the user.
 			function copyWebHook() {
-				copyText = $("#webHookLink")
+				copyText = document.getElementById("webHookLink")
 				copyText.select();
 				//copyText.setSelectionRange(0, 99999); // For mobile devices.
 				document.execCommand("copy");
@@ -125,7 +148,7 @@
 			
 			// Copy the CURL command to the clipboard for the user.
 			function copyCURLCommand() {
-				copyText = $("#CURLCommand")
+				copyText = document.getElementById("CURLCommand")
 				copyText.select();
 				document.execCommand("copy");
 			}
@@ -136,9 +159,9 @@
 				updateTaskOutput();
 				// Set the webhook value for the user - the "run" API call for this Task, handy for services such as IFTTT and Zapier.
 				pageURL = window.location.href.split("?")[0]
-				$("#webHookLink").val(pageURL.slice(0, pageURL.lastIndexOf("/")) + "/api/runTask?taskID=" + taskID);
+				document.getElementById("webHookLink").val(pageURL.slice(0, pageURL.lastIndexOf("/")) + "/api/runTask?taskID=" + taskID);
 				// Set the CURL command webhook value for the user - the "run" API call for this Task, handy for calling from the command line or a cron job / Windows schedualed task.
-				$("#CURLCommand").val("curl " + pageURL.slice(0, pageURL.lastIndexOf("/")) + "/api/runTask?taskID=" + taskID);
+				document.getElementById("CURLCommand").val("curl " + pageURL.slice(0, pageURL.lastIndexOf("/")) + "/api/runTask?taskID=" + taskID);
 				// If the URL includes "run" rather than "view", run the Task right away - handy for some users.
 				if (pageURL.endsWith("/run")) {
 					runTask();
