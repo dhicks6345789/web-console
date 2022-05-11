@@ -1,3 +1,5 @@
+# Build script for WebConsole. Tested on Debian, x86 and Raspberry Pi.
+
 echo Building Web Console...
 
 # Stop any existing running service.
@@ -10,9 +12,17 @@ go get golang.org/x/crypto/bcrypt
 go get github.com/360EntSecGroup-Skylar/excelize
 go build webconsole.go
 cp webconsole /usr/local/bin
-[ ! -d /etc/webconsole ] && mkdir /etc/webconsole
-cp --recursive www /etc/webconsole
 
-# Restart the webconsole service (if it exists).
+# Create the application's data folder and copy the default data files into it.
+[ ! -d /etc/webconsole ] && mkdir /etc/webconsole
+[ ! -d /etc/webconsole/tasks ] && mkdir /etc/webconsole/tasks
+[ ! -d /etc/webconsole/www ] && mkdir /etc/webconsole/www
+cp -r www/* /etc/webconsole/www
+
+# Set up systemd to run Webconsole.
+cp webconsole.service /etc/systemd/system/webconsole.service
+chmod 644 /etc/systemd/system/webconsole.service
+
+# Restart the webconsole service.
 systemctl start webconsole
 systemctl enable webconsole
