@@ -50,16 +50,15 @@ If you want the very latest version (built nightly from the Github source, might
 | ---------------- | ----------------------------------------------------------------------- |
 | Windows 32-bit   | [Download](https://www.sansay.co.uk/web-console/binaries/win-386.exe)   |
 | Windows 64-bit   | [Download](https://www.sansay.co.uk/web-console/binaries/win-amd64.exe) |
-| WWW Folder       | [Download](https://www.sansay.co.uk/web-console/www.zip)                |
-| ---------------- | ----------------------------------------------------------------------- |
 | Mac              | [Download](https://www.sansay.co.uk/web-console/binaries/darwin-amd64)  |
 | Linux 32-bit     | [Download](https://www.sansay.co.uk/web-console/binaries/linux-386)     |
 | Linux 64-bit     | [Download](https://www.sansay.co.uk/web-console/binaries/linux-amd64)   |
 | Linux ARM 32-bit | [Download](https://www.sansay.co.uk/web-console/binaries/linux-arm32)   |
 | Linux ARM 64-bit | [Download](https://www.sansay.co.uk/web-console/binaries/linux-arm64)   |
-| WWW Folder       | [Download](https://www.sansay.co.uk/web-console/www.tar.gz)             |
 
-You can pass an arument to the "install" script to tell it to install a specific release. The following command on MacOS and Linux should download the appropriate nightly binary for your platform and install it, along with the supporting "www" folder contents:
+As well as the appropriate binary for your platform (place in `/usr/local/bin` on Linux, `C:\Program Files\WebConsole` on Windows), you'll need the contents of the "www" folder (place in `/etc/webconsole/www` on Linux, `C:\Program Files\WebConsole\www` on Windows), available as a [zip file](https://www.sansay.co.uk/web-console/www.zip) for Windows or a [.tar.gz archive](https://www.sansay.co.uk/web-console/www.tar.gz) for MacOS and Linux.
+
+Rather than manually downloading the files listed above, you can pass an argument to the "install" script to tell it to install a specific release. The following command on MacOS and Linux should download the appropriate nightly binary for your platform and install it, along with the supporting "www" folder contents:
 ```
 curl -s https://www.sansay.co.uk/web-console/install.sh | sudo bash -s -- nightly
 ```
