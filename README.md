@@ -29,7 +29,16 @@ powershell -command "& {&'Invoke-WebRequest' -Uri https://www.sansay.co.uk/web-c
 
 ### From Source
 
-The source code is available on [Github](https://github.com/dhicks6345789/web-console). Written in Go, the source should be compileable on most paltforms. A build script is available in the root of the source tree.
+The source code is available on [Github](https://github.com/dhicks6345789/web-console). Written in Go, the source should be compileable on most platforms with a Go development environment available - the platform's default Go installation is generally fine.
+
+Webconsole depends on the following libraries:
+- [Resize](github.com/nfnt/resize): Simple bitmap image resizing library. Used in the implementation of favicons.
+- [Gotrace](github.com/dennwc/gotrace): A Go implentation of [Potrace](http://potrace.sourceforge.net/), for tracing bitmaps to SVG files. Used in the implementation of favicons.
+- [Golang-Image-ICO](github.com/kodeworks/golang-image-ico): An .ICO format image encoder. Used in the implementation of favicons.
+- [Bcrypt](golang.org/x/crypto/bcrypt): For password hashing. Used for basic authentication.
+- [Excelize](github.com/360EntSecGroup-Skylar/excelize): For loading Excel files.
+
+A simple bash [build script](https://github.com/dhicks6345789/web-console/blob/master/build.sh) is available in the root of the source tree (or a [batch file](https://github.com/dhicks6345789/web-console/blob/master/build.bat) if you're building on Windows).
 
 You can download specific releases from the Github [releases page](https://github.com/dhicks6345789/web-console/releases).
 
