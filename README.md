@@ -44,17 +44,30 @@ A simple bash [build script](https://github.com/dhicks6345789/web-console/blob/m
 
 You can download specific releases from the Github [releases page](https://github.com/dhicks6345789/web-console/releases).
 
-Or, for the very latest version (built nightly from the Github source, might have bugs), you can download nightly builds:
+If you don't want to build the source yourself but you want the very latest version (built nightly from the Github source, might have bugs), you can download nightly builds:
 
 | Platform         | Binary
 | ---------------- | ----------------------------------------------------------------------- |
 | Windows 32-bit   | [Download](https://www.sansay.co.uk/web-console/binaries/win-386.exe)   |
 | Windows 64-bit   | [Download](https://www.sansay.co.uk/web-console/binaries/win-amd64.exe) |
+| WWW Folder       | [Download](https://www.sansay.co.uk/web-console/www.zip)                |
+| ---------------- | ----------------------------------------------------------------------- |
 | Mac              | [Download](https://www.sansay.co.uk/web-console/binaries/darwin-amd64)  |
 | Linux 32-bit     | [Download](https://www.sansay.co.uk/web-console/binaries/linux-386)     |
 | Linux 64-bit     | [Download](https://www.sansay.co.uk/web-console/binaries/linux-amd64)   |
 | Linux ARM 32-bit | [Download](https://www.sansay.co.uk/web-console/binaries/linux-arm32)   |
 | Linux ARM 64-bit | [Download](https://www.sansay.co.uk/web-console/binaries/linux-arm64)   |
+| WWW Folder       | [Download](https://www.sansay.co.uk/web-console/www.tar.gz)             |
+
+The following command on MacOS and Linux should download the appropriate binary for your platform and install it, along with the supporting "www" folder contents:
+```
+curl -s https://www.sansay.co.uk/web-console/installDev.sh | sudo bash
+```
+
+Or, On Windows:
+```
+powershell -command "& {&'Invoke-WebRequest' -Uri https://www.sansay.co.uk/web-console/installDev.bat -OutFile install.bat}" && install.bat && erase install.bat
+```
 
 ## Usage
 
