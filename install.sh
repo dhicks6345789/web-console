@@ -19,14 +19,19 @@ systemctl stop webconsole
 echo Downloading binary for $BINARY...
 if [[ $VERSION == nightly ]]
 then
-  echo https://www.sansay.co.uk/web-console/binaries/$BINARY
+  curl -L -s https://www.sansay.co.uk/web-console/binaries/$BINARY -o /usr/local/bin/webconsole
 else
   curl -L -s https://github.com/dhicks6345789/web-console/releases/download/v$VERSION/$BINARY -o /usr/local/bin/webconsole
 fi
 chmod u+x /usr/local/bin/webconsole
 
 # Download the support files bundle and un-bundle it.
-curl -L -s https://github.com/dhicks6345789/web-console/archive/v$VERSION.tar.gz | tar xz
+if [[ $VERSION == nightly ]]
+then
+  curl -L -s https://www.sansay.co.uk/web-console/www.tar.gz | tar xz
+else
+  curl -L -s https://github.com/dhicks6345789/web-console/archive/v$VERSION.tar.gz | tar xz
+fi
 
 # Create the application's data folder and copy the default data files into it.
 [ ! -d /etc/webconsole ] && mkdir /etc/webconsole
