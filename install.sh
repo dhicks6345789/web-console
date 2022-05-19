@@ -28,7 +28,8 @@ chmod u+x /usr/local/bin/webconsole
 # Download the support files bundle and un-bundle it.
 if [[ $VERSION == nightly ]]
 then
-  curl -L -s https://www.sansay.co.uk/web-console/www.tar.gz | tar xz --directory=web-console-nightly
+  mkdir web-console-nightly
+  curl -L -s https://www.sansay.co.uk/web-console/www.tar.gz | tar xz -C web-console-nightly
 else
   curl -L -s https://github.com/dhicks6345789/web-console/archive/v$VERSION.tar.gz | tar xz
 fi
