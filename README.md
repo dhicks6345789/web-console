@@ -27,7 +27,7 @@ On Windows, you can download and run an install batch file (installs the latest 
 powershell -command "& {&'Invoke-WebRequest' -Uri https://www.sansay.co.uk/web-console/install.bat -OutFile install.bat}" && install.bat && erase install.bat
 ```
 
-### From Source
+### Compiling From Source
 
 The source code is available on [Github](https://github.com/dhicks6345789/web-console). Written in Go, the source should be compileable on most platforms with a Go development environment available - the platform's default Go installation is generally fine.
 
@@ -40,11 +40,11 @@ Webconsole depends on the following libraries:
 
 A simple bash [build script](https://github.com/dhicks6345789/web-console/blob/master/build.sh) is available in the root of the source tree (or a [batch file](https://github.com/dhicks6345789/web-console/blob/master/build.bat) if you're building on Windows).
 
-### Releases
+### By Downloading Releases
 
-You can download specific releases from the Github [releases page](https://github.com/dhicks6345789/web-console/releases).
+If you don't want to build the source yourself you can download specific releases from the Github [releases page](https://github.com/dhicks6345789/web-console/releases).
 
-If you don't want to build the source yourself but you want the very latest version (built nightly from the Github source, might have bugs), you can download nightly builds:
+If you want the very latest version (built nightly from the Github source, might have bugs), you can download nightly builds:
 
 | Platform         | Binary
 | ---------------- | ----------------------------------------------------------------------- |
@@ -59,15 +59,16 @@ If you don't want to build the source yourself but you want the very latest vers
 | Linux ARM 64-bit | [Download](https://www.sansay.co.uk/web-console/binaries/linux-arm64)   |
 | WWW Folder       | [Download](https://www.sansay.co.uk/web-console/www.tar.gz)             |
 
-The following command on MacOS and Linux should download the appropriate binary for your platform and install it, along with the supporting "www" folder contents:
+You can pass an arument to the "install" script to tell it to install a specific release. The following command on MacOS and Linux should download the appropriate nightly binary for your platform and install it, along with the supporting "www" folder contents:
 ```
-curl -s https://www.sansay.co.uk/web-console/installDev.sh | sudo bash
+curl -s https://www.sansay.co.uk/web-console/install.sh | sudo bash -s -- nightly
 ```
 
 Or, On Windows:
 ```
-powershell -command "& {&'Invoke-WebRequest' -Uri https://www.sansay.co.uk/web-console/installDev.bat -OutFile install.bat}" && install.bat && erase install.bat
+powershell -command "& {&'Invoke-WebRequest' -Uri https://www.sansay.co.uk/web-console/install.bat -OutFile install.bat}" && install.bat && erase install.bat
 ```
+Just replace "nightly" in the command line above with the release version you want (e.g. "v1.1") if you want a specific release.
 
 ## Usage
 
