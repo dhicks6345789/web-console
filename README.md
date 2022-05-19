@@ -40,6 +40,8 @@ Webconsole depends on the following libraries:
 
 A simple bash [build script](https://github.com/dhicks6345789/web-console/blob/master/build.sh) is available in the root of the source tree (or a [batch file](https://github.com/dhicks6345789/web-console/blob/master/build.bat) if you're building on Windows).
 
+### Releases
+
 You can download specific releases from the Github [releases page](https://github.com/dhicks6345789/web-console/releases).
 
 Or, for the very latest version (built nightly from the Github source, might have bugs), you can download nightly builds:
