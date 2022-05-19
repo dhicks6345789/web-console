@@ -47,4 +47,4 @@ systemctl start webconsole
 systemctl enable webconsole
 
 # Clear out the temporary bundle folder.
-rm -rf web-console-$VERSION
+#rm -rf web-console-$VERSION
