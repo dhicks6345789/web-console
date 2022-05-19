@@ -1,4 +1,10 @@
 VERSION="0.1-beta"
+
+if [ ! -z "$1" ]
+then
+  VERSION=$1
+fi
+
 echo Installing Web Console $VERSION...
 
 # Work out what architecture we are installing on.
@@ -11,7 +17,12 @@ systemctl stop webconsole
 
 # Download the appropriate binary file and make sure it's executable.
 echo Downloading binary for $BINARY...
-curl -L -s https://github.com/dhicks6345789/web-console/releases/download/v$VERSION/$BINARY -o /usr/local/bin/webconsole
+if [[ $VERSION == nightly ]]
+then
+  echo https://www.sansay.co.uk/web-console/binaries/$BINARY
+else
+  curl -L -s https://github.com/dhicks6345789/web-console/releases/download/v$VERSION/$BINARY -o /usr/local/bin/webconsole
+fi
 chmod u+x /usr/local/bin/webconsole
 
 # Download the support files bundle and un-bundle it.
