@@ -404,6 +404,10 @@ func main() {
 			
 			// The default root - serve index.html.
 			requestPath := theRequest.URL.Path
+			
+			// Debugging - print the request path.
+			fmt.Println("webconsole: " + requestPath)
+			
 			if strings.HasPrefix(requestPath, arguments["pathPrefix"]) {
 				requestPath = requestPath[len(arguments["pathPrefix"]):]
 			}
