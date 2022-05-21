@@ -31,11 +31,6 @@
 			var intervalFunction;
 			var displayAlerts = false;
 			outputLine = 0;
-						
-			// A handy function to do an API call to the server.
-			//function doAPICall(functionName, parameters, resultFunction) {
-				//$.post("api/" + functionName, $.extend({taskID:taskID, token:token}, parameters), resultFunction);
-			//}
 			
 			function doAPICall(theMethod, theParams, theSuccessFunction, callMethod="POST") {
 				theParams["taskID"] = taskID;
