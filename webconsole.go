@@ -293,6 +293,7 @@ func main() {
 	arguments["new"] = "false"
 	arguments["port"] = "8090"
 	arguments["localOnly"] = "true"
+	arguments["debug"] = "false"
 	setArgumentIfPathExists("config", []string {"config.csv", "/etc/webconsole/config.csv", "C:\\Program Files\\WebConsole\\config.csv"})
 	setArgumentIfPathExists("webroot", []string {"www", "/etc/webconsole/www", "C:\\Program Files\\WebConsole\\www", ""})
 	setArgumentIfPathExists("taskroot", []string {"tasks", "/etc/webconsole/tasks", "C:\\Program Files\\WebConsole\\tasks", ""})
@@ -405,8 +406,10 @@ func main() {
 			// The default root - serve index.html.
 			requestPath := theRequest.URL.Path
 			
-			// Debugging - print the request path.
-			fmt.Println("webconsole: " + requestPath)
+			// Print the request path.
+			if arguments["debug"] == "true" {
+				fmt.Println("webconsole: " + requestPath)
+			}
 			
 			if strings.HasPrefix(requestPath, arguments["pathPrefix"]) {
 				requestPath = requestPath[len(arguments["pathPrefix"]):]
