@@ -58,6 +58,7 @@
 			
 			// Simply calls the keepAlive API method to make sure the session's token is refreshed.
 			function keepAlive() {
+				console.log("Keep alive...");
 				doAPICall("keepAlive", {}, function(result) {
 				});
 			}
@@ -90,6 +91,7 @@
 			
 			// Called periodically (every 2 seconds) after a Task has been started to update information for the user.
 			function updateTaskOutput() {
+				console.log("Update task output...");
 				doAPICall("getTaskOutput", {"line":outputLine}, function(result) {
 					for (value of result.split("\n")) {
 						if (value.trim() != "") {
