@@ -354,6 +354,7 @@ func main() {
 		fmt.Println("  stdout - hit Ctrl-C to quit. By itself, the start command can be handy for")
 		fmt.Println("  quickly debugging. Run install.bat / install.sh to create a Windows service or")
 		fmt.Println("  Linux / MacOS deamon.")
+		fmt.Println("--debug: like \"start\", but prints more information.")
 		fmt.Println("--localOnly: default is \"true\", in which case the built-in webserver will only")
 		fmt.Println("  respond to requests from the local server.")
 		fmt.Println("--port: the port number the web server should listen out on. Defaults to 8090.")
