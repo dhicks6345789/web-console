@@ -56,7 +56,7 @@ If you want the very latest version (built nightly from the Github source, might
 | Linux ARM 32-bit | [Download](https://www.sansay.co.uk/web-console/binaries/linux-arm32)   |
 | Linux ARM 64-bit | [Download](https://www.sansay.co.uk/web-console/binaries/linux-arm64)   |
 
-As well as the appropriate binary for your platform (place in `/usr/local/bin` on Linux, `C:\Program Files\WebConsole` on Windows), you'll need the contents of the "www" folder (place in `/etc/webconsole/www` on Linux, `C:\Program Files\WebConsole\www` on Windows), available as a [zip file](https://www.sansay.co.uk/web-console/www.zip) for Windows or a [.tar.gz archive](https://www.sansay.co.uk/web-console/www.tar.gz) for MacOS and Linux.
+As well as the appropriate binary for your platform (place in `/usr/local/bin` on Linux, `C:\Program Files\WebConsole` on Windows), you'll need the contents of the "www" folder (place in `/etc/webconsole/www` on Linux, `C:\Program Files\WebConsole\www` on Windows), available as a [zip file](https://www.sansay.co.uk/web-console/web-console-nightly.zip) for Windows or a [.tar.gz archive](https://www.sansay.co.uk/web-console/web-console-nightly.tar.gz) for MacOS and Linux.
 
 Rather than manually downloading the files listed above, you can pass an argument to the "install" script to tell it to install a specific release. The following command on MacOS and Linux should download the appropriate nightly binary for your platform and install it, along with the supporting "www" folder contents:
 ```
@@ -67,7 +67,7 @@ Or, On Windows:
 ```
 powershell -command "& {&'Invoke-WebRequest' -Uri https://www.sansay.co.uk/web-console/install.bat -OutFile install.bat}" && install.bat && erase install.bat
 ```
-Just replace "nightly" in the command line above with the release version you want (e.g. "v1.1") if you want a specific release.
+Just replace "nightly" in the command line above with the release version you want (e.g. "1.1") if you want a specific release.
 
 ## Usage
 
