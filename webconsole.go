@@ -299,7 +299,7 @@ func main() {
 	setArgumentIfPathExists("taskroot", []string {"tasks", "/etc/webconsole/tasks", "C:\\Program Files\\WebConsole\\tasks", ""})
 	arguments["pathPrefix"] = ""
 	if len(os.Args) == 1 {
-		fmt.Println("Webconsole - starting webserver. \"webconsole --help\" for more details.")
+		arguments["start"] = "true"
 	} else {
 		arguments["start"] = "false"
 	}
@@ -321,6 +321,14 @@ func main() {
 	}
 	if currentArgKey != "" {
 		arguments[strings.ToLower(currentArgKey[2:])] = "true"
+	}
+	
+	if arguments["debug"] == "true" {
+		arguments["start"] = "true"
+	}
+	
+	if arguments["start"] == "true" {
+		fmt.Println("Webconsole - starting webserver. \"webconsole --help\" for more details.")
 	}
 	
 	// Print the help / usage documentation if the user wanted.
