@@ -29,7 +29,7 @@ chmod u+x /usr/local/bin/webconsole
 if [[ $VERSION == nightly ]]
 then
   mkdir web-console-nightly
-  curl -L -s https://www.sansay.co.uk/web-console/www.tar.gz | tar xz -C web-console-nightly
+  curl -L -s https://www.sansay.co.uk/web-console/web-console-nightly.tar.gz | tar xz -C web-console-nightly
 else
   curl -L -s https://github.com/dhicks6345789/web-console/archive/v$VERSION.tar.gz | tar xz
 fi
