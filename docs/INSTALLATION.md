@@ -1,24 +1,30 @@
 # Installation
 
-## Mac / Linux (including Raspberry Pi)
-
-On MacOS or Linux, you can download and run an install script (installs the latest release) with one command:
-```
-curl -s https://www.sansay.co.uk/web-console/install.sh | sudo bash
-```
-
-## Windows
-
-On Windows, you can download and run an install batch file (installs the latest release) with one command:
-```
-powershell -command "& {&'Invoke-WebRequest' -Uri https://www.sansay.co.uk/web-console/install.bat -OutFile install.bat}" && install.bat && erase install.bat
-```
-
 ## Installing Specific Releases
 
-You can pass an argument to the "install" script to tell it to install a specific release. For example, on Linux: `curl -s https://www.sansay.co.uk/web-console/install.sh | sudo bash -s -- 0.1-beta.2` Or, On Windows `powershell -command "& {&'Invoke-WebRequest' -Uri https://www.sansay.co.uk/web-console/install.bat -OutFile install.bat}" && install.bat && erase install.bat`
+You can pass an argument to the "install" script to tell it to install a specific release:
 
-If you use a parameter of "nightly" as the version, the latest version built nightly from the Github source (might have bugs) will be installed.
+### Mac / Linux (including Raspberry Pi)
+```
+curl -s https://www.sansay.co.uk/web-console/install.sh | sudo bash -s -- 0.1-beta.2
+```
+
+### Windows
+```
+powershell -command "& {&'Invoke-WebRequest' -Uri https://www.sansay.co.uk/web-console/install.bat -OutFile install.bat}" && install.bat 0.1-beta.2 && erase install.bat
+```
+
+If you use a parameter of "nightly" as the version, the latest version built nightly from the Github source (might have bugs) will be installed:
+
+### Mac / Linux (including Raspberry Pi)
+```
+curl -s https://www.sansay.co.uk/web-console/install.sh | sudo bash -s -- nightly
+```
+
+### Windows
+```
+powershell -command "& {&'Invoke-WebRequest' -Uri https://www.sansay.co.uk/web-console/install.bat -OutFile install.bat}" && install.bat nightly && erase install.bat
+```
 
 You can manually download binary and source packages from the Github [releases page](https://github.com/dhicks6345789/web-console/releases). If you want the very latest version, you can download nightly builds:
 
