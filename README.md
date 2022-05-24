@@ -27,7 +27,7 @@ On Windows, you can download and run an install batch file (installs the latest 
 powershell -command "& {&'Invoke-WebRequest' -Uri https://www.sansay.co.uk/web-console/install.bat -OutFile install.bat}" && install.bat && erase install.bat
 ```
 
-For more details, including details of building from source, see the [installation](docs/CONTRIBUTING.md) page.
+For more details, including details of building from source, see the [installation](docs/INSTALLATION.md) page.
 
 ## Usage
 
