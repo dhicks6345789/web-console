@@ -146,8 +146,8 @@ embed HTML in this file if you wish, complete with links or whatever other compo
 ### Features
 
 * Additions to the API to provide a mechanism for third-parties to handle authorisation.
-* * Mystart.Online
-* * Cloudflare
+  * Mystart.Online
+  * Cloudflare
 * Better admin console.
 * Python (Flask) implementation to run on (for instance) [PythonAnywhere](https://www.pythonanywhere.com/).
 * Inputs from STDIN.
