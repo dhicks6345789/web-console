@@ -1,4 +1,4 @@
-VERSION="0.1-beta"
+VERSION="0.1-beta.2"
 
 if [ ! -z "$1" ]
 then
