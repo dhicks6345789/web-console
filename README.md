@@ -136,18 +136,18 @@ embed HTML in this file if you wish, complete with links or whatever other compo
 
 ### Bugs
 
-* Binary download section a bit pointless as change likely to happen in support files - better point people at build.
-* Add Pi / Mac support in install.sh.
 * Explain new (v0.1.1) "www" hosting feature.
+* Add Mac support in install.sh.
 * Authorisation config for "www" folder.
 * On Windows, run batch files without having to explicitly run via cmd /c.
-* Return error message if batch file doesn't run, don't just sit.
+* Return error message if task file doesn't run, don't just sit.
 * Live messages view not always showing every line, only gets all lines on page refresh.
-* Upgrade Bootstrap.
 
 ### Features
 
 * Additions to the API to provide a mechanism for third-parties to handle authorisation.
+ * Mystart.Online
+ * Cloudflare
 * Better admin console.
 * Python (Flask) implementation to run on (for instance) [PythonAnywhere](https://www.pythonanywhere.com/).
 * Inputs from STDIN.
