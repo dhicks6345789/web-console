@@ -27,24 +27,13 @@ On Windows, you can download and run an install batch file (installs the latest 
 powershell -command "& {&'Invoke-WebRequest' -Uri https://www.sansay.co.uk/web-console/install.bat -OutFile install.bat}" && install.bat && erase install.bat
 ```
 
-### Compiling From Source
+### Installing Specific Releases
 
-The source code is available on [Github](https://github.com/dhicks6345789/web-console). Written in Go, the source should be compileable on most platforms with a Go development environment available - the platform's default Go installation is generally fine.
+You can pass an argument to the "install" script to tell it to install a specific release. For example, on Linux: `curl -s https://www.sansay.co.uk/web-console/install.sh | sudo bash -s -- 0.1-beta.2` Or, On Windows `powershell -command "& {&'Invoke-WebRequest' -Uri https://www.sansay.co.uk/web-console/install.bat -OutFile install.bat}" && install.bat && erase install.bat`
 
-Webconsole depends on the following libraries:
-- [Resize](github.com/nfnt/resize): Simple bitmap image resizing library. Used in the implementation of favicons.
-- [Gotrace](github.com/dennwc/gotrace): A Go implentation of [Potrace](http://potrace.sourceforge.net/), for tracing bitmaps to SVG files. Used in the implementation of favicons.
-- [Golang-Image-ICO](github.com/kodeworks/golang-image-ico): An .ICO format image encoder. Used in the implementation of favicons.
-- [Bcrypt](golang.org/x/crypto/bcrypt): For password hashing. Used for basic authentication.
-- [Excelize](github.com/360EntSecGroup-Skylar/excelize): For loading Excel files.
+If you use a parameter of "nightly" as the version, the latest version built nightly from the Github source (might have bugs) will be installed.
 
-A simple bash [build script](https://github.com/dhicks6345789/web-console/blob/master/build.sh) is available in the root of the source tree (or a [batch file](https://github.com/dhicks6345789/web-console/blob/master/build.bat) if you're building on Windows).
-
-### Downloading Releases
-
-If you don't want to build the source yourself you can download specific releases from the Github [releases page](https://github.com/dhicks6345789/web-console/releases).
-
-If you want the very latest version (built nightly from the Github source, might have bugs), you can download nightly builds:
+You can manually download binary and source packages from the Github [releases page](https://github.com/dhicks6345789/web-console/releases). If you want the very latest version, you can download nightly builds:
 
 | Platform         | Binary
 | ---------------- | ----------------------------------------------------------------------- |
@@ -58,16 +47,18 @@ If you want the very latest version (built nightly from the Github source, might
 
 As well as the appropriate binary for your platform (place in `/usr/local/bin` on Linux, `C:\Program Files\WebConsole` on Windows), you'll need the contents of the "www" folder (place in `/etc/webconsole/www` on Linux, `C:\Program Files\WebConsole\www` on Windows), available as a [zip file](https://www.sansay.co.uk/web-console/web-console-nightly.zip) for Windows or a [.tar.gz archive](https://www.sansay.co.uk/web-console/web-console-nightly.tar.gz) for MacOS and Linux.
 
-Rather than manually downloading the files listed above, you can pass an argument to the "install" script to tell it to install a specific release. The following command on MacOS and Linux should download the appropriate nightly binary for your platform and install it, along with the supporting "www" folder contents:
-```
-curl -s https://www.sansay.co.uk/web-console/install.sh | sudo bash -s -- nightly
-```
+### Building From Source
 
-Or, On Windows:
-```
-powershell -command "& {&'Invoke-WebRequest' -Uri https://www.sansay.co.uk/web-console/install.bat -OutFile install.bat}" && install.bat && erase install.bat
-```
-Just replace "nightly" in the command line above with the release version you want (e.g. "1.1") if you want a specific release.
+The source code is available on [Github](https://github.com/dhicks6345789/web-console). Written in Go, the source should be compileable on most platforms with a Go development environment available - the platform's default Go installation is generally fine.
+
+Webconsole depends on the following libraries:
+- [Resize](github.com/nfnt/resize): Simple bitmap image resizing library. Used in the implementation of favicons.
+- [Gotrace](github.com/dennwc/gotrace): A Go implentation of [Potrace](http://potrace.sourceforge.net/), for tracing bitmaps to SVG files. Used in the implementation of favicons.
+- [Golang-Image-ICO](github.com/kodeworks/golang-image-ico): An .ICO format image encoder. Used in the implementation of favicons.
+- [Bcrypt](golang.org/x/crypto/bcrypt): For password hashing. Used for basic authentication.
+- [Excelize](github.com/360EntSecGroup-Skylar/excelize): For loading Excel files.
+
+A simple bash [build script](https://github.com/dhicks6345789/web-console/blob/master/build.sh) is available in the root of the source tree (or a [batch file](https://github.com/dhicks6345789/web-console/blob/master/build.bat) if you're building on Windows).
 
 ## Usage
 
