@@ -1,3 +1,4 @@
+```
 Webconsole - a simple way to turn a command line application into a web app.
 Runs as a simple web server to host Task pages that allow the end-user to
 simply click a button to run a batch / script / etc file. Note that by itself,
@@ -35,3 +36,4 @@ Usage: webconsole [--new] [--list] [--start] [--localOnly true/false] [--port in
 --webroot: the folder to use for the web root.
 
 --taskroot: the folder to use to store Tasks.
+```
