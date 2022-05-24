@@ -26,7 +26,9 @@ curl -s https://www.sansay.co.uk/web-console/install.sh | sudo bash -s -- nightl
 powershell -command "& {&'Invoke-WebRequest' -Uri https://www.sansay.co.uk/web-console/install.bat -OutFile install.bat}" && install.bat nightly && erase install.bat
 ```
 
-You can manually download binary and source packages from the Github [releases page](https://github.com/dhicks6345789/web-console/releases). If you want the very latest version, you can download nightly builds:
+## Download
+
+You can download binary and source packages from the Github [releases page](https://github.com/dhicks6345789/web-console/releases). If you want the very latest version, you can download nightly builds:
 
 | Platform         | Binary
 | ---------------- | ----------------------------------------------------------------------- |
