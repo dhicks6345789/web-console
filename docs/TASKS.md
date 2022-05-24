@@ -13,7 +13,7 @@ The default contents of formatting.js are fairly simple, just formatting text in
 
 ## Custom Favicon
 
-If you create a new Task via the command-line tool you will be given the option to randomly assign a favicon, selected from the "favicons" folder. You can use your own faviocn if preffered, just copy the appropriate icon (just name it "favicon.png") to an individual Task's folder, or the root of the "tasks" folder to set the same favicon for all Tasks. The web server automatically takes care of providing different versions of the favicon as needed, complete with custom browserconfig.xml, site.webmanifest and Apple mask-icon vector SVG traced from the original file - see the header block in the [HTML of the Task user interface](https://github.com/dhicks6345789/web-console/blob/master/www/webconsole.html) for details.
+If you create a new Task via the command-line tool you will be given the option to randomly assign a favicon, selected from the "favicons" folder. You can use your own favicon if preffered, just copy the appropriate icon (just name it "favicon.png") to an individual Task's folder, or the root of the "tasks" folder to set the same favicon for all Tasks. The web server automatically takes care of providing different versions of the favicon as needed, complete with custom browserconfig.xml, site.webmanifest and Apple mask-icon vector SVG traced from the original file - see the header block in the [HTML of the Task user interface](https://github.com/dhicks6345789/web-console/blob/master/www/webconsole.html) for details.
 
 A set of favicons are provided from the free "fruit" [collection](https://www.iconfinder.com/iconsets/fruits-52) from Thiago Silva.
 
