@@ -2,7 +2,7 @@
 
 ## Installing Specific Releases
 
-You can pass an argument to the "install" script to tell it to install a specific release:
+You can pass an argument to the "install" script to tell it to install a specific release, e.g.:
 
 ### Mac / Linux (including Raspberry Pi)
 ```
