@@ -96,7 +96,7 @@ Thw web user interface is constructed using [Bootstrap 5](https://getbootstrap.c
 
 ### Bugs
 
-* Explain new (v0.1.1) "www" hosting feature.
+* Output - does output.html get displayed properly?
 * Add Mac support in install.sh.
 * Authorisation config for "www" folder.
 * On Windows, run batch files without having to explicitly run via cmd /c.
@@ -108,8 +108,13 @@ Thw web user interface is constructed using [Bootstrap 5](https://getbootstrap.c
 * Additions to the API to provide a mechanism for third-parties to handle authorisation.
   * Mystart.Online
   * Cloudflare
-* Better admin console.
-* Python (Flask) implementation to run on (for instance) [PythonAnywhere](https://www.pythonanywhere.com/).
 * Inputs from STDIN.
+* Better admin console.
+  * Add "New Task" dialog, with pre-defined "Type" field for quick starts:
+    * Hugo
+    * Jekyll
+    * 11ty
+  * Ability to connect cloud storage.
+* Python (Flask) implementation to run on (for instance) [PythonAnywhere](https://www.pythonanywhere.com/).
 * Optional ability to stop Task(?).
 * Auto-generated favicon icon(s)?
