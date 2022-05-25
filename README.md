@@ -90,7 +90,7 @@ This project contains binaries from:
 
 [tunnelto.dev](https://tunnelto.dev), Copyright (c) 2020 Alex Grinman, used to provide secure connections through firewalls. MIT license.
 
-Thw web user interface is constructed using [Bootstrap 5](https://getbootstrap.com/docs/5.0/getting-started/introduction/) and the [JQuery](https://jquery.com/) and [Popper](https://popper.js.org/) JavaScript libraries. All required library files are included in the project and release distributions so Web Console can run as a self-contained application on a non-networked workstation if needed.
+Thw web user interface is constructed using [Bootstrap 5](https://getbootstrap.com/docs/5.0/getting-started/introduction/) with [Popper](https://popper.js.org/). All required library files are included in the project and release distributions so Web Console can run as a self-contained application on a non-networked workstation / kiosk device if needed.
 
 ## To Do
 
