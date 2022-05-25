@@ -39,7 +39,7 @@ Web Console runs "tasks", individual scripts / applications that each have their
 
 If you are writing a new script or command line utility (or reformatting the output from an existing utility) you can produce output specifically for Web Console to interpret and display in certain ways. For more details, see ...
 
-The Webconsole binary is also used as a command-line tool for configuration. At the command line, type `webconsole --help` for a [command summary](docs/COMMANDS.md).
+The Webconsole binary is also used as a command-line tool for configuration. At the command line, type `webconsole --help` for a [command summary](https://www.sansay.co.uk/webconsole/view?taskID=5wtjohtgbsc69bhi).
 
 ### Startup
 
