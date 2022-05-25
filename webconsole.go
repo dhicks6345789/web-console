@@ -44,7 +44,7 @@ import (
 const letters = "abcdefghijklmnopqrstuvwxyz1234567890"
 
 // The current release version - value provided at compile time.
-var releaseVersion String
+var releaseVersion string
 
 // A map to store any arguments passed on the command line.
 var arguments = map[string]string{}
