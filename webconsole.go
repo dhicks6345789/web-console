@@ -44,7 +44,7 @@ import (
 const letters = "abcdefghijklmnopqrstuvwxyz1234567890"
 
 // The current release version - value provided at compile time.
-var releaseVersion string
+var buildVersion string
 
 // A map to store any arguments passed on the command line.
 var arguments = map[string]string{}
@@ -337,9 +337,11 @@ func main() {
 	// Print the help / usage documentation if the user wanted.
 	if arguments["help"] == "true" {
 		//           12345678901234567890123456789012345678901234567890123456789012345678901234567890
-		fmt.Println("Webconsole v" + releaseVersion + " - a simple way to turn a command line application")
-		fmt.Println("into a web app. Runs as a simple web server to host Task pages that allow the")
-		fmt.Println("end-user to simply click a button to run a batch / script / etc file.")
+		fmt.Println("Webconsole v" + buildVersion + ".")
+		fmt.Println("")
+		fmt.Println("A simple way to turn a command line application into a web app. Runs as a")
+		fmt.Println("web server to host Task pages that allow the end-user to simply click a button")
+		fmt.Println("to run a batch / script / etc file.")
 		fmt.Println("")
 		fmt.Println("Note that by itself, Webconsole doesn't handle HTTPS. If you are")
 		fmt.Println("installing on a world-facing server you should use a proxy server that handles")
