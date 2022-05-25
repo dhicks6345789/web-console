@@ -110,10 +110,14 @@ Thw web user interface is constructed using [Bootstrap 5](https://getbootstrap.c
   * Cloudflare
 * Inputs from STDIN.
 * Better admin console.
-  * Add "New Task" dialog, with pre-defined "Type" field for quick starts:
+  * Add "New Task" dialog, with (configurable) pre-defined "Type" field for quick starts:
     * Hugo
     * Jekyll
     * 11ty
+    * Docs-To-Markdown
+    * Dashboard
+    * Slideshow
+    * Yearbook
   * Ability to connect cloud storage.
 * Python (Flask) implementation to run on (for instance) [PythonAnywhere](https://www.pythonanywhere.com/).
 * Optional ability to stop Task(?).
