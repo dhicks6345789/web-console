@@ -1,5 +1,7 @@
 # Build script for WebConsole. Tested on Debian, x86 and Raspberry Pi.
 
+source VERSION
+
 echo Building Web Console...
 
 # Stop any existing running service.
