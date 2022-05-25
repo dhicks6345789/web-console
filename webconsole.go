@@ -43,6 +43,9 @@ import (
 // Characters to use to generate new ID strings. Lowercase only - any user-provided IDs will be lowercased before use.
 const letters = "abcdefghijklmnopqrstuvwxyz1234567890"
 
+// The current release version - value provided at compile time.
+var releaseVersion String
+
 // A map to store any arguments passed on the command line.
 var arguments = map[string]string{}
 
@@ -334,7 +337,7 @@ func main() {
 	// Print the help / usage documentation if the user wanted.
 	if arguments["help"] == "true" {
 		//           12345678901234567890123456789012345678901234567890123456789012345678901234567890
-		fmt.Println("Webconsole - a simple way to turn a command line application into a web app.")
+		fmt.Println("Webconsole v" + releaseVersion + " - a simple way to turn a command line application into a web app.")
 		fmt.Println("Runs as a simple web server to host Task pages that allow the end-user to")
 		fmt.Println("simply click a button to run a batch / script / etc file. Note that by itself,")
 		fmt.Println("Webconsole doesn't handle HTTPS. If you are installing on a world-facing server")
