@@ -1,5 +1,5 @@
 # Web Console
-Provides a simple web interface for command-line applications - quickly publish your Python / Bash / Powershell / Batch / etc script as a basic web app. Turns STDOUT into formatted text, alerts and progress indicators.
+Provides a simple web interface for command-line applications - quickly publish a Python / Bash / Powershell / Batch / etc script as a basic web app. Turns STDOUT into formatted text, alerts and progress indicators.
 
 Cross-platform, runs as a self-contained web server, binaries are available for Windows, Linux (including Raspberry Pi) and MacOS. The install process includes setup as a service on each platform and, optionally, for the cross-platform [tunnelto.dev](https://tunnelto.dev/) service to provide an HTTPS-secured connection through a firewall.
 
@@ -16,6 +16,8 @@ You can see see a [live demo](https://www.sansay.co.uk/webconsole/view?taskID=4j
 The above link runs a simple [demo application](https://github.com/dhicks6345789/web-console/blob/master/examples/test.py) that produces some example output, showing the different types of output message supported. It also prints a progress percentage, which is displayed by Web Console as a progress bar.
 
 ## Installation
+
+The intention of Web Console is to give beginner programmers a simple interface for writing small applications and getting those in front of end-users as simply and quickly as possible, with no knowledge of Windows or Linux system administration needed. However, there is some setup and configuration needed to get an instance of Web Console up and running, so the rest of this document is probably best suited for people with some system administration experience. Web Console is, hopefully, quite simple to install and configure, as far as this kind of application goes, and hopefully the following instructions are easy to follow.
 
 ### Mac / Linux (including Raspberry Pi)
 
