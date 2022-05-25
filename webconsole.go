@@ -337,10 +337,11 @@ func main() {
 	// Print the help / usage documentation if the user wanted.
 	if arguments["help"] == "true" {
 		//           12345678901234567890123456789012345678901234567890123456789012345678901234567890
-		fmt.Println("Webconsole v" + releaseVersion + " - a simple way to turn a command")
-		fmt.Println("line application into a web app. Runs as a simple web server to host Task pages")
-		fmt.Println("that allow the end-user to simply click a button to run a batch / script / etc")
-		fmt.Println("file. Note that by itself, Webconsole doesn't handle HTTPS. If you are")
+		fmt.Println("Webconsole v" + releaseVersion + " - a simple way to turn a command line application")
+		fmt.Println("into a web app. Runs as a simple web server to host Task pages that allow the")
+		fmt.Println("end-user to simply click a button to run a batch / script / etc file.")
+		fmt.Println("")
+		fmt.Println("Note that by itself, Webconsole doesn't handle HTTPS. If you are")
 		fmt.Println("installing on a world-facing server you should use a proxy server that handles")
 		fmt.Println("HTTPS - we recommend Caddy as it will automatically handle Let's Encrypt")
 		fmt.Println("certificates. If you are behind a firewall then we recommend tunnelto.dev,")
@@ -348,6 +349,7 @@ func main() {
 		fmt.Println("the install.bat / install.sh scripts.")
 		fmt.Println("")
 		fmt.Println("Usage: webconsole [--new] [--list] [--start] [--localOnly true/false] [--port int] [--config path] [--webroot path] [--taskroot path]")
+		fmt.Println("")
 		fmt.Println("--new: creates a new Task. Each Task has a unique 16-character ID which can be")
 		fmt.Println("  passed as part of the URL or via a POST request, so for basic security you")
 		fmt.Println("  can give a user a URL with an embedded ID. Use an external authentication")
