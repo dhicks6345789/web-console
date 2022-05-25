@@ -12,7 +12,7 @@ go get github.com/dennwc/gotrace
 go get github.com/kodeworks/golang-image-ico
 go get golang.org/x/crypto/bcrypt
 go get github.com/360EntSecGroup-Skylar/excelize
-go build webconsole.go
+go build -ldflags "-X main.releaseVersion=$VERSION" webconsole.go
 cp webconsole /usr/local/bin
 
 # Create the application's data folder and copy the default data files into it.
