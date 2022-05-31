@@ -538,7 +538,7 @@ func main() {
 									} else {
 										// Get ready to run the Task - set up the Task's details...
 										commandArray := parseCommandString(taskDetails["command"])
-										if strings.HasSuffix(ToLower(commandArray[0]), ".bat") {
+										if strings.HasSuffix(strings.ToLower(commandArray[0]), ".bat") {
 											commandArray = append(commandArray, "cmd", "/c")
 										}
 										var commandArgs []string
