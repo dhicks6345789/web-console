@@ -538,14 +538,14 @@ func main() {
 									} else {
 										// Get ready to run the Task - set up the Task's details...
 										commandArray := parseCommandString(taskDetails["command"])
-										fmt.Println("1commandArray[0]: " + commandArray[0])
 										for _, batchExtension := range []string{".bat", ".btm", ".cmd"} {
 											// If the command is a Windows batch file, we need to run the Windows command shell for it to execute.
 											if strings.HasSuffix(strings.ToLower(commandArray[0]), batchExtension) {
 												commandArray = parseCommandString("cmd /c " + taskDetails["command"])
-												fmt.Println("2commandArray[0]: " + commandArray[0])
-												fmt.Println(commandArray)
 											}
+										}
+										if arguments["debug"] == "true" {
+											fmt.Println("Running command: " + strings.Join(commandArray, " "))
 										}
 										var commandArgs []string
 										if len(commandArray) > 0 {
