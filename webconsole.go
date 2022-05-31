@@ -538,7 +538,7 @@ func main() {
 									} else {
 										// Get ready to run the Task - set up the Task's details...
 										commandArray := parseCommandString(taskDetails["command"])
-										for batchIndex, batchExtension := range []string{".bat", "btm", ".cmd"} {
+										for _, batchExtension := range []string{".bat", ".btm", ".cmd"} {
 											// If the command is a Windows batch file, we need to run the Windows command shell for it to execute.
 											if strings.HasSuffix(strings.ToLower(commandArray[0]), batchExtension) {
 												commandArray = append(commandArray, "cmd", "/c")
