@@ -5,7 +5,7 @@ Cross-platform, runs as a self-contained web server, binaries are available for 
 
 Web Console is intended to be used behind a proxy server or tunneling service, it doesn't by itself handle HTTPS connections, making it unsuitible as a general-purpose web server open to the outside world. Also, Web Console's implementation prioritises ease of configuration and use over performance, meaning that for larger setups a proxy server is probably going to be a good idea. However, it can be used to provide a basic user interface for a stand-alone, non-networked system, such as a kiosk machine, using HTTP only on a local web browser.
 
-Web Console has been used behind [Apache](https://httpd.apache.org/) and [NGINX](https://www.nginx.com/) acting as reverse-proxy servers, although we recommend [Caddy](https://caddyserver.com/), simply for its ease-of-use in automatically dealing with HTTPS certificates for you.
+Web Console has been used behind [Apache](https://httpd.apache.org/) and [NGINX](https://www.nginx.com/) acting as reverse-proxy servers, although we recommend [Caddy](https://caddyserver.com/), simply for its ease-of-use in automatically dealing with HTTPS provision for you.
 
 As well as providing a user interface, Web Console also provides a simple REST API, providing a URLs for for services such as [IFTTT](https://ifttt.com/) and [Zapier](https://zapier.com/) or letting you trigger tasks from remote systems with command-line tools like [curl](https://curl.se/).
 
