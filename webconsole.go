@@ -542,7 +542,8 @@ func main() {
 										for _, batchExtension := range []string{".bat", ".btm", ".cmd"} {
 											// If the command is a Windows batch file, we need to run the Windows command shell for it to execute.
 											if strings.HasSuffix(strings.ToLower(commandArray[0]), batchExtension) {
-												commandArray = append([]string{"cmd", "/c"}, commandArray)
+												commandArray = append([]string{"/c"}, commandArray)
+												commandArray = append([]string{"cmd"}, commandArray)
 												fmt.Println("2commandArray[0]: " + commandArray[0])
 											}
 										}
