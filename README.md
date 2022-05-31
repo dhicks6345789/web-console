@@ -120,6 +120,8 @@ Thw web user interface is constructed using [Bootstrap 5](https://getbootstrap.c
     * 11ty
     * Gatsby
     * Docs-To-Markdown
+    * How-To
+    * FAQ
     * Dashboard
     * Slideshow
     * Yearbook
