@@ -110,17 +110,28 @@ Thw web user interface is constructed using [Bootstrap 5](https://getbootstrap.c
 * Additions to the API to provide a mechanism for third-parties to handle authorisation.
   * Mystart.Online
   * Cloudflare
+* Chroot (or Windows equivilent) jail per task.
 * Inputs from STDIN.
 * Better admin console.
+  * New account creation
   * Add "New Task" dialog, with (configurable) pre-defined "Type" field for quick starts:
     * Hugo
     * Jekyll
     * 11ty
+    * Gatsby
     * Docs-To-Markdown
     * Dashboard
     * Slideshow
     * Yearbook
   * Ability to connect cloud storage.
+* Code editor integrated in Task editor view.
+* SSH console integrated in Task editor view.
+* Custom design system
+  * Bootstrap
+  * Gov.uk
+  * Stack Overflow
+  * Tailwind
+  * Scott's?
 * Python (Flask) implementation to run on (for instance) [PythonAnywhere](https://www.pythonanywhere.com/).
 * Optional ability to stop Task(?).
 * Auto-generated favicon icon(s)?
