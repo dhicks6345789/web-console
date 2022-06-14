@@ -150,6 +150,13 @@
 				document.execCommand("copy");
 			}
 			
+			// Copy the CURL command to the clipboard for the user.
+			function copyMystartLogin() {
+				copyText = document.getElementById("mystartLogin")
+				copyText.select();
+				document.execCommand("copy");
+			}
+			
 			// Called when the document is first loaded and ready.
 			function pageReady() {
 				// Even if the Task isn't yet running, update the Task output section - it'll be filled with the logs of the last run if available.
@@ -159,6 +166,8 @@
 				document.getElementById("webHookLink").value = pageURL.slice(0, pageURL.lastIndexOf("/")) + "/api/runTask?taskID=" + taskID;
 				// Set the CURL command webhook value for the user - the "run" API call for this Task, handy for calling from the command line or a cron job / Windows schedualed task.
 				document.getElementById("CURLCommand").value = "curl " + pageURL.slice(0, pageURL.lastIndexOf("/")) + "/api/runTask?taskID=" + taskID;
+				// Set the MyStart.Online Login URL value for the user.
+				document.getElementById("CURLCommand").value = pageURL.slice(0, pageURL.lastIndexOf("/")) + "/api/mystartLogin?taskID=" + taskID;
 				// If the URL includes "run" rather than "view", run the Task right away - handy for some users.
 				if (pageURL.endsWith("/run")) {
 					runTask();
@@ -225,6 +234,13 @@
 									curl command: <input type="text" id="CURLCommand" value="https://" readonly/>
 									<button type="button" class="btn btn-default" aria-label="Copy CURL command" onclick="copyCURLCommand()">
 										<img src="bootstrap-icons/1.8.1/stickies.svg" alt="Copy CURL command" width="32" height="32">
+									</button>
+								</div>
+								<div>
+									<a href="https://curl.se/docs/manpage.html" target="_blank"><img src="logos/mystart.svg" alt="Mystart.Online Logo" width="32" height="32"></a>
+									MyStart.Online Login URL: <input type="text" id="mystartLogin" value="https://" readonly/>
+									<button type="button" class="btn btn-default" aria-label="Copy MyStart.Online Login URL" onclick="copyMystartLogin()">
+										<img src="bootstrap-icons/1.8.1/stickies.svg" alt="Copy MyStart.Online Login URL" width="32" height="32">
 									</button>
 								</div>
 							</div>
