@@ -471,6 +471,12 @@ func main() {
 						if rateLimitErr != nil {
 							rateLimit = 0
 						}
+						if strings.HasPrefix(requestPath, "/api/mystartLogin") {
+							secret := theRequest.Form.Get("secret")
+							if secret != nil {
+								fmt.Fprintf(theResponseWriter, "Check secret here...")
+							}
+						}
 						if token != "" {
 							if tokens[token] == 0 {
 								authorisationError = "invalid or expired token"
