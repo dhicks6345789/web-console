@@ -99,7 +99,8 @@ Thw web user interface is constructed using [Bootstrap 5](https://getbootstrap.c
 ### Bugs
 
 * Output - does output.html get displayed properly?
-* Logging, add date / time signature to start of log output.
+* Yellow (on white) isn't a good colour for warning messages. Purple, maybe?
+* Logging - add date / time signature to start of log output.
 * Add Mac support in install.sh.
 * Authorisation config for "www" folder.
 * On Windows, run batch files without having to explicitly run via cmd /c.
