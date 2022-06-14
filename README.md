@@ -115,6 +115,7 @@ Thw web user interface is constructed using [Bootstrap 5](https://getbootstrap.c
 * Inputs from STDIN.
 * Better admin console.
   * New account creation
+  * Task run schedualer, with error reporting if tasks fail.
   * Add "New Task" dialog, with (configurable) pre-defined "Type" field for quick starts:
     * Hugo
     * Jekyll
