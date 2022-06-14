@@ -473,7 +473,7 @@ func main() {
 						}
 						if strings.HasPrefix(requestPath, "/api/mystartLogin") {
 							secret := theRequest.Form.Get("secret")
-							if secret != nil {
+							if secret != "" {
 								fmt.Fprintf(theResponseWriter, "Check secret here...")
 							}
 						}
