@@ -114,6 +114,12 @@ Thw web user interface is constructed using [Bootstrap 5](https://getbootstrap.c
   * Cloudflare
 * Chroot (or Windows equivilent) jail per task.
 * Inputs from STDIN.
+  * Single line text box
+  * Radio select
+  * Dropdown
+  * Typeahead dropdown
+  * File upload
+  * Photo capture
 * Better admin console.
   * New account creation
   * Task run schedualer, with error reporting if tasks fail.
