@@ -491,7 +491,13 @@ func main() {
 								fmt.Printf("webconsole: status code: %d\n", mystartResult.StatusCode)
 								
 								defer mystartResult.Body.Close()
-								mystartJSON := json.NewDecoder(mystartResult.Body).Decode(target)
+								type mystartStruct struct {
+									login string
+									emailHash string
+									emailDomain string
+									loginType string
+								}
+								mystartJSON := json.NewDecoder(mystartResult.Body).Decode(mystartStruct)
 								
 								//defer mystartResult.Body.Close()
 								//mystartBody, mystartError := ioutil.ReadAll(mystartResult.Body)
