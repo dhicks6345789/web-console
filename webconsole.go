@@ -488,10 +488,16 @@ func main() {
 									fmt.Println("webconsole: mystartLogin - error when doing callback.")
 								}
 								fmt.Printf("webconsole: status code: %d\n", mystartResult.StatusCode)
+								
 								defer mystartResult.Body.Close()
-								mystartBody, mystartError := ioutil.ReadAll(mystartResult.Body)
-								mystartBodyString := string(mystartBody)
-								fmt.Printf("%s\n", mystartBodyString)
+								mystartJSON := json.NewDecoder(mystartResult.Body).Decode(target)
+								
+								//defer mystartResult.Body.Close()
+								//mystartBody, mystartError := ioutil.ReadAll(mystartResult.Body)
+								//mystartBodyString := string(mystartBody)
+								//fmt.Printf("%s\n", mystartBodyString)
+								
+								fmt.Printf("%s\n", string(mystartJSON))
 							} else {
 								fmt.Fprintf(theResponseWriter, "ERROR: Missing parameter loginToken.")
 							}
