@@ -167,7 +167,7 @@
 				// Set the CURL command webhook value for the user - the "run" API call for this Task, handy for calling from the command line or a cron job / Windows schedualed task.
 				document.getElementById("CURLCommand").value = "curl " + pageURL.slice(0, pageURL.lastIndexOf("/")) + "/api/runTask?taskID=" + taskID;
 				// Set the MyStart.Online Login URL value for the user.
-				document.getElementById("CURLCommand").value = pageURL.slice(0, pageURL.lastIndexOf("/")) + "/api/mystartLogin?taskID=" + taskID;
+				document.getElementById("mystartLogin").value = pageURL.slice(0, pageURL.lastIndexOf("/")) + "/api/mystartLogin?taskID=" + taskID;
 				// If the URL includes "run" rather than "view", run the Task right away - handy for some users.
 				if (pageURL.endsWith("/run")) {
 					runTask();
