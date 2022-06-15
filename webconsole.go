@@ -41,14 +41,6 @@ import (
 	"github.com/360EntSecGroup-Skylar/excelize"
 )
 
-// A struct used to read JSON data from authentication API calls to MyStart.Online.
-type mystartStruct struct {
-	login string
-	emailHash string
-	emailDomain string
-	loginType string
-}
-
 // Characters to use to generate new ID strings. Lowercase only - any user-provided IDs will be lowercased before use.
 const letters = "abcdefghijklmnopqrstuvwxyz1234567890"
 
@@ -76,6 +68,15 @@ var taskRunTimes = map[string][]int64{}
 var taskRuntimeGuesses = map[string]float64{}
 // We record the stop time for each Task so we can implement rate limiting.
 var taskStopTimes = map[string]int64{}
+
+// A struct used to read JSON data from authentication API calls to MyStart.Online.
+type mystartStruct struct {
+	login string
+	emailHash string
+	emailDomain string
+	loginType string
+}
+
 
 // Generate a new, random 16-character string, used for tokens and Task IDs.
 func generateRandomString() string {
@@ -499,7 +500,8 @@ func main() {
 								fmt.Printf("webconsole: status code: %d\n", mystartResult.StatusCode)
 								
 								defer mystartResult.Body.Close()
-								mystartJSON := json.NewDecoder(mystartResult.Body).Decode(mystartStruct)
+								mystartJSON := new(mystartStruct)
+								mystartJSONResult := json.NewDecoder(mystartResult.Body).Decode(mystartJSON)
 								
 								//defer mystartResult.Body.Close()
 								//mystartBody, mystartError := ioutil.ReadAll(mystartResult.Body)
