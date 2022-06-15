@@ -301,6 +301,8 @@ func main() {
 	setArgumentIfPathExists("webroot", []string {"www", "/etc/webconsole/www", "C:\\Program Files\\WebConsole\\www", ""})
 	setArgumentIfPathExists("taskroot", []string {"tasks", "/etc/webconsole/tasks", "C:\\Program Files\\WebConsole\\tasks", ""})
 	arguments["pathPrefix"] = ""
+	arguments["mystartPageName"] = ""
+	arguments["mystartAPIKey"] = ""
 	if len(os.Args) == 1 {
 		arguments["start"] = "true"
 	} else {
@@ -479,7 +481,7 @@ func main() {
 							}
 							mystartLoginToken := theRequest.Form.Get("loginToken")
 							if mystartLoginToken != "" {
-								requestURL := fmt.Sprintf("https://dev.mystart.online/api/validateToken?loginToken=%s&pageName=%s", mystartLoginToken, taskID)
+								requestURL := fmt.Sprintf("https://dev.mystart.online/api/validateToken?loginToken=%s&pageName=%s", mystartLoginToken, arguments["mystartPageName"])
 								fmt.Println(requestURL)
 								mystartResult, mystartError := http.Get(requestURL)
 								if mystartError != nil {
