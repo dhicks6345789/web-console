@@ -482,8 +482,8 @@ func main() {
 							if mystartLoginToken != "" {
 								// Do a call back to MyStart.Online to validate the details passed in.
 								mystartResponse, mystartError := http.PostForm("https://dev.mystart.online/api/validateToken", url.Values{
-									"loginToken":mystartLoginToken,
-									"pageName":taskID,
+									"loginToken":{mystartLoginToken},
+									"pageName":{taskID},
 								})
 								if mystartError != nil {
 									fmt.Println("webconsole: mystartLogin - error when doing callback.")
