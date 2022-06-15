@@ -19,7 +19,7 @@ import (
 	"strings"
 	"strconv"
 	"os/exec"
-	"net/url",
+	"net/url"
 	"net/http"
 	"math/rand"
 	"io/ioutil"
