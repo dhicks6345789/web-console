@@ -471,12 +471,14 @@ func main() {
 						if rateLimitErr != nil {
 							rateLimit = 0
 						}
+						// Handle a login from MyStart.Online - validate the details passed and check that the user ID given has
+						// permission to access this Task.
 						if strings.HasPrefix(requestPath, "/api/mystartLogin") {
 							fmt.Fprintf(theResponseWriter, "MyStartLogin API call.")
 							mystartLoginToken := theRequest.Form.Get("loginToken")
 							if mystartLoginToken != "" {
-								fmt.Fprintf(theResponseWriter, "Check secret here...")
-								fmt.Fprintf(theResponseWriter, mystartLoginToken)
+								// https://dev.mystart.online/api/validateToken?loginToken=mystartLoginToken&pageName=taskID
+								
 							}
 						}
 						if token != "" {
