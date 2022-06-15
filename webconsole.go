@@ -69,6 +69,14 @@ var taskRuntimeGuesses = map[string]float64{}
 // We record the stop time for each Task so we can implement rate limiting.
 var taskStopTimes = map[string]int64{}
 
+// A struct used to read JSON data from authentication API calls to MyStart.Online.
+type mystartStruct struct {
+	login string
+	emailHash string
+	emailDomain string
+	loginType string
+}
+
 // Generate a new, random 16-character string, used for tokens and Task IDs.
 func generateRandomString() string {
 	rand.Seed(time.Now().UnixNano())
@@ -491,12 +499,6 @@ func main() {
 								fmt.Printf("webconsole: status code: %d\n", mystartResult.StatusCode)
 								
 								defer mystartResult.Body.Close()
-								type mystartStruct struct {
-									login string
-									emailHash string
-									emailDomain string
-									loginType string
-								}
 								mystartJSON := json.NewDecoder(mystartResult.Body).Decode(mystartStruct)
 								
 								//defer mystartResult.Body.Close()
