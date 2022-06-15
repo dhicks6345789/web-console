@@ -487,7 +487,6 @@ func main() {
 									fmt.Println("webconsole: mystartLogin - error when doing callback.")
 								}
 								fmt.Printf("webconsole: status code: %d\n", mystartResult.StatusCode)
-								fmt.Printf(mystartResult.StatusCode)
 								
 								// Do a call back to MyStart.Online to validate the details passed in.
 								/*mystartResponse, mystartError := http.PostForm("https://dev.mystart.online/api/validateToken", url.Values{
