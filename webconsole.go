@@ -473,9 +473,10 @@ func main() {
 						}
 						if strings.HasPrefix(requestPath, "/api/mystartLogin") {
 							fmt.Fprintf(theResponseWriter, "MyStartLogin API call.")
-							secret := theRequest.Form.Get("secret")
-							if secret != "" {
+							mystartLoginToken := theRequest.Form.Get("loginToken")
+							if mystartLoginToken != "" {
 								fmt.Fprintf(theResponseWriter, "Check secret here...")
+								fmt.Fprintf(theResponseWriter, mystartLoginToken)
 							}
 						}
 						if token != "" {
