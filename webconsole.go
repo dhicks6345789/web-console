@@ -71,10 +71,10 @@ var taskStopTimes = map[string]int64{}
 
 // A struct used to read JSON data from authentication API calls to MyStart.Online.
 type mystartStruct struct {
-	Login string
-	EmailHash string
-	EmailDomain string
-	LoginType string
+	Login string `json:"login"`
+	EmailHash string `json:"emailHash"`
+	EmailDomain string `json:"emailDomain"`
+	LoginType string `json:"loginType"`
 }
 
 
