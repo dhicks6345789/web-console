@@ -491,8 +491,7 @@ func main() {
 								defer mystartResult.Body.Close()
 								mystartBody, mystartError := ioutil.ReadAll(mystartResult.Body)
 								mystartBodyString := string(mystartBody)
-								
-								fmt.Printf("%s\n", string(mystartBody))
+								fmt.Printf("%s\n", mystartBodyString)
 							} else {
 								fmt.Fprintf(theResponseWriter, "ERROR: Missing parameter loginToken.")
 							}
