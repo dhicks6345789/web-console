@@ -71,10 +71,10 @@ var taskStopTimes = map[string]int64{}
 
 // A struct used to read JSON data from authentication API calls to MyStart.Online.
 type mystartStruct struct {
-	Login string 'json:"login"'
-	EmailHash string 'json:"emailHash"'
-	EmailDomain string 'json:"emailDomain"'
-	LoginType string 'json:"loginType"'
+	Login string
+	EmailHash string `json:"emailHash"`
+	EmailDomain string `json:"emailDomain"`
+	LoginType string `json:"loginType"`
 }
 
 
@@ -510,7 +510,7 @@ func main() {
 								
 								fmt.Println(mystartJSONResult)
 								fmt.Println(mystartJSON)
-								fmt.Printf("mystartJSON: %s\n", mystartJSON.login)
+								fmt.Printf("mystartJSON: %s\n", mystartJSON.Login)
 							} else {
 								fmt.Fprintf(theResponseWriter, "ERROR: Missing parameter loginToken.")
 							}
