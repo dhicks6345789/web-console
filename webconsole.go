@@ -19,6 +19,7 @@ import (
 	"strings"
 	"strconv"
 	"os/exec"
+	"net/url",
 	"net/http"
 	"math/rand"
 	"io/ioutil"
@@ -489,7 +490,7 @@ func main() {
 								}
 								defer mystartResponse.Body.Close()
 								mystartBody, mystartError := ioutil.ReadAll(mystartResponse.Body)
-								if err != nil {
+								if mystartError != nil {
 									fmt.Println("webconsole: mystartLogin - error when reading response body.")
 								}
 								fmt.Printf("%s\n", string(mystartBody))
