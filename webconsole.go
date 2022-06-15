@@ -508,6 +508,7 @@ func main() {
 								//mystartBodyString := string(mystartBody)
 								//fmt.Printf("%s\n", mystartBodyString)
 								
+								fmt.Println(mystartJSONResult)
 								fmt.Printf("%s\n", mystartJSON.login)
 							} else {
 								fmt.Fprintf(theResponseWriter, "ERROR: Missing parameter loginToken.")
