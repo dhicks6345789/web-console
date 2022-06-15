@@ -72,9 +72,9 @@ var taskStopTimes = map[string]int64{}
 // A struct used to read JSON data from authentication API calls to MyStart.Online.
 type mystartStruct struct {
 	Login string
-	EmailHash string `json:"emailHash"`
-	EmailDomain string `json:"emailDomain"`
-	LoginType string `json:"loginType"`
+	EmailHash string
+	EmailDomain string
+	LoginType string
 }
 
 
@@ -492,25 +492,19 @@ func main() {
 							mystartLoginToken := theRequest.Form.Get("loginToken")
 							if mystartLoginToken != "" {
 								requestURL := fmt.Sprintf("https://dev.mystart.online/api/validateToken?loginToken=%s&pageName=%s", mystartLoginToken, arguments["mystartPageName"])
-								fmt.Println(requestURL)
 								mystartResult, mystartError := http.Get(requestURL)
 								if mystartError != nil {
 									fmt.Println("webconsole: mystartLogin - error when doing callback.")
 								}
-								fmt.Printf("webconsole: status code: %d\n", mystartResult.StatusCode)
-								
-								defer mystartResult.Body.Close()
-								mystartJSON := new(mystartStruct)
-								mystartJSONResult := json.NewDecoder(mystartResult.Body).Decode(mystartJSON)
-								
-								//defer mystartResult.Body.Close()
-								//mystartBody, mystartError := ioutil.ReadAll(mystartResult.Body)
-								//mystartBodyString := string(mystartBody)
-								//fmt.Printf("%s\n", mystartBodyString)
-								
-								fmt.Println(mystartJSONResult)
-								fmt.Println(mystartJSON)
-								fmt.Printf("mystartJSON: %s\n", mystartJSON.Login)
+								if mystartResult.StatusCode == 200 {
+									defer mystartResult.Body.Close()
+									mystartJSON := new(mystartStruct)
+									mystartJSONResult := json.NewDecoder(mystartResult.Body).Decode(mystartJSON)
+									if mystartJSONResult == nil {
+										if mystartJSON.Login == "valid" {
+											fmt.Println(mystartJSON)
+										}
+									}
 							} else {
 								fmt.Fprintf(theResponseWriter, "ERROR: Missing parameter loginToken.")
 							}
