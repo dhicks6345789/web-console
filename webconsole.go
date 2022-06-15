@@ -492,8 +492,8 @@ func main() {
 							mystartLoginToken := theRequest.Form.Get("loginToken")
 							if mystartLoginToken != "" {
 								requestURL := fmt.Sprintf("https://dev.mystart.online/api/validateToken?loginToken=%s&pageName=%s", mystartLoginToken, arguments["mystartPageName"])
-								mystartResult, mystartError := http.Get(requestURL)
-								if mystartError != nil {
+								mystartResult, mystartErr := http.Get(requestURL)
+								if mystartErr != nil {
 									fmt.Println("webconsole: mystartLogin - error when doing callback.")
 								}
 								if mystartResult.StatusCode == 200 {
@@ -505,6 +505,7 @@ func main() {
 											fmt.Println(mystartJSON)
 										}
 									}
+								}
 							} else {
 								fmt.Fprintf(theResponseWriter, "ERROR: Missing parameter loginToken.")
 							}
