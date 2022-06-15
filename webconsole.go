@@ -483,7 +483,7 @@ func main() {
 								// https://dev.mystart.online/api/validateToken?loginToken=mystartLoginToken&pageName=taskID
 								postBody, _ := json.Marshal(map[string]string {
 									"loginToken":mystartLoginToken,
-									"pageName":taskID
+									"pageName":taskID,
 								})
 								responseBody := bytes.NewBuffer(postBody)
 								mystartResponse, mystartError := http.Post("https://dev.mystart.online/api/validateToken", "application/json", responseBody)
