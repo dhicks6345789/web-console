@@ -480,24 +480,19 @@ func main() {
 							mystartLoginToken := theRequest.Form.Get("loginToken")
 							if mystartLoginToken != "" {
 								// Do a call back to MyStart.Online to validate the details passed in.
-								// https://dev.mystart.online/api/validateToken?loginToken=mystartLoginToken&pageName=taskID
-								postBody, _ := json.Marshal(map[string]string {
+								mystartResponse, mystartError := http.PostForm("https://dev.mystart.online/api/validateToken", url.Values{
 									"loginToken":mystartLoginToken,
 									"pageName":taskID,
 								})
-								responseBody := bytes.NewBuffer(postBody)
-								mystartResponse, mystartError := http.Post("https://dev.mystart.online/api/validateToken", "application/json", responseBody)
 								if mystartError != nil {
 									fmt.Println("webconsole: mystartLogin - error when doing callback.")
 								}
-								defer resp.Body.Close()
-								// Read the response body
-								mystartBody, mystartError := ioutil.ReadAll(resp.Body)
-								if mystartError != nil {
+								defer mystartResponse.Body.Close()
+								mystartBody, mystartError := ioutil.ReadAll(mystartResponse.Body)
+								if err != nil {
 									fmt.Println("webconsole: mystartLogin - error when reading response body.")
 								}
-								mystartReponseString := string(body)
-								fmt.Println(mystartReponseString)
+								fmt.Printf("%s\n", string(mystartBody))
 							} else {
 								fmt.Fprintf(theResponseWriter, "ERROR: Missing parameter loginToken.")
 							}
