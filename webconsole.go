@@ -429,10 +429,10 @@ func main() {
 		if strings.HasPrefix(argName, "mystart") {
 			mystartName := ""
 			if strings.HasSuffix(argName, "APIKey") {
-				mystartName = argName[7:-6]
+				mystartName = argName[7:len(argName)-6]
 			}
 			if strings.HasSuffix(argName, "PageName") {
-				mystartName = argName[7:-8]
+				mystartName = argName[7:len(argName)-8]
 			}
 			if mystartName == "" {
 				mystartName = "default"
