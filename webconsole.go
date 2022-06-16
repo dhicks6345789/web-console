@@ -427,7 +427,17 @@ func main() {
 	// See if we have any arguments that start with "mystart" - Page Names and API Keys for MyStart.Online login integration
 	for argName, argVal := range arguments {
 		if strings.HasPrefix(argName, "mystart") {
-			mystartAPIKeys[argName] = argVal
+			mystartName := ""
+			if strings.HasSuffix(argName, "APIKey") {
+				mystartName = argName[7:-6]
+			}
+			if strings.HasSuffix(argName, "PageName") {
+				mystartName = argName[7:-8]
+			}
+			if mystartName == "" {
+				mystartName = "default"
+			}
+			mystartAPIKeys[mystartName] = argVal
 		}
 	}
 	if arguments["debug"] == "true" {
