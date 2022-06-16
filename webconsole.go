@@ -70,7 +70,7 @@ var taskRuntimeGuesses = map[string]float64{}
 var taskStopTimes = map[string]int64{}
 
 // Maps of MyStart.Online page names and API keys.
-var mystartPageName = map[string]string{}
+var mystartPageNames = map[string]string{}
 var mystartAPIKeys = map[string]string{}
 
 // A struct used to read JSON data from authentication API calls to MyStart.Online.
