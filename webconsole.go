@@ -437,7 +437,12 @@ func main() {
 			if mystartName == "" {
 				mystartName = "default"
 			}
-			mystartAPIKeys[mystartName] = argVal
+			if strings.HasSuffix(argName, "APIKey") {
+				mystartAPIKeys[mystartName] = argVal
+			}
+			if strings.HasSuffix(argName, "PageName") {
+				mystartPageNames[mystartName] = argVal
+			}
 		}
 	}
 	if arguments["debug"] == "true" {
