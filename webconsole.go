@@ -538,7 +538,7 @@ func main() {
 												if strings.HasPrefix(taskDetailName, "mystart") {
 													mystartName := ""
 													if strings.HasSuffix(taskDetailName, "Editors") {
-														mystartName = taskDetailName[7:len(argName)-7]
+														mystartName = taskDetailName[7:len(taskDetailName)-7]
 													}
 													if mystartName == "" {
 														mystartName = "default"
