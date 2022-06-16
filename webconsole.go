@@ -535,7 +535,18 @@ func main() {
 											fmt.Println(mystartJSON)
 											// mystartEditors: mystartEditors.csv
 											for taskDetailName, taskDetailValue := range taskDetails {
-												fmt.Println(tasDetail)
+												if strings.HasPrefix(taskDetailName, "mystart") {
+													mystartName := ""
+													if strings.HasSuffix(taskDetailName, "Editors") {
+														mystartName = argName[7:len(argName)-7]
+													}
+													if mystartName == "" {
+														mystartName = "default"
+													}
+													if strings.HasSuffix(argName, "Editors") {
+														fmt.Println(taskDetailValue)
+													}
+												}
 											}
 										}
 									}
