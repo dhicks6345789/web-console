@@ -69,6 +69,10 @@ var taskRuntimeGuesses = map[string]float64{}
 // We record the stop time for each Task so we can implement rate limiting.
 var taskStopTimes = map[string]int64{}
 
+// Maps of MyStart.Online page names and API keys.
+var mystartPageName = map[string]string{}
+var mystartAPIKeys = map[string]string{}
+
 // A struct used to read JSON data from authentication API calls to MyStart.Online.
 type mystartStruct struct {
 	Login string
@@ -311,8 +315,6 @@ func main() {
 	setArgumentIfPathExists("webroot", []string {"www", "/etc/webconsole/www", "C:\\Program Files\\WebConsole\\www", ""})
 	setArgumentIfPathExists("taskroot", []string {"tasks", "/etc/webconsole/tasks", "C:\\Program Files\\WebConsole\\tasks", ""})
 	arguments["pathPrefix"] = ""
-	arguments["mystartPageName"] = ""
-	arguments["mystartAPIKey"] = ""
 	if len(os.Args) == 1 {
 		arguments["start"] = "true"
 	} else {
@@ -420,6 +422,18 @@ func main() {
 				fmt.Println("ERROR: " + csvErr.Error())
 			}
 		}
+	}
+	
+	// See if we have any arguments that start with "mystart" - Page Names and API Keys for MyStart.Online login integration
+	for argName, argVal := range arguments {
+		if strings.HasPrefix(argName, "mystart") {
+			mystartAPIKeys[argName] = argVal
+		}
+	}
+	if arguments["debug"] == "true" {
+		fmt.Println("webconsole: MyStart.Online Page Names / API Keys:")
+		fmt.Println(mystartPageNames)
+		fmt.Println(mystartAPIKeys)
 	}
 	
 	if arguments["start"] == "true" {
