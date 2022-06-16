@@ -424,7 +424,7 @@ func main() {
 		}
 	}
 	
-	// See if we have any arguments that start with "mystart" - Page Names and API Keys for MyStart.Online login integration
+	// See if we have any arguments that start with "mystart" - Page Names and API Keys for MyStart.Online login integration.
 	for argName, argVal := range arguments {
 		if strings.HasPrefix(argName, "mystart") {
 			mystartName := ""
@@ -531,7 +531,12 @@ func main() {
 									mystartJSONResult := json.NewDecoder(mystartResult.Body).Decode(mystartJSON)
 									if mystartJSONResult == nil {
 										if mystartJSON.Login == "valid" {
+											// Okay - we've authenticated the user, now we need to check authorisation.
 											fmt.Println(mystartJSON)
+											// mystartEditors: mystartEditors.csv
+											for taskDetailName, taskDetailValue := range taskDetails {
+												fmt.Println(tasDetail)
+											}
 										}
 									}
 								}
