@@ -338,6 +338,65 @@ func readConfigFile(theConfigPath string) map[string]string {
 	return result
 }
 
+func readUserFile(theConfigPath string) map[string]string {
+	var result = map[string]string{}
+	
+	// Is the config file an Excel file?
+	if strings.HasSuffix(strings.ToLower(theConfigPath), "xlsx") {
+		excelFile, excelErr := excelize.OpenFile(theConfigPath)
+		if excelErr == nil {
+			excelSheetName := excelFile.GetSheetName(0)
+			excelCells, cellErr := excelFile.GetRows(excelSheetName)
+			if cellErr == nil {
+				fmt.Println(excelCells)
+			} else {
+				fmt.Println("ERROR: " + cellErr.Error())
+			}
+		} else {
+			fmt.Println("ERROR: " + excelErr.Error())
+		}
+	} else if strings.HasSuffix(strings.ToLower(theConfigPath), "csv") {
+		csvFile, csvErr := os.Open(theConfigPath)
+		if csvErr == nil {
+			csvData := csv.NewReader(csvFile)
+			for {
+				csvDataRecord, csvDataErr := csvData.Read()
+				if csvDataErr == io.EOF {
+					break
+				}
+				if csvDataErr != nil {
+					fmt.Println("ERROR: " + csvDataErr.Error())
+				} else {
+					hashedEmailAddress = csvDataRecord[0]
+					emailAddressIsHash := true
+					if len(hashedEmailAddress) == 16 {
+						for addressCharIndex, addresCharValue := range hashedEmailAddress {
+							if !strings.Contains(letters, addressCharValue) {
+								emailAddressIsHash = false
+							}
+						}
+					} else {
+						emailAddressIsHash = false
+					}
+					emailAddress := ""
+					if emailAddressIsHash {
+						if len(csvDataRecord) > 1 {
+							emailAddress = csvDataRecord[1]
+						}
+					} else {
+						emailAddress = hashedEmailAddress
+						hashedEmailAddress = ""
+					}
+					result[hashedEmailAddress] = emailAddress
+				}
+			}
+		} else {
+			fmt.Println("ERROR: " + csvErr.Error())
+		}
+	}
+	return result
+}
+
 // The main body of the program - parse user-provided command-line paramaters, or start the main web server process.
 func main() {
 	// This application is both a web server for handling API requests and displaying a web-based front end, and a command-line application for handling
@@ -557,8 +616,8 @@ func main() {
 														if arguments["debug"] == "true" {
 															fmt.Println("webconsole: Looking for MyStart.Online Editors data in: " + mystartEditorsPath)
 														}
-														mystartEditors := readConfigFile(mystartEditorsPath)
-														print(mystartEditors)
+														mystartEditors := readUserFile(mystartEditorsPath)
+														fmt.Println(mystartEditors)
 													}
 												}
 											}
