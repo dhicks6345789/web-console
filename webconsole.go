@@ -621,10 +621,13 @@ func main() {
 															fmt.Println("webconsole: Looking for MyStart.Online (" + mystartName + ") Editors data in: " + mystartEditorsPath)
 														}
 														mystartEditors := readUserFile(mystartEditorsPath)
-														for editorHash, _ := range mystartEditors {
+														for editorHash, editorEmail := range mystartEditors {
 															if editorHash == mystartJSON.EmailHash {
 																authorised = true
 																permission = "E"
+																if arguments["debug"] == "true" {
+																	fmt.Println("webconsole: User authorised via MyStart.Online login, hash: " + editorHash + ", email: " + editorEmail + ", permission: " + permission + ", token: " + token)
+																}
 															}
 														}
 													}
@@ -642,10 +645,16 @@ func main() {
 							} else {
 								authorised = true
 								permission = permissions[token]
+								if arguments["debug"] == "true" {
+									fmt.Println("webconsole: User authorised - valid token found: " + token + ", permission: " + permission)
+								}
 							}
 						} else if checkPasswordHash(theRequest.Form.Get("secret"), taskDetails["secret"]) {
 							authorised = true
 							permission = "E"
+							if arguments["debug"] == "true" {
+								fmt.Println("webconsole: User authorised via Task secret, permission: " + permission)
+							}
 						} else {
 							authorisationError = "incorrect secret"
 						}
@@ -657,10 +666,6 @@ func main() {
 							}
 							tokens[token] = currentTimestamp
 							permissions[token] = permission
-							
-							if arguments["debug"] == "true" {
-								fmt.Println("webconsole: User authorised, permission: " + permission)
-							}
 							
 							// Handle view and run requests - no difference server-side, only the client-side treates the URLs differently
 							// (the "runTask" method gets called by the client-side code if the URL contains "run" rather than "view").
