@@ -614,10 +614,14 @@ func main() {
 													if strings.HasSuffix(taskDetailName, "Editors") {
 														mystartEditorsPath := arguments["taskroot"] + "/" + taskID + "/" + taskDetailValue
 														if arguments["debug"] == "true" {
-															fmt.Println("webconsole: Looking for MyStart.Online Editors data in: " + mystartEditorsPath)
+															fmt.Println("webconsole: Looking for MyStart.Online (" + mystartName + ") Editors data in: " + mystartEditorsPath)
 														}
 														mystartEditors := readUserFile(mystartEditorsPath)
-														fmt.Println(mystartEditors)
+														for editorHash, editorEmail := range mystartEditors {
+															if editorHash == mystartJSON.EmailHash {
+																fmt.Println("Editor permission found!")
+															}
+														}
 													}
 												}
 											}
