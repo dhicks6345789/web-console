@@ -626,7 +626,7 @@ func main() {
 																authorised = true
 																permission = "E"
 																if arguments["debug"] == "true" {
-																	fmt.Println("webconsole: User authorised via MyStart.Online login, hash: " + editorHash + ", email: " + editorEmail + ", permission: " + permission + ", token: " + token)
+																	fmt.Println("webconsole: User authorised via MyStart.Online login, hash: " + editorHash + ", email: " + editorEmail + ", permission: " + permission)
 																}
 															}
 														}
@@ -663,6 +663,9 @@ func main() {
 							// secret or no secret is set.
 							if token == "" {
 								token = generateRandomString()
+								if arguments["debug"] == "true" {
+									fmt.Println("webconsole: New token generated: " + token)
+								}
 							}
 							tokens[token] = currentTimestamp
 							permissions[token] = permission
