@@ -623,7 +623,6 @@ func main() {
 														mystartEditors := readUserFile(mystartEditorsPath)
 														for editorHash, _ := range mystartEditors {
 															if editorHash == mystartJSON.EmailHash {
-																fmt.Println("Editor permission found!")
 																authorised = true
 																permission = "E"
 															}
@@ -658,6 +657,11 @@ func main() {
 							}
 							tokens[token] = currentTimestamp
 							permissions[token] = permission
+							
+							if arguments["debug"] == "true" {
+								fmt.Println("webconsole: User authorised, permission: " + permission)
+							}
+							
 							// Handle view and run requests - no difference server-side, only the client-side treates the URLs differently
 							// (the "runTask" method gets called by the client-side code if the URL contains "run" rather than "view").
 							if strings.HasPrefix(requestPath, "/view") || strings.HasPrefix(requestPath, "/run") {
