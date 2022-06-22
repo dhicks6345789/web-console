@@ -371,7 +371,7 @@ func readUserFile(theConfigPath string) map[string]string {
 					emailAddressIsHash := true
 					if len(hashedEmailAddress) == 16 {
 						for addressCharIndex, addressCharValue := range hashedEmailAddress {
-							if !strings.Contains(letters, addressCharValue) {
+							if !strings.Contains(letters, string(addressCharValue)) {
 								emailAddressIsHash = false
 							}
 						}
