@@ -679,7 +679,7 @@ func main() {
 							if strings.HasPrefix(requestPath, "/view") || strings.HasPrefix(requestPath, "/run") || strings.HasPrefix(requestPath, "/api/mystartLogin") {
 								// Serve the "fileToServe" file, first adding in the Task ID and token values to be used client-side, as well
 								// as including the appropriate formatting.js file.
-								webconsoleBuffer, fileReadErr := ioutil.ReadFile(arguments["webroot"] + fileToServe)
+								webconsoleBuffer, fileReadErr := ioutil.ReadFile(arguments["webroot"] + "/" + fileToServe)
 								if fileReadErr == nil {
 									formattingJSBuffer, fileReadErr := ioutil.ReadFile(arguments["taskroot"] + "/" + taskID + "/formatting.js")
 									if fileReadErr != nil {
@@ -702,7 +702,7 @@ func main() {
 										fmt.Fprintf(theResponseWriter, "ERROR: Couldn't read formatting.js")
 									}
 								} else {
-									fmt.Fprintf(theResponseWriter, "ERROR: Couldn't read " + arguments["webroot"] + fileToServe)
+									fmt.Fprintf(theResponseWriter, "ERROR: Couldn't read " + arguments["webroot"] + "/" + fileToServe)
 								}
 							// API - Exchange the secret for a token.
 							} else if strings.HasPrefix(requestPath, "/api/getToken") {
