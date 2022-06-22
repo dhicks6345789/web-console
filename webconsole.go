@@ -299,7 +299,7 @@ func setArgumentIfPathExists(theArgument string, thePaths []string) {
 	}
 }
 
-func readConfigFile(theConfigPath string) {
+func readConfigFile(theConfigPath string) map[string]string {
 	var result = map[string]string{}
 	
 	// Is the config file an Excel file?
