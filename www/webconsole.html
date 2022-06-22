@@ -159,6 +159,10 @@
 			
 			// Called when the document is first loaded and ready.
 			function pageReady() {
+				if (window.location.pathname.startsWith("/api"))
+				{
+					alert("Redirect!");
+				}
 				// Even if the Task isn't yet running, update the Task output section - it'll be filled with the logs of the last run if available.
 				updateTaskOutput();
 				// Set the webhook value for the user - the "run" API call for this Task, handy for services such as IFTTT and Zapier.
