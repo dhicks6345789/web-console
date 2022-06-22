@@ -617,7 +617,7 @@ func main() {
 															fmt.Println("webconsole: Looking for MyStart.Online (" + mystartName + ") Editors data in: " + mystartEditorsPath)
 														}
 														mystartEditors := readUserFile(mystartEditorsPath)
-														for editorHash, editorEmail := range mystartEditors {
+														for editorHash, _ := range mystartEditors {
 															if editorHash == mystartJSON.EmailHash {
 																fmt.Println("Editor permission found!")
 															}
