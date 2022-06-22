@@ -543,7 +543,6 @@ func main() {
 										if mystartJSON.Login == "valid" {
 											// Okay - we've authenticated the user, now we need to check authorisation.
 											fmt.Println(mystartJSON)
-											// mystartEditors: mystartEditors.csv
 											for taskDetailName, taskDetailValue := range taskDetails {
 												if strings.HasPrefix(taskDetailName, "mystart") {
 													mystartName := ""
@@ -554,8 +553,12 @@ func main() {
 														mystartName = "default"
 													}
 													if strings.HasSuffix(taskDetailName, "Editors") {
-														fmt.Println(mystartName)
-														fmt.Println(taskDetailValue)
+														mystartEditorsPath := arguments["taskroot"] + "/" + taskID + +"/" + taskDetailValue
+														if arguments["debug"] == "true" {
+															fmt.Println("webconsole: Looking for MyStart.Online Editors data in: " + mystartEditorsPath)
+														}
+														mystartEditors := readConfigFile(mystartEditorsPath)
+														print(mystartEditors)
 													}
 												}
 											}
