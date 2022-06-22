@@ -553,7 +553,7 @@ func main() {
 														mystartName = "default"
 													}
 													if strings.HasSuffix(taskDetailName, "Editors") {
-														mystartEditorsPath := arguments["taskroot"] + "/" + taskID + +"/" + taskDetailValue
+														mystartEditorsPath := arguments["taskroot"] + "/" + taskID + "/" + taskDetailValue
 														if arguments["debug"] == "true" {
 															fmt.Println("webconsole: Looking for MyStart.Online Editors data in: " + mystartEditorsPath)
 														}
