@@ -55,8 +55,10 @@ var arguments = map[string]string{}
 const tokenTimeout = 600
 // How often, in seconds, to check for expired tokens.
 const tokenCheckPeriod = 60
-// A map of current valid tokens.
+// A map of current valid tokens...
 var tokens = map[string]int64{}
+// ...and matching permissions.
+var permissions = map[string]int64{}
 
 // A list of currently running Tasks.
 var runningTasks = map[string]*exec.Cmd{}
@@ -115,6 +117,7 @@ func clearExpiredTokens() {
 		for token, timestamp := range tokens { 
 			if currentTimestamp - tokenTimeout > timestamp {
 				delete(tokens, token)
+				delete(permissions, token)
 			}
 		}
 		time.Sleep(tokenCheckPeriod * time.Second)
@@ -576,6 +579,7 @@ func main() {
 					if taskErr == nil {
 						authorised := false
 						authorisationError := "unknown error"
+						permission = "E"
 						currentTimestamp := time.Now().Unix()
 						rateLimit, rateLimitErr := strconv.Atoi(taskDetails["ratelimit"])
 						if rateLimitErr != nil {
@@ -620,6 +624,8 @@ func main() {
 														for editorHash, _ := range mystartEditors {
 															if editorHash == mystartJSON.EmailHash {
 																fmt.Println("Editor permission found!")
+																authorised = true
+																permission = "E"
 															}
 														}
 													}
@@ -631,15 +637,16 @@ func main() {
 							} else {
 								fmt.Fprintf(theResponseWriter, "ERROR: Missing parameter loginToken.")
 							}
-						}
-						if token != "" {
+						} else if token != "" {
 							if tokens[token] == 0 {
 								authorisationError = "invalid or expired token"
 							} else {
 								authorised = true
+								permission = permissions[token]
 							}
 						} else if checkPasswordHash(theRequest.Form.Get("secret"), taskDetails["secret"]) {
 							authorised = true
+							permission = "E"
 						} else {
 							authorisationError = "incorrect secret"
 						}
@@ -650,6 +657,7 @@ func main() {
 								token = generateRandomString()
 							}
 							tokens[token] = currentTimestamp
+							permissions[token] = permission
 							// Handle view and run requests - no difference server-side, only the client-side treates the URLs differently
 							// (the "runTask" method gets called by the client-side code if the URL contains "run" rather than "view").
 							if strings.HasPrefix(requestPath, "/view") || strings.HasPrefix(requestPath, "/run") {
