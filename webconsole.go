@@ -670,12 +670,16 @@ func main() {
 							tokens[token] = currentTimestamp
 							permissions[token] = permission
 							
+							fileToServe := "webconsole.html"
+							if strings.HasPrefix(requestPath, "/api/mystartLogin") {
+								fileToServe = "redirect.html"
+							}
 							// Handle view and run requests - no difference server-side, only the client-side treates the URLs differently
 							// (the "runTask" method gets called by the client-side code if the URL contains "run" rather than "view").
 							if strings.HasPrefix(requestPath, "/view") || strings.HasPrefix(requestPath, "/run") || strings.HasPrefix(requestPath, "/api/mystartLogin") {
-								// Serve the webconsole.html file, first adding in the Task ID and token values to be used client-side, as well
+								// Serve the "fileToServe" file, first adding in the Task ID and token values to be used client-side, as well
 								// as including the appropriate formatting.js file.
-								webconsoleBuffer, fileReadErr := ioutil.ReadFile(arguments["webroot"] + "/webconsole.html")
+								webconsoleBuffer, fileReadErr := ioutil.ReadFile(arguments["webroot"] + fileToServe)
 								if fileReadErr == nil {
 									formattingJSBuffer, fileReadErr := ioutil.ReadFile(arguments["taskroot"] + "/" + taskID + "/formatting.js")
 									if fileReadErr != nil {
@@ -693,12 +697,12 @@ func main() {
 										webconsoleString = strings.Replace(webconsoleString, "<<DESCRIPTION>>", taskDetails["description"], -1)
 										webconsoleString = strings.Replace(webconsoleString, "<<FAVICONPATH>>", taskID + "/", -1)
 										webconsoleString = strings.Replace(webconsoleString, "// Include formatting.js.", formattingJSString, -1)
-										http.ServeContent(theResponseWriter, theRequest, "webconsole.html", time.Now(), strings.NewReader(webconsoleString))
+										http.ServeContent(theResponseWriter, theRequest, fileToServe, time.Now(), strings.NewReader(webconsoleString))
 									} else {
 										fmt.Fprintf(theResponseWriter, "ERROR: Couldn't read formatting.js")
 									}
 								} else {
-									fmt.Fprintf(theResponseWriter, "ERROR: Couldn't read webconsole.html")
+									fmt.Fprintf(theResponseWriter, "ERROR: Couldn't read " + fileToServe)
 								}
 							// API - Exchange the secret for a token.
 							} else if strings.HasPrefix(requestPath, "/api/getToken") {
