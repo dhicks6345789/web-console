@@ -579,7 +579,7 @@ func main() {
 					if taskErr == nil {
 						authorised := false
 						authorisationError := "unknown error"
-						permission = "E"
+						permission := "E"
 						currentTimestamp := time.Now().Unix()
 						rateLimit, rateLimitErr := strconv.Atoi(taskDetails["ratelimit"])
 						if rateLimitErr != nil {
