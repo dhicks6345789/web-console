@@ -289,6 +289,7 @@ func getUserInput(argumentsKey, defaultValue string, messageString string) strin
 	return result
 }
 
+// A helper function that sets the given "arguments" value to the first discovered valid path from a list given as an array of strings.
 func setArgumentIfPathExists(theArgument string, thePaths []string) {
 	for _, path := range thePaths {
 		if _, existsErr := os.Stat(path); !os.IsNotExist(existsErr) {
@@ -296,6 +297,45 @@ func setArgumentIfPathExists(theArgument string, thePaths []string) {
 			return
 		}
 	}
+}
+
+func readConfigFile(theConfigPath string) {
+	var result = map[string]string{}
+	
+	// Is the config file an Excel file?
+	if strings.HasSuffix(strings.ToLower(theConfigPath), "xlsx") {
+		excelFile, excelErr := excelize.OpenFile(theConfigPath)
+		if excelErr == nil {
+			excelSheetName := excelFile.GetSheetName(0)
+			excelCells, cellErr := excelFile.GetRows(excelSheetName)
+			if cellErr == nil {
+				fmt.Println(excelCells)
+			} else {
+				fmt.Println("ERROR: " + cellErr.Error())
+			}
+		} else {
+			fmt.Println("ERROR: " + excelErr.Error())
+		}
+	} else if strings.HasSuffix(strings.ToLower(theConfigPath), "csv") {
+		csvFile, csvErr := os.Open(theConfigPath)
+		if csvErr == nil {
+			csvData := csv.NewReader(csvFile)
+			for {
+				csvDataRecord, csvDataErr := csvData.Read()
+				if csvDataErr == io.EOF {
+					break
+				}
+				if csvDataErr != nil {
+					fmt.Println("ERROR: " + csvDataErr.Error())
+				} else {
+					result[csvDataRecord[0]] = csvDataRecord[1]
+				}
+			}
+		} else {
+			fmt.Println("ERROR: " + csvErr.Error())
+		}
+	}
+	return result
 }
 
 // The main body of the program - parse user-provided command-line paramaters, or start the main web server process.
@@ -389,38 +429,8 @@ func main() {
 	// If we have an arument called "config", try and load the given config file (either an Excel or CSV file).
 	if configPath, configFound := arguments["config"]; configFound {
 		fmt.Println("Using config file: " + configPath)
-		// Is the config file an Excel file?
-		if strings.HasSuffix(strings.ToLower(configPath), "xlsx") {
-			excelFile, excelErr := excelize.OpenFile(configPath)
-			if excelErr == nil {
-				excelSheetName := excelFile.GetSheetName(0)
-				excelCells, cellErr := excelFile.GetRows(excelSheetName)
-				if cellErr == nil {
-					fmt.Println(excelCells)
-				} else {
-					fmt.Println("ERROR: " + cellErr.Error())
-				}
-			} else {
-				fmt.Println("ERROR: " + excelErr.Error())
-			}
-		} else if strings.HasSuffix(strings.ToLower(configPath), "csv") {
-			csvFile, csvErr := os.Open(configPath)
-			if csvErr == nil {
-				csvData := csv.NewReader(csvFile)
-				for {
-					csvDataRecord, csvDataErr := csvData.Read()
-					if csvDataErr == io.EOF {
-						break
-					}
-					if csvDataErr != nil {
-						fmt.Println("ERROR: " + csvDataErr.Error())
-					} else {
-						arguments[csvDataRecord[0]] = csvDataRecord[1]
-					}
-				}
-			} else {
-				fmt.Println("ERROR: " + csvErr.Error())
-			}
+		for argName, argVal := range readConfigFile(configPath) {
+			arguments[argName] = argVal
 		}
 	}
 	
