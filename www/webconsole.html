@@ -159,18 +159,10 @@
 			
 			// Called when the document is first loaded and ready.
 			function pageReady() {
-				pageURL = window.location.href.split("?")[0]
-				
-				// Check and see if we need to redirect this page.
-				if (pageURL.endsWith("api/mystartLogin")) {
-					document.getElementById("viewForm").action = window.location.href.replace("api/mystartLogin", "view")
-					document.getElementById("viewFormToken").value = token;
-					document.getElementById("viewForm").submit();
-				}
-				
 				// Even if the Task isn't yet running, update the Task output section - it'll be filled with the logs of the last run if available.
 				updateTaskOutput();
 				
+				pageURL = window.location.href.split("?")[0]
 				// Set the webhook value for the user - the "run" API call for this Task, handy for services such as IFTTT and Zapier.
 				document.getElementById("webHookLink").value = pageURL.slice(0, pageURL.lastIndexOf("/")) + "/api/runTask?taskID=" + taskID;
 				// Set the CURL command webhook value for the user - the "run" API call for this Task, handy for calling from the command line or a cron job / Windows schedualed task.
@@ -194,9 +186,6 @@
 		</script>
 	</head>
 	<body onload="pageReady()">
-		<form id="viewForm" action="/view" method="post">
-			<input type="hidden" id="viewFormToken" name="token">
-		</form>
 		<div class="row">
 			<div class="col-sm-1 text-center align-self-center"></div>
 			<div class="col-sm-10 text-center align-self-center">
