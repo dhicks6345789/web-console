@@ -367,7 +367,7 @@ func readUserFile(theConfigPath string) map[string]string {
 				if csvDataErr != nil {
 					fmt.Println("ERROR: " + csvDataErr.Error())
 				} else {
-					hashedEmailAddress = csvDataRecord[0]
+					hashedEmailAddress := csvDataRecord[0]
 					emailAddressIsHash := true
 					if len(hashedEmailAddress) == 16 {
 						for addressCharIndex, addresCharValue := range hashedEmailAddress {
