@@ -58,7 +58,7 @@ const tokenCheckPeriod = 60
 // A map of current valid tokens...
 var tokens = map[string]int64{}
 // ...and matching permissions.
-var permissions = map[string]int64{}
+var permissions = map[string]string{}
 
 // A list of currently running Tasks.
 var runningTasks = map[string]*exec.Cmd{}
