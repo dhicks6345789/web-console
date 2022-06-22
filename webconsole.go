@@ -664,7 +664,7 @@ func main() {
 							
 							// Handle view and run requests - no difference server-side, only the client-side treates the URLs differently
 							// (the "runTask" method gets called by the client-side code if the URL contains "run" rather than "view").
-							if strings.HasPrefix(requestPath, "/view") || strings.HasPrefix(requestPath, "/run") {
+							if strings.HasPrefix(requestPath, "/view") || strings.HasPrefix(requestPath, "/run") || strings.HasPrefix(requestPath, "/api/mystartLogin") {
 								// Serve the webconsole.html file, first adding in the Task ID and token values to be used client-side, as well
 								// as including the appropriate formatting.js file.
 								webconsoleBuffer, fileReadErr := ioutil.ReadFile(arguments["webroot"] + "/webconsole.html")
