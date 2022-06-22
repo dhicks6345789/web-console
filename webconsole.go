@@ -702,7 +702,7 @@ func main() {
 										fmt.Fprintf(theResponseWriter, "ERROR: Couldn't read formatting.js")
 									}
 								} else {
-									fmt.Fprintf(theResponseWriter, "ERROR: Couldn't read " + fileToServe)
+									fmt.Fprintf(theResponseWriter, "ERROR: Couldn't read " + arguments["webroot"] + fileToServe)
 								}
 							// API - Exchange the secret for a token.
 							} else if strings.HasPrefix(requestPath, "/api/getToken") {
