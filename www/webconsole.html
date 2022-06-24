@@ -183,6 +183,9 @@
 						}
 					});
 				}
+				if (permission == "E") {
+					document.getElementByID("editBlock").style.display = "block";
+				}
 			}
 		</script>
 	</head>
@@ -248,7 +251,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="accordion-item" hidden>
+					<div class="accordion-item" id="editBlock" hidden>
 						<h2 class="accordion-header" id="headingThree">
 							<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
 								Edit
