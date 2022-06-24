@@ -193,7 +193,7 @@
 					doAPICall("getEditableFileList", {}, function(result) {
 						JSON.parse(result).forEach(function(editableFile) {
 							editableFileList = document.getElementById("editFileList");
-							editableFileList.innerHTML = editableFileList.innerHTML + "<div><a href=\"#\" onclick=\"editFile(\"" + editableFile + "\")\">" + editableFile + "</a></div>";
+							editableFileList.innerHTML = editableFileList.innerHTML + "<div><a href=\"#\" onclick=\"editFile('" + editableFile + "')\">" + editableFile + "</a></div>";
 						});
 					});
 				}
