@@ -56,7 +56,7 @@
 					rowCount = 1;
 					taskList = JSON.parse(result);
 					Object.keys(taskList).forEach(function(taskID) {
-						publicTaskRow = document.getElementById("publicTaskRow").cloneNode();
+						publicTaskRow = document.getElementById("publicTaskRow").cloneNode(true);
 						publicTaskRow.setAttribute("id","publicTaskRow-" + rowCount);
 						console.log(publicTaskRow.childNodes);
 						//find("span").innerHTML = taskTitle + ". Secret:"
