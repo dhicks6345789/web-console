@@ -158,6 +158,11 @@
 				document.execCommand("copy");
 			}
 			
+			// Get the given file contents from the server and place it in the file edit panel.
+			function editFile(theFilename) {
+				consoel.log(theFilename);
+			}
+			
 			// Called when the document is first loaded and ready.
 			function pageReady() {
 				// Even if the Task isn't yet running, update the Task output section - it'll be filled with the logs of the last run if available.
@@ -188,7 +193,7 @@
 					doAPICall("getEditableFileList", {}, function(result) {
 						JSON.parse(result).forEach(function(editableFile) {
 							editableFileList = document.getElementById("editFileList");
-							editableFileList.innerHTML = editableFileList.innerHTML + "<div>" + editableFile + "</div>";
+							editableFileList.innerHTML = editableFileList.innerHTML + "<div><a href=\"#\" onclick=\"editFile(\"" + editableFile + "\")\">" + editableFile + "</a></div>";
 						});
 					});
 				}
@@ -264,7 +269,14 @@
 							</button>
 						</h2>
 						<div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
-							<div class="accordian-body text-start" id="editFileList"></div>
+							<div class="accordian-body text-start">
+								<div>
+									<div id="editFileList">
+									</div>
+									<div id="editFilePanel">
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
