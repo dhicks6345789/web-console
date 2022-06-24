@@ -851,9 +851,12 @@ func main() {
 									if editableErr != nil {
 										fmt.Fprintf(theResponseWriter, "ERROR: Can't list editable files.")
 									} else {
+										outputString := "[\n"
 										for _, editableFile := range editableFiles {
-											fmt.Fprintf(theResponseWriter, editableFile.Name())
+											outputString = outputString + "\"" + editableFile.Name() + "\",\n")
 										}
+										outputString = outputString[0:len(outputString)-3] + "\n]"
+										fmt.Fprintf(theResponseWriter, outputString)
 									}
 								}
 							// A simple call that doesn't do anything except serve to keep the timestamp for the given Task up-to-date.
