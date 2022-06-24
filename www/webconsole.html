@@ -169,7 +169,7 @@
 			function saveFile() {
 				console.log(currentEditFile);
 				doAPICall("saveFile", {"filename":currentEditFile, "contents":document.getElementById("editBlock").value}, function(result) {
-					console.log("File saved...");
+					console.log(result);
 				});
 			}
 			
