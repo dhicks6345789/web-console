@@ -165,6 +165,7 @@
 				doAPICall("getTaskRunning", {"filename":theFilename}, function(result) {
 					document.getElementById("editFileBox").value = result;
 				});
+				return false;
 			}
 			
 			// Save the current file being edited in the edit file panel.
