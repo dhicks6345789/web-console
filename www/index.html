@@ -54,7 +54,7 @@
 				doAPICall("getPublicTaskList", {}, function(result) {
 					console.log(result);
 					rowCount = 1;
-					JSON.parse(result).forEach(function(item) {
+					result.forEach(function(item) {
 						console.log(item);
 						//function(taskID, taskTitle) {
 						//publicTaskRow = $("#publicTaskRow").clone();
