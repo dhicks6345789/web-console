@@ -171,7 +171,9 @@
 			function saveFile() {
 				fileContents = document.getElementById("editFileBox").value;
 				doAPICall("saveFile", {"filename":currentEditFile, "contents":fileContents}, function(result) {
-					console.log(result);
+					if (result != "OK") {
+						alert(result);
+					}
 				});
 			}
 			
