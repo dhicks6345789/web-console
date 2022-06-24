@@ -162,7 +162,7 @@
 			// Get the given file contents from the server and place it in the file edit panel.
 			function editFile(theFilename) {
 				currentEditFile = theFilename;
-				doAPICall("getTaskRunning", {"filename":theFilename}, function(result) {
+				doAPICall("getEditableFileContents", {"filename":theFilename}, function(result) {
 					document.getElementById("editFileBox").value = result;
 				});
 			}
