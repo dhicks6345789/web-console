@@ -183,10 +183,13 @@
 						}
 					});
 				}
-				if (permission != "E") {
-					console.log("No Editor permission!");
+				if (permission == "E") {
+					doAPICall("getEditableFileList", {}, function(result) {
+						console.log(result);
+					});
+				} else {
 					document.getElementById("editBlock").style.display = "none";
-				}
+				} 
 			}
 		</script>
 	</head>
