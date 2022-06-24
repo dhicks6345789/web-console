@@ -103,7 +103,7 @@ func hashPassword(thePassword string) (string, error) {
 // Check a plain text password with a Bcrypt-hashed string, returns true if they match.
 func checkPasswordHash(thePassword, theHash string) bool {
 	if thePassword == "" && theHash == "" {
-		return true
+		return false
 	}
 	cryptErr := bcrypt.CompareHashAndPassword([]byte(theHash), []byte(thePassword))
 	return cryptErr == nil
@@ -238,7 +238,9 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 			taskDetails["taskID"] = theTaskID
 			taskDetails["title"] = ""
 			taskDetails["description"] = ""
-			taskDetails["secret"] = ""
+			taskDetails["secretViewers"] = ""
+			taskDetails["secretRunners"] = ""
+			taskDetails["secretEditors"] = ""
 			taskDetails["public"] = "N"
 			taskDetails["ratelimit"] = "0"
 			taskDetails["progress"] = "N"
@@ -649,14 +651,27 @@ func main() {
 									fmt.Println("webconsole: User authorised - valid token found: " + token + ", permission: " + permission)
 								}
 							}
-						} else if checkPasswordHash(theRequest.Form.Get("secret"), taskDetails["secret"]) {
+						} else if checkPasswordHash(theRequest.Form.Get("secretViewer"), taskDetails["secretViewer"]) {
+							authorised = true
+							permission = "V"
+							if arguments["debug"] == "true" {
+								fmt.Println("webconsole: User authorised via Task secret, permission: " + permission)
+							}
+						} else if checkPasswordHash(theRequest.Form.Get("secretRunner"), taskDetails["secretRunner"]) {
+							authorised = true
+							permission = "R"
+							if arguments["debug"] == "true" {
+								fmt.Println("webconsole: User authorised via Task secret, permission: " + permission)
+							}
+						} else if checkPasswordHash(theRequest.Form.Get("secretEditor"), taskDetails["secretEditor"]) {
 							authorised = true
 							permission = "E"
 							if arguments["debug"] == "true" {
 								fmt.Println("webconsole: User authorised via Task secret, permission: " + permission)
 							}
-						} else {
-							authorisationError = "incorrect secret"
+						}
+						else {
+							authorisationError = "not authorised"
 						}
 						if authorised {
 							// If we get this far, we know the user is authorised for this Task - they've either provided a valid
