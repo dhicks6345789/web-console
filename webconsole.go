@@ -669,8 +669,7 @@ func main() {
 							if arguments["debug"] == "true" {
 								fmt.Println("webconsole: User authorised via Task secret, permission: " + permission)
 							}
-						}
-						else {
+						} else {
 							authorisationError = "not authorised"
 						}
 						if authorised {
