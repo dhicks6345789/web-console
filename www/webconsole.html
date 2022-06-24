@@ -189,7 +189,7 @@
 					});
 				}
 				if (permission == "E") {
-					document.getElementById("editBlock").style.display = "block";
+					// document.getElementById("editBlock").style.display = "block";
 					doAPICall("getEditableFileList", {}, function(result) {
 						JSON.parse(result).forEach(function(editableFile) {
 							editableFileList = document.getElementById("editFileList");
