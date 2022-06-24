@@ -34,16 +34,17 @@
 			function submitForm(theTaskID, theTaskSecret) {
 				// Send the user-provided details to the server and, if valid, get a token back.
 				doAPICall("getToken", {taskID:theTaskID, secret:theTaskSecret}, function(result) {
-					// Check for errors returned from the API.
-					if (result.startsWith("ERROR")) {
-						$("#ErrorAlertMessage").html(result.slice(result.indexOf(" ")+1));
-						$("#errorAlertModal").modal("show");
-					// Send the user to the "view" page.
-					} else {
-						$("#hiddenTaskID").val(theTaskID);
-						$("#hiddenToken").val(result);
-						$("#hiddenForm").submit();
-					}
+					console.log(result);
+					//// Check for errors returned from the API.
+					//if (result.startsWith("ERROR")) {
+						//$("#ErrorAlertMessage").html(result.slice(result.indexOf(" ")+1));
+						//$("#errorAlertModal").modal("show");
+					//// Send the user to the "view" page.
+					//} else {
+						//$("#hiddenTaskID").val(theTaskID);
+						//$("#hiddenToken").val(result);
+						//$("#hiddenForm").submit();
+					//}
 				});
 			}
 			
@@ -52,18 +53,20 @@
 				// Get a list of public Tasks from the server - might be empty.
 				doAPICall("getPublicTaskList", {}, function(result) {
 					rowCount = 1;
-					JSON.parse(result).forEach(function(taskID, taskTitle) {
-						publicTaskRow = $("#publicTaskRow").clone();
-						publicTaskRow.attr("id","publicTaskRow-" + rowCount);
-						publicTaskRow.find("span").html(taskTitle + ". Secret:")
-						publicTaskRow.find("span").attr("name", taskID);
-						publicTaskRow.find("span").attr("id","publicTaskTitle-" + rowCount);
-						publicTaskRow.find("input").attr("id","publicTaskSecretInput-" + rowCount);
-						publicTaskRow.find("button").attr("id","publicTaskButton-" + rowCount);
-						publicTaskRow.find("button").attr("onclick", "submitForm($('#publicTaskTitle-" + rowCount + "').attr('name'), $('#publicTaskSecretInput-" + rowCount + "').val())");
-						document.getElementById("publicTaskList").append(publicTaskRow);
-						publicTaskRow.show();
-						rowCount = rowCount + 1;
+					JSON.parse(result).forEach(function(item) {
+						console.log(item);
+						//function(taskID, taskTitle) {
+						//publicTaskRow = $("#publicTaskRow").clone();
+						//publicTaskRow.attr("id","publicTaskRow-" + rowCount);
+						//publicTaskRow.find("span").html(taskTitle + ". Secret:")
+						//publicTaskRow.find("span").attr("name", taskID);
+						//publicTaskRow.find("span").attr("id","publicTaskTitle-" + rowCount);
+						//publicTaskRow.find("input").attr("id","publicTaskSecretInput-" + rowCount);
+						//publicTaskRow.find("button").attr("id","publicTaskButton-" + rowCount);
+						//publicTaskRow.find("button").attr("onclick", "submitForm($('#publicTaskTitle-" + rowCount + "').attr('name'), $('#publicTaskSecretInput-" + rowCount + "').val())");
+						//document.getElementById("publicTaskList").append(publicTaskRow);
+						//publicTaskRow.show();
+						//rowCount = rowCount + 1;
 					});
 				});
 			}
