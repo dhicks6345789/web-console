@@ -165,7 +165,6 @@
 				doAPICall("getTaskRunning", {"filename":theFilename}, function(result) {
 					document.getElementById("editFileBox").value = result;
 				});
-				return false;
 			}
 			
 			// Save the current file being edited in the edit file panel.
@@ -206,7 +205,7 @@
 					doAPICall("getEditableFileList", {}, function(result) {
 						JSON.parse(result).forEach(function(editableFile) {
 							editableFileList = document.getElementById("editFileList");
-							editableFileList.innerHTML = editableFileList.innerHTML + "<div><a href=\"#\" onclick=\"editFile('" + editableFile + "')\">" + editableFile + "</a></div>";
+							editableFileList.innerHTML = editableFileList.innerHTML + "<div><a href=\"#\" onclick=\"editFile('" + editableFile + "'); return false;\">" + editableFile + "</a></div>";
 						});
 					});
 				}
