@@ -168,7 +168,7 @@
 			// Save the current file being edited in the edit file panel.
 			function saveFile() {
 				console.log(currentEditFile);
-				fileContents = document.getElementById("editBlock").value;
+				fileContents = document.getElementById("editFileBox").value;
 				console.log(fileContents);
 				doAPICall("saveFile", {"filename":currentEditFile, "contents":fileContents}, function(result) {
 					console.log(result);
