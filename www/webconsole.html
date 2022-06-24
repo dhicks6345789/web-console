@@ -189,7 +189,7 @@
 					});
 				}
 				if (permission == "E") {
-					// document.getElementById("editBlock").style.display = "block";
+					document.getElementById("editBlock").style.display = "block";
 					doAPICall("getEditableFileList", {}, function(result) {
 						JSON.parse(result).forEach(function(editableFile) {
 							editableFileList = document.getElementById("editFileList");
@@ -270,10 +270,12 @@
 						</h2>
 						<div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
 							<div class="accordian-body text-start">
-								<div>
-									<div id="editFileList">
+								<div class="row">
+									<div class="col-sm-4" id="editFileList">
 									</div>
-									<div id="editFilePanel">
+									<div class="col-sm-8" id="editFilePanel">
+										<textarea id="editFileBox" rows="25" cols="80"></textarea>
+										<button class="btn btn-success" type="button" id="saveFileButton" onclick="saveFile()">Save</button>
 									</div>
 								</div>
 							</div>
