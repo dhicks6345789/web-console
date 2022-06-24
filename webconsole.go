@@ -670,7 +670,7 @@ func main() {
 								fmt.Println("webconsole: User authorised via Task secret, permission: " + permission)
 							}
 						} else {
-							authorisationError = "not authorised"
+							authorisationError = "no external authorisation used, no valid secret given, no valid token supplied"
 						}
 						if authorised {
 							// If we get this far, we know the user is authorised for this Task - they've either provided a valid
