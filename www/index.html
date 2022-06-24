@@ -19,13 +19,15 @@
 		<meta name="msapplication-TileColor" content="#da532c">
 		<meta name="theme-color" content="#ffffff">
 		
+		<script src="webconsole.js"></script>
+		
 		<script>
 			// There are multiple points on the page where this function can get called from - the main ID-and-secret form, or the individual public Task rows.
 			// Either way, this function first exchanges the provided Task ID and secret for a token from the server, then submits a POST to send the user
 			// to the view page for the relevant Task.
 			function submitForm(theTaskID, theTaskSecret) {
 				// Send the user-provided details to the server and, if valid, get a token back.
-				$.post("api/getToken", {taskID:theTaskID, secret:theTaskSecret}, function(result) {
+				doAPICall("getToken", {taskID:theTaskID, secret:theTaskSecret}, function(result) {
 					// Check for errors returned from the API.
 					if (result.startsWith("ERROR")) {
 						$("#ErrorAlertMessage").html(result.slice(result.indexOf(" ")+1));
@@ -42,9 +44,9 @@
 			// Only run once the page is ready.
 			function pageReady() {
 				// Get a list of public Tasks from the server - might be empty.
-				$.post("api/getPublicTaskList", {}, function(result) {
+				doAPICall("getPublicTaskList", {}, function(result) {
 					rowCount = 1;
-					$.each(JSON.parse(result), function(taskID, taskTitle) {
+					JSON.parse(result).forEach(function(taskID, taskTitle) {
 						publicTaskRow = $("#publicTaskRow").clone();
 						publicTaskRow.attr("id","publicTaskRow-" + rowCount);
 						publicTaskRow.find("span").html(taskTitle + ". Secret:")
@@ -53,7 +55,7 @@
 						publicTaskRow.find("input").attr("id","publicTaskSecretInput-" + rowCount);
 						publicTaskRow.find("button").attr("id","publicTaskButton-" + rowCount);
 						publicTaskRow.find("button").attr("onclick", "submitForm($('#publicTaskTitle-" + rowCount + "').attr('name'), $('#publicTaskSecretInput-" + rowCount + "').val())");
-						$("#publicTaskList").append(publicTaskRow);
+						document.getElementById("publicTaskList").append(publicTaskRow);
 						publicTaskRow.show();
 						rowCount = rowCount + 1;
 					});
