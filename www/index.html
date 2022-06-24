@@ -52,9 +52,10 @@
 			function pageReady() {
 				// Get a list of public Tasks from the server - might be empty.
 				doAPICall("getPublicTaskList", {}, function(result) {
-					rowCount = 1;
-					JSON.parse(result).forEach(function(item) {
-						console.log(item);
+					console.log(result);
+					//rowCount = 1;
+					//JSON.parse(result).forEach(function(item) {
+						//console.log(item);
 						//function(taskID, taskTitle) {
 						//publicTaskRow = $("#publicTaskRow").clone();
 						//publicTaskRow.attr("id","publicTaskRow-" + rowCount);
@@ -67,7 +68,7 @@
 						//document.getElementById("publicTaskList").append(publicTaskRow);
 						//publicTaskRow.show();
 						//rowCount = rowCount + 1;
-					});
+					//});
 				});
 			}
 		</script>
