@@ -707,6 +707,7 @@ func main() {
 										webconsoleString := string(webconsoleBuffer)
 										webconsoleString = strings.Replace(webconsoleString, "<<TASKID>>", taskID, -1)
 										webconsoleString = strings.Replace(webconsoleString, "<<TOKEN>>", token, -1)
+										webconsoleString = strings.Replace(webconsoleString, "<<PERMISSION>>", permission, -1)
 										webconsoleString = strings.Replace(webconsoleString, "<<TITLE>>", taskDetails["title"], -1)
 										webconsoleString = strings.Replace(webconsoleString, "<<DESCRIPTION>>", taskDetails["description"], -1)
 										webconsoleString = strings.Replace(webconsoleString, "<<FAVICONPATH>>", taskID + "/", -1)
