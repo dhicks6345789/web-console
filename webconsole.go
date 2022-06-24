@@ -855,7 +855,7 @@ func main() {
 										for _, editableFile := range editableFiles {
 											outputString = outputString + "\"" + editableFile.Name() + "\",\n"
 										}
-										outputString = outputString[0:len(outputString)-3] + "\n]"
+										outputString = outputString[0:len(outputString)-2] + "\n]"
 										fmt.Fprintf(theResponseWriter, outputString)
 									}
 								}
