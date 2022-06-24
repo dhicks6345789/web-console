@@ -183,9 +183,9 @@
 						}
 					});
 				}
-				if (permission == "E") {
-					console.log("Editor permission!");
-					document.getElementById("editBlock").style.display = "block";
+				if (permission != "E") {
+					console.log("No Editor permission!");
+					document.getElementById("editBlock").style.display = "none";
 				}
 			}
 		</script>
@@ -252,7 +252,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="accordion-item" id="editBlock" hidden>
+					<div class="accordion-item" id="editBlock">
 						<h2 class="accordion-header" id="headingThree">
 							<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
 								Edit
