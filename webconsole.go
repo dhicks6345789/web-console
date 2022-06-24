@@ -859,6 +859,23 @@ func main() {
 										fmt.Fprintf(theResponseWriter, outputString)
 									}
 								}
+							// Return the contents of an editable file - needs edit permissions.
+							} else if strings.HasPrefix(requestPath, "/api/getEditableFileContents") {
+								if permission != "E" {
+									fmt.Fprintf(theResponseWriter, "ERROR: getEditableFileContents called - don't have edit permissions.")
+								} else {
+									filename := theRequest.Form.Get("filename")
+									if filename != "" {
+										fileContents, fileContentsErr := ioutil.ReadFile(arguments["taskroot"] + "/" + taskID + "/" + filename)
+										if fileContentsErr != nil {
+											fmt.Fprintf(theResponseWriter, "ERROR: getEditableFileContents - cannot read file contents for file " + filename + ".")
+										} else {
+											fmt.Fprintf(theResponseWriter, string(fileContents))
+										}
+									} else {
+										fmt.Fprintf(theResponseWriter, "ERROR: getEditableFileContents - missing filename parameter.")
+									}
+								}
 							// Save a file.
 							} else if strings.HasPrefix(requestPath, "/api/saveFile") {
 								if permission != "E" {
