@@ -187,11 +187,8 @@
 					document.getElementById("editBlock").style.display = "block";
 					doAPICall("getEditableFileList", {}, function(result) {
 						JSON.parse(result).forEach(function(editableFile) {
-							//newEditFileLine = document.getElementById("editFileLine").cloneNode(true);
-							//newEditFileLine.setAttribute("id", "editFileLine" + editFileLineCount);
-							//newEditFileLine.innerHTML = editableFile;
-							//document.getElementById("editFileLine").appendChild(newEditFileLine);
-							document.getElementById("editFileList").append("<div>" + editableFile + "</div>");
+							editableFileList = document.getElementById("editFileList");
+							editableFileList.innerHTML = editableFileList.innerHTML + "<div>" + editableFile + "</div>";
 						});
 					});
 				}
@@ -267,9 +264,7 @@
 							</button>
 						</h2>
 						<div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
-							<div class="accordian-body text-start" id="editFileList">
-								<div id="editFileLine" style="display:none"></div>
-							</div>
+							<div class="accordian-body text-start" id="editFileList"></div>
 						</div>
 					</div>
 				</div>
