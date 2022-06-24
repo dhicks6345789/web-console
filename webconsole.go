@@ -842,6 +842,20 @@ func main() {
 								} else {
 									fmt.Fprintf(theResponseWriter, "NO")
 								}
+							// Return a list of editable files for this task - needs edit permissions.
+							} else if strings.HasPrefix(requestPath, "/api/getEditableFileList") {
+								if permission != "E" {
+									fmt.Fprintf(theResponseWriter, "ERROR: Don't have edit permissions.")
+								} else {
+									editableFiles, editableErr := ioutil.ReadDir(arguments["taskroot"] + "/" + taskID)
+									if editableErr != nil {
+										fmt.Fprintf(theResponseWriter, "ERROR: Can't list editable files.")
+									} else {
+										for _, editableFile := range editableFiles {
+											fmt.Fprintf(theResponseWriter, editableFile.Name())
+										}
+									}
+								}
 							// A simple call that doesn't do anything except serve to keep the timestamp for the given Task up-to-date.
 							} else if strings.HasPrefix(requestPath, "/api/keepAlive") {
 								fmt.Fprintf(theResponseWriter, "OK")
