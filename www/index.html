@@ -54,9 +54,10 @@
 				doAPICall("getPublicTaskList", {}, function(result) {
 					console.log(result);
 					rowCount = 1;
-					JSON.parse(result).forEach(function(itemName, itemValue) {
-						console.log(itemName);
-						//function(taskID, taskTitle) {
+					taskList = JSON.parse(result)
+					taskList.keys().forEach(function(taskID) {
+						console.log(itemID);
+						console.log(taskList[itemID]);
 						//publicTaskRow = $("#publicTaskRow").clone();
 						//publicTaskRow.attr("id","publicTaskRow-" + rowCount);
 						//publicTaskRow.find("span").html(taskTitle + ". Secret:")
@@ -67,7 +68,7 @@
 						//publicTaskRow.find("button").attr("onclick", "submitForm($('#publicTaskTitle-" + rowCount + "').attr('name'), $('#publicTaskSecretInput-" + rowCount + "').val())");
 						//document.getElementById("publicTaskList").append(publicTaskRow);
 						//publicTaskRow.show();
-						//rowCount = rowCount + 1;
+						rowCount = rowCount + 1;
 					});
 				});
 			}
