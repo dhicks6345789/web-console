@@ -885,8 +885,10 @@ func main() {
 									if filename != "" {
 										contents := theRequest.Form.Get("contents")
 										if contents != "" {
-											fmt.Println("webconsole: write " + filename)
-											fmt.Println(contents)
+											if arguments["debug"] == "true" {
+												fmt.Println("webconsole: Write " + arguments["taskroot"] + "/" + taskID + "/" + filename)
+											}
+											ioutil.WriteFile(arguments["taskroot"] + "/" + taskID + "/" + filename, []byte(contents), 0644)
 											fmt.Fprintf(theResponseWriter, "OK")
 										} else {
 											fmt.Fprintf(theResponseWriter, "ERROR: saveFile - missing contents parameter.")
