@@ -866,8 +866,6 @@ func main() {
 								} else {
 									filename := theRequest.Form.Get("filename")
 									if filename != "" {
-									} else {
-										fmt.Fprintf(theResponseWriter, "ERROR: saveFile - missing filename parameter.")
 										contents := theRequest.Form.Get("contents")
 										if contents != "" {
 											fmt.Println("webconsole: write " + filename)
@@ -876,6 +874,8 @@ func main() {
 										} else {
 											fmt.Fprintf(theResponseWriter, "ERROR: saveFile - missing contents parameter.")
 										}
+									} else {
+										fmt.Fprintf(theResponseWriter, "ERROR: saveFile - missing filename parameter.")
 									}
 								}
 							// A simple call that doesn't do anything except serve to keep the timestamp for the given Task up-to-date.
