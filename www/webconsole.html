@@ -185,7 +185,9 @@
 				}
 				if (permission == "E") {
 					doAPICall("getEditableFileList", {}, function(result) {
-						console.log(result);
+						JSON.parse(result).forEach(function(editableFile) {
+							console.log(editableFile);
+						});
 					});
 				} else {
 					document.getElementById("editBlock").style.display = "none";
