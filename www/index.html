@@ -56,11 +56,10 @@
 					rowCount = 1;
 					taskList = JSON.parse(result);
 					Object.keys(taskList).forEach(function(taskID) {
-						console.log(taskID);
-						console.log(taskList[taskID]);
-						//publicTaskRow = $("#publicTaskRow").clone();
-						//publicTaskRow.attr("id","publicTaskRow-" + rowCount);
-						//publicTaskRow.find("span").html(taskTitle + ". Secret:")
+						publicTaskRow = document.getElementById("#publicTaskRow").clone();
+						publicTaskRow.setAttribute("id","publicTaskRow-" + rowCount);
+						console.log(publicTaskRow.childNodes);
+						//find("span").innerHTML = taskTitle + ". Secret:"
 						//publicTaskRow.find("span").attr("name", taskID);
 						//publicTaskRow.find("span").attr("id","publicTaskTitle-" + rowCount);
 						//publicTaskRow.find("input").attr("id","publicTaskSecretInput-" + rowCount);
