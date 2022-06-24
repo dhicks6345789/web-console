@@ -845,7 +845,7 @@ func main() {
 							// Return a list of editable files for this task - needs edit permissions.
 							} else if strings.HasPrefix(requestPath, "/api/getEditableFileList") {
 								if permission != "E" {
-									fmt.Fprintf(theResponseWriter, "ERROR: Don't have edit permissions.")
+									fmt.Fprintf(theResponseWriter, "ERROR: getEditableFileList called - don't have edit permissions.")
 								} else {
 									editableFiles, editableErr := ioutil.ReadDir(arguments["taskroot"] + "/" + taskID)
 									if editableErr != nil {
@@ -857,6 +857,24 @@ func main() {
 										}
 										outputString = outputString[0:len(outputString)-2] + "\n]"
 										fmt.Fprintf(theResponseWriter, outputString)
+									}
+								}
+							// Save a file.
+							} else if strings.HasPrefix(requestPath, "/api/saveFile") {
+								if permission != "E" {
+									fmt.Fprintf(theResponseWriter, "ERROR: saveFile called - don't have edit permissions.")
+								} else {
+									filename := theRequest.Form.Get("filename")
+									if filename != "" {
+									} else {
+										fmt.Fprintf(theResponseWriter, "ERROR: saveFile - missing filename parameter.")
+										contents := theRequest.Form.Get("contents")
+										if contents != "" {
+											fmt.Println("webconsole: write " + filename)
+											fmt.Println(contents)
+										} else {
+											fmt.Fprintf(theResponseWriter, "ERROR: saveFile - missing contents parameter.")
+										}
 									}
 								}
 							// A simple call that doesn't do anything except serve to keep the timestamp for the given Task up-to-date.
