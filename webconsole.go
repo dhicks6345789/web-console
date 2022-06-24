@@ -872,6 +872,7 @@ func main() {
 										if contents != "" {
 											fmt.Println("webconsole: write " + filename)
 											fmt.Println(contents)
+											fmt.Fprintf(theResponseWriter, "OK")
 										} else {
 											fmt.Fprintf(theResponseWriter, "ERROR: saveFile - missing contents parameter.")
 										}
