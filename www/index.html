@@ -67,6 +67,7 @@
 					Object.keys(taskList).forEach(function(taskID) {
 						publicTaskRow = document.getElementById("publicTaskRow").cloneNode(true);
 						numberElementIDs(publicTaskRow, rowCount);
+						document.getElementById("publicTaskTitle-" + rowCount).innerHTML = "<a href=\"whatsit\">Bananas</a> Secret:";
 						//find("span").innerHTML = taskTitle + ". Secret:"
 						//publicTaskRow.find("span").attr("name", taskID);
 						//publicTaskRow.find("span").attr("id","publicTaskTitle-" + rowCount);
