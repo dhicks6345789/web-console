@@ -558,7 +558,7 @@ func main() {
 					taskListString := "{"
 					for _, task := range taskList {
 						if task["public"]  == "Y" {
-							taskListString = taskListString + "\"" + task["taskID"] + "\":\"" + task["title"] + "\","
+							taskListString = taskListString + "\"" + task["taskID"] + "\":{\"title\":\"" + task["title"] + "\"},"
 						}
 					}
 					if taskListString == "{" {
