@@ -68,7 +68,7 @@
 						publicTaskRow = document.getElementById("publicTaskRow").cloneNode(true);
 						numberElementIDs(publicTaskRow, rowCount);
 						document.getElementById("publicTaskList").appendChild(publicTaskRow);
-						document.getElementById("publicTaskTitle-" + rowCount).innerHTML = "<a href=\"view?taskID=" + taskID + "\">" + taskList[taskID]["title"] + "</a>";
+						document.getElementById("publicTaskTitle-" + rowCount).innerHTML = "<a href=\"view?taskID=" + taskID + "\">" + taskList[taskID]["title"] + "</a>: ";
 						document.getElementById("publicTaskDescription-" + rowCount).innerHTML = taskList[taskID]["description"];
 						//publicTaskRow.find("button").attr("onclick", "submitForm($('#publicTaskTitle-" + rowCount + "').attr('name'), $('#publicTaskSecretInput-" + rowCount + "').val())");
 						publicTaskRow.style.display = "block";
