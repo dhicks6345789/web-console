@@ -598,11 +598,12 @@ func main() {
 						// If we get to this point, we know we have a valid Task ID.
 						authorised := false
 						authorisationError := "unknown error"
+						permission := "E"
 						if taskDetails["authentication"] == "" {
 							authorised = true
 							authorisationError = ""
+							permission := "R"
 						}
-						permission := "E"
 						currentTimestamp := time.Now().Unix()
 						rateLimit, rateLimitErr := strconv.Atoi(taskDetails["ratelimit"])
 						if rateLimitErr != nil {
