@@ -68,7 +68,7 @@
 						publicTaskRow = document.getElementById("publicTaskRow").cloneNode(true);
 						numberElementIDs(publicTaskRow, rowCount);
 						document.getElementById("publicTaskList").appendChild(publicTaskRow);
-						document.getElementById("publicTaskTitle-" + rowCount).innerHTML = "<a href=\"whatsit\">Bananas</a> Secret:";
+						document.getElementById("publicTaskTitle-" + rowCount).innerHTML = "<a href=\"whatsit\">Bananas</a>";
 						//find("span").innerHTML = taskTitle + ". Secret:"
 						//publicTaskRow.find("span").attr("name", taskID);
 						//publicTaskRow.find("span").attr("id","publicTaskTitle-" + rowCount);
@@ -76,6 +76,8 @@
 						//publicTaskRow.find("button").attr("id","publicTaskButton-" + rowCount);
 						//publicTaskRow.find("button").attr("onclick", "submitForm($('#publicTaskTitle-" + rowCount + "').attr('name'), $('#publicTaskSecretInput-" + rowCount + "').val())");
 						publicTaskRow.style.display = "block";
+						console.log(taskList[taskID]["authentication"]);
+						document.getElementById("publicTaskSecretLine-" + rowCount).style.display = "none";
 						rowCount = rowCount + 1;
 					});
 				});
@@ -123,20 +125,25 @@
 					</div>
 				</div>
 				<button type="button" onclick="submitForm($('#taskIDInput').val(), $('#secretInput').val())" class="btn btn-primary">Go</button>
+				
 				<!-- A list of any public Tasks, dynamically loaded from the server.. -->
+				<div id="publicTasksHeading">
+					<h2>Tasks</h2>
+				</div>
 				<table id="publicTaskList" style="margin-left:auto; margin-right:auto;">
 					<tr id="publicTaskRow" style="display:none;">
 						<td class="text-right">
-							<span id="publicTaskTitle">Secret:</span>
+							<span id="publicTaskTitle"></span>
 						</td>
-						<td>
-							<input id="publicTaskSecretInput" type="password" class="form-control" aria-describedby="publicTaskTemplateSecretHelp" placeholder="Secret"/>
+						<td id="publicTaskSecretLine">
+							Secret: <input id="publicTaskSecretInput" type="password" class="form-control" aria-describedby="publicTaskTemplateSecretHelp" placeholder="Secret"/>
 						<td>
 						<td>
 							<button id="publicTaskButton" type="button" class="btn btn-primary" onclick="submitForm()">Go</button>
 						</td>
 					</tr>
 				</table>
+				
 				<!-- A completly hidden form - the user doesn't see it, but this is the form used to actually submit data to the server. -->
 				<form id="hiddenForm" action="view" method="post">
 					<input type="hidden" id="hiddenTaskID" name="taskID"/>
