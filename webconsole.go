@@ -261,7 +261,7 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 				}
 			}
 			for authType, _ := range authTypes {
-				taskDetails["authentication"] = taskDetails["authentication"] + "\"" + authType + "\","
+				taskDetails["authentication"] = taskDetails["authentication"] + authType + ","
 			}
 			if len(taskDetails["authentication"]) > 0 {
 				taskDetails["authentication"] = taskDetails["authentication"][0:len(taskDetails["authentication"])-1]
@@ -576,7 +576,7 @@ func main() {
 					for _, task := range taskList {
 						if task["public"]  == "Y" {
 							taskDetailsString, _ := json.Marshal(map[string]string{"title":task["title"], "description":task["description"], "authentication":task["authentication"]})
-							taskListString = taskListString + "\"" + task["taskID"] + "\":" + string(taskDetailsString)
+							taskListString = taskListString + "\"" + task["taskID"] + "\":" + string(taskDetailsString) + ","
 						}
 					}
 					if taskListString == "{" {
