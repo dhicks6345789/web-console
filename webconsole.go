@@ -612,6 +612,10 @@ func main() {
 						}
 						// Handle a login from MyStart.Online - validate the details passed and check that the user ID given has
 						// permission to access this Task.
+						if arguments["debug"] == "true" {
+							fmt.Println("webconsole: secret: " + theRequest.Form.Get("secret"))
+							fmt.Println("webconsole: secretViewer: " + taskDetails["secretViewer"])
+						}
 						if strings.HasPrefix(requestPath, "/api/mystartLogin") {
 							if arguments["debug"] == "true" {
 								fmt.Println("webconsole: mystartLogin API call.")
