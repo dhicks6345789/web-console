@@ -50,7 +50,7 @@
 			
 			function submitPublicTask(theTaskID, theRowNumber) {
 				document.getElementById("hiddenTaskID").value = theTaskID;
-				document.getElementById("hiddenToken").value = document.getElementById("publicTaskSecretInput-" + theRowNumber).value;
+				document.getElementById("hiddenSecret").value = document.getElementById("publicTaskSecretInput-" + theRowNumber).value;
 				document.getElementById("hiddenForm").submit();
 			}
 			
@@ -152,7 +152,7 @@
 				<!-- A completly hidden form - the user doesn't see it, but this is the form used to actually submit data to the server. -->
 				<form id="hiddenForm" action="view" method="post">
 					<input type="hidden" id="hiddenTaskID" name="taskID"/>
-					<input type="hidden" id="hiddenToken" name="token"/>
+					<input type="hidden" id="hiddenSecret" name="secret"/>
 				</form>
 			</div>
 			<div class="col-sm-1 align-self-center"></div>
