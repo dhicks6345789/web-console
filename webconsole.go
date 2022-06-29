@@ -567,7 +567,9 @@ func main() {
 						for authType, _ := range authTypes {
 							authTypesString = authTypesString + "\"" + authType + "\","
 						}
-						authTypesString = authTypesString[0:len(authTypesString)-1]
+						if len(authTypesString) > 0 {
+							authTypesString = authTypesString[0:len(authTypesString)-1]
+						}
 						if task["public"]  == "Y" {
 							taskListString = taskListString + "\"" + task["taskID"] + "\":{\"title\":\"" + task["title"] + "\",\"description\":\"" + task["description"] + "\",\"authentication\":[authTypesString]},"
 						}
