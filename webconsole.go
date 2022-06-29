@@ -558,7 +558,7 @@ func main() {
 					taskListString := "{"
 					for _, task := range taskList {
 						authTypes := map[string]int{}
-						for _, secretType := range ["secretViewer","secretRunner","secretEditor"] {
+						for _, secretType := range []string{"secretViewer","secretRunner","secretEditor"} {
 							if secretType in task.keys {
 								authTypes["secret"] = 1
 							}
