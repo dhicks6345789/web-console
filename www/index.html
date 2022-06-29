@@ -74,7 +74,7 @@
 						document.getElementById("publicTaskList").appendChild(publicTaskRow);
 						document.getElementById("publicTaskTitle-" + rowCount).innerHTML = "<a href=\"view?taskID=" + taskID + "\">" + taskList[taskID]["title"] + "</a>: ";
 						document.getElementById("publicTaskDescription-" + rowCount).innerHTML = taskList[taskID]["description"];
-						document.getElementById("publicTaskButton-" + rowCount).onmousedown = "submitPublicTask('" + taskID + "', " + rowCount + ")";
+						//document.getElementById("publicTaskButton-" + rowCount).onmousedown = "submitPublicTask('" + taskID + "', " + rowCount + ")";
 						publicTaskRow.style.display = "block";
 						if (!taskList[taskID]["authentication"].includes("secret")) {
 							document.getElementById("publicTaskSecretLine-" + rowCount).style.display = "none";
