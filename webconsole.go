@@ -557,8 +557,19 @@ func main() {
 					// here just means that they are listed by this API call for display on the landing page.
 					taskListString := "{"
 					for _, task := range taskList {
+						authTypes := {}
+						for _, secretType := range ["secretViewer","secretRunner","secretEditor"] {
+							if secretType in task.keys {
+								authTypes["secret"] = 1
+							}
+						}
+						authTypesString := ""
+						for _, authType := range authTypes.keys {
+							authTypesString = authTypesString + "\"" + authType + "\","
+						}
+						authTypesString = authTypesString[0:len(authTypesString)-1]
 						if task["public"]  == "Y" {
-							taskListString = taskListString + "\"" + task["taskID"] + "\":{\"title\":\"" + task["title"] + "\",\"description\":\"" + task["description"] + "\",\"authentication\":[\"secret\"]},"
+							taskListString = taskListString + "\"" + task["taskID"] + "\":{\"title\":\"" + task["title"] + "\",\"description\":\"" + task["description"] + "\",\"authentication\":[authTypesString]},"
 						}
 					}
 					if taskListString == "{" {
