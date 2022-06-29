@@ -257,7 +257,7 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 			authTypes := map[string]int{}
 			for _, taskDetail := range taskDetails {
 				for _, secretType := range []string{"secretViewers","secretRunners","secretEditors"} {
-					if taskDetail[secretType] == "" {
+					if string(taskDetail[secretType]) == "" {
 						authTypes["secret"] = 1
 					}
 				}
