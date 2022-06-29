@@ -614,7 +614,7 @@ func main() {
 						// permission to access this Task.
 						if arguments["debug"] == "true" {
 							fmt.Println("webconsole: secret: " + theRequest.Form.Get("secret"))
-							fmt.Println("webconsole: secretViewer: " + taskDetails["secretViewer"])
+							fmt.Println("webconsole: secretViewer: " + taskDetails["secretViewers"])
 						}
 						if strings.HasPrefix(requestPath, "/api/mystartLogin") {
 							if arguments["debug"] == "true" {
@@ -678,19 +678,19 @@ func main() {
 									fmt.Println("webconsole: User authorised - valid token found: " + token + ", permission: " + permission)
 								}
 							}
-						} else if checkPasswordHash(theRequest.Form.Get("secret"), taskDetails["secretViewer"]) {
+						} else if checkPasswordHash(theRequest.Form.Get("secret"), taskDetails["secretViewers"]) {
 							authorised = true
 							permission = "V"
 							if arguments["debug"] == "true" {
 								fmt.Println("webconsole: User authorised via Task secret, permission: " + permission)
 							}
-						} else if checkPasswordHash(theRequest.Form.Get("secret"), taskDetails["secretRunner"]) {
+						} else if checkPasswordHash(theRequest.Form.Get("secret"), taskDetails["secretRunners"]) {
 							authorised = true
 							permission = "R"
 							if arguments["debug"] == "true" {
 								fmt.Println("webconsole: User authorised via Task secret, permission: " + permission)
 							}
-						} else if checkPasswordHash(theRequest.Form.Get("secret"), taskDetails["secretEditor"]) {
+						} else if checkPasswordHash(theRequest.Form.Get("secret"), taskDetails["secretEditors"]) {
 							authorised = true
 							permission = "E"
 							if arguments["debug"] == "true" {
