@@ -674,19 +674,19 @@ func main() {
 									fmt.Println("webconsole: User authorised - valid token found: " + token + ", permission: " + permission)
 								}
 							}
-						} else if checkPasswordHash(theRequest.Form.Get("secretViewer"), taskDetails["secretViewer"]) {
+						} else if checkPasswordHash(theRequest.Form.Get("secret"), taskDetails["secretViewer"]) {
 							authorised = true
 							permission = "V"
 							if arguments["debug"] == "true" {
 								fmt.Println("webconsole: User authorised via Task secret, permission: " + permission)
 							}
-						} else if checkPasswordHash(theRequest.Form.Get("secretRunner"), taskDetails["secretRunner"]) {
+						} else if checkPasswordHash(theRequest.Form.Get("secret"), taskDetails["secretRunner"]) {
 							authorised = true
 							permission = "R"
 							if arguments["debug"] == "true" {
 								fmt.Println("webconsole: User authorised via Task secret, permission: " + permission)
 							}
-						} else if checkPasswordHash(theRequest.Form.Get("secretEditor"), taskDetails["secretEditor"]) {
+						} else if checkPasswordHash(theRequest.Form.Get("secret"), taskDetails["secretEditor"]) {
 							authorised = true
 							permission = "E"
 							if arguments["debug"] == "true" {
