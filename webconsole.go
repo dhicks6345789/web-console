@@ -571,7 +571,7 @@ func main() {
 							authTypesString = authTypesString[0:len(authTypesString)-1]
 						}
 						if task["public"]  == "Y" {
-							taskListString = taskListString + "\"" + task["taskID"] + "\":{\"title\":\"" + task["title"] + "\",\"description\":\"" + task["description"] + "\",\"authentication\":[authTypesString]},"
+							taskListString = taskListString + "\"" + task["taskID"] + "\":{\"title\":\"" + task["title"] + "\",\"description\":\"" + task["description"] + "\",\"authentication\":[" + authTypesString + "]},"
 						}
 					}
 					if taskListString == "{" {
