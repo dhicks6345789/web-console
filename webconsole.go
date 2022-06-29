@@ -256,7 +256,7 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 			// Figure out what authentication types this Task accepts.
 			authTypes := map[string]int{}
 			for _, secretType := range []string{"secretViewers","secretRunners","secretEditors"} {
-				if taskDetails[secretType] == "" {
+				if taskDetails[secretType] != "" {
 					authTypes["secret"] = 1
 				}
 			}
