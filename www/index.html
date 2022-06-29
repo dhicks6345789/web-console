@@ -48,6 +48,12 @@
 				});
 			}
 			
+			function numberElementIDs(theNode, theNumber) {
+				theNode.childNodes.forEach(function(childNode) {
+					console.log(childNode.id);
+				});
+			}
+			
 			// Only run once the page is ready.
 			function pageReady() {
 				// Get a list of public Tasks from the server - might be empty.
@@ -57,8 +63,7 @@
 					taskList = JSON.parse(result);
 					Object.keys(taskList).forEach(function(taskID) {
 						publicTaskRow = document.getElementById("publicTaskRow").cloneNode(true);
-						publicTaskRow.setAttribute("id","publicTaskRow-" + rowCount);
-						console.log(publicTaskRow.childNodes[1].childNodes);
+						numberElementIDs(publicTaskRow, rowCount);
 						//find("span").innerHTML = taskTitle + ". Secret:"
 						//publicTaskRow.find("span").attr("name", taskID);
 						//publicTaskRow.find("span").attr("id","publicTaskTitle-" + rowCount);
