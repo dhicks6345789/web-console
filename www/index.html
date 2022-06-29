@@ -49,7 +49,9 @@
 			}
 			
 			function submitPublicTask(theTaskID, theRowNumber) {
-				console.log(document.getElementById("publicTaskSecretInput-" + theRowNumber).value);
+				document.getElementById("hiddenTaskID").value = theTaskID;
+				document.getElementById("hiddenToken").value = document.getElementById("publicTaskSecretInput-" + theRowNumber).value;
+				document.getElementById("hiddenForm").submit();
 			}
 			
 			function numberElementIDs(theNode, theNumber) {
