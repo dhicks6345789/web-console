@@ -564,7 +564,7 @@ func main() {
 							}
 						}
 						authTypesString := ""
-						for _, authType := range authTypes.keys {
+						for authType, _ := range authTypes {
 							authTypesString = authTypesString + "\"" + authType + "\","
 						}
 						authTypesString = authTypesString[0:len(authTypesString)-1]
