@@ -559,7 +559,7 @@ func main() {
 					for _, task := range taskList {
 						authTypes := map[string]int{}
 						for _, secretType := range []string{"secretViewer","secretRunner","secretEditor"} {
-							if secretType in task.keys {
+							if _, authTypeFound := task[secretType]; authTypeFound {
 								authTypes["secret"] = 1
 							}
 						}
