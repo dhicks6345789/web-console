@@ -68,7 +68,7 @@
 						publicTaskRow = document.getElementById("publicTaskRow").cloneNode(true);
 						numberElementIDs(publicTaskRow, rowCount);
 						document.getElementById("publicTaskList").appendChild(publicTaskRow);
-						document.getElementById("publicTaskTitle-" + rowCount).innerHTML = "<a href=\"" + taskID + "\">" + taskList[taskID]["title"] + "</a>";
+						document.getElementById("publicTaskTitle-" + rowCount).innerHTML = "<a href=\"view?taskID=" + taskID + "\">" + taskList[taskID]["title"] + "</a>";
 						//find("span").innerHTML = taskTitle + ". Secret:"
 						//publicTaskRow.find("span").attr("name", taskID);
 						//publicTaskRow.find("span").attr("id","publicTaskTitle-" + rowCount);
@@ -76,7 +76,7 @@
 						//publicTaskRow.find("button").attr("id","publicTaskButton-" + rowCount);
 						//publicTaskRow.find("button").attr("onclick", "submitForm($('#publicTaskTitle-" + rowCount + "').attr('name'), $('#publicTaskSecretInput-" + rowCount + "').val())");
 						publicTaskRow.style.display = "block";
-						if (taskList[taskID]["authentication"].includes("secret")) {
+						if (!taskList[taskID]["authentication"].includes("secret")) {
 							document.getElementById("publicTaskSecretLine-" + rowCount).style.display = "none";
 							document.getElementById("publicTaskButton-" + rowCount).style.display = "none";
 						}
