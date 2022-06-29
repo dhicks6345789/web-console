@@ -69,11 +69,7 @@
 						numberElementIDs(publicTaskRow, rowCount);
 						document.getElementById("publicTaskList").appendChild(publicTaskRow);
 						document.getElementById("publicTaskTitle-" + rowCount).innerHTML = "<a href=\"view?taskID=" + taskID + "\">" + taskList[taskID]["title"] + "</a>";
-						//find("span").innerHTML = taskTitle + ". Secret:"
-						//publicTaskRow.find("span").attr("name", taskID);
-						//publicTaskRow.find("span").attr("id","publicTaskTitle-" + rowCount);
-						//publicTaskRow.find("input").attr("id","publicTaskSecretInput-" + rowCount);
-						//publicTaskRow.find("button").attr("id","publicTaskButton-" + rowCount);
+						document.getElementById("publicTaskDescription-" + rowCount).innerHTML = taskList[taskID]["description"];
 						//publicTaskRow.find("button").attr("onclick", "submitForm($('#publicTaskTitle-" + rowCount + "').attr('name'), $('#publicTaskSecretInput-" + rowCount + "').val())");
 						publicTaskRow.style.display = "block";
 						if (!taskList[taskID]["authentication"].includes("secret")) {
@@ -134,8 +130,9 @@
 				</div>
 				<table id="publicTaskList" style="margin-left:auto; margin-right:auto;">
 					<tr id="publicTaskRow" style="display:none;">
-						<td class="text-right">
-							<span id="publicTaskTitle"></span>
+						<td id="publicTaskTitle" class="text-right">
+						</td>
+						<td id="publicTaskDescription" class="text-left">
 						</td>
 						<td id="publicTaskSecretLine">
 							Secret: <input id="publicTaskSecretInput" type="password" class="form-control" aria-describedby="publicTaskTemplateSecretHelp" placeholder="Secret"/>
