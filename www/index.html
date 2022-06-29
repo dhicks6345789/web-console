@@ -67,6 +67,7 @@
 					Object.keys(taskList).forEach(function(taskID) {
 						publicTaskRow = document.getElementById("publicTaskRow").cloneNode(true);
 						numberElementIDs(publicTaskRow, rowCount);
+						document.getElementById("publicTaskList").appendChild(publicTaskRow);
 						document.getElementById("publicTaskTitle-" + rowCount).innerHTML = "<a href=\"whatsit\">Bananas</a> Secret:";
 						//find("span").innerHTML = taskTitle + ". Secret:"
 						//publicTaskRow.find("span").attr("name", taskID);
@@ -74,7 +75,6 @@
 						//publicTaskRow.find("input").attr("id","publicTaskSecretInput-" + rowCount);
 						//publicTaskRow.find("button").attr("id","publicTaskButton-" + rowCount);
 						//publicTaskRow.find("button").attr("onclick", "submitForm($('#publicTaskTitle-" + rowCount + "').attr('name'), $('#publicTaskSecretInput-" + rowCount + "').val())");
-						document.getElementById("publicTaskList").appendChild(publicTaskRow);
 						publicTaskRow.style.display = "block";
 						rowCount = rowCount + 1;
 					});
