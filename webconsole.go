@@ -593,11 +593,15 @@ func main() {
 				if taskID == "" {
 					fmt.Fprintf(theResponseWriter, "ERROR: Missing parameter taskID.")
 				} else {
-					// If we get to this point, we know we have a valid Task ID.
 					taskDetails, taskErr := getTaskDetails(taskID)
 					if taskErr == nil {
+						// If we get to this point, we know we have a valid Task ID.
 						authorised := false
 						authorisationError := "unknown error"
+						if taskDetails["authentication"] == "" {
+							authorised = true
+							authorisationError = ""
+						}
 						permission := "E"
 						currentTimestamp := time.Now().Unix()
 						rateLimit, rateLimitErr := strconv.Atoi(taskDetails["ratelimit"])
