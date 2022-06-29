@@ -602,7 +602,7 @@ func main() {
 						if taskDetails["authentication"] == "" {
 							authorised = true
 							authorisationError = ""
-							permission := "R"
+							permission = "R"
 						}
 						currentTimestamp := time.Now().Unix()
 						rateLimit, rateLimitErr := strconv.Atoi(taskDetails["ratelimit"])
