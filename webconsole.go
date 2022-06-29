@@ -245,12 +245,31 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 			taskDetails["ratelimit"] = "0"
 			taskDetails["progress"] = "N"
 			taskDetails["command"] = ""
+			taskDetails["authentication"] = ""
 			scanner := bufio.NewScanner(inFile)
 			for scanner.Scan() {
 				itemSplit := strings.SplitN(scanner.Text(), ":", 2)
 				taskDetails[strings.TrimSpace(itemSplit[0])] = strings.TrimSpace(itemSplit[1])
 			}
 			inFile.Close()
+			
+			// Figure out what authentication types this Task accepts.
+			authTypes := map[string]int{}
+			for _, taskDetail := range taskDetails {
+				for _, secretType := range []string{"secretViewers","secretRunners","secretEditors"} {
+					if taskDetail[secretType] == "" {
+						authTypes["secret"] = 1
+					}
+				}
+			}
+			for authType, _ := range authTypes {
+				taskDetails["authentication"] = taskDetails["authentication"] + "\"" + authType + "\","
+			}
+			if len(taskDetails["authentication"]) > 0 {
+				taskDetails["authentication"] = taskDetails["authentication"][0:len(taskDetails["authentication"])-1]
+			}
+			
+			// Get the Task's description.
 			descriptionContents, descriptionContentsErr := ioutil.ReadFile(arguments["taskroot"] + "/" + theTaskID + "/description.txt")
 			if descriptionContentsErr == nil {
 				taskDetails["description"] = string(descriptionContents)
@@ -553,25 +572,12 @@ func main() {
 			} else if strings.HasPrefix(requestPath, "/api/getPublicTaskList") {
 				taskList, taskErr := getTaskList()
 				if taskErr == nil {
-					// We return the list of public tasks in JSON format. Note that public tasks might still need a secret to run, "public"
-					// here just means that they are listed by this API call for display on the landing page.
+					// We return the list of public tasks in JSON format. Note that public tasks might still need authentication to run,
+					// "public" here just means that they are listed by this API call for display on the landing page.
 					taskListString := "{"
 					for _, task := range taskList {
-						authTypes := map[string]int{}
-						for _, secretType := range []string{"secretViewer","secretRunner","secretEditor"} {
-							if _, authTypeFound := task[secretType]; authTypeFound {
-								authTypes["secret"] = 1
-							}
-						}
-						authTypesString := ""
-						for authType, _ := range authTypes {
-							authTypesString = authTypesString + "\"" + authType + "\","
-						}
-						if len(authTypesString) > 0 {
-							authTypesString = authTypesString[0:len(authTypesString)-1]
-						}
 						if task["public"]  == "Y" {
-							taskListString = taskListString + "\"" + task["taskID"] + "\":{\"title\":\"" + task["title"] + "\",\"description\":\"" + task["description"] + "\",\"authentication\":[" + authTypesString + "]},"
+							taskListString = taskListString + "\"" + task["taskID"] + "\":{\"title\":\"" + task["title"] + "\",\"description\":\"" + task["description"] + "\",\"authentication\":[" + task["authentication"] + "]},"
 						}
 					}
 					if taskListString == "{" {
