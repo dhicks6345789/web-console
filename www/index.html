@@ -49,7 +49,7 @@
 			}
 			
 			function submitPublicTask(theTaskID, theRowNumber) {
-				console.log(document.getElementById("publicTaskSecretInput-" + theRowNumber).val());
+				console.log(document.getElementById("publicTaskSecretInput-" + theRowNumber).val);
 			}
 			
 			function numberElementIDs(theNode, theNumber) {
@@ -142,7 +142,7 @@
 							<input id="publicTaskSecretInput" type="password" class="form-control" aria-describedby="publicTaskTemplateSecretHelp" placeholder="Enter secret"/>
 						<td>
 						<td>
-							<button id="publicTaskButton" type="button" class="btn btn-primary" onclick="console.log('Click!')">Go</button>
+							<button id="publicTaskButton" type="button" class="btn btn-primary" onclick="">Go</button>
 						</td>
 					</tr>
 				</table>
