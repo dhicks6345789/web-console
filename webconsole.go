@@ -575,7 +575,7 @@ func main() {
 					taskListString := "{"
 					for _, task := range taskList {
 						if task["public"]  == "Y" {
-							taskDetailsString, _ = string(json.Marshal(map[string]string{"title":task["title"]}))
+							taskDetailsString, _ := string(json.Marshal(map[string]string{"title":task["title"]}))
 							taskListString = taskListString + "\"" + task["taskID"] + "\":" + taskDetailsString
 							// {\"title\":\"" + task["title"] + "\",\"description\":\"" + task["description"] + "\",\"authentication\":[" + task["authentication"] + "]},"
 						}
