@@ -48,7 +48,7 @@
 				});
 			}
 			
-			function submitpublicTask(theTaskID, theRowNumber) {
+			function submitPublicTask(theTaskID, theRowNumber) {
 				console.log(document.getElementById("publicTaskSecretInput-" + theRowNumber).val());
 			}
 			
@@ -74,7 +74,6 @@
 						document.getElementById("publicTaskList").appendChild(publicTaskRow);
 						document.getElementById("publicTaskTitle-" + rowCount).innerHTML = "<a href=\"view?taskID=" + taskID + "\">" + taskList[taskID]["title"] + "</a>: ";
 						document.getElementById("publicTaskDescription-" + rowCount).innerHTML = taskList[taskID]["description"];
-						//publicTaskRow.find("button").attr("onclick", "submitForm($('#publicTaskTitle-" + rowCount + "').attr('name'), $('#publicTaskSecretInput-" + rowCount + "').val())");
 						document.getElementById("publicTaskButton-" + rowCount).onclick = "submitPublicTask(" + taskID + ", " + rowCount + ")";
 						publicTaskRow.style.display = "block";
 						if (!taskList[taskID]["authentication"].includes("secret")) {
@@ -143,7 +142,7 @@
 							<input id="publicTaskSecretInput" type="password" class="form-control" aria-describedby="publicTaskTemplateSecretHelp" placeholder="Enter secret"/>
 						<td>
 						<td>
-							<button id="publicTaskButton" type="button" class="btn btn-primary" onclick="submitForm()">Go</button>
+							<button id="publicTaskButton" type="button" class="btn btn-primary" onclick="submitPublicTask()">Go</button>
 						</td>
 					</tr>
 				</table>
