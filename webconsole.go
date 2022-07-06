@@ -75,6 +75,8 @@ var taskStopTimes = map[string]int64{}
 var mystartPageNames = map[string]string{}
 var mystartAPIKeys = map[string]string{}
 
+var filesToServeList = map[string]string{"/view":"webconsole.html", "/run":"webconsole.html", "login":"login.html", "/api/mystartLogin":"redirect.html"}
+
 // A struct used to read JSON data from authentication API calls to MyStart.Online.
 type mystartStruct struct {
 	Login string
@@ -564,6 +566,7 @@ func main() {
 			}
 			
 			serveFile := false
+			fileToServe := filesToServeList[requestPath]
 			if requestPath == "/" {
 				http.ServeFile(theResponseWriter, theRequest, arguments["webroot"] + "/index.html")
 			// Handle the getPublicTaskList API call (the one API call that doesn't require authentication).
@@ -588,7 +591,8 @@ func main() {
 					fmt.Fprintf(theResponseWriter, "ERROR: " + taskErr.Error())
 				}
 			// Handle a view, run or API request. taskID needs to be provided as a parameter, either via GET or POST.
-			} else if strings.HasPrefix(requestPath, "/view") || strings.HasPrefix(requestPath, "/run") || strings.HasPrefix(requestPath, "/api/") {
+			// } else if strings.HasPrefix(requestPath, "/view") || strings.HasPrefix(requestPath, "/run") || strings.HasPrefix(requestPath, "/api/") {
+			} else if fileToServe != "" || strings.HasPrefix(requestPath, "/api/") {
 				taskID := theRequest.Form.Get("taskID")
 				token := theRequest.Form.Get("token")
 				if taskID == "" {
@@ -707,13 +711,10 @@ func main() {
 							tokens[token] = currentTimestamp
 							permissions[token] = permission
 							
-							fileToServe := "webconsole.html"
-							if strings.HasPrefix(requestPath, "/api/mystartLogin") {
-								fileToServe = "redirect.html"
-							}
 							// Handle view and run requests - no difference server-side, only the client-side treates the URLs differently
 							// (the "runTask" method gets called by the client-side code if the URL contains "run" rather than "view").
-							if strings.HasPrefix(requestPath, "/view") || strings.HasPrefix(requestPath, "/run") || strings.HasPrefix(requestPath, "/api/mystartLogin") {
+							//if strings.HasPrefix(requestPath, "/view") || strings.HasPrefix(requestPath, "/run") || strings.HasPrefix(requestPath, "/api/mystartLogin") {
+							if fileToServe != "" {
 								// Serve the "fileToServe" file, first adding in the Task ID and token values to be used client-side, as well
 								// as including the appropriate formatting.js file.
 								webconsoleBuffer, fileReadErr := ioutil.ReadFile(arguments["webroot"] + "/" + fileToServe)
