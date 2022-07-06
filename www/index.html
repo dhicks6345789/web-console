@@ -32,7 +32,6 @@
 			function pageReady() {
 				// Get a list of public Tasks from the server - might be empty.
 				doAPICall("getPublicTaskList", {}, function(result) {
-					console.log(result);
 					rowCount = 1;
 					taskList = JSON.parse(result);
 					Object.keys(taskList).forEach(function(taskID) {
@@ -45,6 +44,9 @@
 						publicTaskRow.style.display = "table-row";
 						rowCount = rowCount + 1;
 					});
+					if (rowCount == 1) {
+						document.getElementById("publicTasksHeading").style.display = "none";
+					}
 				});
 			}
 		</script>
@@ -53,24 +55,6 @@
 		<div class="row">
 			<div class="col-sm-1 align-self-center"></div>
 			<div class="col-sm-10 align-self-center">
-				<!-- Error alert box. -->
-				<div class="modal fade" id="errorAlertModal" tabindex="-1" role="dialog" aria-labelledby="errorAlertTitle" aria-hidden="true">
-					<div class="modal-dialog" role="document">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h5 class="modal-title" id="errorAlertTitle">Error</h5>
-								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-									<span aria-hidden="true">&times;</span>
-								</button>
-							</div>
-							<div id="ErrorAlertMessage" class="modal-body">Error message goes here.</div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-primary" data-dismiss="modal">Ok</button>
-							</div>
-						</div>
-					</div>
-				</div>
-
 				<!-- The page heading. -->
 				<div class="p-2 rounded m-3" style="background-color:LightSteelBlue">
 					<h1 class="text-center">Web Console</h1>
@@ -90,8 +74,8 @@
 					</tbody>
 				</table>
 				
-				<!-- The main Task ID entry form. -->
-				<form action="view">
+				<!-- The Task ID entry form. -->
+				<form action="view" method="get" target="_blank">
 					<div class="form-group">
 						<div class="m-3">
 							<label for="taskIDInput">Task ID:</label>
