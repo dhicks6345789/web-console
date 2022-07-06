@@ -74,14 +74,10 @@
 						publicTaskRow = document.getElementById("publicTaskRow").cloneNode(true);
 						numberElementIDs(publicTaskRow, rowCount);
 						document.getElementById("publicTaskList").appendChild(publicTaskRow);
-						document.getElementById("publicTaskTitle-" + rowCount).innerHTML = "<a href=\"view?taskID=" + taskID + "\">" + taskList[taskID]["title"] + "</a>: ";
+						document.getElementById("publicTaskTitle-" + rowCount).innerHTML = "<b>" + taskList[taskID]["title"] + ":</b> ";
 						document.getElementById("publicTaskDescription-" + rowCount).innerHTML = taskList[taskID]["description"];
-						document.getElementById("publicTaskButton-" + rowCount).setAttribute("onclick", "submitPublicTask('" + taskID + "', " + rowCount + ")");
+						document.getElementById("publicTaskButton-" + rowCount).setAttribute("href", "view?taskID=" + taskID);
 						publicTaskRow.style.display = "block";
-						if (!taskList[taskID]["authentication"].includes("secret")) {
-							document.getElementById("publicTaskSecretLine-" + rowCount).style.display = "none";
-							document.getElementById("publicTaskButton-" + rowCount).style.display = "none";
-						}
 						rowCount = rowCount + 1;
 					});
 				});
@@ -140,11 +136,8 @@
 						</td>
 						<td id="publicTaskDescription" class="text-left">
 						</td>
-						<td id="publicTaskSecretLine">
-							<input id="publicTaskSecretInput" type="password" class="form-control" aria-describedby="publicTaskTemplateSecretHelp" placeholder="Enter secret"/>
 						<td>
-						<td>
-							<button id="publicTaskButton" type="button" class="btn btn-primary" onclick="">Go</button>
+							<a id="publicTaskButton" href="#" class="btn btn-primary" role="button" target="_blank">Go</a>
 						</td>
 					</tr>
 				</table>
