@@ -932,6 +932,8 @@ func main() {
 							} else if strings.HasPrefix(requestPath, "/api/") {
 								fmt.Fprintf(theResponseWriter, "ERROR: Unknown API call: %s", requestPath)
 							}
+						} else if strings.HasPrefix(requestPath, "/login") {
+							doServeFile(theResponseWriter, theRequest, fileToServe, taskID, "", "", taskDetails["title"], taskDetails["description"])
 						} else {
 							fmt.Fprintf(theResponseWriter, "ERROR: Not authorised - %s.", authorisationError)
 						}
