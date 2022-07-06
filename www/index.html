@@ -28,41 +28,6 @@
 		<script src="webconsole.js"></script>
 		
 		<script>
-			// There are multiple points on the page where this function can get called from - the main ID-and-secret form, or the individual public Task rows.
-			// Either way, this function first exchanges the provided Task ID and secret for a token from the server, then submits a POST to send the user
-			// to the view page for the relevant Task.
-			function submitForm(theTaskID, theTaskSecret) {
-				// Send the user-provided details to the server and, if valid, get a token back.
-				doAPICall("getToken", {taskID:theTaskID, secret:theTaskSecret}, function(result) {
-					console.log(result);
-					//// Check for errors returned from the API.
-					//if (result.startsWith("ERROR")) {
-						//$("#ErrorAlertMessage").html(result.slice(result.indexOf(" ")+1));
-						//$("#errorAlertModal").modal("show");
-					//// Send the user to the "view" page.
-					//} else {
-						//$("#hiddenTaskID").val(theTaskID);
-						//$("#hiddenToken").val(result);
-						//$("#hiddenForm").submit();
-					//}
-				});
-			}
-			
-			function submitPublicTask(theTaskID, theRowNumber) {
-				document.getElementById("hiddenTaskID").value = theTaskID;
-				document.getElementById("hiddenSecret").value = document.getElementById("publicTaskSecretInput-" + theRowNumber).value;
-				document.getElementById("hiddenForm").submit();
-			}
-			
-			function numberElementIDs(theNode, theNumber) {
-				if (theNode.id != undefined && theNode.id != "") {
-					theNode.id = theNode.id + "-" + theNumber;
-				}
-				theNode.childNodes.forEach(function(childNode) {
-					numberElementIDs(childNode, theNumber);
-				});
-			}
-			
 			// Only run once the page is ready.
 			function pageReady() {
 				// Get a list of public Tasks from the server - might be empty.
@@ -125,25 +90,16 @@
 					</tbody>
 				</table>
 				
-				<!-- The main ID-and-secret entry form. -->
-				<div class="form-group">
-					<div class="m-3">
-						<label for="taskIDInput">Task ID:</label>
-						<input type="text" class="form-control" id="taskIDInput" aria-describedby="taskIDHelp" placeholder="Enter a 16-digit Task ID"/>
-						<small id="taskIDHelp" class="form-text text-muted">You'll need to know a valid Task ID to run a Task.</small>
+				<!-- The main Task ID entry form. -->
+				<form action="view">
+					<div class="form-group">
+						<div class="m-3">
+							<label for="taskIDInput">Task ID:</label>
+							<input type="text" class="form-control" id="taskIDInput" name="taskID" aria-describedby="taskIDHelp" placeholder="Enter a 16-digit Task ID"/>
+							<small id="taskIDHelp" class="form-text text-muted">You'll need to know a valid Task ID to run a Task.</small>
+						</div>
 					</div>
-					<div class="m-3">
-						<label for="secretInput">Secret:</label>
-						<input type="password" class="form-control" id="secretInput" name="secret" aria-describedby="secretHelp" placeholder="Enter secret (optional)"/>
-						<small id="secretHelp" class="form-text text-muted">Leave blank if no secret is needed for this Task.</small>
-					</div>
-				</div>
-				<button type="button" onclick="submitForm($('#taskIDInput').val(), $('#secretInput').val())" class="btn btn-primary">Go</button>
-				
-				<!-- A completly hidden form - the user doesn't see it, but this is the form used to actually submit data to the server. -->
-				<form id="hiddenForm" action="view" method="post">
-					<input type="hidden" id="hiddenTaskID" name="taskID"/>
-					<input type="hidden" id="hiddenSecret" name="secret"/>
+					<button type="submit" class="btn btn-primary">Go</button>
 				</form>
 			</div>
 			<div class="col-sm-1 align-self-center"></div>
