@@ -75,7 +75,8 @@ var taskStopTimes = map[string]int64{}
 var mystartPageNames = map[string]string{}
 var mystartAPIKeys = map[string]string{}
 
-var filesToServeList = map[string]string{"/view":"webconsole.html", "/run":"webconsole.html", "login":"login.html", "/api/mystartLogin":"redirect.html"}
+// A map of endpoints to files to serve.
+var filesToServeList = map[string]string{"/view":"webconsole.html", "/run":"webconsole.html", "/login":"login.html", "/api/mystartLogin":"redirect.html"}
 
 // A struct used to read JSON data from authentication API calls to MyStart.Online.
 type mystartStruct struct {
@@ -84,7 +85,6 @@ type mystartStruct struct {
 	EmailDomain string
 	LoginType string
 }
-
 
 // Generate a new, random 16-character string, used for tokens and Task IDs.
 func generateRandomString() string {
