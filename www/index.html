@@ -77,7 +77,7 @@
 						document.getElementById("publicTaskTitle-" + rowCount).innerHTML = "<b>" + taskList[taskID]["title"] + ":</b> ";
 						document.getElementById("publicTaskDescription-" + rowCount).innerHTML = taskList[taskID]["description"];
 						document.getElementById("publicTaskButton-" + rowCount).setAttribute("href", "view?taskID=" + taskID);
-						publicTaskRow.style.display = "inline";
+						publicTaskRow.style.display = "table-row";
 						rowCount = rowCount + 1;
 					});
 				});
