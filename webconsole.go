@@ -421,7 +421,7 @@ func readUserFile(theConfigPath string) map[string]string {
 	return result
 }
 
-func doServeFile(theFile, theTaskID, theToken, thePermission, theTitle, theDescription) {
+func doServeFile(theFile string, theTaskID string, theToken string, thePermission string, theTitle string, theDescription string) {
 	// Serve the "fileToServe" file, first adding in the Task ID and token values to be used client-side, as well
 	// as including the appropriate formatting.js file.
 	webconsoleBuffer, fileReadErr := ioutil.ReadFile(arguments["webroot"] + "/" + theFile)
