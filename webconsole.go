@@ -421,6 +421,37 @@ func readUserFile(theConfigPath string) map[string]string {
 	return result
 }
 
+func doServeFile(theFile, theTaskID, theToken, thePermission, theTitle, theDescription) {
+	// Serve the "fileToServe" file, first adding in the Task ID and token values to be used client-side, as well
+	// as including the appropriate formatting.js file.
+	webconsoleBuffer, fileReadErr := ioutil.ReadFile(arguments["webroot"] + "/" + theFile)
+	if fileReadErr == nil {
+		formattingJSBuffer, fileReadErr := ioutil.ReadFile(arguments["taskroot"] + "/" + theTaskID + "/formatting.js")
+		if fileReadErr != nil {
+			formattingJSBuffer, fileReadErr = ioutil.ReadFile(arguments["taskroot"] + "/formatting.js")
+			if fileReadErr != nil {
+				formattingJSBuffer, fileReadErr = ioutil.ReadFile(arguments["webroot"] + "/formatting.js")
+			}
+		}
+		if fileReadErr == nil {
+			formattingJSString := string(formattingJSBuffer)
+			webconsoleString := string(webconsoleBuffer)
+			webconsoleString = strings.Replace(webconsoleString, "<<TASKID>>", theTaskID, -1)
+			webconsoleString = strings.Replace(webconsoleString, "<<TOKEN>>", theToken, -1)
+			webconsoleString = strings.Replace(webconsoleString, "<<PERMISSION>>", thePermission, -1)
+			webconsoleString = strings.Replace(webconsoleString, "<<TITLE>>", theTitle, -1)
+			webconsoleString = strings.Replace(webconsoleString, "<<DESCRIPTION>>", theDescription, -1)
+			webconsoleString = strings.Replace(webconsoleString, "<<FAVICONPATH>>", theTaskID + "/", -1)
+			webconsoleString = strings.Replace(webconsoleString, "// Include formatting.js.", formattingJSString, -1)
+			http.ServeContent(theResponseWriter, theRequest, theFile, time.Now(), strings.NewReader(webconsoleString))
+		} else {
+			fmt.Fprintf(theResponseWriter, "ERROR: Couldn't read formatting.js")
+		}
+	} else {
+		fmt.Fprintf(theResponseWriter, "ERROR: Couldn't read " + arguments["webroot"] + "/" + theFile)
+	}
+}
+
 // The main body of the program - parse user-provided command-line paramaters, or start the main web server process.
 func main() {
 	// This application is both a web server for handling API requests and displaying a web-based front end, and a command-line application for handling
@@ -715,34 +746,7 @@ func main() {
 							// (the "runTask" method gets called by the client-side code if the URL contains "run" rather than "view").
 							//if strings.HasPrefix(requestPath, "/view") || strings.HasPrefix(requestPath, "/run") || strings.HasPrefix(requestPath, "/api/mystartLogin") {
 							if fileToServe != "" {
-								// Serve the "fileToServe" file, first adding in the Task ID and token values to be used client-side, as well
-								// as including the appropriate formatting.js file.
-								webconsoleBuffer, fileReadErr := ioutil.ReadFile(arguments["webroot"] + "/" + fileToServe)
-								if fileReadErr == nil {
-									formattingJSBuffer, fileReadErr := ioutil.ReadFile(arguments["taskroot"] + "/" + taskID + "/formatting.js")
-									if fileReadErr != nil {
-										formattingJSBuffer, fileReadErr = ioutil.ReadFile(arguments["taskroot"] + "/formatting.js")
-										if fileReadErr != nil {
-											formattingJSBuffer, fileReadErr = ioutil.ReadFile(arguments["webroot"] + "/formatting.js")
-										}
-									}
-									if fileReadErr == nil {
-										formattingJSString := string(formattingJSBuffer)
-										webconsoleString := string(webconsoleBuffer)
-										webconsoleString = strings.Replace(webconsoleString, "<<TASKID>>", taskID, -1)
-										webconsoleString = strings.Replace(webconsoleString, "<<TOKEN>>", token, -1)
-										webconsoleString = strings.Replace(webconsoleString, "<<PERMISSION>>", permission, -1)
-										webconsoleString = strings.Replace(webconsoleString, "<<TITLE>>", taskDetails["title"], -1)
-										webconsoleString = strings.Replace(webconsoleString, "<<DESCRIPTION>>", taskDetails["description"], -1)
-										webconsoleString = strings.Replace(webconsoleString, "<<FAVICONPATH>>", taskID + "/", -1)
-										webconsoleString = strings.Replace(webconsoleString, "// Include formatting.js.", formattingJSString, -1)
-										http.ServeContent(theResponseWriter, theRequest, fileToServe, time.Now(), strings.NewReader(webconsoleString))
-									} else {
-										fmt.Fprintf(theResponseWriter, "ERROR: Couldn't read formatting.js")
-									}
-								} else {
-									fmt.Fprintf(theResponseWriter, "ERROR: Couldn't read " + arguments["webroot"] + "/" + fileToServe)
-								}
+								doServeFile(fileToServe, taskID, token, permission, taskDetails["title"], taskDetails["description"])
 							// API - Exchange the secret for a token.
 							} else if strings.HasPrefix(requestPath, "/api/getToken") {
 								fmt.Fprintf(theResponseWriter, token)
