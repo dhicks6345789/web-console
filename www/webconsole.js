@@ -21,3 +21,12 @@ function doAPICall(theMethod, theParams, theSuccessFunction, callMethod="POST") 
         apiCall.send(URLEncodedParams);
     }
 }
+
+function numberElementIDs(theNode, theNumber) {
+    if (theNode.id != undefined && theNode.id != "") {
+        theNode.id = theNode.id + "-" + theNumber;
+    }
+    theNode.childNodes.forEach(function(childNode) {
+        numberElementIDs(childNode, theNumber);
+    });
+}
