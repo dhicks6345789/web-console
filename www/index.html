@@ -77,7 +77,7 @@
 						document.getElementById("publicTaskTitle-" + rowCount).innerHTML = "<b>" + taskList[taskID]["title"] + ":</b> ";
 						document.getElementById("publicTaskDescription-" + rowCount).innerHTML = taskList[taskID]["description"];
 						document.getElementById("publicTaskButton-" + rowCount).setAttribute("href", "view?taskID=" + taskID);
-						publicTaskRow.style.display = "block";
+						publicTaskRow.style.display = "inline";
 						rowCount = rowCount + 1;
 					});
 				});
@@ -115,12 +115,14 @@
 				<div id="publicTasksHeading">
 					<h2 class="text-center">Public Tasks</h2>
 				</div>
-				<table id="publicTaskList" style="margin-left:auto; margin-right:auto;">
-					<tr id="publicTaskRow" style="display:none;">
-						<td id="publicTaskTitle" class="text-right"></td>
-						<td id="publicTaskDescription" class="text-left"></td>
-						<td><a id="publicTaskButton" href="#" class="btn btn-primary" role="button" target="_blank">Go</a></td>
-					</tr>
+				<table style="margin-left:auto; margin-right:auto;">
+					<tbody id="publicTaskList">
+						<tr id="publicTaskRow" style="display:none;">
+							<td id="publicTaskTitle" class="text-right"></td>
+							<td id="publicTaskDescription" class="text-left"></td>
+							<td><a id="publicTaskButton" href="#" class="btn btn-primary" role="button" target="_blank">Go</a></td>
+						</tr>
+					</tbody>
 				</table>
 				
 				<!-- The main ID-and-secret entry form. -->
