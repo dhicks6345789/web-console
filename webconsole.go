@@ -421,7 +421,7 @@ func readUserFile(theConfigPath string) map[string]string {
 	return result
 }
 
-func doServeFile(theFile string, theTaskID string, theToken string, thePermission string, theTitle string, theDescription string) {
+func doServeFile(theResponseWriter http.ResponseWriter, theRequest *http.Request, theFile string, theTaskID string, theToken string, thePermission string, theTitle string, theDescription string) {
 	// Serve the "fileToServe" file, first adding in the Task ID and token values to be used client-side, as well
 	// as including the appropriate formatting.js file.
 	webconsoleBuffer, fileReadErr := ioutil.ReadFile(arguments["webroot"] + "/" + theFile)
@@ -746,7 +746,7 @@ func main() {
 							// (the "runTask" method gets called by the client-side code if the URL contains "run" rather than "view").
 							//if strings.HasPrefix(requestPath, "/view") || strings.HasPrefix(requestPath, "/run") || strings.HasPrefix(requestPath, "/api/mystartLogin") {
 							if fileToServe != "" {
-								doServeFile(fileToServe, taskID, token, permission, taskDetails["title"], taskDetails["description"])
+								doServeFile(theResponseWriter, theRequest, fileToServe, taskID, token, permission, taskDetails["title"], taskDetails["description"])
 							// API - Exchange the secret for a token.
 							} else if strings.HasPrefix(requestPath, "/api/getToken") {
 								fmt.Fprintf(theResponseWriter, token)
