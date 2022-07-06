@@ -40,7 +40,7 @@
 						document.getElementById("publicTaskList").appendChild(publicTaskRow);
 						document.getElementById("publicTaskTitle-" + rowCount).innerHTML = "<b>" + taskList[taskID]["title"] + ":</b> ";
 						document.getElementById("publicTaskDescription-" + rowCount).innerHTML = taskList[taskID]["description"];
-						document.getElementById("publicTaskButton-" + rowCount).setAttribute("href", "view?taskID=" + taskID);
+						document.getElementById("publicTaskButton-" + rowCount).setAttribute("href", "login?taskID=" + taskID);
 						publicTaskRow.style.display = "table-row";
 						rowCount = rowCount + 1;
 					});
@@ -75,7 +75,7 @@
 				</table>
 				
 				<!-- The Task ID entry form. -->
-				<form action="view" method="get" target="_blank">
+				<form action="login" method="get" target="_blank">
 					<div class="form-group">
 						<div class="m-3">
 							<label for="taskIDInput">Task ID:</label>
