@@ -21,8 +21,6 @@
 		
 		<script>
 			taskID = "<<TASKID>>";
-			token = "<<TOKEN>>";
-			permission = "<<PERMISSION>>"
 		</script>
 		
 		<script src="webconsole.js"></script>
@@ -68,26 +66,17 @@
 					<h1 class="text-center">Web Console - Login</h1>
 				</div>
 				
-				<!-- The main ID-and-secret entry form. -->
-				<div class="form-group">
-					<div class="m-3">
-						<label for="taskIDInput">Task ID:</label>
-						<input type="text" class="form-control" id="taskIDInput" aria-describedby="taskIDHelp" placeholder="Enter a 16-digit Task ID"/>
-						<small id="taskIDHelp" class="form-text text-muted">You'll need to know a valid Task ID to run a Task.</small>
-					</div>
-					<div class="m-3">
-						<label for="secretInput">Secret:</label>
-						<input type="password" class="form-control" id="secretInput" name="secret" aria-describedby="secretHelp" placeholder="Enter secret (optional)"/>
-						<small id="secretHelp" class="form-text text-muted">Leave blank if no secret is needed for this Task.</small>
-					</div>
+				<!-- The Password entry box. -->
+				<div id="secretForm" class="form-group">
+					<form action="view?taskID=<<TASKID>>" method="post">
+						<div class="m-3">
+							<label for="secretInput">Password:</label>
+							<input type="password" class="form-control" id="secretInput" name="secret" aria-describedby="secretHelp" placeholder="Enter password"/>
+							<small id="secretHelp" class="form-text text-muted">Enter a password for this Task.</small>
+						</div>
+						<button type="submit" class="btn btn-primary">Go</button>
+					</form>
 				</div>
-				<button type="button" onclick="submitForm($('#taskIDInput').val(), $('#secretInput').val())" class="btn btn-primary">Go</button>
-				
-				<!-- A completly hidden form - the user doesn't see it, but this is the form used to actually submit data to the server. -->
-				<form id="hiddenForm" action="view" method="post">
-					<input type="hidden" id="hiddenTaskID" name="taskID"/>
-					<input type="hidden" id="hiddenSecret" name="secret"/>
-				</form>
 			</div>
 			<div class="col-sm-1 align-self-center"></div>
 		</div>
