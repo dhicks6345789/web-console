@@ -1083,7 +1083,7 @@ func main() {
 				if taskErr == nil {
 					for _, task := range taskList {
 						if strings.HasPrefix(requestPath, "/" + task["taskID"]) && serveFile == true {
-							var filePath = strings.TrimSpace(requestPath[17:])
+							var filePath = strings.TrimSpace(requestPath[len(task["taskID"])+1:])
 							if filePath == "" {
 								filePath = "/"
 							}
