@@ -1092,7 +1092,7 @@ func main() {
 							}
 							localFilePath := arguments["taskroot"] + "/" + task["taskID"] + "/www" + filePath
 							if arguments["debug"] == "true" {
-								fmt.Println("webconsole: Serving file: " + localFilePath)
+								fmt.Println("webconsole: Serving Task file: " + localFilePath)
 							}
 							http.ServeFile(theResponseWriter, theRequest, localFilePath)
 							serveFile = false
@@ -1103,7 +1103,11 @@ func main() {
 					serveFile = false
 				}
 				if serveFile == true {
-					http.ServeFile(theResponseWriter, theRequest,  arguments["webroot"] + requestPath)
+					localFilePath := arguments["webroot"] + requestPath
+					if arguments["debug"] == "true" {
+						fmt.Println("webconsole: Serving webroot file: " + localFilePath)
+					}
+					http.ServeFile(theResponseWriter, theRequest, localFilePath)
 				}
 			}
 		})
