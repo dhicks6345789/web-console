@@ -622,7 +622,6 @@ func main() {
 					fmt.Fprintf(theResponseWriter, "ERROR: " + taskErr.Error())
 				}
 			// Handle a view, run or API request. taskID needs to be provided as a parameter, either via GET or POST.
-			// } else if strings.HasPrefix(requestPath, "/view") || strings.HasPrefix(requestPath, "/run") || strings.HasPrefix(requestPath, "/api/") {
 			} else if fileToServe != "" || strings.HasPrefix(requestPath, "/api/") {
 				taskID := theRequest.Form.Get("taskID")
 				token := theRequest.Form.Get("token")
@@ -962,6 +961,9 @@ func main() {
 					fmt.Fprintf(theResponseWriter, "ERROR: Couldn't read site.webmanifest.")
 				}
 			} else {
+				if arguments["debug"] == "true" {
+					fmt.Println("webconsole: Point 1 - request path: " + requestPath)
+				}
 				// Check to see if the request is for a favicon of some description.
 				faviconTitle := ""
 				faviconHyphens := 0
