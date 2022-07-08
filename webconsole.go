@@ -589,7 +589,7 @@ func main() {
 			
 			// Print the request path.
 			if arguments["debug"] == "true" {
-				fmt.Println("webconsole: " + requestPath)
+				fmt.Println("webconsole: Requested URL: " + requestPath)
 			}
 			
 			if strings.HasPrefix(requestPath, arguments["pathPrefix"]) {
@@ -1090,7 +1090,11 @@ func main() {
 							if strings.HasSuffix(filePath, "/") {
 								filePath = filePath + "index.html"
 							}
-							http.ServeFile(theResponseWriter, theRequest, arguments["taskroot"] + "/" + task["taskID"] + "/www" + filePath)
+							localFilePath = arguments["taskroot"] + "/" + task["taskID"] + "/www" + filePath
+							if arguments["debug"] == "true" {
+								fmt.Println("webconsole: Serving file: " + localFilePath)
+							}
+							http.ServeFile(theResponseWriter, theRequest, localFilePath)
 							serveFile = false
 						}
 					}
