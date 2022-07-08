@@ -131,6 +131,7 @@ Thw web user interface is constructed using [Bootstrap 5](https://getbootstrap.c
   * File upload
   * Photo capture
 * Better admin console.
+  * Add root Task that uses own user interface to interact with user.
   * New account creation
   * Task run schedualer, with error reporting if tasks fail.
   * Add "New Task" dialog, with (configurable) pre-defined "Type" field for quick starts:
