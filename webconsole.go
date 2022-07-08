@@ -961,9 +961,6 @@ func main() {
 					fmt.Fprintf(theResponseWriter, "ERROR: Couldn't read site.webmanifest.")
 				}
 			} else {
-				if arguments["debug"] == "true" {
-					fmt.Println("webconsole: Point 1 - request path: " + requestPath)
-				}
 				// Check to see if the request is for a favicon of some description.
 				faviconTitle := ""
 				faviconHyphens := 0
