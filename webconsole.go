@@ -1090,7 +1090,7 @@ func main() {
 							if strings.HasSuffix(filePath, "/") {
 								filePath = filePath + "index.html"
 							}
-							localFilePath = arguments["taskroot"] + "/" + task["taskID"] + "/www" + filePath
+							localFilePath := arguments["taskroot"] + "/" + task["taskID"] + "/www" + filePath
 							if arguments["debug"] == "true" {
 								fmt.Println("webconsole: Serving file: " + localFilePath)
 							}
