@@ -98,19 +98,27 @@ Thw web user interface is constructed using [Bootstrap 5](https://getbootstrap.c
 
 ### Bugs
 
+* Live messages view not always showing every line, only gets all lines on page refresh.
+  * Something screwy with basic output test.
+* Is STDERR being captured okay? Should intersperse with STDOUT, not be stuck at end.
 * Output - does output.html get displayed properly?
+  * Make sure MIME type is set properly.
+  * Default to any file found in www folder to be served as root if index.html not available.
+* 404 message not setting 404 code in header.
 * Yellow (on white) isn't a good colour for warning messages. Purple, maybe?
 * Logging - add date / time signature to start of log output.
 * Add / check "error code on exit" message for non-0 results.
 * Add Mac support in install.sh.
-* Authorisation config for "www" folder.
 * On Windows, run batch files without having to explicitly run via cmd /c.
 * Return error message if task file doesn't run, don't just sit.
-* Live messages view not always showing every line, only gets all lines on page refresh.
-* Is SRDERR being captured okay? Should intersperse with STDOUT, not be stuck at end.
 
 ### Features
 
+* Add functions to webconsole.js for library functions to do calls to Tasks as API server:
+  * Trigger run
+  * Poll running task to see when finished - might be long running.
+  * Get result (task/www/index.json, proper MIME type set).
+  * Return promise (or simply return from async function) when ready.
 * Additions to the API to provide a mechanism for third-parties to handle authorisation.
   * Mystart.Online
   * Cloudflare
