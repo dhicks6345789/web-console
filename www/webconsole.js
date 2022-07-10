@@ -45,6 +45,7 @@ var webconsole = {
     },
     
     pollTask: function() {
+        console.log("Poll!")
         for (pollTaskID in webconsole.polledTasks) {
             webconsole.polledTasks[pollTaskID]["tick"] = webconsole.polledTasks[pollTaskID]["tick"] + 1
             if (webconsole.polledTasks[pollTaskID]["tick"] == webconsole.polledTasks[pollTaskID]["period"]) {
