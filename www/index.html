@@ -38,7 +38,7 @@
 					taskList = JSON.parse(result);
 					Object.keys(taskList).forEach(function(taskID) {
 						publicTaskRow = document.getElementById("publicTaskRow").cloneNode(true);
-						numberElementIDs(publicTaskRow, rowCount);
+						webconsole.numberElementIDs(publicTaskRow, rowCount);
 						document.getElementById("publicTaskList").appendChild(publicTaskRow);
 						document.getElementById("publicTaskTitle-" + rowCount).innerHTML = "<b>" + taskList[taskID]["title"] + ":</b> ";
 						document.getElementById("publicTaskDescription-" + rowCount).innerHTML = taskList[taskID]["description"];
