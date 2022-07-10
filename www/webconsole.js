@@ -1,4 +1,5 @@
 var webconsole = {
+    // A utility function to do a webconsole API call.
     APICall: function(theMethod, theParams, theSuccessFunction, callMethod="POST") {
         theParams["taskID"] = taskID;
         theParams["token"] = token;
@@ -23,10 +24,16 @@ var webconsole = {
         }
     },
     
+    // Trigger a Task running server-side, then poll to check when that Task has finished.
     APITask: function(theTaskID, thePollPeriod) {
-        console.log("Call API Task...");
+        webconsole.APICall("runTask", {"taskID":thetaskID}, function(result) {
+            console.log(result);
+            // TFLDataFetchTimeout = setTimeout(completeTFLDataFetch, 10000);
+        });
     },
     
+    // Given a DOM Node, renames any defined Node IDs to include a number on the end.
+    // Useful for, after cloning a DOM Node, renaming IDs to be unique.
     numberElementIDs: function(theNode, theNumber) {
         if (theNode.id != undefined && theNode.id != "") {
             theNode.id = theNode.id + "-" + theNumber;
