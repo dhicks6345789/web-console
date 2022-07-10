@@ -19,19 +19,19 @@
 		<meta name="msapplication-TileColor" content="#da532c">
 		<meta name="theme-color" content="#ffffff">
 		
+		<!-- This file is served by the Webconsole server, which can do runtime variable substituion. -->
 		<script>
 			taskID = "<<TASKID>>";
 			token = "<<TOKEN>>";
 			permission = "<<PERMISSION>>"
 		</script>
 		
-		<script src="webconsole.js"></script>
-		
+		<!-- Import our own Javascript library, which contains some handy utility functions. -->		
 		<script>
 			// Only run once the page is ready.
 			function pageReady() {
 				// Get a list of public Tasks from the server - might be empty.
-				doAPICall("getPublicTaskList", {}, function(result) {
+				webconsole.APICall("getPublicTaskList", {}, function(result) {
 					rowCount = 1;
 					taskList = JSON.parse(result);
 					Object.keys(taskList).forEach(function(taskID) {
