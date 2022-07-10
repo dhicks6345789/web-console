@@ -33,14 +33,27 @@ var webconsole = {
     },
     
     // Trigger a Task running server-side, then poll to check when that Task has finished.
+    intervalID: 0,
+    polledTasks: {},
     APITask: function(theTaskID, pollPeriod=5, APIURLPrefix="") {
         webconsole.APICall("runTask", {"taskID":theTaskID}, function(result) {
             if (result == "OK") {
                 console.log("Function triggered okay!");
-                // TFLDataFetchTimeout = setTimeout(completeTFLDataFetch, 10000);
+                webconsole.polledTasks[taskID] = {"period":pollPeriod, "tick":0};
+                webconsole.intervalID = setInterval(webconsole.pollTask, 1000);
             }
         }, "GET", APIURLPrefix);
     },
+    
+    pollTask: function() {
+        for (pollTaskID in webconsole.polledTasks) {
+            webconsole.polledTasks[pollTaskID]["tick"] = webconsole.polledTasks[pollTaskID]["tick"] + 1
+            if (webconsole.polledTasks[pollTaskID]["tick"] == webconsole.polledTasks[pollTaskID]["period"]) {
+                console.log("Tick: " + pollTaskID)
+                webconsole.polledTasks[pollTaskID]["tick"] = 0;
+            }
+        }
+    }
     
     // Given a DOM Node, renames any defined Node IDs to include a number on the end.
     // Useful for, after cloning a DOM Node, renaming IDs to be unique.
