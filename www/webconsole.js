@@ -53,7 +53,7 @@ var webconsole = {
                 webconsole.polledTasks[pollTaskID]["tick"] = 0;
             }
         }
-    }
+    },
     
     // Given a DOM Node, renames any defined Node IDs to include a number on the end.
     // Useful for, after cloning a DOM Node, renaming IDs to be unique.
