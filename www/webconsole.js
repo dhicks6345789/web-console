@@ -11,6 +11,7 @@ var webconsole = {
                 theParams["token"] = token;
             }
         }
+        console.log(theParams["taskID"]);
         APILocation = window.location.pathname.split(theParams["taskID"])[0]
         console.log(APILocation);
         var apiCall = new XMLHttpRequest();
