@@ -57,6 +57,7 @@ var webconsole = {
                         if (webconsole.polledTasks == {}) {
                             clearInterval(webconsole.intervalID);
                         }
+                        console.log(webconsole.polledTasks);
                     }
                 }, "GET", webconsole.polledTasks[pollTaskID]["APIURLPrefix"]);
             }
