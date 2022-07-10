@@ -45,6 +45,7 @@ var webconsole = {
     },
     
     pollTask: function() {
+        console.log("Tick!");
         for (pollTaskID in webconsole.polledTasks) {
             webconsole.polledTasks[pollTaskID]["tick"] = webconsole.polledTasks[pollTaskID]["tick"] + 1;
             if (webconsole.polledTasks[pollTaskID]["tick"] == webconsole.polledTasks[pollTaskID]["period"]) {
@@ -52,8 +53,10 @@ var webconsole = {
                 webconsole.APICall("getTaskRunning", {"taskID":webconsole.polledTasks[pollTaskID]["taskID"]}, function(result) {
                     if (result == "NO") {
                         console.log("Done!");
-                        // js remove dictionary item
-                        // clearInterval();
+                        delete webconsole.polledTasks[pollTaskID];
+                        if (webconsole.polledTasks == {}) {
+                            clearInterval(webconsole.intervalID);
+                        }
                     }
                 }, "GET", webconsole.polledTasks[pollTaskID]["APIURLPrefix"]);
             }
