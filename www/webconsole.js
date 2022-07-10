@@ -52,12 +52,11 @@ var webconsole = {
                 webconsole.polledTasks[pollTaskID]["tick"] = 0;
                 webconsole.APICall("getTaskRunning", {"taskID":webconsole.polledTasks[pollTaskID]["taskID"]}, function(result) {
                     if (result == "NO") {
-                        console.log("Done!");
                         delete webconsole.polledTasks[pollTaskID];
                         if (Object.keys(webconsole.polledTasks).length == 0) {
                             clearInterval(webconsole.intervalID);
                         }
-                        console.log(Object.keys(webconsole.polledTasks).length);
+                        // call success function
                     }
                 }, "GET", webconsole.polledTasks[pollTaskID]["APIURLPrefix"]);
             }
