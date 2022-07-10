@@ -4,6 +4,7 @@ var webconsole = {
         if (!"taskID" in theParams) {
             if (typeof taskID !== "undefined") {
                 theParams["taskID"] = taskID;
+                console.log(taskID);
             }
         }
         if (!"token" in theParams) {
@@ -11,6 +12,7 @@ var webconsole = {
                 theParams["token"] = token;
             }
         }
+        console.log(theParams);
         var apiCall = new XMLHttpRequest();
         apiCall.onreadystatechange = function() {
             if (apiCall.readyState == 4 && apiCall.status == 200) {
