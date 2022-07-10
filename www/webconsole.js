@@ -33,11 +33,11 @@ var webconsole = {
     },
     
     // Trigger a Task running server-side, then poll to check when that Task has finished.
-    APITask: function(theTaskID, thePollPeriod) {
+    APITask: function(theTaskID, pollPeriod=5, APIURLPrefix="") {
         webconsole.APICall("runTask", {"taskID":theTaskID}, function(result) {
             console.log(result);
             // TFLDataFetchTimeout = setTimeout(completeTFLDataFetch, 10000);
-        });
+        }, APIURLPrefix=APIURLPrefix);
     },
     
     // Given a DOM Node, renames any defined Node IDs to include a number on the end.
