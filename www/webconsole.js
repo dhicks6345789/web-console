@@ -38,8 +38,7 @@ var webconsole = {
     APITask: function(theTaskID, pollPeriod=5, APIURLPrefix="") {
         webconsole.APICall("runTask", {"taskID":theTaskID}, function(result) {
             if (result == "OK") {
-                console.log("Function triggered okay!");
-                webconsole.polledTasks[taskID] = {"period":pollPeriod, "tick":0};
+                webconsole.polledTasks[theTaskID] = {"period":pollPeriod, "tick":0};
                 webconsole.intervalID = setInterval(webconsole.pollTask, 1000);
             }
         }, "GET", APIURLPrefix);
