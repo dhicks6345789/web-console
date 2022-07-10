@@ -22,6 +22,7 @@
 		<meta name="msapplication-TileColor" content="#da532c">
 		<meta name="theme-color" content="#ffffff">
 		
+		<!-- Our own Javascript library, which contains some handy utility functions. -->
 		<script src="webconsole.js"></script>
 		
 		<script>
@@ -38,7 +39,7 @@
 			
 			// Simply calls the keepAlive API method to make sure the session's token is refreshed.
 			function keepAlive() {
-				doAPICall("keepAlive", {}, function(result) {
+				webconsole.APICall("keepAlive", {}, function(result) {
 				});
 			}
 			
@@ -47,7 +48,7 @@
 				// First thing to do is disable the "Run" button so the user can't click it repeatadly.
 				document.getElementById("runTaskButton").disabled = true;
 				// Run the Task (if the Task is already running, this has no effect).
-				doAPICall("runTask", {}, function(result) {
+				webconsole.APICall("runTask", {}, function(result) {
 					if (result == "OK") {
 						document.getElementById("runTaskButton").innerHTML = "<span class='spinner-border spinner-border-sm' role='status'></span> Running...";
 						document.getElementById("taskAlerts").innerHTML = "";
@@ -70,7 +71,7 @@
 			
 			// Called periodically (every 2 seconds) after a Task has been started to update information for the user.
 			function updateTaskOutput() {
-				doAPICall("getTaskOutput", {"line":outputLine}, function(result) {
+				webconsole.APICall("getTaskOutput", {"line":outputLine}, function(result) {
 					for (value of result.split("\n")) {
 						if (value.trim() != "") {
 							// If the Task has finished, reset the "Run" button state.
@@ -140,7 +141,7 @@
 			// Get the given file contents from the server and place it in the file edit panel.
 			function editFile(theFilename) {
 				currentEditFile = theFilename;
-				doAPICall("getEditableFileContents", {"filename":theFilename}, function(result) {
+				webconsole.APICall("getEditableFileContents", {"filename":theFilename}, function(result) {
 					document.getElementById("editFileBox").value = result;
 				});
 			}
@@ -148,7 +149,7 @@
 			// Save the current file being edited in the edit file panel.
 			function saveFile() {
 				fileContents = document.getElementById("editFileBox").value;
-				doAPICall("saveFile", {"filename":currentEditFile, "contents":fileContents}, function(result) {
+				webconsole.APICall("saveFile", {"filename":currentEditFile, "contents":fileContents}, function(result) {
 					if (result != "OK") {
 						alert(result);
 					}
@@ -172,7 +173,7 @@
 					runTask();
 				} else {
 					// If the Task is already running call the "runTask" function to set up the interface.
-					doAPICall("getTaskRunning", {}, function(result) {
+					webconsole.APICall("getTaskRunning", {}, function(result) {
 						if (result == "YES") {
 							runTask();
 						} else {
@@ -182,7 +183,7 @@
 				}
 				if (permission == "E") {
 					document.getElementById("editBlock").style.display = "block";
-					doAPICall("getEditableFileList", {}, function(result) {
+					webconsole.APICall("getEditableFileList", {}, function(result) {
 						JSON.parse(result).forEach(function(editableFile) {
 							editableFileList = document.getElementById("editFileList");
 							editableFileList.innerHTML = editableFileList.innerHTML + "<div><a href=\"#\" onclick=\"editFile('" + editableFile + "'); return false;\">" + editableFile + "</a></div>";
