@@ -1,6 +1,6 @@
 var webconsole = {
     // A utility function to do a webconsole API call.
-    APICall: function(theMethod, theParams, theSuccessFunction, callMethod="POST") {
+    APICall: function(theMethod, theParams, theSuccessFunction, callMethod="POST", APIURLPrefix="") {
         if (!("taskID" in theParams)) {
             if (typeof taskID !== "undefined") {
                 theParams["taskID"] = taskID;
@@ -11,9 +11,6 @@ var webconsole = {
                 theParams["token"] = token;
             }
         }
-        console.log(theParams["taskID"]);
-        APILocation = window.location.pathname.split(theParams["taskID"])[0]
-        console.log(APILocation);
         var apiCall = new XMLHttpRequest();
         apiCall.onreadystatechange = function() {
             if (apiCall.readyState == 4 && apiCall.status == 200) {
@@ -24,12 +21,12 @@ var webconsole = {
         for (const [paramKey, paramValue] of Object.entries(theParams)) {
             URLEncodedParams = URLEncodedParams + encodeURIComponent(paramKey) + "=" + encodeURIComponent(paramValue) + "&";
         }
-        URLEncodedParams = URLEncodedParams.slice(0, -1);        
+        URLEncodedParams = URLEncodedParams.slice(0, -1);
         if (callMethod == "GET") {
-            apiCall.open("GET", "api/" + theMethod + "?" + URLEncodedParams, true);
+            apiCall.open("GET", APIURLPrefix + "api/" + theMethod + "?" + URLEncodedParams, true);
             apiCall.send();
         } else {
-            apiCall.open("POST", "api/" + theMethod, true);
+            apiCall.open("POST", APIURLPrefix + "api/" + theMethod, true);
             apiCall.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
             apiCall.send(URLEncodedParams);
         }
