@@ -36,6 +36,7 @@ var webconsole = {
     // Trigger a Task running server-side, then poll to check when that Task has finished.
     APITask: function(theTaskID, pollPeriod=5, APIURLPrefix="") {
         localAPIURLPrefix = APIURLPrefix;
+        console.log("localAPIURLPrefix: " + localAPIURLPrefix);
         webconsole.APICall("runTask", {"taskID":theTaskID}, function(result) {
             console.log(result);
             // TFLDataFetchTimeout = setTimeout(completeTFLDataFetch, 10000);
