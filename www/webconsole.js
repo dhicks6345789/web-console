@@ -32,7 +32,7 @@ var webconsole = {
             theNode.id = theNode.id + "-" + theNumber;
         }
         theNode.childNodes.forEach(function(childNode) {
-            numberElementIDs(childNode, theNumber);
+            webconsole.numberElementIDs(childNode, theNumber);
         });
     }
 };
