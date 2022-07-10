@@ -1,8 +1,16 @@
 var webconsole = {
     // A utility function to do a webconsole API call.
     APICall: function(theMethod, theParams, theSuccessFunction, callMethod="POST") {
-        theParams["taskID"] = taskID;
-        theParams["token"] = token;
+        if (!"taskID" in theParams) {
+            if (typeof taskID !== "undefined") {
+                theParams["taskID"] = taskID;
+            }
+        }
+        if (!"token" in theParams) {
+            if (typeof token !== "undefined") {
+                theParams["token"] = token;
+            }
+        }
         var apiCall = new XMLHttpRequest();
         apiCall.onreadystatechange = function() {
             if (apiCall.readyState == 4 && apiCall.status == 200) {
