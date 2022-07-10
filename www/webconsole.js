@@ -54,10 +54,10 @@ var webconsole = {
                     if (result == "NO") {
                         console.log("Done!");
                         delete webconsole.polledTasks[pollTaskID];
-                        if (len(webconsole.polledTasks) == 0) {
+                        if (webconsole.polledTasks.length == 0) {
                             clearInterval(webconsole.intervalID);
                         }
-                        console.log(len(webconsole.polledTasks));
+                        console.log(webconsole.polledTasks.length);
                     }
                 }, "GET", webconsole.polledTasks[pollTaskID]["APIURLPrefix"]);
             }
