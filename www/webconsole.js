@@ -1,6 +1,7 @@
 var webconsole = {
     // A utility function to do a webconsole API call.
     APICall: function(theMethod, theParams, theSuccessFunction, callMethod="POST", APIURLPrefix="") {
+        console.log(APIURLPrefix);
         if (!("taskID" in theParams)) {
             if (typeof taskID !== "undefined") {
                 theParams["taskID"] = taskID;
@@ -34,6 +35,7 @@ var webconsole = {
     
     // Trigger a Task running server-side, then poll to check when that Task has finished.
     APITask: function(theTaskID, pollPeriod=5, APIURLPrefix="") {
+        console.log(APIURLPrefix);
         webconsole.APICall("runTask", {"taskID":theTaskID}, function(result) {
             console.log(result);
             // TFLDataFetchTimeout = setTimeout(completeTFLDataFetch, 10000);
