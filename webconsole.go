@@ -86,6 +86,14 @@ type mystartStruct struct {
 	LoginType string
 }
 
+// If the "debug" option has been passed on the command line, print the given information to the (local) console.
+fund debug(theOutput) {
+	if arguments["debug"] == "true" {
+		currentTime := time.Now()
+		fmt.Println("webconsole, ", currentTime.Format("2006.01.02 15:04:05"), ": " + theOutput)
+	}
+}
+
 // Generate a new, random 16-character string, used for tokens and Task IDs.
 func generateRandomString() string {
 	rand.Seed(time.Now().UnixNano())
@@ -569,8 +577,10 @@ func main() {
 			}
 		}
 	}
+	
+	// If "debug" mode is true, print some initial setup information.
 	if arguments["debug"] == "true" {
-		fmt.Println("webconsole: MyStart.Online Page Names / API Keys:")
+		debug("MyStart.Online Page Names / API Keys:")
 		fmt.Println(mystartPageNames)
 		fmt.Println(mystartAPIKeys)
 	}
@@ -588,9 +598,7 @@ func main() {
 			requestPath := theRequest.URL.Path
 			
 			// Print the request path.
-			if arguments["debug"] == "true" {
-				fmt.Println("webconsole: Requested URL: " + requestPath)
-			}
+			debug("Requested URL: " + requestPath)
 			
 			if strings.HasPrefix(requestPath, arguments["pathPrefix"]) {
 				requestPath = requestPath[len(arguments["pathPrefix"]):]
