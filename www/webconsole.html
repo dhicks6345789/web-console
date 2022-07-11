@@ -71,7 +71,9 @@
 			
 			// Called periodically (every 2 seconds) after a Task has been started to update information for the user.
 			function updateTaskOutput() {
+				console.log("getTaskOutput: " + str(outputLine));
 				webconsole.APICall("getTaskOutput", {"line":outputLine}, function(result) {
+					console.log(result);
 					for (value of result.split("\n")) {
 						if (value.trim() != "") {
 							// If the Task has finished, reset the "Run" button state.
