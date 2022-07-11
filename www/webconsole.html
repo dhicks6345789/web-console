@@ -71,7 +71,7 @@
 			
 			// Called periodically (every 2 seconds) after a Task has been started to update information for the user.
 			function updateTaskOutput() {
-				console.log("getTaskOutput: " + str(outputLine));
+				console.log("getTaskOutput: " + outputLine.toString());
 				webconsole.APICall("getTaskOutput", {"line":outputLine}, function(result) {
 					console.log(result);
 					for (value of result.split("\n")) {
