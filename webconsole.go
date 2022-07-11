@@ -1094,6 +1094,9 @@ func main() {
 		}
 		fmt.Println("Web server using webroot " + arguments["webroot"] + ", taskroot " + arguments["taskroot"] + ".")
 		fmt.Println("Web server available at: http://localhost:" + arguments["port"] + "/")
+		if arguments["debug"] == "true" {
+			fmt.Println("Debug mode set.")
+		}
 		log.Fatal(http.ListenAndServe(hostname + ":" + arguments["port"], nil))
 	// Command-line option to print a list of all Tasks.
 	} else if arguments["list"] == "true" {
