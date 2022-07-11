@@ -655,9 +655,6 @@ func main() {
 						// Handle a login from MyStart.Online - validate the details passed and check that the user ID given has
 						// permission to access this Task.
 						if strings.HasPrefix(requestPath, "/api/mystartLogin") {
-							if arguments["debug"] == "true" {
-								fmt.Println("webconsole: mystartLogin API call.")
-							}
 							mystartLoginToken := theRequest.Form.Get("loginToken")
 							if mystartLoginToken != "" {
 								requestURL := fmt.Sprintf("https://dev.mystart.online/api/validateToken?loginToken=%s&pageName=%s", mystartLoginToken, arguments["mystartPageName"])
@@ -684,17 +681,13 @@ func main() {
 													}
 													if strings.HasSuffix(taskDetailName, "Editors") {
 														mystartEditorsPath := arguments["taskroot"] + "/" + taskID + "/" + taskDetailValue
-														if arguments["debug"] == "true" {
-															fmt.Println("webconsole: Looking for MyStart.Online (" + mystartName + ") Editors data in: " + mystartEditorsPath)
-														}
+														debug("Looking for MyStart.Online (" + mystartName + ") Editors data in: " + mystartEditorsPath)
 														mystartEditors := readUserFile(mystartEditorsPath)
 														for editorHash, editorEmail := range mystartEditors {
 															if editorHash == mystartJSON.EmailHash {
 																authorised = true
 																permission = "E"
-																if arguments["debug"] == "true" {
-																	fmt.Println("webconsole: User authorised via MyStart.Online login, hash: " + editorHash + ", email: " + editorEmail + ", permission: " + permission)
-																}
+																debug("User authorised via MyStart.Online login, hash: " + editorHash + ", email: " + editorEmail + ", permission: " + permission)
 															}
 														}
 													}
@@ -712,28 +705,20 @@ func main() {
 							} else {
 								authorised = true
 								permission = permissions[token]
-								if arguments["debug"] == "true" {
-									fmt.Println("webconsole: User authorised - valid token found: " + token + ", permission: " + permission)
-								}
+								debug("User authorised - valid token found: " + token + ", permission: " + permission)
 							}
 						} else if checkPasswordHash(theRequest.Form.Get("secret"), taskDetails["secretViewers"]) {
 							authorised = true
 							permission = "V"
-							if arguments["debug"] == "true" {
-								fmt.Println("webconsole: User authorised via Task secret, permission: " + permission)
-							}
+							debug("User authorised via Task secret, permission: " + permission)
 						} else if checkPasswordHash(theRequest.Form.Get("secret"), taskDetails["secretRunners"]) {
 							authorised = true
 							permission = "R"
-							if arguments["debug"] == "true" {
-								fmt.Println("webconsole: User authorised via Task secret, permission: " + permission)
-							}
+							debug("User authorised via Task secret, permission: " + permission)
 						} else if checkPasswordHash(theRequest.Form.Get("secret"), taskDetails["secretEditors"]) {
 							authorised = true
 							permission = "E"
-							if arguments["debug"] == "true" {
-								fmt.Println("webconsole: User authorised via Task secret, permission: " + permission)
-							}
+							debug("User authorised via Task secret, permission: " + permission)
 						} else {
 							authorisationError = "no external authorisation used, no valid secret given, no valid token supplied"
 						}
@@ -742,9 +727,7 @@ func main() {
 							// secret or no secret is set.
 							if token == "" {
 								token = generateRandomString()
-								if arguments["debug"] == "true" {
-									fmt.Println("webconsole: New token generated: " + token)
-								}
+								debug("New token generated: " + token)
 							}
 							tokens[token] = currentTimestamp
 							permissions[token] = permission
@@ -779,9 +762,7 @@ func main() {
 												commandArray = parseCommandString("cmd /c " + taskDetails["command"])
 											}
 										}
-										if arguments["debug"] == "true" {
-											fmt.Println("webconsole: Task ID " + taskID + " - running command: " + strings.Join(commandArray, " "))
-										}
+										debug("Task ID " + taskID + " - running command: " + strings.Join(commandArray, " "))
 										var commandArgs []string
 										if len(commandArray) > 0 {
 											commandArgs = commandArray[1:]
@@ -853,11 +834,6 @@ func main() {
 									}
 									taskOutputs[taskID] = append(taskOutputs[taskID], fmt.Sprintf("Progress: Progress %d%%", percentage))
 								}
-								//if arguments["debug"] == "true" {
-									//fmt.Println("webconsole - getTaskOutput: outputLineNumber: " + string(outputLineNumber))
-									//fmt.Println("webconsole - taskOutputs size:")
-									//fmt.Println(len(taskOutputs[taskID]))
-								//}
 								// Return to the user all the output lines from the given starting point.
 								for outputLineNumber < len(taskOutputs[taskID]) {
 									fmt.Fprintln(theResponseWriter, taskOutputs[taskID][outputLineNumber])
@@ -925,9 +901,7 @@ func main() {
 									if filename != "" {
 										contents := theRequest.Form.Get("contents")
 										if contents != "" {
-											if arguments["debug"] == "true" {
-												fmt.Println("webconsole: Write " + arguments["taskroot"] + "/" + taskID + "/" + filename)
-											}
+											debug("Write " + arguments["taskroot"] + "/" + taskID + "/" + filename)
 											ioutil.WriteFile(arguments["taskroot"] + "/" + taskID + "/" + filename, []byte(contents), 0644)
 											fmt.Fprintf(theResponseWriter, "OK")
 										} else {
@@ -1103,9 +1077,7 @@ func main() {
 								filePath = filePath + "index.html"
 							}
 							localFilePath := arguments["taskroot"] + "/" + task["taskID"] + "/www" + filePath
-							if arguments["debug"] == "true" {
-								fmt.Println("webconsole: Serving Task file: " + localFilePath)
-							}
+							debug("Serving Task file: " + localFilePath)
 							http.ServeFile(theResponseWriter, theRequest, localFilePath)
 							serveFile = false
 						}
@@ -1116,9 +1088,7 @@ func main() {
 				}
 				if serveFile == true {
 					localFilePath := arguments["webroot"] + requestPath
-					if arguments["debug"] == "true" {
-						fmt.Println("webconsole: Serving webroot file: " + localFilePath)
-					}
+					debug("Serving webroot file: " + localFilePath)
 					http.ServeFile(theResponseWriter, theRequest, localFilePath)
 				}
 			}
