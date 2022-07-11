@@ -95,7 +95,7 @@ func debug(theOutput string) {
 }
 
 // Print a log file entry in Common Log Format.
-func debug(theOutput string) {
+func log(theOutput string) {
 	currentTime := time.Now()
 	fmt.Println("log,", currentTime.Format("02/01/2006:15:04:05"), "- " + theOutput)
 }
