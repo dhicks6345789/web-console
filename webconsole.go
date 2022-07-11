@@ -87,7 +87,7 @@ type mystartStruct struct {
 }
 
 // If the "debug" option has been passed on the command line, print the given information to the (local) console.
-func debug(theOutput) {
+func debug(theOutput string) {
 	if arguments["debug"] == "true" {
 		currentTime := time.Now()
 		fmt.Println("webconsole, ", currentTime.Format("2006.01.02 15:04:05"), ": " + theOutput)
