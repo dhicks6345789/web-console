@@ -772,7 +772,7 @@ func main() {
 											}
 										}
 										if arguments["debug"] == "true" {
-											fmt.Println("Running command: " + strings.Join(commandArray, " "))
+											fmt.Println("webconsole: Task ID " + taskID + " - running command: " + strings.Join(commandArray, " "))
 										}
 										var commandArgs []string
 										if len(commandArray) > 0 {
