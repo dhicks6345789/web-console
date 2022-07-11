@@ -52,14 +52,22 @@ var webconsole = {
                 webconsole.polledTasks[pollTaskID]["tick"] = 0;
                 webconsole.APICall("getTaskRunning", {"taskID":webconsole.polledTasks[pollTaskID]["taskID"]}, function(result) {
                     if (result == "NO") {
-                        console.log(webconsole.polledTasks[pollTaskID]["APIURLPrefix"] + pollTaskID + "/output.json");
-                        resultRequest = new Request(webconsole.polledTasks[pollTaskID]["APIURLPrefix"] + pollTaskID + "/output.json");
+                        getURL = webconsole.polledTasks[pollTaskID]["APIURLPrefix"] + pollTaskID + "/output.json";
                         successFunction = webconsole.polledTasks[pollTaskID]["successFunction"];
+                        
                         delete webconsole.polledTasks[pollTaskID];
                         if (Object.keys(webconsole.polledTasks).length == 0) {
                             clearInterval(webconsole.intervalID);
                         }
-                        successFunction(fetch(resultRequest));
+                        
+                        var getCall = new XMLHttpRequest();
+                        getCall.onreadystatechange = function() {
+                            if (getCall.readyState == 4 && getCall.status == 200) {
+                                successFunction(getCall.responseText);
+                            }
+                        }
+                        getCall.open("GET", getURL, true);
+                        getCall.send();
                     }
                 }, "GET", webconsole.polledTasks[pollTaskID]["APIURLPrefix"]);
             }
