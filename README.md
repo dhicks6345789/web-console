@@ -99,7 +99,6 @@ Thw web user interface is constructed using [Bootstrap 5](https://getbootstrap.c
 ### Bugs
 
 * Live messages view not always showing every line, only gets all lines on page refresh.
-  * Something screwy with basic output test.
 * Is STDERR being captured okay? Should intersperse with STDOUT, not be stuck at end.
 * Output - does output.html get displayed properly?
   * Make sure MIME type is set properly.
@@ -115,10 +114,11 @@ Thw web user interface is constructed using [Bootstrap 5](https://getbootstrap.c
 ### Features
 
 * Add functions to webconsole.js for library functions to do calls to Tasks as API server:
-  * Trigger run
-  * Poll running task to see when finished - might be long running.
+  * Done - Trigger run
+  * Done - Poll running task to see when finished - might be long running.
   * Get result (task/www/index.json, proper MIME type set).
-  * Return promise (or simply return from async function) when ready.
+  * Done - Run success function with returned value.
+    * Make success function a promise instead?
 * Additions to the API to provide a mechanism for third-parties to handle authorisation.
   * Mystart.Online
   * Cloudflare
