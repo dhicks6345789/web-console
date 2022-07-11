@@ -35,10 +35,10 @@ var webconsole = {
     // Trigger a Task running server-side, then poll to check when that Task has finished.
     intervalID: 0,
     polledTasks: {},
-    APITask: function(theTaskID, pollPeriod=5, APIURLPrefix="") {
+    APITask: function(theTaskID, theSuccessFunction, pollPeriod=5, APIURLPrefix="") {
         webconsole.APICall("runTask", {"taskID":theTaskID}, function(result) {
             if (result == "OK") {
-                webconsole.polledTasks[theTaskID] = {"taskID":theTaskID, "APIURLPrefix":APIURLPrefix, "period":pollPeriod, "tick":0};
+                webconsole.polledTasks[theTaskID] = {"taskID":theTaskID, "successFunction":theSuccessFunction, "APIURLPrefix":APIURLPrefix, "period":pollPeriod, "tick":0};
                 webconsole.intervalID = setInterval(webconsole.pollTask, 1000);
             }
         }, "GET", APIURLPrefix);
@@ -56,7 +56,8 @@ var webconsole = {
                         if (Object.keys(webconsole.polledTasks).length == 0) {
                             clearInterval(webconsole.intervalID);
                         }
-                        // call success function
+                        const resultRequest = new Request(webconsole.polledTasks[pollTaskID]["APIURLPrefix"] + "/" + pollTaskID + "/output.json");
+                        webconsole.polledTasks[pollTaskID]["successFunction"](resultRequest);
                     }
                 }, "GET", webconsole.polledTasks[pollTaskID]["APIURLPrefix"]);
             }
