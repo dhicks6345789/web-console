@@ -1091,7 +1091,8 @@ func main() {
 					if _, err := os.Stat(localFilePath); errors.Is(err, os.ErrNotExist) {
 						logLine("Not found")
 						theResponseWriter.WriteHeader(http.StatusNotFound)
-						http.ServeFile(theResponseWriter, theRequest, arguments["webroot"] + "/404.html")
+						//http.ServeFile(theResponseWriter, theRequest, arguments["webroot"] + "/404.html")
+						fmt.Fprint(theResponseWriter, "custom 404 goes here")
 					} else {
 						logLine("Found")
 						http.ServeFile(theResponseWriter, theRequest, localFilePath)
