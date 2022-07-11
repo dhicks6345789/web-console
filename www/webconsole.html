@@ -39,6 +39,7 @@
 			
 			// Simply calls the keepAlive API method to make sure the session's token is refreshed.
 			function keepAlive() {
+				console.log("Calling keepalive...");
 				webconsole.APICall("keepAlive", {}, function(result) {
 				});
 			}
