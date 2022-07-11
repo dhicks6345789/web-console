@@ -845,11 +845,11 @@ func main() {
 									}
 									taskOutputs[taskID] = append(taskOutputs[taskID], fmt.Sprintf("Progress: Progress %d%%", percentage))
 								}
-								if arguments["debug"] == "true" {
+								//if arguments["debug"] == "true" {
 									//fmt.Println("webconsole - getTaskOutput: outputLineNumber: " + string(outputLineNumber))
-									fmt.Println("webconsole - taskOutputs size:")
-									fmt.Println(len(taskOutputs[taskID]))
-								}
+									//fmt.Println("webconsole - taskOutputs size:")
+									//fmt.Println(len(taskOutputs[taskID]))
+								//}
 								// Return to the user all the output lines from the given starting point.
 								for outputLineNumber < len(taskOutputs[taskID]) {
 									fmt.Fprintln(theResponseWriter, taskOutputs[taskID][outputLineNumber])
