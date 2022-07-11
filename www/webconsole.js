@@ -52,6 +52,7 @@ var webconsole = {
                 webconsole.polledTasks[pollTaskID]["tick"] = 0;
                 webconsole.APICall("getTaskRunning", {"taskID":webconsole.polledTasks[pollTaskID]["taskID"]}, function(result) {
                     if (result == "NO") {
+                        console.log("/" + webconsole.polledTasks[pollTaskID]["APIURLPrefix"] + pollTaskID + "/output.json");
                         resultRequest = new Request("/" + webconsole.polledTasks[pollTaskID]["APIURLPrefix"] + pollTaskID + "/output.json");
                         successFunction = webconsole.polledTasks[pollTaskID]["successFunction"];
                         delete webconsole.polledTasks[pollTaskID];
