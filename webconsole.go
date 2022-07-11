@@ -847,7 +847,7 @@ func main() {
 								}
 								if arguments["debug"] == "true" {
 									fmt.Println("webconsole - getTaskOutput: outputLineNumber: " + string(outputLineNumber))
-									fmt.Println("taskOutputs size: " + string(len(taskOutputs[taskID])))
+									fmt.Println(len(taskOutputs[taskID]))
 								}
 								// Return to the user all the output lines from the given starting point.
 								for outputLineNumber < len(taskOutputs[taskID]) {
