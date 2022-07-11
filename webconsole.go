@@ -94,6 +94,12 @@ func debug(theOutput string) {
 	}
 }
 
+// Print a log file entry in Common Log Format.
+func debug(theOutput string) {
+	currentTime := time.Now()
+	fmt.Println("log,", currentTime.Format("02/01/2006:15:04:05"), "- " + theOutput)
+}
+
 // Generate a new, random 16-character string, used for tokens and Task IDs.
 func generateRandomString() string {
 	rand.Seed(time.Now().UnixNano())
@@ -1082,7 +1088,15 @@ func main() {
 				if serveFile == true {
 					localFilePath := arguments["webroot"] + requestPath
 					debug("Asked for webroot file: " + localFilePath)
-					http.ServeFile(theResponseWriter, theRequest, localFilePath)
+					if _, err := os.Stat(localFilePath); errors.Is(err, os.ErrNotExist) {
+						log("Not found")
+						theResponseWriter.WriteHeader(http.StatusInternalServerError)
+						debug(arguments["webroot"] + "404.html")
+						http.ServeFile(theResponseWriter, theRequest, arguments["webroot"] + "404.html")
+					} else {
+						log("Found")
+						http.ServeFile(theResponseWriter, theRequest, localFilePath)
+					}
 				}
 			}
 		})
