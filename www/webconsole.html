@@ -33,6 +33,9 @@
 			// We either call getTaskOutput every 2 seconds to provide updates to the user for a running
 			// task, or keepAlive every 10 minutes (or thereabouts) to refresh a session's token.
 			var intervalFunction;
+			const keepAlivePeriod = 500000;
+			const taskOutputUpdatePeriod = 2000;
+			
 			var displayAlerts = false;
 			var currentEditFile = "";
 			outputLine = 0;
@@ -61,7 +64,7 @@
 						displayAlerts = true;
 						updateTaskOutput();
 						clearInterval(intervalFunction);
-						intervalFunction = setInterval(updateTaskOutput, 2000);
+						intervalFunction = setInterval(updateTaskOutput, taskOutputUpdatePeriod);
 					} else {
 						// If runTask didn't return "OK" then it returned an error, which we display in red for the user.
 						document.getElementById("taskAlerts").innerHTML = "<div style='color:red'>" + result + "</div>";
@@ -82,7 +85,7 @@
 								}
 							} else if (value.trim() == "ERROR: EOF") {
 								clearInterval(intervalFunction);
-								intervalFunction = setInterval(keepAlive, 500000);
+								intervalFunction = setInterval(keepAlive, keepAlivePeriod);
 								document.getElementById("runTaskButton").innerHTML = "Run";
 								document.getElementById("runTaskButton").disabled = false;
 								document.getElementById("taskProgress").innerHTML = "";
@@ -159,8 +162,11 @@
 			
 			// Called when the document is first loaded and ready.
 			function pageReady() {
+				// Set up the keepAlive call.
+				intervalFunction = setInterval(keepAlive, keepAlivePeriod);
+				
 				// Even if the Task isn't yet running, update the Task output section - it'll be filled with the logs of the last run if available.
-				updateTaskOutput();
+				// updateTaskOutput();
 				
 				pageURL = window.location.href.split("?")[0]
 				// Set the webhook value for the user - the "run" API call for this Task, handy for services such as IFTTT and Zapier.
@@ -178,7 +184,8 @@
 						if (result == "YES") {
 							runTask();
 						} else {
-							intervalFunction = setInterval(keepAlive, 30000);
+							// intervalFunction = setInterval(keepAlive, keepAlivePeriod);
+							updateTaskOutput();
 						}
 					});
 				}
