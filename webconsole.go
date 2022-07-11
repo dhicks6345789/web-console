@@ -1090,7 +1090,7 @@ func main() {
 					debug("Asked for webroot file: " + localFilePath)
 					if _, err := os.Stat(localFilePath); errors.Is(err, os.ErrNotExist) {
 						logLine("Not found")
-						theResponseWriter.WriteHeader(http.StatusNotFound)
+						//theResponseWriter.WriteHeader(http.StatusNotFound)
 						http.ServeFile(theResponseWriter, theRequest, arguments["webroot"] + "/404.html")
 					} else {
 						logLine("Found")
