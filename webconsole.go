@@ -90,7 +90,7 @@ type mystartStruct struct {
 func debug(theOutput string) {
 	if arguments["debug"] == "true" {
 		currentTime := time.Now()
-		fmt.Println("webconsole, ", currentTime.Format("2006.01.02 15:04:05"), ": " + theOutput)
+		fmt.Println("webconsole,", currentTime.Format("20060102150405"), "- " + theOutput)
 	}
 }
 
