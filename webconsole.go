@@ -1070,7 +1070,7 @@ func main() {
 								filePath = filePath + "index.html"
 							}
 							localFilePath := arguments["taskroot"] + "/" + task["taskID"] + "/www" + filePath
-							debug("Serving Task file: " + localFilePath)
+							debug("Asked for Task file: " + localFilePath)
 							http.ServeFile(theResponseWriter, theRequest, localFilePath)
 							serveFile = false
 						}
@@ -1081,7 +1081,7 @@ func main() {
 				}
 				if serveFile == true {
 					localFilePath := arguments["webroot"] + requestPath
-					debug("Serving webroot file: " + localFilePath)
+					debug("Asked for webroot file: " + localFilePath)
 					http.ServeFile(theResponseWriter, theRequest, localFilePath)
 				}
 			}
