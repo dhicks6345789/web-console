@@ -578,13 +578,6 @@ func main() {
 		}
 	}
 	
-	// If "debug" mode is true, print some initial setup information.
-	if arguments["debug"] == "true" {
-		debug("MyStart.Online Page Names / API Keys:")
-		fmt.Println(mystartPageNames)
-		fmt.Println(mystartAPIKeys)
-	}
-	
 	if arguments["start"] == "true" {
 		// Start the thread that checks for and clears expired tokens.
 		go clearExpiredTokens()
