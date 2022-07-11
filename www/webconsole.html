@@ -42,9 +42,7 @@
 			
 			// Simply calls the keepAlive API method to make sure the session's token is refreshed.
 			function keepAlive() {
-				console.log("Calling keepalive...");
-				webconsole.APICall("keepAlive", {}, function(result) {
-				});
+				webconsole.APICall("keepAlive", {}, function(result) {});
 			}
 			
 			// Run a Task.
@@ -73,7 +71,7 @@
 				});
 			}
 			
-			// Called periodically (every 2 seconds) after a Task has been started to update information for the user.
+			// Called periodically (period defined by constant at start of file) after a Task has been started to update information for the user.
 			function updateTaskOutput() {
 				webconsole.APICall("getTaskOutput", {"line":outputLine}, function(result) {
 					for (value of result.split("\n")) {
@@ -89,9 +87,6 @@
 								document.getElementById("runTaskButton").innerHTML = "Run";
 								document.getElementById("runTaskButton").disabled = false;
 								document.getElementById("taskProgress").innerHTML = "";
-								//if (displayAlerts == true) {
-									//document.getElementById("taskAlerts").style.display = "block";
-								//}
 							} else {
 								// Include formatting.js.
 								if (value.toLowerCase().startsWith("progress:")) {
@@ -165,9 +160,6 @@
 				// Set up the keepAlive call.
 				intervalFunction = setInterval(keepAlive, keepAlivePeriod);
 				
-				// Even if the Task isn't yet running, update the Task output section - it'll be filled with the logs of the last run if available.
-				// updateTaskOutput();
-				
 				pageURL = window.location.href.split("?")[0]
 				// Set the webhook value for the user - the "run" API call for this Task, handy for services such as IFTTT and Zapier.
 				document.getElementById("webHookLink").value = pageURL.slice(0, pageURL.lastIndexOf("/")) + "/api/runTask?taskID=" + taskID;
@@ -184,7 +176,8 @@
 						if (result == "YES") {
 							runTask();
 						} else {
-							// intervalFunction = setInterval(keepAlive, keepAlivePeriod);
+							// If the Task isn't actually running at the moment, a call to updateTaskOutput will get the previous
+							// output and populate the output tab with it.
 							updateTaskOutput();
 						}
 					});
