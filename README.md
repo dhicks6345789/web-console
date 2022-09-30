@@ -3,7 +3,7 @@ Provides a simple web interface for command-line applications - quickly publish 
 
 Cross-platform, runs as a self-contained web server, binaries are available for Windows, Linux (including Raspberry Pi) and MacOS. The install process includes setup as a service on each platform and, optionally, for the cross-platform [tunnelto.dev](https://tunnelto.dev/) service to provide an HTTPS-secured connection through a firewall.
 
-Web Console is intended to be used behind a proxy server or tunneling service, it doesn't by itself handle HTTPS connections, making it unsuitible as a general-purpose web server open to the outside world. Also, Web Console's implementation prioritises ease of configuration and use over performance, meaning that for larger setups a proxy server is probably going to be a good idea. However, it can be used to provide a basic user interface for a stand-alone, non-networked system, such as a kiosk machine, using HTTP only on a local web browser.
+Web Console is intended to be used behind a proxy server or tunneling service - it doesn't by itself handle HTTPS connections. Web Console's implementation prioritises ease of configuration and use over performance, meaning that for larger setups a proxy server is probably going to be a good idea. However, it can be used to provide a basic user interface for a stand-alone, non-networked system, such as a kiosk machine, using HTTP only on a local web browser.
 
 Web Console has been used behind [Apache](https://httpd.apache.org/) and [NGINX](https://www.nginx.com/) acting as reverse-proxy servers, although we recommend [Caddy](https://caddyserver.com/), simply for its ease-of-use in automatically dealing with HTTPS provision for you.
 
