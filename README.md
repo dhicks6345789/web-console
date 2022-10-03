@@ -108,6 +108,7 @@ Thw web user interface is constructed using [Bootstrap 5](https://getbootstrap.c
 * Logging - add date / time signature to start of log output.
 * Add / check "error code on exit" message for non-0 results.
 * Add Mac support in install.sh.
+* Add ChromeOS support in install.sh.
 * On Windows, run batch files without having to explicitly run via cmd /c.
 * Return error message if task file doesn't run, don't just sit.
 
