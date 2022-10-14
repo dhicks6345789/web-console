@@ -124,6 +124,7 @@ Thw web user interface is constructed using [Bootstrap 5](https://getbootstrap.c
 * Additions to the API to provide a mechanism for third-parties to handle authorisation.
   * Mystart.Online
   * Cloudflare
+  * Implement local support for Goole / MS / etc OAuth?
 * Chroot (or Windows equivilent) jail per task.
 * Inputs from STDIN.
   * Single line text box
@@ -137,6 +138,7 @@ Thw web user interface is constructed using [Bootstrap 5](https://getbootstrap.c
   * New account creation
   * Task run schedualer, with error reporting if tasks fail.
   * Add "New Task" dialog, with (configurable) pre-defined "Type" field for quick starts:
+    * Git checkout
     * Hugo
     * Jekyll
     * 11ty
@@ -150,6 +152,7 @@ Thw web user interface is constructed using [Bootstrap 5](https://getbootstrap.c
   * Ability to connect cloud storage.
 * Code editor integrated in Task editor view.
 * SSH console integrated in Task editor view.
+* Backup tab for Task editor view - download and restore.
 * Custom design system
   * Bootstrap
   * Gov.uk
