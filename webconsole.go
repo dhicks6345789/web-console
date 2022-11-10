@@ -611,7 +611,8 @@ func main() {
 			serveFile := false
 			fileToServe := filesToServeList[requestPath]
 			if requestPath == "/" {
-				http.ServeFile(theResponseWriter, theRequest, arguments["webroot"] + "/index.html")
+				//http.ServeFile(theResponseWriter, theRequest, arguments["webroot"] + "/index.html")
+				doServeFile(theResponseWriter, theRequest, arguments["webroot"] + "/index.html", "/", token, permission, "Web Console", "Web Console Main Menu")
 			// Handle the getPublicTaskList API call (the one API call that doesn't require authentication).
 			} else if strings.HasPrefix(requestPath, "/api/getPublicTaskList") {
 				taskList, taskErr := getTaskList()
@@ -738,7 +739,6 @@ func main() {
 							
 							// Handle view and run requests - no difference server-side, only the client-side treates the URLs differently
 							// (the "runTask" method gets called by the client-side code if the URL contains "run" rather than "view").
-							//if strings.HasPrefix(requestPath, "/view") || strings.HasPrefix(requestPath, "/run") || strings.HasPrefix(requestPath, "/api/mystartLogin") {
 							if fileToServe != "" {
 								doServeFile(theResponseWriter, theRequest, fileToServe, taskID, token, permission, taskDetails["title"], taskDetails["description"])
 							// API - Exchange the secret for a token.
