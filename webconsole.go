@@ -641,6 +641,9 @@ func main() {
 			} else if fileToServe != "" || strings.HasPrefix(requestPath, "/api/") {
 				taskID := theRequest.Form.Get("taskID")
 				token := theRequest.Form.Get("token")
+				if taskID == "" && requestPath == "/" {
+					taskID := "/"
+				}
 				if taskID == "" {
 					fmt.Fprintf(theResponseWriter, "ERROR: Missing parameter taskID.")
 				} else {
