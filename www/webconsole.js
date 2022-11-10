@@ -83,4 +83,23 @@ var webconsole = {
             webconsole.numberElementIDs(childNode, theNumber);
         });
     }
+    
+    doAction: function(theAction, theURL, theNewTab, theVariables) {
+        actionForm = document.getElementById("actionForm");
+        if (theAction.toLowerCase() == "post") {
+            actionForm.method = "POST";
+        } else {
+            actionForm.method = "GET";
+        }
+        actionForm.action = theURL;
+        if (theNewTab == true) {
+            actionForm.target = "_blank";
+        }
+        actionFormHTML = "";
+        for (var varName in theVariables) {
+            actionFormHTML = actionFormHTML + "<input name='" + varName + "' type='hidden' value='" + theVariables[varName] + "'>";
+        }
+        actionForm.innerHTML = actionFormHTML;
+        actionForm.submit();
+    }
 };
