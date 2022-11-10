@@ -443,6 +443,7 @@ func readUserFile(theConfigPath string) map[string]string {
 func doServeFile(theResponseWriter http.ResponseWriter, theRequest *http.Request, theFile string, theTaskID string, theToken string, thePermission string, theTitle string, theDescription string) {
 	// Serve the "fileToServe" file, first adding in the Task ID and token values to be used client-side, as well
 	// as including the appropriate formatting.js file.
+	debug("Serving file: " + theFile)
 	webconsoleBuffer, fileReadErr := ioutil.ReadFile(arguments["webroot"] + "/" + theFile)
 	if fileReadErr == nil {
 		formattingJSBuffer, fileReadErr := ioutil.ReadFile(arguments["taskroot"] + "/" + theTaskID + "/formatting.js")
