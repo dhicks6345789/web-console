@@ -243,54 +243,59 @@ func taskIsRunning(theTaskID string) bool {
 // Read the Task's details from its config file.
 func getTaskDetails(theTaskID string) (map[string]string, error) {
 	taskDetails := make(map[string]string)
-	configPath := arguments["taskroot"] + "/" + theTaskID + "/config.txt"
+	taskDetails["taskID"] = theTaskID
+	taskDetails["title"] = ""
+	taskDetails["description"] = ""
+	taskDetails["secretViewers"] = ""
+	taskDetails["secretRunners"] = ""
+	taskDetails["secretEditors"] = ""
+	taskDetails["public"] = "N"
+	taskDetails["ratelimit"] = "0"
+	taskDetails["progress"] = "N"
+	taskDetails["command"] = ""
+	taskDetails["authentication"] = ""
+	
 	// Check to see if we have a valid task ID.
-	if _, err := os.Stat(configPath); !os.IsNotExist(err) {
-		inFile, inFileErr := os.Open(configPath)
-		if inFileErr != nil {
-			return taskDetails, errors.New("Can't open Task config file.")
-		} else {
-			// Read the Task's details from its config file.
-			taskDetails["taskID"] = theTaskID
-			taskDetails["title"] = ""
-			taskDetails["description"] = ""
-			taskDetails["secretViewers"] = ""
-			taskDetails["secretRunners"] = ""
-			taskDetails["secretEditors"] = ""
-			taskDetails["public"] = "N"
-			taskDetails["ratelimit"] = "0"
-			taskDetails["progress"] = "N"
-			taskDetails["command"] = ""
-			taskDetails["authentication"] = ""
-			scanner := bufio.NewScanner(inFile)
-			for scanner.Scan() {
-				itemSplit := strings.SplitN(scanner.Text(), ":", 2)
-				taskDetails[strings.TrimSpace(itemSplit[0])] = strings.TrimSpace(itemSplit[1])
-			}
-			inFile.Close()
+	if (theTaskID == "/") {
+	} else {
+		configPath := arguments["taskroot"] + "/" + theTaskID + "/config.txt"
+		if _, err := os.Stat(configPath); !os.IsNotExist(err) {
+			inFile, inFileErr := os.Open(configPath)
+			if inFileErr != nil {
+				return taskDetails, errors.New("Can't open Task config file.")
+			} else {
+				// Read the Task's details from its config file.
+				
+				scanner := bufio.NewScanner(inFile)
+				for scanner.Scan() {
+					itemSplit := strings.SplitN(scanner.Text(), ":", 2)
+					taskDetails[strings.TrimSpace(itemSplit[0])] = strings.TrimSpace(itemSplit[1])
+				}
+				inFile.Close()
 			
-			// Figure out what authentication types this Task accepts.
-			authTypes := map[string]int{}
-			for _, secretType := range []string{"secretViewers","secretRunners","secretEditors"} {
-				if taskDetails[secretType] != "" {
-					authTypes["secret"] = 1
+				// Figure out what authentication types this Task accepts.
+				authTypes := map[string]int{}
+				for _, secretType := range []string{"secretViewers","secretRunners","secretEditors"} {
+					if taskDetails[secretType] != "" {
+						authTypes["secret"] = 1
+					}
+				}
+				for authType, _ := range authTypes {
+					taskDetails["authentication"] = taskDetails["authentication"] + authType + ","
+				}
+				if len(taskDetails["authentication"]) > 0 {
+					taskDetails["authentication"] = taskDetails["authentication"][0:len(taskDetails["authentication"])-1]
+				}
+			
+				// Get the Task's description.
+				descriptionContents, descriptionContentsErr := ioutil.ReadFile(arguments["taskroot"] + "/" + theTaskID + "/description.txt")
+				if descriptionContentsErr == nil {
+					taskDetails["description"] = string(descriptionContents)
 				}
 			}
-			for authType, _ := range authTypes {
-				taskDetails["authentication"] = taskDetails["authentication"] + authType + ","
-			}
-			if len(taskDetails["authentication"]) > 0 {
-				taskDetails["authentication"] = taskDetails["authentication"][0:len(taskDetails["authentication"])-1]
-			}
-			
-			// Get the Task's description.
-			descriptionContents, descriptionContentsErr := ioutil.ReadFile(arguments["taskroot"] + "/" + theTaskID + "/description.txt")
-			if descriptionContentsErr == nil {
-				taskDetails["description"] = string(descriptionContents)
-			}
+		} else {
+			return taskDetails, errors.New("No config file for taskID: " + theTaskID)
 		}
-	} else {
-		return taskDetails, errors.New("No config file for taskID: " + theTaskID)
 	}
 	return taskDetails, nil
 }
