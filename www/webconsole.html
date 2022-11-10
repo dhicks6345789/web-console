@@ -158,7 +158,8 @@
 			// Called when the document is first loaded and ready.
 			function pageReady() {
 				if (taskID == "/" && window.location.href.includes("/view?")) {
-					window.location.href = window.location.href.split("/view?")[0];
+					// window.location.href = window.location.href.split("/view?")[0];
+					webconsole.doAction("POST", window.location.href.split("/view?")[0], false, {"token":token})
 				}
 				
 				// Set up the keepAlive call.
