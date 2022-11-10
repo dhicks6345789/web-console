@@ -82,7 +82,7 @@ var webconsole = {
         theNode.childNodes.forEach(function(childNode) {
             webconsole.numberElementIDs(childNode, theNumber);
         });
-    }
+    },
     
     doAction: function(theAction, theURL, theNewTab, theVariables) {
         actionForm = document.getElementById("actionForm");
