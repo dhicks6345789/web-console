@@ -76,7 +76,7 @@ var mystartPageNames = map[string]string{}
 var mystartAPIKeys = map[string]string{}
 
 // A map of endpoints to files to serve.
-var filesToServeList = map[string]string{"/view":"webconsole.html", "/run":"webconsole.html", "/login":"login.html", "/api/mystartLogin":"redirect.html"}
+var filesToServeList = map[string]string{"/":"index.html", "/view":"webconsole.html", "/run":"webconsole.html", "/login":"login.html", "/api/mystartLogin":"redirect.html"}
 
 // A struct used to read JSON data from authentication API calls to MyStart.Online.
 type mystartStruct struct {
@@ -610,11 +610,13 @@ func main() {
 			
 			serveFile := false
 			fileToServe := filesToServeList[requestPath]
-			if requestPath == "/" {
+			//if requestPath == "/" {
 				//http.ServeFile(theResponseWriter, theRequest, arguments["webroot"] + "/index.html")
-				doServeFile(theResponseWriter, theRequest, arguments["webroot"] + "/index.html", "/", token, permission, "Web Console", "Web Console Main Menu")
+				//doServeFile(theResponseWriter, theRequest, arguments["webroot"] + "/index.html", "/", token, permission, "Web Console", "Web Console Main Menu")
+				//doServeFile(theResponseWriter, theRequest, arguments["webroot"] + "/index.html", "/", "", "", "Web Console", "Web Console Main Menu")
 			// Handle the getPublicTaskList API call (the one API call that doesn't require authentication).
-			} else if strings.HasPrefix(requestPath, "/api/getPublicTaskList") {
+			//} else if
+			if strings.HasPrefix(requestPath, "/api/getPublicTaskList") {
 				taskList, taskErr := getTaskList()
 				if taskErr == nil {
 					// We return the list of public tasks in JSON format. Note that public tasks might still need authentication to run,
