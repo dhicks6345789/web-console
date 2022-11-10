@@ -642,7 +642,7 @@ func main() {
 				taskID := theRequest.Form.Get("taskID")
 				token := theRequest.Form.Get("token")
 				if taskID == "" && requestPath == "/" {
-					taskID := "/"
+					taskID = "/"
 				}
 				if taskID == "" {
 					fmt.Fprintf(theResponseWriter, "ERROR: Missing parameter taskID.")
