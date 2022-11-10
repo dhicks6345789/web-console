@@ -157,7 +157,7 @@
 			
 			// Called when the document is first loaded and ready.
 			function pageReady() {
-				if (taskID == "/" && window.location.href.contains("/view?")) {
+				if (taskID == "/" && window.location.href.includes("/view?")) {
 					window.location.href = window.location.href.split("/view?")[0];
 				}
 				
