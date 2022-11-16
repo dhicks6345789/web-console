@@ -613,11 +613,7 @@ func main() {
 				mystartName = "default"
 			}
 			if strings.HasSuffix(argName, "APIKey") {
-				mystartAPIKeys[mystartName] = ""
-				mystartAPIKeys[mystartName], _ = hex.DecodeString(argVal)
-				if mystartAPIKeys[mystartName] == "" {
-					fmt.Println("ERROR: Invalid MyStart API key for " + mystartName)
-				}
+				mystartAPIKeys[mystartName] = argVal
 			}
 			if strings.HasSuffix(argName, "PageName") {
 				mystartPageNames[mystartName] = argVal
@@ -725,12 +721,18 @@ func main() {
 													if strings.HasSuffix(taskDetailName, "Editors") {
 														mystartEditorsPath := taskDetailValue
 														debug("Looking for MyStart.Online (" + mystartName + ") Editors data in: " + mystartEditorsPath)
-														mystartEditors := readUserFile(mystartEditorsPath, arguments["mystart" + mystartName + "APIKey"])
-														for editorEmail, editorHash := range mystartEditors {
-															if editorHash == mystartJSON.EmailHash {
-																authorised = true
-																permission = "E"
-																debug("User authorised via MyStart.Online login, hash: " + editorHash + ", email: " + editorEmail + ", permission: " + permission)
+														
+														bytesAPIKey, bytesAPIKeyError := hex.DecodeString(arguments["mystart" + mystartName + "APIKey"])
+														if bytesAPIKeyError != nil {
+															fmt.Println("ERROR: Invalid MyStart API key for " + mystartName)
+														} else {
+															mystartEditors := readUserFile(mystartEditorsPath, bytesAPIKey)
+															for editorEmail, editorHash := range mystartEditors {
+																if editorHash == mystartJSON.EmailHash {
+																	authorised = true
+																	permission = "E"
+																	debug("User authorised via MyStart.Online login, hash: " + editorHash + ", email: " + editorEmail + ", permission: " + permission)
+																}
 															}
 														}
 													}
