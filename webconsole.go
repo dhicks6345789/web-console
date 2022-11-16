@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"os"
 	"log"
+	"hex"
 	"sort"
 	"time"
 	"bufio"
@@ -451,7 +452,7 @@ func readUserFile(theConfigPath string, theHashKey string) map[string]string {
 							hashMemory := 8
 							hashParallelism := 1
 							hashKeyLength := 16
-							hashedEmailAddress = argon2.IDKey(emailAddress, theHashKey, hashIterations, hashMemory, hashParallelism, hashKeyLength)
+							hashedEmailAddress = hex.EncodeToString(argon2.IDKey([]byte(emailAddress), []byte(theHashKey), hashIterations, hashMemory, hashParallelism, hashKeyLength))
 						}
 					}
 					result[emailAddress] = hashedEmailAddress
