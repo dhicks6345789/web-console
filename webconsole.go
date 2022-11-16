@@ -72,6 +72,7 @@ var taskRuntimeGuesses = map[string]float64{}
 var taskStopTimes = map[string]int64{}
 
 // Maps of MyStart.Online page names and API keys.
+var mystartNames = []string{}
 var mystartPageNames = map[string]string{}
 var mystartAPIKeys = map[string]string{}
 
@@ -257,6 +258,7 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 	
 	// Check to see if we have a valid task ID.
 	if (theTaskID == "/") {
+		debug("Root view requested - User ID: " + )
 	} else {
 		configPath := arguments["taskroot"] + "/" + theTaskID + "/config.txt"
 		if _, err := os.Stat(configPath); !os.IsNotExist(err) {
@@ -578,6 +580,7 @@ func main() {
 			if strings.HasSuffix(argName, "PageName") {
 				mystartName = argName[7:len(argName)-8]
 			}
+			mystartNames = append(mystartNames, mystartName)
 			if mystartName == "" {
 				mystartName = "default"
 			}
@@ -656,7 +659,7 @@ func main() {
 						if taskDetails["authentication"] == "" {
 							authorised = true
 							authorisationError = ""
-							permission = "R"
+							permission = "V"
 						}
 						currentTimestamp := time.Now().Unix()
 						rateLimit, rateLimitErr := strconv.Atoi(taskDetails["ratelimit"])
@@ -680,7 +683,7 @@ func main() {
 									if mystartJSONResult == nil {
 										if mystartJSON.Login == "valid" {
 											// Okay - we've authenticated the user, now we need to check authorisation.
-											fmt.Println(mystartJSON)
+											debug(mystartJSON)
 											for taskDetailName, taskDetailValue := range taskDetails {
 												if strings.HasPrefix(taskDetailName, "mystart") {
 													mystartName := ""
