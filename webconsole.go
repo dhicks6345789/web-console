@@ -402,7 +402,7 @@ func readConfigFile(theConfigPath string) map[string]string {
 
 // Read a "users" data file - a file telling us which users are valid Editors, Runners or Viewers.
 // Files can be in Excel or CSV format, two columns: Email Address, Hash Value
-func readUserFile(theConfigPath string, theHashKey []byte) map[string]string {
+func readUserFile(theConfigPath string, theHashKey string) map[string]string {
 	var result = map[string]string{}
 	
 	// Is the config file an Excel file?
@@ -454,7 +454,12 @@ func readUserFile(theConfigPath string, theHashKey []byte) map[string]string {
 						} else {
 							// Generate Argon2i hash.
 							// argon2.argon2_hash(userEmailAddress.strip().lower(), salt=apiKey, t=16, m=8, p=1, buflen=16, argon_type=argon2.Argon2Type.Argon2_i).hex()
-							hashedEmailAddress = hex.EncodeToString(argon2.Key([]byte(emailAddress), theHashKey, argon2Iterations, argon2Memory, argon2Parallelism, argon2KeyLength))
+							bytesHashKey, bytesHashKeyError := hex.DecodeString(theHashKey)
+							if bytesHashKeyError != nil {
+								fmt.Println("ERROR: Invalid hash key: " + theHashKey)
+							} else {
+								hashedEmailAddress = hex.EncodeToString(argon2.Key([]byte(emailAddress), bytesHashKey, argon2Iterations, argon2Memory, argon2Parallelism, argon2KeyLength))
+							}
 						}
 					}
 					result[emailAddress] = hashedEmailAddress
@@ -721,18 +726,12 @@ func main() {
 													if strings.HasSuffix(taskDetailName, "Editors") {
 														mystartEditorsPath := taskDetailValue
 														debug("Looking for MyStart.Online (" + mystartName + ") Editors data in: " + mystartEditorsPath)
-														
-														bytesAPIKey, bytesAPIKeyError := hex.DecodeString(arguments["mystart" + mystartName + "APIKey"])
-														if bytesAPIKeyError != nil {
-															fmt.Println("ERROR: Invalid MyStart API key for " + mystartName)
-														} else {
-															mystartEditors := readUserFile(mystartEditorsPath, bytesAPIKey)
-															for editorEmail, editorHash := range mystartEditors {
-																if editorHash == mystartJSON.EmailHash {
-																	authorised = true
-																	permission = "E"
-																	debug("User authorised via MyStart.Online login, hash: " + editorHash + ", email: " + editorEmail + ", permission: " + permission)
-																}
+														mystartEditors := readUserFile(mystartEditorsPath, arguments["mystart" + mystartName + "APIKey"])
+														for editorEmail, editorHash := range mystartEditors {
+															if editorHash == mystartJSON.EmailHash {
+																authorised = true
+																permission = "E"
+																debug("User authorised via MyStart.Online login, hash: " + editorHash + ", email: " + editorEmail + ", permission: " + permission)
 															}
 														}
 													}
