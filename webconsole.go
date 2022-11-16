@@ -458,7 +458,7 @@ func readUserFile(theConfigPath string, theHashKey string) map[string]string {
 							if bytesHashKeyError != nil {
 								fmt.Println("ERROR: Invalid hash key: " + theHashKey)
 							} else {
-								hashedEmailAddress = hex.EncodeToString(argon2.Key([]byte(emailAddress), bytesHashKey, argon2Iterations, argon2Memory, argon2Parallelism, argon2KeyLength))
+								hashedEmailAddress = hex.EncodeToString(argon2.Key([]byte(emailAddress), []byte(theHashKey), argon2Iterations, argon2Memory, argon2Parallelism, argon2KeyLength))
 							}
 						}
 					}
