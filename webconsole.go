@@ -91,6 +91,12 @@ type mystartStruct struct {
 	LoginType string
 }
 
+// Some constant values for use with the Argon2 hashing function.
+const argon2Iterations uint32 = 16
+const argon2Memory uint32 = 8
+const argon2Parallelism uint8 = 1
+const argon2KeyLength uint32 = 16
+
 // If the "debug" option has been passed on the command line, print the given information to the (local) console.
 func debug(theOutput string) {
 	if arguments["debug"] == "true" {
@@ -448,11 +454,7 @@ func readUserFile(theConfigPath string, theHashKey string) map[string]string {
 						} else {
 							// Generate Argon2i hash.
 							// argon2.argon2_hash(userEmailAddress.strip().lower(), salt=apiKey, t=16, m=8, p=1, buflen=16, argon_type=argon2.Argon2Type.Argon2_i).hex()
-							hashIterations uint32 := 16
-							hashMemory uint32 := 8
-							hashParallelism uint8 := 1
-							hashKeyLength uint32 := 16
-							hashedEmailAddress = hex.EncodeToString(argon2.IDKey([]byte(emailAddress), []byte(theHashKey), hashIterations, hashMemory, hashParallelism, hashKeyLength))
+							hashedEmailAddress = hex.EncodeToString(argon2.IDKey([]byte(emailAddress), []byte(theHashKey), argon2Iterations, argon2Memory, argon2Parallelism, argon2KeyLength))
 						}
 					}
 					result[emailAddress] = hashedEmailAddress
