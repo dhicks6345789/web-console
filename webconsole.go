@@ -454,7 +454,12 @@ func readUserFile(theConfigPath string, theHashKey []byte) map[string]string {
 						} else {
 							// Generate Argon2i hash.
 							// argon2.argon2_hash(userEmailAddress.strip().lower(), salt=apiKey, t=16, m=8, p=1, buflen=16, argon_type=argon2.Argon2Type.Argon2_i).hex()
-							hashedEmailAddress = hex.EncodeToString(argon2.IDKey([]byte(emailAddress), theHashKey, argon2Iterations, argon2Memory, argon2Parallelism, argon2KeyLength))
+							bytesEmailAddress, bytesEmailAddressError = hex.DecodeString(strings.ToLower(strings.TrimSpace(emailAddress)))
+							if bytesEmailAddressError != nil {
+								fmt.Println("ERROR: Invalid MyStart API key for " + mystartName)
+							} else {
+								hashedEmailAddress = hex.EncodeToString(argon2.IDKey(bytesEmailAddress, theHashKey, argon2Iterations, argon2Memory, argon2Parallelism, argon2KeyLength))
+							}
 						}
 					}
 					result[emailAddress] = hashedEmailAddress
