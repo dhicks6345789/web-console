@@ -259,7 +259,7 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 	// Check to see if we have a valid task ID.
 	if (theTaskID == "/") {
 		for _, mystartName := range mystartNames {
-			editorsPath := arguments["taskroot"] + "/mystart" + mystartName + "Editors.csv"
+			editorsPath := arguments["WebConsoleRoot"] + "/mystart" + mystartName + "Editors.csv"
 			debug("Root task: checking mystartName: " + mystartName + ", path: " + editorsPath)
 			if _, err := os.Stat(editorsPath); err == nil {
 				debug("Path found: " + editorsPath)
@@ -494,6 +494,7 @@ func main() {
 	arguments["port"] = "8090"
 	arguments["localOnly"] = "true"
 	arguments["debug"] = "false"
+	setArgumentIfPathExists("WebConsoleRoot", []string {"/etc/webconsole", "C:\\Program Files\\WebConsole"})
 	setArgumentIfPathExists("config", []string {"config.csv", "/etc/webconsole/config.csv", "C:\\Program Files\\WebConsole\\config.csv"})
 	setArgumentIfPathExists("webroot", []string {"www", "/etc/webconsole/www", "C:\\Program Files\\WebConsole\\www", ""})
 	setArgumentIfPathExists("taskroot", []string {"tasks", "/etc/webconsole/tasks", "C:\\Program Files\\WebConsole\\tasks", ""})
