@@ -390,7 +390,7 @@ func readConfigFile(theConfigPath string) map[string]string {
 	return result
 }
 
-func readUserFile(theConfigPath string) map[string]string {
+func readUserFile(theConfigPath string, theHashKey string) map[string]string {
 	var result = map[string]string{}
 	
 	// Is the config file an Excel file?
@@ -446,6 +446,8 @@ func readUserFile(theConfigPath string) map[string]string {
 			fmt.Println("ERROR: " + csvErr.Error())
 		}
 	}
+	debug("Hashed email addresses:")
+	fmt.Println(result)
 	return result
 }
 
@@ -698,14 +700,10 @@ func main() {
 													if strings.HasSuffix(taskDetailName, "Editors") {
 														mystartName = taskDetailName[7:len(taskDetailName)-7]
 													}
-													if mystartName == "" {
-														mystartName = "default"
-													}
 													if strings.HasSuffix(taskDetailName, "Editors") {
-														// mystartEditorsPath := arguments["taskroot"] + "/" + taskID + "/" + taskDetailValue
 														mystartEditorsPath := taskDetailValue
 														debug("Looking for MyStart.Online (" + mystartName + ") Editors data in: " + mystartEditorsPath)
-														mystartEditors := readUserFile(mystartEditorsPath)
+														mystartEditors := readUserFile(mystartEditorsPath, arguments["mystart" + mystartName + "APIKey"])
 														for editorEmail, editorHash := range mystartEditors {
 															if editorHash == mystartJSON.EmailHash {
 																authorised = true
