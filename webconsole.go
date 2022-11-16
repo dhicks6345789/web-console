@@ -682,7 +682,7 @@ func main() {
 									if mystartJSONResult == nil {
 										if mystartJSON.Login == "valid" {
 											// Okay - we've authenticated the user, now we need to check authorisation.
-											debug(mystartJSON)
+											fmt.Println(mystartJSON)
 											for taskDetailName, taskDetailValue := range taskDetails {
 												if strings.HasPrefix(taskDetailName, "mystart") {
 													mystartName := ""
