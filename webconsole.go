@@ -8,7 +8,6 @@ import (
 	"fmt"
 	"os"
 	"log"
-	"hex"
 	"sort"
 	"time"
 	"bufio"
@@ -24,6 +23,7 @@ import (
 	"math/rand"
 	"io/ioutil"
 	"encoding/csv"
+	"encoding/hex"
 	"encoding/json"
 	
 	// Image resizing library.
