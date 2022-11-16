@@ -402,7 +402,7 @@ func readConfigFile(theConfigPath string) map[string]string {
 
 // Read a "users" data file - a file telling us which users are valid Editors, Runners or Viewers.
 // Files can be in Excel or CSV format, two columns: Email Address, Hash Value
-func readUserFile(theConfigPath string, theHashKey string) map[string]string {
+func readUserFile(theConfigPath string, theHashKey byte[]) map[string]string {
 	var result = map[string]string{}
 	
 	// Is the config file an Excel file?
