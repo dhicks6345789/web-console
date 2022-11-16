@@ -703,7 +703,7 @@ func main() {
 													}
 													if strings.HasSuffix(taskDetailName, "Editors") {
 														// mystartEditorsPath := arguments["taskroot"] + "/" + taskID + "/" + taskDetailValue
-														mystartEditorsPath = taskDetailValue
+														mystartEditorsPath := taskDetailValue
 														debug("Looking for MyStart.Online (" + mystartName + ") Editors data in: " + mystartEditorsPath)
 														mystartEditors := readUserFile(mystartEditorsPath)
 														for editorEmail, editorHash := range mystartEditors {
