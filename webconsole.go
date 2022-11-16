@@ -37,6 +37,9 @@ import (
 	// Bcrypt for password hashing.
 	"golang.org/x/crypto/bcrypt"
 	
+	// Argon2 for email address hashing - used with MyStart Online.
+	"golang.org/x/crypto/argon2"
+	
 	// Excelize for loading in Excel files.
 	"github.com/360EntSecGroup-Skylar/excelize"
 )
@@ -390,6 +393,8 @@ func readConfigFile(theConfigPath string) map[string]string {
 	return result
 }
 
+// Read a "users" data file - a file telling us which users are valid Editors, Runners or Viewers.
+// Files can be in Excel or CSV format, two columns: Email Address, Hash Value
 func readUserFile(theConfigPath string, theHashKey string) map[string]string {
 	var result = map[string]string{}
 	
@@ -408,6 +413,7 @@ func readUserFile(theConfigPath string, theHashKey string) map[string]string {
 			fmt.Println("ERROR: " + excelErr.Error())
 		}
 	} else if strings.HasSuffix(strings.ToLower(theConfigPath), "csv") {
+		// If the data file is a CSV file, read it.
 		csvFile, csvErr := os.Open(theConfigPath)
 		if csvErr == nil {
 			csvData := csv.NewReader(csvFile)
@@ -419,10 +425,11 @@ func readUserFile(theConfigPath string, theHashKey string) map[string]string {
 				if csvDataErr != nil {
 					fmt.Println("ERROR: " + csvDataErr.Error())
 				} else {
-					hashedEmailAddress := csvDataRecord[0]
+					// Figure out if the first value is a valid hash.
+					emailAddress := csvDataRecord[0]
 					emailAddressIsHash := true
-					if len(hashedEmailAddress) == 32 {
-						for _, addressCharValue := range hashedEmailAddress {
+					if len(emailAddress) == 32 {
+						for _, addressCharValue := range emailAddress {
 							if !strings.Contains(letters, string(addressCharValue)) {
 								emailAddressIsHash = false
 							}
@@ -430,16 +437,24 @@ func readUserFile(theConfigPath string, theHashKey string) map[string]string {
 					} else {
 						emailAddressIsHash = false
 					}
-					emailAddress := ""
+					hashedEmailAddress := ""
 					if emailAddressIsHash {
-						if len(csvDataRecord) > 1 {
-							emailAddress = csvDataRecord[1]
-						}
+						hashedEmailAddress = emailAddress
+						emailAddress = ""
 					} else {
-						emailAddress = hashedEmailAddress
-						hashedEmailAddress = ""
+						if len(csvDataRecord) > 1 {
+							hashedEmailAddress = csvDataRecord[1]
+						} else {
+							// Generate Argon2i hash.
+							// argon2.argon2_hash(userEmailAddress.strip().lower(), salt=apiKey, t=16, m=8, p=1, buflen=16, argon_type=argon2.Argon2Type.Argon2_i).hex()
+							hashIterations := 16
+							hashMemory := 8
+							hashParallelism := 1
+							hashKeyLength := 16
+							hashedEmailAddress = argon2.IDKey([]byte(emailAddress), theHashKey, hashIterations, hashMemory, hashParallelism, hashKeyLength)
+						}
 					}
-					result[hashedEmailAddress] = emailAddress
+					result[emailAddress] = hashedEmailAddress
 				}
 			}
 		} else {
