@@ -258,7 +258,6 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 	
 	// Check to see if we have a valid task ID.
 	if (theTaskID == "/") {
-		debug("Root view requested - User ID: " + )
 	} else {
 		configPath := arguments["taskroot"] + "/" + theTaskID + "/config.txt"
 		if _, err := os.Stat(configPath); !os.IsNotExist(err) {
