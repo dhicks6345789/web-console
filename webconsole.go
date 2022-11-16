@@ -702,10 +702,11 @@ func main() {
 														mystartName = "default"
 													}
 													if strings.HasSuffix(taskDetailName, "Editors") {
-														mystartEditorsPath := arguments["taskroot"] + "/" + taskID + "/" + taskDetailValue
+														// mystartEditorsPath := arguments["taskroot"] + "/" + taskID + "/" + taskDetailValue
+														mystartEditorsPath = taskDetailValue
 														debug("Looking for MyStart.Online (" + mystartName + ") Editors data in: " + mystartEditorsPath)
 														mystartEditors := readUserFile(mystartEditorsPath)
-														for editorHash, editorEmail := range mystartEditors {
+														for editorEmail, editorHash := range mystartEditors {
 															if editorHash == mystartJSON.EmailHash {
 																authorised = true
 																permission = "E"
