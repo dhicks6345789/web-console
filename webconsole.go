@@ -451,7 +451,7 @@ func readUserFile(theConfigPath string, theHashKey string) map[string]string {
 							hashMemory := 8
 							hashParallelism := 1
 							hashKeyLength := 16
-							hashedEmailAddress = argon2.IDKey([]byte(emailAddress), theHashKey, hashIterations, hashMemory, hashParallelism, hashKeyLength)
+							hashedEmailAddress = argon2.IDKey(emailAddress, theHashKey, hashIterations, hashMemory, hashParallelism, hashKeyLength)
 						}
 					}
 					result[emailAddress] = hashedEmailAddress
