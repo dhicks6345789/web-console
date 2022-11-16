@@ -259,9 +259,10 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 	// Check to see if we have a valid task ID.
 	if (theTaskID == "/") {
 		for _, mystartName := range mystartNames {
-			debug("Root task: checking mystartName: " + mystartName)
-			editorsPath := arguments["taskroot"] + "/mystart" + mystartName + "Editors"
+			editorsPath := arguments["taskroot"] + "/mystart" + mystartName + "Editors.csv"
+			debug("Root task: checking mystartName: " + mystartName + ", path: " + editorsPath)
 			if _, err := os.Stat(editorsPath); err == nil {
+				debug("Path found: " + editorsPath)
 				taskDetails["mystart" + mystartName + "Editors"] = editorsPath
 			}
 		}
