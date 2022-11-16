@@ -615,7 +615,7 @@ func main() {
 			if strings.HasSuffix(argName, "APIKey") {
 				mystartAPIKeys[mystartName] = ""
 				mystartAPIKeys[mystartName], _ = hex.DecodeString(argVal)
-				mystartAPIKeys[mystartName] == "" {
+				if mystartAPIKeys[mystartName] == "" {
 					fmt.Println("ERROR: Invalid MyStart API key for " + mystartName)
 				}
 			}
