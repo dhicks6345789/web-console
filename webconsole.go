@@ -454,8 +454,7 @@ func readUserFile(theConfigPath string, theHashKey string) map[string]string {
 						} else {
 							// Generate Argon2i hash.
 							// argon2.argon2_hash(userEmailAddress.strip().lower(), salt=apiKey, t=16, m=8, p=1, buflen=16, argon_type=argon2.Argon2Type.Argon2_i).hex()
-							debug("Using hash key: " + theHashKey)
-							hashedEmailAddress = hex.EncodeToString(argon2.IDKey([]byte(emailAddress), []byte(theHashKey), argon2Iterations, argon2Memory, argon2Parallelism, argon2KeyLength))
+							hashedEmailAddress = hex.EncodeToString(argon2.IDKey([]byte(emailAddress), theHashKey, argon2Iterations, argon2Memory, argon2Parallelism, argon2KeyLength))
 						}
 					}
 					result[emailAddress] = hashedEmailAddress
@@ -614,7 +613,11 @@ func main() {
 				mystartName = "default"
 			}
 			if strings.HasSuffix(argName, "APIKey") {
-				mystartAPIKeys[mystartName] = argVal
+				mystartAPIKeys[mystartName] = ""
+				mystartAPIKeys[mystartName], _ = hex.DecodeString(argVal)
+				mystartAPIKeys[mystartName] == "" {
+					fmt.Println("ERROR: Invalid MyStart API key for " + mystartName)
+				}
 			}
 			if strings.HasSuffix(argName, "PageName") {
 				mystartPageNames[mystartName] = argVal
