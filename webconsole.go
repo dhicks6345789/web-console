@@ -456,7 +456,8 @@ func readUserFile(theConfigPath string, theHashKey []byte) map[string]string {
 							// argon2.argon2_hash(userEmailAddress.strip().lower(), salt=apiKey, t=16, m=8, p=1, buflen=16, argon_type=argon2.Argon2Type.Argon2_i).hex()
 							bytesEmailAddress, bytesEmailAddressError := hex.DecodeString(strings.ToLower(strings.TrimSpace(emailAddress)))
 							if bytesEmailAddressError != nil {
-								fmt.Println("ERROR: Invalid email address value " + emailAddress)
+								fmt.Println("ERROR: Unable to convert email address to bytes: " + emailAddress)
+								fmt.Println(bytesEmailAddressError)
 							} else {
 								hashedEmailAddress = hex.EncodeToString(argon2.IDKey(bytesEmailAddress, theHashKey, argon2Iterations, argon2Memory, argon2Parallelism, argon2KeyLength))
 							}
