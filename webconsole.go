@@ -487,8 +487,6 @@ func readUserFile(theConfigPath string, theHashKey string) map[string]string {
 			}
 		}
 	}
-	debug("Hashed email addresses:")
-	fmt.Println(result)
 	return result
 }
 
@@ -734,7 +732,6 @@ func main() {
 									if mystartJSONResult == nil {
 										if mystartJSON.Login == "valid" {
 											// Okay - we've authenticated the user, now we need to check authorisation.
-											fmt.Println(mystartJSON)
 											for taskDetailName, taskDetailValue := range taskDetails {
 												if strings.HasPrefix(taskDetailName, "mystart") {
 													mystartName := ""
@@ -743,13 +740,12 @@ func main() {
 													}
 													if strings.HasSuffix(taskDetailName, "Editors") {
 														mystartEditorsPath := taskDetailValue
-														debug("Looking for MyStart.Online (" + mystartName + ") Editors data in: " + mystartEditorsPath)
 														mystartEditors := readUserFile(mystartEditorsPath, arguments["mystart" + mystartName + "APIKey"])
 														for editorEmail, editorHash := range mystartEditors {
 															if editorHash == mystartJSON.EmailHash {
 																authorised = true
 																permission = "E"
-																debug("User authorised via MyStart.Online login, hash: " + editorHash + ", email: " + editorEmail + ", permission: " + permission)
+																debug("Editor user authorised via MyStart.Online login, hash: " + editorHash + ", email: " + editorEmail)
 															}
 														}
 													}
@@ -1151,12 +1147,10 @@ func main() {
 					localFilePath := arguments["webroot"] + requestPath
 					debug("Asked for webroot file: " + localFilePath)
 					if _, err := os.Stat(localFilePath); errors.Is(err, os.ErrNotExist) {
-						logLine("Not found")
 						theResponseWriter.WriteHeader(http.StatusNotFound)
 						//http.ServeFile(theResponseWriter, theRequest, arguments["webroot"] + "/404.html")
 						fmt.Fprint(theResponseWriter, "Custom 404 content goes here.")
 					} else {
-						logLine("Found")
 						http.ServeFile(theResponseWriter, theRequest, localFilePath)
 					}
 				}
