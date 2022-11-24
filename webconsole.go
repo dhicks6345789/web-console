@@ -477,7 +477,12 @@ func readUserFile(theConfigPath string, theHashKey string) map[string]string {
 			csvFile, csvErr := os.Create(theConfigPath)
 			if csvErr == nil {
 				csvWriter := csv.NewWriter(csvFile)
-				csvWriter.WriteAll(result)
+				var csvData [][]string
+				for _, csvLine := range result {
+					csvRow := []string{csvLine[0], csvLine[1]}
+					data = append(csvData, csvRow)
+				}
+				csvWriter.WriteAll(csvData)
 				//for _, csvValue := range result {
 					//csvWriteErr := csvWriter.Write(csvValue)
 					//if csvWriteErr != nil {
