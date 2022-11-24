@@ -473,13 +473,13 @@ func readUserFile(theConfigPath string, theHashKey string) map[string]string {
 			fmt.Println("ERROR: " + csvErr.Error())
 		}
 		if rewriteCSVFile == true {
-			// re-write the config CSV file.
+			// Re-write the config CSV file.
 			csvFile, csvErr := os.Create(theConfigPath)
 			if csvErr == nil {
 				csvWriter := csv.NewWriter(csvFile)
 				var csvData [][]string
-				for _, csvLine := range result {
-					csvData = append(csvData, []string{string(csvLine[0]), string(csvLine[1])})
+				for csvEmailValue, csvHashValue := range result {
+					csvData = append(csvData, []string{string(csvEmailValue), string(csvHashValue)})
 				}
 				csvWriter.WriteAll(csvData)
 			} else {
