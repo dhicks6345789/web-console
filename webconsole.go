@@ -270,10 +270,16 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 	if (theTaskID == "/") {
 		for _, mystartName := range mystartNames {
 			editorsPath := arguments["WebConsoleRoot"] + "/mystart" + mystartName + "Editors.csv"
-			debug("Root task: checking mystartName: " + mystartName + ", path: " + editorsPath)
 			if _, err := os.Stat(editorsPath); err == nil {
-				debug("Path found: " + editorsPath)
 				taskDetails["mystart" + mystartName + "Editors"] = editorsPath
+			}
+			runnersPath := arguments["WebConsoleRoot"] + "/mystart" + mystartName + "Runners.csv"
+			if _, err := os.Stat(runnersPath); err == nil {
+				taskDetails["mystart" + mystartName + "Runners"] = runnersPath
+			}
+			viewersPath := arguments["WebConsoleRoot"] + "/mystart" + mystartName + "Viewers.csv"
+			if _, err := os.Stat(viewersPath); err == nil {
+				taskDetails["mystart" + mystartName + "Viewers"] = viewersPath
 			}
 		}
 	} else {
@@ -284,7 +290,6 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 				return taskDetails, errors.New("Can't open Task config file.")
 			} else {
 				// Read the Task's details from its config file.
-				
 				scanner := bufio.NewScanner(inFile)
 				for scanner.Scan() {
 					itemSplit := strings.SplitN(scanner.Text(), ":", 2)
