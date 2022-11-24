@@ -479,7 +479,7 @@ func readUserFile(theConfigPath string, theHashKey string) map[string]string {
 				csvWriter := csv.NewWriter(csvFile)
 				var csvData [][]string
 				for _, csvLine := range result {
-					csvRow := []string{csvLine[0], csvLine[1]}
+					csvRow := []string{string(csvLine[0]), string(csvLine[1])}
 					data = append(csvData, csvRow)
 				}
 				csvWriter.WriteAll(csvData)
