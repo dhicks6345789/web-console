@@ -476,9 +476,9 @@ func readUserFile(theConfigPath string, theHashKey string) map[string]string {
 			// re-write the config CSV file.
 			csvFile, csvErr := os.Create(theConfigPath)
 			if csvErr == nil {
-				csvWriter := csv.NewWriter(file)
+				csvWriter := csv.NewWriter(csvFile)
 				for _, csvValue := range result {
-					csvWriteErr = writer.Write(csvValue)
+					csvWriteErr = csvWriter.Write(csvValue)
 					if csvWriteErr != nil {
 						fmt.Println("ERROR: " + csvWriteErr.Error())
 					}
