@@ -425,6 +425,7 @@ func readUserFile(theConfigPath string, theHashKey string) map[string]string {
 			fmt.Println("ERROR: " + excelErr.Error())
 		}
 	} else if strings.HasSuffix(strings.ToLower(theConfigPath), "csv") {
+		rewriteCSVFile := false
 		// If the data file is a CSV file, read it.
 		csvFile, csvErr := os.Open(theConfigPath)
 		if csvErr == nil {
@@ -450,24 +451,37 @@ func readUserFile(theConfigPath string, theHashKey string) map[string]string {
 						emailAddressIsHash = false
 					}
 					hashedEmailAddress := ""
+					// If the first value is a valid hash, we need to re-write the CSV file in the correct order.
 					if emailAddressIsHash {
 						hashedEmailAddress = emailAddress
 						emailAddress = ""
+						rewriteCSVFile = true
 					} else {
 						if len(csvDataRecord) > 1 {
+							// If we already have a valid hash value, read it.
 							hashedEmailAddress = csvDataRecord[1]
 						} else {
-							// Generate Argon2i hash.
-							// argon2.argon2_hash(userEmailAddress.strip().lower(), salt=apiKey, t=16, m=8, p=1, buflen=16, argon_type=argon2.Argon2Type.Argon2_i).hex()
-							//bytesHashKey, bytesHashKeyError := hex.DecodeString(theHashKey)
-							//if bytesHashKeyError != nil {
-								//fmt.Println("ERROR: Invalid hash key: " + theHashKey)
-							//} else {
-								hashedEmailAddress = hex.EncodeToString(argon2.Key([]byte(emailAddress), []byte(theHashKey), argon2Iterations, argon2Memory, argon2Parallelism, argon2KeyLength))
-							//}
+							// If we don't currently have a hash value, we'll need to calculate one, then re-write the CSV file.
+							hashedEmailAddress = hex.EncodeToString(argon2.Key([]byte(emailAddress), []byte(theHashKey), argon2Iterations, argon2Memory, argon2Parallelism, argon2KeyLength))
+							rewriteCSVFile = true
 						}
 					}
 					result[emailAddress] = hashedEmailAddress
+				}
+			}
+		} else {
+			fmt.Println("ERROR: " + csvErr.Error())
+		}
+	}
+	if rewriteCSVFile == true {
+		// re-write the config CSV file.
+		csvFile, csvErr := os.Create(theConfigPath)
+		if csvErr == nil {
+			csvWriter := csv.NewWriter(file)
+			for _, csvValue := range result {
+				csvWriteErr = writer.Write(csvValue)
+				if csvWriteErr != nil {
+					fmt.Println("ERROR: " + csvWriteErr.Error())
 				}
 			}
 		} else {
