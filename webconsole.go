@@ -472,20 +472,20 @@ func readUserFile(theConfigPath string, theHashKey string) map[string]string {
 		} else {
 			fmt.Println("ERROR: " + csvErr.Error())
 		}
-	}
-	if rewriteCSVFile == true {
-		// re-write the config CSV file.
-		csvFile, csvErr := os.Create(theConfigPath)
-		if csvErr == nil {
-			csvWriter := csv.NewWriter(file)
-			for _, csvValue := range result {
-				csvWriteErr = writer.Write(csvValue)
-				if csvWriteErr != nil {
-					fmt.Println("ERROR: " + csvWriteErr.Error())
+		if rewriteCSVFile == true {
+			// re-write the config CSV file.
+			csvFile, csvErr := os.Create(theConfigPath)
+			if csvErr == nil {
+				csvWriter := csv.NewWriter(file)
+				for _, csvValue := range result {
+					csvWriteErr = writer.Write(csvValue)
+					if csvWriteErr != nil {
+						fmt.Println("ERROR: " + csvWriteErr.Error())
+					}
 				}
+			} else {
+				fmt.Println("ERROR: " + csvErr.Error())
 			}
-		} else {
-			fmt.Println("ERROR: " + csvErr.Error())
 		}
 	}
 	debug("Hashed email addresses:")
