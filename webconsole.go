@@ -477,12 +477,13 @@ func readUserFile(theConfigPath string, theHashKey string) map[string]string {
 			csvFile, csvErr := os.Create(theConfigPath)
 			if csvErr == nil {
 				csvWriter := csv.NewWriter(csvFile)
-				for _, csvValue := range result {
-					csvWriteErr := csvWriter.Write(csvValue)
-					if csvWriteErr != nil {
-						fmt.Println("ERROR: " + csvWriteErr.Error())
-					}
-				}
+				csvWriter.WriteAll(result)
+				//for _, csvValue := range result {
+					//csvWriteErr := csvWriter.Write(csvValue)
+					//if csvWriteErr != nil {
+						//fmt.Println("ERROR: " + csvWriteErr.Error())
+					//}
+				//}
 			} else {
 				fmt.Println("ERROR: " + csvErr.Error())
 			}
