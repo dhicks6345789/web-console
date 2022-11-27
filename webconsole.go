@@ -533,13 +533,13 @@ func main() {
 	arguments["list"] = "false"
 	arguments["new"] = "false"
 	arguments["port"] = "8090"
-	arguments["localOnly"] = "true"
+	arguments["localonly"] = "true"
 	arguments["debug"] = "false"
-	setArgumentIfPathExists("WebConsoleRoot", []string {"/etc/webconsole", "C:\\Program Files\\WebConsole"})
+	setArgumentIfPathExists("webconsoleroot", []string {"/etc/webconsole", "C:\\Program Files\\WebConsole"})
 	setArgumentIfPathExists("config", []string {"config.csv", "/etc/webconsole/config.csv", "C:\\Program Files\\WebConsole\\config.csv"})
 	setArgumentIfPathExists("webroot", []string {"www", "/etc/webconsole/www", "C:\\Program Files\\WebConsole\\www", ""})
 	setArgumentIfPathExists("taskroot", []string {"tasks", "/etc/webconsole/tasks", "C:\\Program Files\\WebConsole\\tasks", ""})
-	arguments["pathPrefix"] = ""
+	arguments["pathprefix"] = ""
 	if len(os.Args) == 1 {
 		arguments["start"] = "true"
 	} else {
@@ -567,13 +567,13 @@ func main() {
 	
 	if arguments["debug"] == "true" {
 		arguments["start"] = "true"
+		fmt.Println("Arguments set:")
+		fmt.Println(arguments)
 	}
 	
 	if arguments["start"] == "true" {
 		fmt.Println("Webconsole - starting webserver. \"webconsole --help\" for more details.")
 	}
-	
-	fmt.Println(arguments)
 	
 	// Print the help / usage documentation if the user wanted.
 	if arguments["help"] == "true" {
