@@ -1158,7 +1158,7 @@ func main() {
 		})
 		// Run the main web server loop.
 		hostname := ""
-		if (arguments["localOnly"] == "true") {
+		if (arguments["localonly"] == "true") {
 			fmt.Println("Web server limited to localhost only.")
 			hostname = "localhost"
 		}
