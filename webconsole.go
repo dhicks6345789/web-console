@@ -567,8 +567,6 @@ func main() {
 	
 	if arguments["debug"] == "true" {
 		arguments["start"] = "true"
-		fmt.Println("Arguments set:")
-		fmt.Println(arguments)
 	}
 	
 	if arguments["start"] == "true" {
@@ -1167,7 +1165,10 @@ func main() {
 		fmt.Println("Web server using webroot " + arguments["webroot"] + ", taskroot " + arguments["taskroot"] + ".")
 		fmt.Println("Web server available at: http://localhost:" + arguments["port"] + "/")
 		if arguments["debug"] == "true" {
-			fmt.Println("Debug mode set.")
+			fmt.Println("Debug mode set - arguments:.")
+			for argName, argVal := range arguments {
+				fmt.Println(argName + ": " + argVal)
+			}
 		}
 		log.Fatal(http.ListenAndServe(hostname + ":" + arguments["port"], nil))
 	// Command-line option to print a list of all Tasks.
