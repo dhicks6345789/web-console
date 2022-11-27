@@ -1167,7 +1167,7 @@ func main() {
 		if arguments["debug"] == "true" {
 			fmt.Println("Debug mode set - arguments:.")
 			for argName, argVal := range arguments {
-				fmt.Println(argName + ": " + argVal)
+				fmt.Println("   " + argName + ": " + argVal)
 			}
 		}
 		log.Fatal(http.ListenAndServe(hostname + ":" + arguments["port"], nil))
