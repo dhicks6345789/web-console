@@ -573,6 +573,8 @@ func main() {
 		fmt.Println("Webconsole - starting webserver. \"webconsole --help\" for more details.")
 	}
 	
+	fmt.Println(arguments)
+	
 	// Print the help / usage documentation if the user wanted.
 	if arguments["help"] == "true" {
 		//           12345678901234567890123456789012345678901234567890123456789012345678901234567890
