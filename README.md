@@ -13,8 +13,6 @@ As well as providing a user interface, Web Console also provides a simple REST A
 
 You can see see a [live demo](https://webconsole.sansay.co.uk/view?taskID=4jaknvvu0b4zl3ee) right now:
 
-![Demo of Web Console](https://github.com/dhicks6345789/web-console/blob/master/docs/demo.gif?raw=true "Demo of Web Console")
-
 ![Demo of Web Console](docs/demo.gif "Demo of Web Console")
 
 The above link runs a simple [demo application](https://github.com/dhicks6345789/web-console/blob/master/examples/test.py) that produces some example output, showing the different types of output message supported. It also prints a progress percentage, which is displayed by Web Console as a progress bar.
