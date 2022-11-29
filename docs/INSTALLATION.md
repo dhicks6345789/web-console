@@ -1,5 +1,22 @@
 # Installation
 
+The intention of Web Console is to give beginner programmers a simple interface for writing small applications and getting those in front of end-users as simply and quickly as possible, with no knowledge of Windows or Linux system administration needed. However, there is some setup and configuration needed to get an instance of Web Console up and running, so the rest of this document is probably best suited for people with some system administration experience. Web Console is, hopefully, quite simple to install and configure, as far as this kind of application goes, and hopefully the following instructions are easy to follow.
+
+## Linux (including Raspberry Pi)
+
+On Linux, you can download and run an install script (installs the latest release) with one command:
+```
+curl -s https://www.sansay.co.uk/web-console/install.sh | sudo bash
+```
+Tested on Debian on both AMD-64 and Raspberry Pi (Arm) platforms. MacOS and ChromeOS installs are on the way.
+
+## Windows
+
+On Windows, you can download and run an install batch file (installs the latest release) with one command:
+```
+powershell -command "& {&'Invoke-WebRequest' -Uri https://www.sansay.co.uk/web-console/install.bat -OutFile install.bat}" && install.bat && erase install.bat
+```
+
 ## Installing Specific Releases
 
 You can pass an argument to the "install" script to tell it to install a specific release, e.g.:
@@ -51,6 +68,7 @@ Webconsole depends on the following libraries:
 - [Gotrace](github.com/dennwc/gotrace): A Go implentation of [Potrace](http://potrace.sourceforge.net/), for tracing bitmaps to SVG files. Used in the implementation of favicons.
 - [Golang-Image-ICO](github.com/kodeworks/golang-image-ico): An .ICO format image encoder. Used in the implementation of favicons.
 - [Bcrypt](golang.org/x/crypto/bcrypt): For password hashing. Used for basic authentication.
+- [Argon2](golang.org/x/crypto/argon2): For hashing email addresses, used for login data passed by MyStart Online.
 - [Excelize](github.com/360EntSecGroup-Skylar/excelize): For loading Excel files.
 
 A simple bash [build script](https://github.com/dhicks6345789/web-console/blob/master/build.sh) is available in the root of the source tree (or a [batch file](https://github.com/dhicks6345789/web-console/blob/master/build.bat) if you're building on Windows).
