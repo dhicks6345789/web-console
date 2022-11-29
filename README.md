@@ -9,6 +9,8 @@ Web Console has been used behind [Apache](https://httpd.apache.org/) and [NGINX]
 
 As well as providing a user interface, Web Console also provides a simple REST API, providing URLs for services such as [IFTTT](https://ifttt.com/) and [Zapier](https://zapier.com/) or letting you trigger tasks from remote systems (including [GitHub Actions](https://github.com/features/actions)) with command-line tools like [curl](https://curl.se/).
 
+If the above explanation of what Web Console is doesn't match up with what you are trying to do, try the [Alternatives](docs/ALTERNATIVES.md) page for links to applications that might be more suitable.
+
 ## Live Demo
 
 You can use a working [live demo](https://webconsole.sansay.co.uk/view?taskID=4jaknvvu0b4zl3ee) right now, or simply watch this quick (30-second) video:
