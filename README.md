@@ -11,7 +11,7 @@ As well as providing a user interface, Web Console also provides a simple REST A
 
 ## Live Demo
 
-You can see see a [live demo](https://webconsole.sansay.co.uk/view?taskID=4jaknvvu0b4zl3ee) right now:
+You can use a working [live demo](https://webconsole.sansay.co.uk/view?taskID=4jaknvvu0b4zl3ee) right now, or simply watch this quick demo:
 
 ![Demo of Web Console](docs/demo.gif "Demo of Web Console")
 
