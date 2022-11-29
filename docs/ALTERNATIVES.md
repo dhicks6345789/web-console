@@ -3,19 +3,13 @@
 ## Web Console Is Not:
 
 - A web-based terminal emulator - you might want to try [Shell In A Box](https://github.com/shellinabox/shellinabox).
-
 - A web-based remote access system - we can recommend [Apache Guacamole](https://guacamole.apache.org/) (and our own [Remote Gateway](https://github.com/dhicks6345789/remote-gateway) project) for web-based access to RDP, SSH and VNC sessions, or [noVNV](https://novnc.com/info.html) for web-based VNC access.
-
-Web Console is not a [low-code](https://en.wikipedia.org/wiki/Low-code_development_platform) development tool - it can remove some complexity around the implementation and hosting of web applications with a basic GUI, but will still need some (hopefully, fairly beginner-level) coding skills.
-
-Web Console is not a full Integrated Development Environment like [Visual Studio](https://visualstudio.microsoft.com/) or [Eclipse](https://www.eclipse.org/). It does have a basic integrated code editing facility, though.
-
-Web Console, importantly, runs code server-side, not in the browser as something like [Replit](https://replit.com/) does.
-
-Web Console is not a library for a specific language, it implements a GUI by interpreting the text (STDOUT, STDERR) output from command-line applications - it should be very much cross-platform. You can even use it to add a web-based graphical user interface to an old DOS-era .BAT file, if you want.
-
-Web Console is not a comprehensive development framework - it isn't suitible for larger applications, and its GUI capabilities aren't on a par with something like [React](https://reactjs.org/). If you want to be implementing proper, modern web applications, Web Console isn't the application for you. It should, however, allow you to write quick-and-dirty scripts that can take some basic user input and get them in front of users in minimal time.
-
-Web Console is not a replacement for [GitHub Actions](https://github.com/features/actions), although Web Console Tasks can easily be triggered from GitHub Actions, so it can be a useful tool to run some code locally on a server when something happens on a repository.
-
-https://glitch.com/
+- A [low-code](https://en.wikipedia.org/wiki/Low-code_development_platform) development tool - it can remove some complexity around the implementation and hosting of web applications with a basic GUI, but will still need some (hopefully, fairly beginner-level) coding skills.
+- A full Integrated Development Environment like [Visual Studio](https://visualstudio.microsoft.com/) or [Eclipse](https://www.eclipse.org/). It does have a basic integrated code editing facility, though.
+- A client-side code development tool - Web Console, importantly, runs code server-side, not in the browser as something like [Replit](https://replit.com/) does.
+- A library for a specific language, it implements a GUI by interpreting the text (STDOUT, STDERR) output from command-line applications - it should be very much cross-platform. You can even use it to add a web-based graphical user interface to an old DOS-era .BAT file, if you want.
+- A comprehensive development framework - it isn't suitible for larger applications, and its GUI capabilities aren't on a par with something like [React](https://reactjs.org/). If you want to be implementing proper, modern web applications, Web Console isn't the application for you. It should, however, allow you to write quick-and-dirty scripts that can take some basic user input and get them in front of users in minimal time.
+- A replacement for [GitHub Actions](https://github.com/features/actions), although Web Console Tasks can easily be triggered from GitHub Actions, so it can be a useful tool to run some code locally on a server when something happens on a repository.
+- A dedicated build tool, although it does come in very handy as a tool to be able to trigger your build script from a single web page and see the output and get errors reported.
+- A hosted service, like [https://glitch.com/](Glitch). Web Console runs on your server, under your control - you are responsible for installation and maintaining the server. That does mean that all code and data is also under your control, so if you need a solution that stops data leaving your own hardware, Web Console might be the better solution.
+- A fully-featured web server. Web Console is written in Go, and acts as a basic web server, which makes it easy to get up and running. However, it is expected that in production it will be used behind some kind of proxy server (we recomend [Caddy](https://caddyserver.com/)) or tunneling service. Web Console does not, by itself, handle HTTPS connections, and is therefore probably unsuitible to be used on any public-facing Internet address. However, it can come in handy as a local web server for a decicated kiosk machine if you want a browser-based interface to some local code - our [Device Config](https://github.com/dhicks6345789/device-config) project might also be useful for this kind of application.
