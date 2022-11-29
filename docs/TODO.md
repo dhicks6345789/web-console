@@ -55,6 +55,8 @@
 * Code editor integrated in Task editor view.
 * SSH console integrated in Task editor view.
 * Backup tab for Task editor view - download and restore.
+* GitHub Actions template to download for individual Tasks
+  * Should just be able to use a single template file and insert Task ID with Curl command.
 * Custom design system
   * Bootstrap
   * Gov.uk
