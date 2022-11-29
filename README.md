@@ -7,7 +7,7 @@ Web Console is intended to be used behind a proxy server or tunneling service - 
 
 Web Console has been used behind [Apache](https://httpd.apache.org/) and [NGINX](https://www.nginx.com/) acting as reverse-proxy servers, although we recommend [Caddy](https://caddyserver.com/), simply for its ease-of-use in automatically dealing with HTTPS provision for you.
 
-As well as providing a user interface, Web Console also provides a simple REST API, providing a URLs for for services such as [IFTTT](https://ifttt.com/) and [Zapier](https://zapier.com/) or letting you trigger tasks from remote systems with command-line tools like [curl](https://curl.se/).
+As well as providing a user interface, Web Console also provides a simple REST API, providing URLs for services such as [IFTTT](https://ifttt.com/) and [Zapier](https://zapier.com/) or letting you trigger tasks from remote systems (including [GitHub Actions](https://github.com/features/actions)) with command-line tools like [curl](https://curl.se/).
 
 ## Live Demo
 
