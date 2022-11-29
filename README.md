@@ -21,24 +21,7 @@ The above link runs a simple [demo application](https://github.com/dhicks6345789
 
 ## Installation
 
-The intention of Web Console is to give beginner programmers a simple interface for writing small applications and getting those in front of end-users as simply and quickly as possible, with no knowledge of Windows or Linux system administration needed. However, there is some setup and configuration needed to get an instance of Web Console up and running, so the rest of this document is probably best suited for people with some system administration experience. Web Console is, hopefully, quite simple to install and configure, as far as this kind of application goes, and hopefully the following instructions are easy to follow.
-
-### Linux (including Raspberry Pi)
-
-On Linux, you can download and run an install script (installs the latest release) with one command:
-```
-curl -s https://www.sansay.co.uk/web-console/install.sh | sudo bash
-```
-Tested on Debian on both AMD-64 and Raspberry Pi (Arm) platforms. MacOS and ChromeOS installs are on the way.
-
-### Windows
-
-On Windows, you can download and run an install batch file (installs the latest release) with one command:
-```
-powershell -command "& {&'Invoke-WebRequest' -Uri https://www.sansay.co.uk/web-console/install.bat -OutFile install.bat}" && install.bat && erase install.bat
-```
-
-For more details, including details of building from source, see the [installation](docs/INSTALLATION.md) page.
+Installation instructions for all platforms, including details of building from source, can be found on the [installation](docs/INSTALLATION.md) page.
 
 ## Usage
 
