@@ -27,7 +27,7 @@ Installation instructions for all platforms, including details of building from 
 
 Web Console runs "tasks", individual scripts / applications that each have their own URL where execution can be triggered and output can be seen. Pretty much any existing application runable from the command line should work, returning any console output sent to STDOUT or STDERR to the web-based user interface.
 
-If you are writing a new script or command line utility (or reformatting the output from an existing utility) you can produce output specifically for Web Console to interpret and display in certain ways. For more details, see ...
+If you are writing a new script or command line utility (or reformatting the output from an existing utility) you can produce output specifically for Web Console to interpret and display in certain ways. For more details, see the [docs/TASKS.md](Tasks) documentation page.
 
 The Webconsole binary is also used as a command-line tool for configuration. At the command line, type `webconsole --help` for a [command summary](https://www.sansay.co.uk/docs/web-console/COMMANDS.txt).
 
