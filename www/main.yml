@@ -1,4 +1,5 @@
-name: Build
+# Place in your Github repository in .github/workflows/main.yml
+name: <<TITLE>>
 
 # Controls when the workflow will run
 on:
@@ -13,8 +14,8 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
+  # This workflow contains a single job called "runTask"
+  runTask:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -22,4 +23,4 @@ jobs:
     steps:
       # Runs a single command using the runners shell
       - name: Webhook
-        run: curl https://dev.sansay.co.uk/api/runTask?taskID=pinch-cafe
+        run: curl https://dev.sansay.co.uk/api/runTask?taskID=<<TASKID>>
