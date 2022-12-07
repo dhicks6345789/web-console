@@ -803,9 +803,9 @@ func main() {
 									for _, task := range taskList {
 										// Don't list Tasks that would already be listed in the "public" list.
 										if task["public"] != "Y" {
-											// If we have View, Run or Edit permissions for the root Task
+											// If we have Edit permissions for the root Task
 											// (ID "/"), then we have permissions to view all Tasks.
-											if taskID == "/" && (permission == "V" || permission == "R" || permission == "E") {
+											if taskID == "/" && permission == "E" {
 												taskDetailsString, _ := json.Marshal(map[string]string{"title":task["title"], "description":task["description"], "authentication":task["authentication"]})
 												taskListString = taskListString + "\"" + task["taskID"] + "\":" + string(taskDetailsString) + ","
 											}
