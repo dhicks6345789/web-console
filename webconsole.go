@@ -741,6 +741,8 @@ func main() {
 													if strings.HasSuffix(taskDetailName, "Editors") {
 														mystartEditorsPath := taskDetailValue
 														mystartEditors := readUserFile(mystartEditorsPath, arguments["mystart" + mystartName + "APIKey"])
+														fmt.Println("mystartEditors:")
+														fmt.Println(mystartEditors)
 														for editorEmail, editorHash := range mystartEditors {
 															if editorHash == mystartJSON.EmailHash {
 																authorised = true
