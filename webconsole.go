@@ -676,7 +676,7 @@ func main() {
 					// "public" here just means that they are listed by this API call for display on the landing page.
 					taskListString := "{"
 					for _, task := range taskList {
-						if task["public"]  == "Y" {
+						if task["public"] == "Y" {
 							taskDetailsString, _ := json.Marshal(map[string]string{"title":task["title"], "description":task["description"], "authentication":task["authentication"]})
 							taskListString = taskListString + "\"" + task["taskID"] + "\":" + string(taskDetailsString) + ","
 						}
@@ -723,7 +723,7 @@ func main() {
 								// We return the list of private tasks in JSON format.
 								taskListString := "{"
 								for _, task := range taskList {
-									if not task["public"]  == "Y" {
+									if task["public"] != "Y" {
 										taskDetailsString, _ := json.Marshal(map[string]string{"title":task["title"], "description":task["description"], "authentication":task["authentication"]})
 										taskListString = taskListString + "\"" + task["taskID"] + "\":" + string(taskDetailsString) + ","
 									}
