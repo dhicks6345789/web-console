@@ -715,9 +715,30 @@ func main() {
 						if rateLimitErr != nil {
 							rateLimit = 0
 						}
+						// Handle a request for a list of "private" Tasks, i.e. Tasks that the user has explicit authorisation to
+						// view, run or edit.
+						if strings.HasPrefix(requestPath, "/api/getPrivateTaskList") {
+							taskList, taskErr := getTaskList()
+							if taskErr == nil {
+								// We return the list of private tasks in JSON format.
+								taskListString := "{"
+								for _, task := range taskList {
+									if not task["public"]  == "Y" {
+										taskDetailsString, _ := json.Marshal(map[string]string{"title":task["title"], "description":task["description"], "authentication":task["authentication"]})
+										taskListString = taskListString + "\"" + task["taskID"] + "\":" + string(taskDetailsString) + ","
+									}
+								}
+								if taskListString == "{" {
+									fmt.Fprintf(theResponseWriter, "{}")
+								} else {
+									fmt.Fprintf(theResponseWriter, taskListString[:len(taskListString)-1] + "}")
+								}
+							} else {
+								fmt.Fprintf(theResponseWriter, "ERROR: " + taskErr.Error())
+							}
 						// Handle a login from MyStart.Online - validate the details passed and check that the user ID given has
 						// permission to access this Task.
-						if strings.HasPrefix(requestPath, "/api/mystartLogin") {
+						} else if strings.HasPrefix(requestPath, "/api/mystartLogin") {
 							mystartLoginToken := theRequest.Form.Get("loginToken")
 							if mystartLoginToken != "" {
 								requestURL := fmt.Sprintf("https://dev.mystart.online/api/validateToken?loginToken=%s&pageName=%s", mystartLoginToken, arguments["mystartPageName"])
