@@ -731,6 +731,8 @@ func main() {
 									mystartJSONResult := json.NewDecoder(mystartResult.Body).Decode(mystartJSON)
 									fmt.Println("mystartJSON:")
 									fmt.Println(mystartJSON)
+									fmt.Println("taskDetails:")
+									fmt.Println(taskDetails)
 									if mystartJSONResult == nil {
 										if mystartJSON.Login == "valid" {
 											// Okay - we've authenticated the user, now we need to check authorisation.
