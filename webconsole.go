@@ -721,6 +721,7 @@ func main() {
 						authorised := false
 						authorisationError := "unknown error"
 						permission := "E"
+						userID := ""
 						if taskDetails["authentication"] == "" {
 							authorised = true
 							authorisationError = ""
@@ -761,6 +762,7 @@ func main() {
 															if editorHash == mystartJSON.EmailHash {
 																authorised = true
 																permission = "E"
+																userID = editorHash
 																debug("Editor user authorised via MyStart.Online login, hash: " + editorHash + ", email: " + editorEmail)
 															}
 														}
@@ -826,7 +828,7 @@ func main() {
 												listTask = true
 											} else {
 												// Otherwise, work out permissions for each Task.
-												taskPermission := getTaskPermission(task, mystartJSON.EmailHash)
+												taskPermission := getTaskPermission(task, userID)
 												if taskPermission == "V" || taskPermission == "R" || taskPermission == "E" {
 													listTask = true
 												}
