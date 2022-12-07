@@ -674,17 +674,17 @@ func main() {
 				if taskErr == nil {
 					// We return the list of public tasks in JSON format. Note that public tasks might still need authentication to run,
 					// "public" here just means that they are listed by this API call for display on the landing page.
-					taskListString := "{"
+					taskListString := ""
 					for _, task := range taskList {
 						if task["public"] == "Y" {
 							taskDetailsString, _ := json.Marshal(map[string]string{"title":task["title"], "description":task["description"], "authentication":task["authentication"]})
 							taskListString = taskListString + "\"" + task["taskID"] + "\":" + string(taskDetailsString) + ","
 						}
 					}
-					if taskListString == "{" {
+					if taskListString == "" {
 						fmt.Fprintf(theResponseWriter, "{}")
 					} else {
-						fmt.Fprintf(theResponseWriter, taskListString[:len(taskListString)-1] + "}")
+						fmt.Fprintf(theResponseWriter, "{" + taskListString[:len(taskListString)-1] + "}")
 					}
 				} else {
 					fmt.Fprintf(theResponseWriter, "ERROR: " + taskErr.Error())
@@ -795,22 +795,28 @@ func main() {
 							if fileToServe != "" {
 								doServeFile(theResponseWriter, theRequest, fileToServe, taskID, token, permission, taskDetails["title"], taskDetails["description"])
 							// API - Handle a request for a list of "private" Tasks, i.e. Tasks that the user has explicit
-							// authorisation to view, run or edit.
+							// authorisation to view, run or edit. We return the list of private tasks in JSON format.
 							} else if strings.HasPrefix(requestPath, "/api/getPrivateTaskList") {
 								taskList, taskErr := getTaskList()
+								taskListString := ""
 								if taskErr == nil {
-									// We return the list of private tasks in JSON format.
-									taskListString := "{"
 									for _, task := range taskList {
+										// Don't list Tasks that would already be listed in the "public" list.
 										if task["public"] != "Y" {
-											taskDetailsString, _ := json.Marshal(map[string]string{"title":task["title"], "description":task["description"], "authentication":task["authentication"]})
-											taskListString = taskListString + "\"" + task["taskID"] + "\":" + string(taskDetailsString) + ","
+											// If we have View, Run or Edit permissions for the root Task
+											// (ID "/"), then we have permissions to view all Tasks.
+											if taskID == "/" && (permission == "V" || permission == "R" || permission == "E") {
+												taskDetailsString, _ := json.Marshal(map[string]string{"title":task["title"], "description":task["description"], "authentication":task["authentication"]})
+												taskListString = taskListString + "\"" + task["taskID"] + "\":" + string(taskDetailsString) + ","
+											}
+											// Code goes here - otherwise, we'll have to work out permissions for
+											// each Task.
 										}
 									}
-									if taskListString == "{" {
+									if taskListString == "" {
 										fmt.Fprintf(theResponseWriter, "{}")
 									} else {
-										fmt.Fprintf(theResponseWriter, taskListString[:len(taskListString)-1] + "}")
+										fmt.Fprintf(theResponseWriter, "{" + taskListString[:len(taskListString)-1] + "}")
 									}
 								} else {
 									fmt.Fprintf(theResponseWriter, "ERROR: " + taskErr.Error())
