@@ -746,6 +746,7 @@ func main() {
 														fmt.Println("mystartEditors:")
 														fmt.Println(mystartEditors)
 														for editorEmail, editorHash := range mystartEditors {
+															fmt.Println(editorHash + " == " + mystartJSON.EmailHash)
 															if editorHash == mystartJSON.EmailHash {
 																authorised = true
 																permission = "E"
