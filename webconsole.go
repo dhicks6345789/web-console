@@ -268,20 +268,16 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 	
 	// Check to see if we have a valid task ID.
 	if (theTaskID == "/") {
-		fmt.Println("mystartNames:")
-		fmt.Println(mystartNames)
 		for _, mystartName := range mystartNames {
-			editorsPath := arguments["WebConsoleRoot"] + "/mystart" + mystartName + "Editors.csv"
-			fmt.Println("editorsPath:")
-			fmt.Println(editorsPath)
+			editorsPath := arguments["webconsoleroot"] + "/mystart" + mystartName + "Editors.csv"
 			if _, err := os.Stat(editorsPath); err == nil {
 				taskDetails["mystart" + mystartName + "Editors"] = editorsPath
 			}
-			runnersPath := arguments["WebConsoleRoot"] + "/mystart" + mystartName + "Runners.csv"
+			runnersPath := arguments["webconsoleroot"] + "/mystart" + mystartName + "Runners.csv"
 			if _, err := os.Stat(runnersPath); err == nil {
 				taskDetails["mystart" + mystartName + "Runners"] = runnersPath
 			}
-			viewersPath := arguments["WebConsoleRoot"] + "/mystart" + mystartName + "Viewers.csv"
+			viewersPath := arguments["webconsoleroot"] + "/mystart" + mystartName + "Viewers.csv"
 			if _, err := os.Stat(viewersPath); err == nil {
 				taskDetails["mystart" + mystartName + "Viewers"] = viewersPath
 			}
