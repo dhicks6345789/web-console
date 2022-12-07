@@ -729,6 +729,8 @@ func main() {
 									defer mystartResult.Body.Close()
 									mystartJSON := new(mystartStruct)
 									mystartJSONResult := json.NewDecoder(mystartResult.Body).Decode(mystartJSON)
+									fmt.Println("mtstartJSONResult:")
+									fmt.Println(mystartJSONResult)
 									if mystartJSONResult == nil {
 										if mystartJSON.Login == "valid" {
 											// Okay - we've authenticated the user, now we need to check authorisation.
