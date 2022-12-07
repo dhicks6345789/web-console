@@ -341,6 +341,27 @@ func getTaskList() ([]map[string]string, error) {
 	return taskList, nil
 }
 
+func getTaskPermission(taskDetails []map[string]string, mystartEmailHash string) string {
+	for taskDetailName, taskDetailValue := range taskDetails {
+		if strings.HasPrefix(taskDetailName, "mystart") {
+			mystartName := ""
+			if strings.HasSuffix(taskDetailName, "Editors") {
+				mystartName = taskDetailName[7:len(taskDetailName)-7]
+			}
+			if strings.HasSuffix(taskDetailName, "Editors") {
+				mystartEditorsPath := taskDetailValue
+				mystartEditors := readUserFile(mystartEditorsPath, arguments["mystart" + mystartName + "APIKey"])
+				for editorEmail, editorHash := range mystartEditors {
+					if editorHash == mystartEmailHash {
+						return("E")
+					}
+				}
+			}
+		}
+	}
+	return ""
+}
+
 // Get an input string from the user via stdin.
 func getUserInput(argumentsKey, defaultValue string, messageString string) string {
 	if argument, argumentExists := arguments[argumentsKey]; argumentExists {
@@ -663,12 +684,7 @@ func main() {
 			
 			serveFile := false
 			fileToServe := filesToServeList[requestPath]
-			//if requestPath == "/" {
-				//http.ServeFile(theResponseWriter, theRequest, arguments["webroot"] + "/index.html")
-				//doServeFile(theResponseWriter, theRequest, arguments["webroot"] + "/index.html", "/", token, permission, "Web Console", "Web Console Main Menu")
-				//doServeFile(theResponseWriter, theRequest, arguments["webroot"] + "/index.html", "/", "", "", "Web Console", "Web Console Main Menu")
 			// Handle the getPublicTaskList API call (the one API call that doesn't require authentication).
-			//} else if
 			if strings.HasPrefix(requestPath, "/api/getPublicTaskList") {
 				taskList, taskErr := getTaskList()
 				if taskErr == nil {
@@ -803,14 +819,22 @@ func main() {
 									for _, task := range taskList {
 										// Don't list Tasks that would already be listed in the "public" list.
 										if task["public"] != "Y" {
+											listTask := false
 											// If we have Edit permissions for the root Task
 											// (ID "/"), then we have permissions to view all Tasks.
 											if taskID == "/" && permission == "E" {
+												listTask = true
+											} else {
+												// Otherwise, work out permissions for each Task.
+												taskPermission := getTaskPermission(task, mystartJSON.EmailHash)
+												if taskPermission == "V" || taskPermission == "R" || taskPermission == "E" {
+													listTask = true
+												}
+											}
+											if listTask {
 												taskDetailsString, _ := json.Marshal(map[string]string{"title":task["title"], "description":task["description"], "authentication":task["authentication"]})
 												taskListString = taskListString + "\"" + task["taskID"] + "\":" + string(taskDetailsString) + ","
 											}
-											// Code goes here - otherwise, we'll have to work out permissions for
-											// each Task.
 										}
 									}
 									if taskListString == "" {
