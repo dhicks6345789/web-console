@@ -729,10 +729,6 @@ func main() {
 									defer mystartResult.Body.Close()
 									mystartJSON := new(mystartStruct)
 									mystartJSONResult := json.NewDecoder(mystartResult.Body).Decode(mystartJSON)
-									fmt.Println("mystartJSON:")
-									fmt.Println(mystartJSON)
-									fmt.Println("taskDetails:")
-									fmt.Println(taskDetails)
 									if mystartJSONResult == nil {
 										if mystartJSON.Login == "valid" {
 											// Okay - we've authenticated the user, now we need to check authorisation.
@@ -745,10 +741,7 @@ func main() {
 													if strings.HasSuffix(taskDetailName, "Editors") {
 														mystartEditorsPath := taskDetailValue
 														mystartEditors := readUserFile(mystartEditorsPath, arguments["mystart" + mystartName + "APIKey"])
-														fmt.Println("mystartEditors:")
-														fmt.Println(mystartEditors)
 														for editorEmail, editorHash := range mystartEditors {
-															fmt.Println(editorHash + " == " + mystartJSON.EmailHash)
 															if editorHash == mystartJSON.EmailHash {
 																authorised = true
 																permission = "E"
