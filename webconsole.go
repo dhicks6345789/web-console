@@ -362,7 +362,7 @@ func getTaskPermission(webConsoleRoot string, taskDetails map[string]string, mys
 				if _, err := os.Stat(mystartUsersPath); !os.IsNotExist(err) {
 					fmt.Println("Looking at file: " + mystartUsersPath)
 					mystartUsers := readUserFile(mystartUsersPath, arguments["mystart" + mystartName + "APIKey"])
-					fmt.Prinln(mystartUsers)
+					fmt.Println(mystartUsers)
 					for _, userHash := range mystartUsers {
 						if userHash == mystartEmailHash {
 							return permissionToGrant
