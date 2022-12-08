@@ -774,6 +774,7 @@ func main() {
 												userID = mystartJSON.EmailHash
 												debug("User permissions granted via MyStart.Online login, ID: " + userID + ", permission: " + permission)
 											}
+											debug("End of user MyStart.Online authorisation check.")
 											/*for taskDetailName, taskDetailValue := range taskDetails {
 												if strings.HasPrefix(taskDetailName, "mystart") {
 													mystartName := ""
