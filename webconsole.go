@@ -351,7 +351,7 @@ func getTaskPermission(webConsoleRoot string, taskDetails map[string]string, mys
 				if strings.HasSuffix(taskDetailName, permissionCheck) {
 					mystartName = taskDetailName[len("mystart"):len(taskDetailName)-len(permissionCheck)]
 					permissionToGrant = string(permissionCheck[0])
-					fmt.Println("Found defined permissions option: " + "mystart" + permissionCheck)
+					fmt.Println("Found defined permissions option: " + "mystart" + mystartName + permissionCheck)
 				}
 			}
 			if mystartName != "" {
@@ -359,6 +359,7 @@ func getTaskPermission(webConsoleRoot string, taskDetails map[string]string, mys
 				if taskDetails["taskID"] == "/" {
 					mystartUsersPath = webConsoleRoot + "/" + taskDetailValue
 				}
+				fmt.Println("Looking for file: " + mystartUsersPath)
 				if _, err := os.Stat(mystartUsersPath); !os.IsNotExist(err) {
 					mystartUsers := readUserFile(mystartUsersPath, arguments["mystart" + mystartName + "APIKey"])
 					for _, userHash := range mystartUsers {
