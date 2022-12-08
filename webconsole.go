@@ -766,12 +766,13 @@ func main() {
 									mystartJSONResult := json.NewDecoder(mystartResult.Body).Decode(mystartJSON)
 									if mystartJSONResult == nil {
 										if mystartJSON.Login == "valid" {
+											debug("User authorised via MyStart.Online login, ID: " + mystartJSON.EmailHash)
 											// Okay - we've authenticated the user, now we need to check authorisation.
-											permission = getTaskPermission(arguments["webconsoleroot"], taskDetails, userID)
+											permission = getTaskPermission(arguments["webconsoleroot"], taskDetails, mystartJSON.EmailHash)
 											if permission != "" {
 												authorised = true
 												userID = mystartJSON.EmailHash
-												debug("User authorised via MyStart.Online login, ID: " + userID)
+												debug("User permissions granted via MyStart.Online login, ID: " + userID + ", permission: " + permission)
 											}
 											/*for taskDetailName, taskDetailValue := range taskDetails {
 												if strings.HasPrefix(taskDetailName, "mystart") {
