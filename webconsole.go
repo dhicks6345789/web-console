@@ -769,7 +769,7 @@ func main() {
 										if mystartJSON.Login == "valid" {
 											debug("User authorised via MyStart.Online login, ID: " + mystartJSON.EmailHash)
 											// Okay - we've authenticated the user, now we need to check authorisation.
-											permission = getTaskPermission(arguments["webconsoleroot"], taskDetails, mystartJSON.EmailHash)
+											permission = getTaskPermission("", taskDetails, mystartJSON.EmailHash)
 											if permission != "" {
 												authorised = true
 												userID = mystartJSON.EmailHash
