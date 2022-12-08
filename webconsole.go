@@ -341,7 +341,7 @@ func getTaskList() ([]map[string]string, error) {
 	return taskList, nil
 }
 
-func getTaskPermission(taskDetails map[string]string, mystartEmailHash string) string {
+func getTaskPermission(webConsoleRoot, taskDetails map[string]string, mystartEmailHash string) string {
 	for taskDetailName, taskDetailValue := range taskDetails {
 		if strings.HasPrefix(taskDetailName, "mystart") {
 			mystartName := ""
@@ -349,7 +349,7 @@ func getTaskPermission(taskDetails map[string]string, mystartEmailHash string) s
 				mystartName = taskDetailName[7:len(taskDetailName)-7]
 			}
 			if strings.HasSuffix(taskDetailName, "Editors") {
-				mystartEditorsPath := taskDetailValue
+				mystartEditorsPath := webConsoleRoot + "/" + taskDetailValue
 				mystartEditors := readUserFile(mystartEditorsPath, arguments["mystart" + mystartName + "APIKey"])
 				for _, editorHash := range mystartEditors {
 					if editorHash == mystartEmailHash {
@@ -756,7 +756,7 @@ func main() {
 														mystartName = taskDetailName[7:len(taskDetailName)-7]
 													}
 													if strings.HasSuffix(taskDetailName, "Editors") {
-														mystartEditorsPath := taskDetailValue
+														mystartEditorsPath := arguments["webconsoleroot"] + "/" + taskDetailValue
 														mystartEditors := readUserFile(mystartEditorsPath, arguments["mystart" + mystartName + "APIKey"])
 														for editorEmail, editorHash := range mystartEditors {
 															if editorHash == mystartJSON.EmailHash {
@@ -828,7 +828,7 @@ func main() {
 												listTask = true
 											} else {
 												// Otherwise, work out permissions for each Task.
-												taskPermission := getTaskPermission(task, userID)
+												taskPermission := getTaskPermission(arguments["webconsoleroot"], task, userID)
 												if taskPermission == "V" || taskPermission == "R" || taskPermission == "E" {
 													listTask = true
 												}
