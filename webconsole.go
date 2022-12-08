@@ -350,10 +350,12 @@ func getTaskPermission(webConsoleRoot string, taskDetails map[string]string, mys
 			}
 			if strings.HasSuffix(taskDetailName, "Editors") {
 				mystartEditorsPath := webConsoleRoot + "/" + taskDetailValue
-				mystartEditors := readUserFile(mystartEditorsPath, arguments["mystart" + mystartName + "APIKey"])
-				for _, editorHash := range mystartEditors {
-					if editorHash == mystartEmailHash {
-						return "E"
+				if _, err := os.Stat(mystartEditorsPath); !os.IsNotExist(err) {
+					mystartEditors := readUserFile(mystartEditorsPath, arguments["mystart" + mystartName + "APIKey"])
+					for _, editorHash := range mystartEditors {
+						if editorHash == mystartEmailHash {
+							return "E"
+						}
 					}
 				}
 			}
