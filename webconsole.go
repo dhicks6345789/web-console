@@ -841,6 +841,7 @@ func main() {
 											if taskID == "/" && permission == "E" {
 												listTask = true
 											} else {
+												fmt.Println("Finding permisions for task: " + taskID)
 												// Otherwise, work out permissions for each Task.
 												taskPermission := getTaskPermission(arguments["webconsoleroot"], task, userID)
 												if taskPermission == "V" || taskPermission == "R" || taskPermission == "E" {
