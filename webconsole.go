@@ -346,26 +346,22 @@ func getTaskPermission(webConsoleRoot string, taskDetails map[string]string, mys
 	for taskDetailName, taskDetailValue := range taskDetails {
 		if strings.HasPrefix(taskDetailName, "mystart") {
 			mystartName := ""
-			if strings.HasSuffix(taskDetailName, "Editors") {
-				mystartName = taskDetailName[7:len(taskDetailName)-7]
-				mystartEditorsPath := webConsoleRoot + "/" + taskDetailValue
-				if _, err := os.Stat(mystartEditorsPath); !os.IsNotExist(err) {
-					mystartEditors := readUserFile(mystartEditorsPath, arguments["mystart" + mystartName + "APIKey"])
-					for _, editorHash := range mystartEditors {
-						if editorHash == mystartEmailHash {
-							return "E"
-						}
-					}
-				}
+			permissionToGrant := ""
+			for _, permissionCheck := range [3]string{"Editors", "Runners", "Viewers"} {
+			if strings.HasSuffix(taskDetailName, permissionCheck) {
+				mystartName = taskDetailName[len("mystart"):len(taskDetailName)-len(permissionCheck)]
+				permissionToGrant = permissionCheck[0]
 			}
-			if strings.HasSuffix(taskDetailName, "Runners") {
-				mystartName = taskDetailName[7:len(taskDetailName)-7]
-				mystartRunnersPath := webConsoleRoot + "/" + taskDetailValue
-				if _, err := os.Stat(mystartRunnersPath); !os.IsNotExist(err) {
-					mystartRunners := readUserFile(mystartRunnersPath, arguments["mystart" + mystartName + "APIKey"])
-					for _, editorHash := range mystartRunners {
-						if editorHash == mystartEmailHash {
-							return "R"
+			if mystartName != "" {
+				mystartUsersPath := webConsoleRoot + "/Tasks/" + taskDetails["taskID"] + "/" + taskDetailValue
+				if taskDetails["taskID"] == "/" {
+					mystartUsersPath = webConsoleRoot + "/" + taskDetailValue
+				}
+				if _, err := os.Stat(mystartEditorsPath); !os.IsNotExist(err) {
+					mystartUsers := readUserFile(mystartUsersPath, arguments["mystart" + mystartName + "APIKey"])
+					for _, userHash := range mystartUsers {
+						if userHash == mystartEmailHash {
+							return permissionToGrant
 						}
 					}
 				}
