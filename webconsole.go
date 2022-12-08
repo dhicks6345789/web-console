@@ -354,7 +354,7 @@ func getTaskPermission(webConsoleRoot string, taskDetails map[string]string, mys
 					fmt.Println("Found defined permissions option: " + "mystart" + mystartName + permissionCheck)
 				}
 			}
-			if mystartName != "" {
+			if permissionToGrant != "" {
 				mystartUsersPath := webConsoleRoot + "/Tasks/" + taskDetails["taskID"] + "/" + taskDetailValue
 				if taskDetails["taskID"] == "/" {
 					mystartUsersPath = webConsoleRoot + "/" + taskDetailValue
