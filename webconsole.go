@@ -342,6 +342,7 @@ func getTaskList() ([]map[string]string, error) {
 }
 
 func getTaskPermission(webConsoleRoot string, taskDetails map[string]string, mystartEmailHash string) string {
+	fmt.Println("Finding permissions for Task: " + taskDetails["taskID"])
 	for taskDetailName, taskDetailValue := range taskDetails {
 		if strings.HasPrefix(taskDetailName, "mystart") {
 			mystartName := ""
@@ -841,7 +842,6 @@ func main() {
 											if taskID == "/" && permission == "E" {
 												listTask = true
 											} else {
-												fmt.Println(task)
 												// Otherwise, work out permissions for each Task.
 												taskPermission := getTaskPermission(arguments["webconsoleroot"], task, userID)
 												if taskPermission == "V" || taskPermission == "R" || taskPermission == "E" {
