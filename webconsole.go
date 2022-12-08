@@ -273,15 +273,15 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 	if (theTaskID == "/") {
 		for _, mystartName := range mystartNames {
 			editorsPath := "mystart" + mystartName + "Editors.csv"
-			if _, err := os.Stat(editorsPath); err == nil {
+			if _, err := os.Stat(arguments["webconsoleroot"] + "/" + editorsPath); err == nil {
 				taskDetails["mystart" + mystartName + "Editors"] = editorsPath
 			}
 			runnersPath := "mystart" + mystartName + "Runners.csv"
-			if _, err := os.Stat(runnersPath); err == nil {
+			if _, err := os.Stat(arguments["webconsoleroot"] + "/" + runnersPath); err == nil {
 				taskDetails["mystart" + mystartName + "Runners"] = runnersPath
 			}
 			viewersPath := "mystart" + mystartName + "Viewers.csv"
-			if _, err := os.Stat(viewersPath); err == nil {
+			if _, err := os.Stat(arguments["webconsoleroot"] + "/" + viewersPath); err == nil {
 				taskDetails["mystart" + mystartName + "Viewers"] = viewersPath
 			}
 		}
