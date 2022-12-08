@@ -362,6 +362,7 @@ func getTaskPermission(webConsoleRoot string, taskDetails map[string]string, mys
 				if taskDetails["taskID"] == "/" {
 					mystartUsersPath = webConsoleRoot + "/" + taskDetailValue
 				}
+				fmt.Println("Looking for file: " + mystartUsersPath)
 				if _, err := os.Stat(mystartUsersPath); !os.IsNotExist(err) {
 					fmt.Println("Looking at file: " + mystartUsersPath)
 					fmt.Println("For user hash: ---" + mystartEmailHash + "---")
