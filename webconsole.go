@@ -346,7 +346,6 @@ func getTaskList() ([]map[string]string, error) {
 
 func getTaskPermission(webConsoleRoot string, taskDetails map[string]string, mystartEmailHash string) string {
 	debug("Finding permissions for Task: " + taskDetails["taskID"])
-	fmt.Println(taskDetails)
 	for taskDetailName, taskDetailValue := range taskDetails {
 		if strings.HasPrefix(taskDetailName, "mystart") {
 			mystartName := ""
@@ -355,7 +354,6 @@ func getTaskPermission(webConsoleRoot string, taskDetails map[string]string, mys
 				if strings.HasSuffix(taskDetailName, permissionCheck) {
 					mystartName = taskDetailName[len("mystart"):len(taskDetailName)-len(permissionCheck)]
 					permissionToGrant = string(permissionCheck[0])
-					fmt.Println("Found defined permissions option: " + "mystart" + mystartName + permissionCheck)
 				}
 			}
 			if permissionToGrant != "" {
@@ -363,12 +361,8 @@ func getTaskPermission(webConsoleRoot string, taskDetails map[string]string, mys
 				if taskDetails["taskID"] == "/" {
 					mystartUsersPath = webConsoleRoot + "/" + taskDetailValue
 				}
-				fmt.Println("Looking for file: " + mystartUsersPath)
 				if _, err := os.Stat(mystartUsersPath); !os.IsNotExist(err) {
-					fmt.Println("Looking at file: " + mystartUsersPath)
-					fmt.Println("For user hash: ---" + mystartEmailHash + "---")
 					mystartUsers := readUserFile(mystartUsersPath, arguments["mystart" + mystartName + "APIKey"])
-					fmt.Println(mystartUsers)
 					for _, userHash := range mystartUsers {
 						if userHash == mystartEmailHash {
 							return permissionToGrant
@@ -771,28 +765,6 @@ func main() {
 												debug("User permissions granted via MyStart.Online login, ID: " + userID + ", permission: " + permission)
 											}
 											debug("End of user MyStart.Online authorisation check.")
-											/*for taskDetailName, taskDetailValue := range taskDetails {
-												if strings.HasPrefix(taskDetailName, "mystart") {
-													mystartName := ""
-													if strings.HasSuffix(taskDetailName, "Editors") {
-														mystartName = taskDetailName[7:len(taskDetailName)-7]
-													}
-													if strings.HasSuffix(taskDetailName, "Editors") {
-														mystartEditorsPath := taskDetailValue
-														if _, err := os.Stat(mystartEditorsPath); !os.IsNotExist(err) {
-															mystartEditors := readUserFile(mystartEditorsPath, arguments["mystart" + mystartName + "APIKey"])
-															for editorEmail, editorHash := range mystartEditors {
-																if editorHash == mystartJSON.EmailHash {
-																	authorised = true
-																	permission = "E"
-																	userID = editorHash
-																	debug("Editor user authorised via MyStart.Online login, hash: " + editorHash + ", email: " + editorEmail)
-																}
-															}
-														}
-													}
-												}
-											}*/
 										}
 									}
 								}
