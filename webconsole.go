@@ -341,7 +341,7 @@ func getTaskList() ([]map[string]string, error) {
 	return taskList, nil
 }
 
-func getTaskPermission(taskDetails map[string]string, mystartEmailHash string) string, string {
+func getTaskPermission(taskDetails map[string]string, mystartEmailHash string) string {
 	for taskDetailName, taskDetailValue := range taskDetails {
 		if strings.HasPrefix(taskDetailName, "mystart") {
 			mystartName := ""
