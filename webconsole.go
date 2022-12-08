@@ -272,15 +272,15 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 	// Check to see if we have a valid task ID.
 	if (theTaskID == "/") {
 		for _, mystartName := range mystartNames {
-			editorsPath := arguments["webconsoleroot"] + "/mystart" + mystartName + "Editors.csv"
+			editorsPath := "mystart" + mystartName + "Editors.csv"
 			if _, err := os.Stat(editorsPath); err == nil {
 				taskDetails["mystart" + mystartName + "Editors"] = editorsPath
 			}
-			runnersPath := arguments["webconsoleroot"] + "/mystart" + mystartName + "Runners.csv"
+			runnersPath := "mystart" + mystartName + "Runners.csv"
 			if _, err := os.Stat(runnersPath); err == nil {
 				taskDetails["mystart" + mystartName + "Runners"] = runnersPath
 			}
-			viewersPath := arguments["webconsoleroot"] + "/mystart" + mystartName + "Viewers.csv"
+			viewersPath := "mystart" + mystartName + "Viewers.csv"
 			if _, err := os.Stat(viewersPath); err == nil {
 				taskDetails["mystart" + mystartName + "Viewers"] = viewersPath
 			}
@@ -769,7 +769,7 @@ func main() {
 										if mystartJSON.Login == "valid" {
 											debug("User authorised via MyStart.Online login, ID: " + mystartJSON.EmailHash)
 											// Okay - we've authenticated the user, now we need to check authorisation.
-											permission = getTaskPermission("", taskDetails, mystartJSON.EmailHash)
+											permission = getTaskPermission(arguments["webconsoleroot"], taskDetails, mystartJSON.EmailHash)
 											if permission != "" {
 												authorised = true
 												userID = mystartJSON.EmailHash
