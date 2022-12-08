@@ -801,7 +801,7 @@ func main() {
 								authorised = true
 								permission = permissions[token]
 								userID = userIDs[token]
-								debug("User authorised - valid token found: " + token + ", permission: " + permission)
+								debug("User authorised - valid token found: " + token + ", permission: " + permission + ", user ID: " + userID)
 							}
 						} else if checkPasswordHash(theRequest.Form.Get("secret"), taskDetails["secretViewers"]) {
 							authorised = true
