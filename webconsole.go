@@ -61,8 +61,10 @@ const tokenTimeout = 600
 const tokenCheckPeriod = 60
 // A map of current valid tokens...
 var tokens = map[string]int64{}
-// ...and matching permissions.
+// ...and matching permissions...
 var permissions = map[string]string{}
+// ...and user IDs (user hashes).
+var userIDs = map[string]string{}
 
 // A list of currently running Tasks.
 var runningTasks = map[string]*exec.Cmd{}
@@ -145,6 +147,7 @@ func clearExpiredTokens() {
 			if currentTimestamp - tokenTimeout > timestamp {
 				delete(tokens, token)
 				delete(permissions, token)
+				delete(userIDs, token)
 			}
 		}
 		time.Sleep(tokenCheckPeriod * time.Second)
@@ -361,7 +364,7 @@ func getTaskPermission(webConsoleRoot string, taskDetails map[string]string, mys
 				}
 				if _, err := os.Stat(mystartUsersPath); !os.IsNotExist(err) {
 					fmt.Println("Looking at file: " + mystartUsersPath)
-					fmt.Println("For user hash: " + mystartEmailHash)
+					fmt.Println("For user hash: ---" + mystartEmailHash + "---")
 					mystartUsers := readUserFile(mystartUsersPath, arguments["mystart" + mystartName + "APIKey"])
 					fmt.Println(mystartUsers)
 					for _, userHash := range mystartUsers {
@@ -797,6 +800,7 @@ func main() {
 							} else {
 								authorised = true
 								permission = permissions[token]
+								userID = userIDs[token]
 								debug("User authorised - valid token found: " + token + ", permission: " + permission)
 							}
 						} else if checkPasswordHash(theRequest.Form.Get("secret"), taskDetails["secretViewers"]) {
@@ -823,6 +827,7 @@ func main() {
 							}
 							tokens[token] = currentTimestamp
 							permissions[token] = permission
+							userIDs[token] = userID
 							
 							// Handle view and run requests - no difference server-side, only the client-side treates the URLs differently
 							// (the "runTask" method gets called by the client-side code if the URL contains "run" rather than "view").
