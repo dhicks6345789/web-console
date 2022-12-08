@@ -433,7 +433,6 @@ func readConfigFile(theConfigPath string) map[string]string {
 func readUserFile(theConfigPath string, theHashKey string) map[string]string {
 	var result = map[string]string{}
 	
-	debug("Reading user file: " + theConfigPath)
 	// Is the config file an Excel file?
 	if strings.HasSuffix(strings.ToLower(theConfigPath), "xlsx") {
 		excelFile, excelErr := excelize.OpenFile(theConfigPath)
@@ -760,6 +759,7 @@ func main() {
 													}
 													if strings.HasSuffix(taskDetailName, "Editors") {
 														mystartEditorsPath := arguments["webconsoleroot"] + "/" + taskDetailValue
+														debug("Main block - mystartEditorsPath: " + mystartEditorsPath)
 														if _, err := os.Stat(mystartEditorsPath); !os.IsNotExist(err) {
 															mystartEditors := readUserFile(mystartEditorsPath, arguments["mystart" + mystartName + "APIKey"])
 															for editorEmail, editorHash := range mystartEditors {
