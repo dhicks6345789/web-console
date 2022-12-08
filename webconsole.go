@@ -758,8 +758,7 @@ func main() {
 														mystartName = taskDetailName[7:len(taskDetailName)-7]
 													}
 													if strings.HasSuffix(taskDetailName, "Editors") {
-														mystartEditorsPath := arguments["webconsoleroot"] + "/" + taskDetailValue
-														debug("Main block - mystartEditorsPath: " + mystartEditorsPath)
+														mystartEditorsPath := taskDetailValue
 														if _, err := os.Stat(mystartEditorsPath); !os.IsNotExist(err) {
 															mystartEditors := readUserFile(mystartEditorsPath, arguments["mystart" + mystartName + "APIKey"])
 															for editorEmail, editorHash := range mystartEditors {
