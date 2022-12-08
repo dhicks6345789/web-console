@@ -350,7 +350,7 @@ func getTaskPermission(webConsoleRoot string, taskDetails map[string]string, mys
 			for _, permissionCheck := range [3]string{"Editors", "Runners", "Viewers"} {
 				if strings.HasSuffix(taskDetailName, permissionCheck) {
 					mystartName = taskDetailName[len("mystart"):len(taskDetailName)-len(permissionCheck)]
-					permissionToGrant = permissionCheck[0]
+					permissionToGrant = string(permissionCheck[0])
 				}
 			}
 			if mystartName != "" {
