@@ -740,6 +740,7 @@ func main() {
 						permission := "E"
 						userID := ""
 						if taskDetails["authentication"] == "" {
+							debug("User authorised - no authentication defined, assigning Viewer permsisions.")
 							authorised = true
 							authorisationError = ""
 							permission = "V"
@@ -766,7 +767,13 @@ func main() {
 									if mystartJSONResult == nil {
 										if mystartJSON.Login == "valid" {
 											// Okay - we've authenticated the user, now we need to check authorisation.
-											for taskDetailName, taskDetailValue := range taskDetails {
+											permission = getTaskPermission(arguments["webconsoleroot"], taskDetails, userID)
+											if permission != "" {
+												authorised = true
+												userID = mystartJSON.EmailHash
+												debug("User authorised via MyStart.Online login, ID: " + userID)
+											}
+											/*for taskDetailName, taskDetailValue := range taskDetails {
 												if strings.HasPrefix(taskDetailName, "mystart") {
 													mystartName := ""
 													if strings.HasSuffix(taskDetailName, "Editors") {
@@ -787,7 +794,7 @@ func main() {
 														}
 													}
 												}
-											}
+											}*/
 										}
 									}
 								}
