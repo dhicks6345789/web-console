@@ -341,7 +341,7 @@ func getTaskList() ([]map[string]string, error) {
 	return taskList, nil
 }
 
-func getTaskPermission(taskDetails map[string]string, mystartEmailHash string) string {
+func getTaskPermission(taskDetails map[string]string, mystartEmailHash string) string, string {
 	for taskDetailName, taskDetailValue := range taskDetails {
 		if strings.HasPrefix(taskDetailName, "mystart") {
 			mystartName := ""
@@ -351,9 +351,9 @@ func getTaskPermission(taskDetails map[string]string, mystartEmailHash string) s
 			if strings.HasSuffix(taskDetailName, "Editors") {
 				mystartEditorsPath := taskDetailValue
 				mystartEditors := readUserFile(mystartEditorsPath, arguments["mystart" + mystartName + "APIKey"])
-				for editorEmail, editorHash := range mystartEditors {
+				for _, editorHash := range mystartEditors {
 					if editorHash == mystartEmailHash {
-						return("E")
+						return "E"
 					}
 				}
 			}
