@@ -741,12 +741,6 @@ func main() {
 						authorisationError := "unknown error"
 						permission := "E"
 						userID := ""
-						if taskDetails["authentication"] == "" {
-							debug("User authorised - no authentication defined, assigning Viewer permsisions.")
-							authorised = true
-							authorisationError = ""
-							permission = "V"
-						}
 						currentTimestamp := time.Now().Unix()
 						rateLimit, rateLimitErr := strconv.Atoi(taskDetails["ratelimit"])
 						if rateLimitErr != nil {
@@ -828,6 +822,12 @@ func main() {
 							debug("User authorised via Task secret, permission: " + permission)
 						} else {
 							authorisationError = "no external authorisation used, no valid secret given, no valid token supplied"
+						}
+						if !authorised && taskDetails["authentication"] == "" {
+							debug("User authorised - no other authentication method defined, assigning Viewer permsisions.")
+							authorised = true
+							authorisationError = ""
+							permission = "V"
 						}
 						if authorised {
 							// If we get this far, we know the user is authorised for this Task - they've either provided a valid
