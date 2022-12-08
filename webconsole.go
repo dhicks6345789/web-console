@@ -757,13 +757,15 @@ func main() {
 													}
 													if strings.HasSuffix(taskDetailName, "Editors") {
 														mystartEditorsPath := arguments["webconsoleroot"] + "/" + taskDetailValue
-														mystartEditors := readUserFile(mystartEditorsPath, arguments["mystart" + mystartName + "APIKey"])
-														for editorEmail, editorHash := range mystartEditors {
-															if editorHash == mystartJSON.EmailHash {
-																authorised = true
-																permission = "E"
-																userID = editorHash
-																debug("Editor user authorised via MyStart.Online login, hash: " + editorHash + ", email: " + editorEmail)
+														if _, err := os.Stat(mystartEditorsPath); !os.IsNotExist(err) {
+															mystartEditors := readUserFile(mystartEditorsPath, arguments["mystart" + mystartName + "APIKey"])
+															for editorEmail, editorHash := range mystartEditors {
+																if editorHash == mystartJSON.EmailHash {
+																	authorised = true
+																	permission = "E"
+																	userID = editorHash
+																	debug("Editor user authorised via MyStart.Online login, hash: " + editorHash + ", email: " + editorEmail)
+																}
 															}
 														}
 													}
