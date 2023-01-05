@@ -104,7 +104,7 @@ var webconsole = {
         }
         actionForm.innerHTML = actionFormHTML;
         if (debug == true) {
-            console.log(actionFormHTML)
+            console.log(actionForm);
         }
         actionForm.submit();
     }
