@@ -84,7 +84,10 @@ var webconsole = {
         });
     },
     
-    doAction: function(theAction, theURL, theNewTab, theVariables) {
+    // Does a GET or POST, optionally in a new tab, with the given vriables.
+    // Expects to find a form with id "actionForm" on the main page:
+    // <form id="actionForm" action="" method=""></form>
+    doAction: function(theAction, theURL, theNewTab, theVariables, debug) {
         actionForm = document.getElementById("actionForm");
         if (theAction.toLowerCase() == "post") {
             actionForm.method = "POST";
@@ -100,6 +103,9 @@ var webconsole = {
             actionFormHTML = actionFormHTML + "<input name='" + varName + "' type='hidden' value='" + theVariables[varName] + "'>";
         }
         actionForm.innerHTML = actionFormHTML;
+        if (debug == true) {
+            console.log(actionFormHTML)
+        }
         actionForm.submit();
     }
 };
