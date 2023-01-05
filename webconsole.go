@@ -42,7 +42,8 @@ import (
 	"golang.org/x/crypto/argon2"
 	
 	// Excelize for loading in Excel files.
-	"github.com/360EntSecGroup-Skylar/excelize"
+	//"github.com/360EntSecGroup-Skylar/excelize"
+	"github.com/360EntSecGroup-Skylar/excelize/v2"
 )
 
 // Characters to use to generate new ID strings. Lowercase only - any user-provided IDs will be lowercased before use.
