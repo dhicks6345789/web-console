@@ -6,10 +6,20 @@ erase webconsole.exe > nul 2>&1
 
 echo Checking libraries are installed...
 go install github.com/nfnt/resize@latest
+go get github.com/nfnt/resize
+
 go install github.com/dennwc/gotrace@latest
+go get github.com/dennwc/gotrace
+
 go install github.com/kodeworks/golang-image-ico@latest
+go get github.com/kodeworks/golang-image-ico
+
 go install golang.org/x/crypto/bcrypt@latest
+go get golang.org/x/crypto/bcrypt
+
 go install github.com/360EntSecGroup-Skylar/excelize@latest
+go get github.com/360EntSecGroup-Skylar/excelize
+
 echo Building...
 go build webconsole.go
 
