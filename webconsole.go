@@ -430,7 +430,7 @@ func readConfigFile(theConfigPath string) map[string]string {
 				if csvDataErr != nil {
 					fmt.Println("ERROR: " + csvDataErr.Error())
 				} else {
-					result[csvDataRecord[0]] = csvDataRecord[1]
+					result[strings.ToLower(csvDataRecord[0])] = csvDataRecord[1]
 				}
 			}
 		} else {
