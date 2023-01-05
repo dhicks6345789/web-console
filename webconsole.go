@@ -719,11 +719,12 @@ func main() {
 				} else {
 					fmt.Fprintf(theResponseWriter, "ERROR: " + taskErr.Error())
 				}
-			// Handle a view, run or API request. taskID needs to be provided as a parameter, either via GET or POST.
+			// Handle a view, run or API request. If taskID is not provided as a parameter, either via GET or POST, it defaults to "/".
 			} else if fileToServe != "" || strings.HasPrefix(requestPath, "/api/") {
 				taskID := theRequest.Form.Get("taskID")
 				token := theRequest.Form.Get("token")
-				if taskID == "" && requestPath == "/" {
+				// if taskID == "" && requestPath == "/" {
+				if taskID == "" {
 					taskID = "/"
 				}
 				if taskID == "" {
