@@ -163,7 +163,7 @@
 			function pageReady() {
 				if (taskID == "/" && window.location.href.includes("/view?")) {
 					// window.location.href = window.location.href.split("/view?")[0];
-					webconsole.doAction("POST", window.location.href.split("/view?")[0], false, {"token":token})
+					webconsole.doAction("POST", window.location.href.split("/view?")[0], false, {"token":token}, false)
 				}
 				
 				// Set up the keepAlive call.
