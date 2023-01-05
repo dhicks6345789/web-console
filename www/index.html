@@ -62,7 +62,7 @@
 						
 						// document.getElementById("privateTaskButton-" + rowCount).setAttribute("href", "login?taskID=" + taskID);
 						// https://webconsole.sansay.co.uk/view?taskID=4jaknvvu0b4zl3ee
-						document.getElementById("privateTaskButton-" + rowCount).setAttribute("onclick", "webconsole.doAction('POST', window.location.href.split('/view')[0], true, {'taskID':taskID, 'token':token})");
+						document.getElementById("privateTaskButton-" + rowCount).setAttribute("onclick", "webconsole.doAction('POST', window.location.href.split('/view')[0], true, {'taskID':taskID, 'token':token}, true)");
 						
 						privateTaskRow.style.display = "table-row";
 						rowCount = rowCount + 1;
