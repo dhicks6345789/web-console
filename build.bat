@@ -19,6 +19,8 @@ go get golang.org/x/crypto/bcrypt
 
 rem go install github.com/360EntSecGroup-Skylar/excelize@latest
 rem go get github.com/360EntSecGroup-Skylar/excelize
+
+go install github.com/360EntSecGroup-Skylar/excelize/v2@latest
 go get github.com/360EntSecGroup-Skylar/excelize/v2
 
 go install golang.org/x/crypto/argon2@latest
