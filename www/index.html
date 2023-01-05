@@ -59,7 +59,11 @@
 						document.getElementById("privateTaskList").appendChild(privateTaskRow);
 						document.getElementById("privateTaskTitle-" + rowCount).innerHTML = "<b>" + taskList[taskID]["title"] + ":</b> ";
 						document.getElementById("privateTaskDescription-" + rowCount).innerHTML = taskList[taskID]["description"];
-						document.getElementById("privateTaskButton-" + rowCount).setAttribute("href", "login?taskID=" + taskID);
+						
+						// document.getElementById("privateTaskButton-" + rowCount).setAttribute("href", "login?taskID=" + taskID);
+						// https://webconsole.sansay.co.uk/view?taskID=4jaknvvu0b4zl3ee
+						document.getElementById("privateTaskButton-" + rowCount).setAttribute("onclick", "webconsole.doAction('POST', window.location.href.split('/view')[0], true, {'taskID':taskID, 'token':token})");
+						
 						privateTaskRow.style.display = "table-row";
 						rowCount = rowCount + 1;
 					});
@@ -71,6 +75,7 @@
 		</script>
 	</head>
 	<body onload="pageReady()">
+		<form id="actionForm" action="" method=""></form>
 		<div class="row">
 			<div class="col-sm-1 align-self-center"></div>
 			<div class="col-sm-10 align-self-center">
@@ -102,7 +107,8 @@
 						<tr id="privateTaskRow" style="display:none;">
 							<td id="privateTaskTitle" style="text-align:right"></td>
 							<td id="privateTaskDescription" style="text-align:left"></td>
-							<td style="text-align:right"><a id="privateTaskButton" href="#" class="btn btn-primary" role="button" target="_blank">Go</a></td>
+							<!-- <td style="text-align:right"><a id="privateTaskButton" href="#" class="btn btn-primary" role="button" target="_blank">Go</a></td> -->
+							<td style="text-align:right"><a id="privateTaskButton" href="#" class="btn btn-primary" role="button">Ga</a></td>
 						</tr>
 					</tbody>
 				</table>
