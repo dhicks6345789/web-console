@@ -22,7 +22,7 @@
 					if (window.location.href.toLowerCase().includes("taskID=")) {
 						document.getElementById("viewForm").action = window.location.href.replace("api/mystartLogin", "view")
 					} else {
-						document.getElementById("viewForm").action = window.location.href.replace("api/mystartLogin", "/")
+						document.getElementById("viewForm").action = window.location.href.replace("api/mystartLogin", "")
 					}
 					document.getElementById("viewFormToken").value = token;
 					document.getElementById("viewForm").submit();
