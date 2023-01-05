@@ -20,6 +20,9 @@ go get golang.org/x/crypto/bcrypt
 go install github.com/360EntSecGroup-Skylar/excelize@latest
 go get github.com/360EntSecGroup-Skylar/excelize
 
+go install golang.org/x/crypto/argon2@latest
+go get golang.org/x/crypto/argon2
+
 echo Building...
 go build webconsole.go
 
