@@ -19,7 +19,11 @@
 				
 				// Check and see if we need to redirect this page.
 				if (pageURL.endsWith("api/mystartLogin")) {
-					document.getElementById("viewForm").action = window.location.href.replace("api/mystartLogin", "view")
+					if (window.location.href.toLowerCase().includes("taskID=")) {
+						document.getElementById("viewForm").action = window.location.href.replace("api/mystartLogin", "view")
+					} else {
+						document.getElementById("viewForm").action = window.location.href.replace("api/mystartLogin", "/")
+					}
 					document.getElementById("viewFormToken").value = token;
 					document.getElementById("viewForm").submit();
 				}
