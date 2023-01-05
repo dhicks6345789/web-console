@@ -17,8 +17,9 @@ go get github.com/kodeworks/golang-image-ico
 go install golang.org/x/crypto/bcrypt@latest
 go get golang.org/x/crypto/bcrypt
 
-go install github.com/360EntSecGroup-Skylar/excelize@latest
-go get github.com/360EntSecGroup-Skylar/excelize
+rem go install github.com/360EntSecGroup-Skylar/excelize@latest
+rem go get github.com/360EntSecGroup-Skylar/excelize
+go get github.com/360EntSecGroup-Skylar/excelize/v2
 
 go install golang.org/x/crypto/argon2@latest
 go get golang.org/x/crypto/argon2
