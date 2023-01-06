@@ -755,7 +755,7 @@ func main() {
 						if strings.HasPrefix(requestPath, "/api/mystartLogin") {
 							debug("   Task Details:")
 							for taskDetailName, taskDetailValue := range taskDetails {
-								debug("      " + taskDetailName + ": " + taskDetailsValue)
+								debug("      " + taskDetailName + ": " + taskDetailValue)
 							}
 							mystartLoginToken := theRequest.Form.Get("loginToken")
 							if mystartLoginToken != "" {
