@@ -372,7 +372,6 @@ func getTaskPermission(webConsoleRoot string, taskDetails map[string]string, mys
 	debug("Finding permissions for Task: " + taskDetails["taskID"])
 	for taskDetailName, taskDetailValue := range taskDetails {
 		if strings.HasPrefix(taskDetailName, "mystart") {
-			debug("Testing mystart: " + taskDetailName)
 			mystartName := ""
 			permissionToGrant := ""
 			for _, permissionCheck := range [3]string{"Editors", "Runners", "Viewers"} {
@@ -381,6 +380,7 @@ func getTaskPermission(webConsoleRoot string, taskDetails map[string]string, mys
 					permissionToGrant = string(permissionCheck[0])
 				}
 			}
+			debug("mystart permissions found: " + taskDetailName + ". Permission to grant: " + permissionToGrant)
 			if permissionToGrant != "" {
 				mystartUsersPath := webConsoleRoot + "/tasks/" + taskDetails["taskID"] + "/" + taskDetailValue
 				if taskDetails["taskID"] == "/" {
