@@ -788,7 +788,7 @@ func main() {
 									mystartJSON := new(mystartStruct)
 									mystartJSONResult := json.NewDecoder(mystartResult.Body).Decode(mystartJSON)
 									if mystartJSONResult == nil {
-										debug(" - login: "  mystartJSON.Login)
+										debug(" - login: " + mystartJSON.Login)
 										if mystartJSON.Login == "valid" {
 											debug("User authorised via MyStart.Online login, ID: " + mystartJSON.EmailHash)
 											// Okay - we've authenticated the user, now we need to check authorisation.
