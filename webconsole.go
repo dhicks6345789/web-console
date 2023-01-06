@@ -308,6 +308,11 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 						authTypes["secret"] = 1
 					}
 				}
+				for argumentName, _ range arguments {
+					if strings.HasPrefix(argumentName, "mystart") {
+						authTypes["mystart"] = 1
+					}
+				}
 				for authType, _ := range authTypes {
 					taskDetails["authentication"] = taskDetails["authentication"] + authType + ","
 				}
