@@ -777,6 +777,7 @@ func main() {
 							}
 							mystartLoginToken := theRequest.Form.Get("loginToken")
 							if mystartLoginToken != "" {
+								debug(" - mystartLoginToken: " + mystartLoginToken)
 								requestURL := fmt.Sprintf("https://dev.mystart.online/api/validateToken?loginToken=%s&pageName=%s", mystartLoginToken, arguments["mystartPageName"])
 								mystartResult, mystartErr := http.Get(requestURL)
 								if mystartErr != nil {
@@ -787,7 +788,7 @@ func main() {
 									mystartJSON := new(mystartStruct)
 									mystartJSONResult := json.NewDecoder(mystartResult.Body).Decode(mystartJSON)
 									if mystartJSONResult == nil {
-										debug(mystartJSON.Login)
+										debug(" - login: "  mystartJSON.Login)
 										if mystartJSON.Login == "valid" {
 											debug("User authorised via MyStart.Online login, ID: " + mystartJSON.EmailHash)
 											// Okay - we've authenticated the user, now we need to check authorisation.
