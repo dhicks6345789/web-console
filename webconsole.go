@@ -784,6 +784,7 @@ func main() {
 								}
 								if mystartResult.StatusCode == 200 {
 									defer mystartResult.Body.Close()
+									debug(mystartResult.Body)
 									mystartJSON := new(mystartStruct)
 									mystartJSONResult := json.NewDecoder(mystartResult.Body).Decode(mystartJSON)
 									if mystartJSONResult == nil {
