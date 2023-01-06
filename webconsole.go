@@ -430,7 +430,10 @@ func readConfigFile(theConfigPath string) map[string]string {
 				if csvDataErr != nil {
 					fmt.Println("ERROR: " + csvDataErr.Error())
 				} else {
-					result[strings.ToLower(csvDataRecord[0])] = csvDataRecord[1]
+					csvDataField := strings.ToLower(csvDataRecord[0])
+					if csvDataField != "parameter" && !strings.HasPrefix(csvDataField, "#") {
+						result[csvDataField] = csvDataRecord[1]
+					}
 				}
 			}
 		} else {
