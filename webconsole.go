@@ -779,6 +779,7 @@ func main() {
 							if mystartLoginToken != "" {
 								debug(" - mystartLoginToken: " + mystartLoginToken)
 								requestURL := fmt.Sprintf("https://dev.mystart.online/api/validateToken?loginToken=%s&pageName=%s", mystartLoginToken, arguments["mystartPageName"])
+								debug("Request URL - " + requestURL)
 								mystartResult, mystartErr := http.Get(requestURL)
 								if mystartErr != nil {
 									fmt.Println("webconsole: mystartLogin - error when doing callback.")
