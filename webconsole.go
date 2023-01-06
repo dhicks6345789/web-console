@@ -385,7 +385,6 @@ func getTaskPermission(webConsoleRoot string, taskDetails map[string]string, mys
 				if taskDetails["taskID"] == "/" {
 					mystartUsersPath = webConsoleRoot + "/" + taskDetailValue
 				}
-				debug("mystart permissions found: " + mystartUsersPath + ". Permission to grant: " + permissionToGrant)
 				if _, err := os.Stat(mystartUsersPath); !os.IsNotExist(err) {
 					mystartUsers := readUserFile(mystartUsersPath, arguments["mystart" + mystartName + "apikey"])
 					for _, userHash := range mystartUsers {
