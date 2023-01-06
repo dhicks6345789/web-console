@@ -778,7 +778,7 @@ func main() {
 							mystartLoginToken := theRequest.Form.Get("loginToken")
 							if mystartLoginToken != "" {
 								debug(" - mystartLoginToken: " + mystartLoginToken)
-								requestURL := fmt.Sprintf("https://dev.mystart.online/api/validateToken?loginToken=%s&pageName=%s", mystartLoginToken, arguments["mystartPageName"])
+								requestURL := fmt.Sprintf("https://dev.mystart.online/api/validateToken?loginToken=%s&pageName=%s", mystartLoginToken, arguments["mystartpagename"])
 								debug("Request URL - " + requestURL)
 								mystartResult, mystartErr := http.Get(requestURL)
 								if mystartErr != nil {
