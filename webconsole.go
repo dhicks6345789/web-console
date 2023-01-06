@@ -305,7 +305,7 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 				// If any mystart authorisation paths are set at the root Task level, use those values as defaults - they
 				// can be overwritten by the Tasks local settings.
 				for rootTaskDetailName, rootTaskDetailValue := range rootTaskDetails {
-					if string.hasPrefix(rootTaskDetailName, "mystart") {
+					if string.HasPrefix(rootTaskDetailName, "mystart") {
 						taskDetails[rootTaskDetailName] = rootTaskDetailValue
 					}
 				}
