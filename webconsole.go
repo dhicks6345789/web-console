@@ -272,6 +272,14 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 	
 	// Check to see if we have a valid task ID.
 	if (theTaskID == "/") {
+		// The root Task is always public.
+		taskDetails["public"] = "Y"
+		
+		// If we have any (globally) defined mystart API keys then "mystart" is a valid authentication method for the root Task.
+		if len(mystartNames) > 0 {
+			taskDetails["authentication"] = "mystart"
+		}
+		
 		for _, mystartName := range mystartNames {
 			editorsPath := "mystart" + mystartName + "Editors.csv"
 			if _, err := os.Stat(arguments["webconsoleroot"] + "/" + editorsPath); err == nil {
@@ -287,12 +295,21 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 			}
 		}
 	} else {
+		rootTaskDetails, _ := getTaskDetails("/")
 		configPath := arguments["taskroot"] + "/" + theTaskID + "/config.txt"
 		if _, err := os.Stat(configPath); !os.IsNotExist(err) {
 			inFile, inFileErr := os.Open(configPath)
 			if inFileErr != nil {
 				return taskDetails, errors.New("Can't open Task config file.")
 			} else {
+				// If any mystart authorisation paths are set at the root Task level, use those values as defaults - they
+				// can be overwritten by the Tasks local settings.
+				for rootTaskDetailName, rootTaskDetailValue := range rootTaskDetails {
+					if string.hasPrefix(rootTaskDetailName, "mystart") {
+						taskDetails[rootTaskDetailName] = rootTaskDetailValue
+					}
+				}
+				
 				// Read the Task's details from its config file.
 				scanner := bufio.NewScanner(inFile)
 				for scanner.Scan() {
@@ -308,8 +325,8 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 						authTypes["secret"] = 1
 					}
 				}
-				for argumentName, _ := range arguments {
-					if strings.HasPrefix(argumentName, "mystart") {
+				for taskDetailName, _ := range taskDetails {
+					if strings.HasPrefix(taskDetailName, "mystart") {
 						authTypes["mystart"] = 1
 					}
 				}
