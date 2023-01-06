@@ -314,6 +314,7 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 					}
 				}
 				for authType, _ := range authTypes {
+					debug(authType)
 					taskDetails["authentication"] = taskDetails["authentication"] + authType + ","
 				}
 				if len(taskDetails["authentication"]) > 0 {
@@ -753,9 +754,9 @@ func main() {
 						// Handle a login from MyStart.Online - validate the details passed and check that the user ID given has
 						// permission to access this Task.
 						if strings.HasPrefix(requestPath, "/api/mystartLogin") {
-							debug("   Task Details:")
+							debug("Task Details:")
 							for taskDetailName, taskDetailValue := range taskDetails {
-								debug("      " + taskDetailName + ": " + taskDetailValue)
+								debug("   " + taskDetailName + ": " + taskDetailValue)
 							}
 							mystartLoginToken := theRequest.Form.Get("loginToken")
 							if mystartLoginToken != "" {
