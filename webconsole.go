@@ -687,7 +687,7 @@ func main() {
 			if strings.HasSuffix(argName, "apikey") {
 				mystartName = argName[7:len(argName)-6]
 			}
-			if strings.HasSuffix(argName, "PageName") {
+			if strings.HasSuffix(argName, "pagename") {
 				mystartName = argName[7:len(argName)-8]
 			}
 			mystartNames = append(mystartNames, mystartName)
@@ -697,7 +697,7 @@ func main() {
 			if strings.HasSuffix(argName, "apikey") {
 				mystartAPIKeys[mystartName] = argVal
 			}
-			if strings.HasSuffix(argName, "PageName") {
+			if strings.HasSuffix(argName, "pagename") {
 				mystartPageNames[mystartName] = argVal
 			}
 		}
