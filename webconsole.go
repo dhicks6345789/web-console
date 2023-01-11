@@ -900,7 +900,7 @@ func main() {
 										fmt.Fprintf(theResponseWriter, "ERROR: Rate limit (%d seconds) exceeded - try again in %d seconds.", rateLimit, int64(rateLimit) - (currentTimestamp - taskStopTimes[taskID]))
 									} else {
 										// Get ready to run the Task - set up the Task's details...
-										if strings.HasPrefix(taskDetails["command"], "webconsole " {
+										if strings.HasPrefix(taskDetails["command"], "webconsole ") {
 											taskDetails["command"] = strings.Replace(taskDetails["command"], "webconsole ", arguments["webconsoleroot"] + os.sep + "webconsole ", 1)
 										}
 										commandArray := parseCommandString(taskDetails["command"])
