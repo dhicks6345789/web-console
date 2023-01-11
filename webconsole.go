@@ -331,7 +331,6 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 					}
 				}
 				for authType, _ := range authTypes {
-					debug(authType)
 					taskDetails["authentication"] = taskDetails["authentication"] + authType + ","
 				}
 				if len(taskDetails["authentication"]) > 0 {
