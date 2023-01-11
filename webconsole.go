@@ -1278,7 +1278,6 @@ func main() {
 	} else if arguments["newDefaultTask"] == "true" {
 		// Generate a new Task ID, checking it doesn't already exist.
 		var newTaskID string
-		var newTaskIDExists bool
 		for {
 			newTaskID = generateRandomString()
 			if _, err := os.Stat(arguments["taskroot"] + "/" + newTaskID); os.IsNotExist(err) {
@@ -1289,14 +1288,9 @@ func main() {
 		os.Mkdir(arguments["taskroot"], os.ModePerm)
 		os.Mkdir(arguments["taskroot"] + "/" + newTaskID, os.ModePerm)
 		fmt.Println("New Task: " + newTaskID)
-			
-		newTaskTitle := "Task " + newTaskID
-		newTaskSecret := ""
-		newTaskPublic := "N"
-		newTaskCommand := ""
-			
+		
 		// Write the config file - a simple text file, one value per line.
-		outputString = outputString + "title: " + newTaskTitle + "\npublic: " + newTaskPublic + "\ncommand: " + newTaskCommand
+		outputString = outputString + "title: Task " + newTaskID + "\npublic: N\ncommand: "
 		writeFileErr := ioutil.WriteFile(arguments["taskroot"] + "/" + newTaskID + "/config.txt", []byte(outputString), 0644)
 		if writeFileErr != nil {
 			fmt.Println("ERROR: Couldn't write config for Task " + newTaskID + ".")
