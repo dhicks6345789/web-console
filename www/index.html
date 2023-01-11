@@ -50,6 +50,9 @@
 						document.getElementById("publicTasksHeading").style.display = "none";
 					}
 				});
+				
+				// Get a list of private Tasks from the server that the current user has suitible permissions to view, run or
+				// edit - list returned might be empty.
 				webconsole.APICall("getPrivateTaskList", {}, function(result) {
 					rowCount = 1;
 					taskList = JSON.parse(result);
@@ -59,8 +62,7 @@
 						document.getElementById("privateTaskList").appendChild(privateTaskRow);
 						document.getElementById("privateTaskTitle-" + rowCount).innerHTML = "<b>" + taskList[taskID]["title"] + ":</b> ";
 						document.getElementById("privateTaskDescription-" + rowCount).innerHTML = taskList[taskID]["description"];
-						// document.getElementById("privateTaskButton-" + rowCount).setAttribute("href", "login?taskID=" + taskID);
-						document.getElementById("privateTaskButton-" + rowCount).setAttribute("onclick", "webconsole.doAction('POST', '/view', true, {'taskID':'" + taskID + "', 'token':'" + token + "'}, true)");
+						document.getElementById("privateTaskButton-" + rowCount).setAttribute("onclick", "webconsole.doAction('POST', 'view', true, {'taskID':'" + taskID + "', 'token':'" + token + "'}, true)");
 						
 						privateTaskRow.style.display = "table-row";
 						rowCount = rowCount + 1;
@@ -69,6 +71,11 @@
 						document.getElementById("privateTasksHeading").style.display = "none";
 					}
 				});
+				
+				// If the user has Edit permissions for the root then they can add new tasks.
+				if (permission == "E") {
+					document.getElementById("newTaskSection").style.display = "table-row";
+				}
 			}
 		</script>
 	</head>
@@ -124,7 +131,7 @@
 				</form>
 				
 				<!-- The New Task button. -->
-				<div>
+				<div id="newTaskSection" style="display:none;">
 					<a id="privateTaskButton" class="btn btn-primary" role="button" onclick="webconsole.doAction('POST', 'view', true, {'token':'<<TOKEN>>'}, true)">New Task</a>
 				</div>
 			</div>
