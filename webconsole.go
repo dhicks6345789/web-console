@@ -902,8 +902,6 @@ func main() {
 										// Get ready to run the Task - set up the Task's details...
 										if strings.HasPrefix(taskDetails["command"], "webconsole ") {
 											taskDetails["command"] = strings.Replace(taskDetails["command"], "webconsole ", "\"" + arguments["webconsoleroot"] + string(os.PathSeparator) + "webconsole\" ", 1)
-											//taskDetails["command"] = strings.Replace(taskDetails["command"], "\\", "\\\\", -1)
-											//taskDetails["command"] = strings.Replace(taskDetails["command"], "\"", "\\\"", -1)
 										}
 										commandArray := parseCommandString(taskDetails["command"])
 										for _, batchExtension := range []string{".bat", ".btm", ".cmd"} {
