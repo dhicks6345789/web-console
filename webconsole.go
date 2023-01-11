@@ -902,8 +902,8 @@ func main() {
 										// Get ready to run the Task - set up the Task's details...
 										if strings.HasPrefix(taskDetails["command"], "webconsole ") {
 											taskDetails["command"] = strings.Replace(taskDetails["command"], "webconsole ", "\"" + arguments["webconsoleroot"] + string(os.PathSeparator) + "webconsole\" ", 1)
-											taskDetails["command"] = strings.Replace(taskDetails["command"], "\\", "\\\\", -1)
-											taskDetails["command"] = strings.Replace(taskDetails["command"], "\"", "\\\"", -1)
+											//taskDetails["command"] = strings.Replace(taskDetails["command"], "\\", "\\\\", -1)
+											//taskDetails["command"] = strings.Replace(taskDetails["command"], "\"", "\\\"", -1)
 										}
 										commandArray := parseCommandString(taskDetails["command"])
 										for _, batchExtension := range []string{".bat", ".btm", ".cmd"} {
@@ -912,11 +912,13 @@ func main() {
 												commandArray = parseCommandString("cmd /c " + taskDetails["command"])
 											}
 										}
-										debug("Task ID " + taskID + " - running command: " + strings.Join(commandArray, " "))
 										var commandArgs []string
 										if len(commandArray) > 0 {
 											commandArgs = commandArray[1:]
 										}
+										debug("Task ID " + taskID + " - running command: " + commandArray[0])
+										debug("With arguments: " + strings.Join(commandArgs, ","))
+										
 										runningTasks[taskID] = exec.Command(commandArray[0], commandArgs...)
 										runningTasks[taskID].Dir = arguments["taskroot"] + "/" + taskID
 										
