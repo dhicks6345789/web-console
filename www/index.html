@@ -106,7 +106,7 @@
 							<td id="privateTaskTitle" style="text-align:right"></td>
 							<td id="privateTaskDescription" style="text-align:left"></td>
 							<!-- <td style="text-align:right"><a id="privateTaskButton" href="#" class="btn btn-primary" role="button" target="_blank">Go</a></td> -->
-							<td style="text-align:right"><a id="privateTaskButton" class="btn btn-primary" role="button">Ga</a></td>
+							<td style="text-align:right"><a id="privateTaskButton" class="btn btn-primary" role="button">Go</a></td>
 						</tr>
 					</tbody>
 				</table>
@@ -122,6 +122,11 @@
 					</div>
 					<button type="submit" class="btn btn-primary">Go</button>
 				</form>
+				
+				<!-- The New Task button. -->
+				<div>
+					<a id="privateTaskButton" class="btn btn-primary" role="button" onclick="webconsole.doAction('POST', '/view', true, {'token':'" + token + "'}, true)">New Task</a>
+				</div>
 			</div>
 			<div class="col-sm-1 align-self-center"></div>
 		</div>
