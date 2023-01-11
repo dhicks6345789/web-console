@@ -1275,7 +1275,7 @@ func main() {
 			fmt.Println("ERROR: " + taskErr.Error())
 		}
 	// Generate a new Task.
-	} else if arguments["newDefaultTask"] == "true" {
+	} else if arguments["newdefaulttask"] == "true" {
 		// Generate a new Task ID, checking it doesn't already exist.
 		var newTaskID string
 		for {
