@@ -84,7 +84,7 @@ var webconsole = {
         });
     },
     
-    // Does a GET or POST, optionally in a new tab, with the given vriables.
+    // Does a GET or POST, optionally in a new tab, with the given variables.
     // Expects to find a form with id "actionForm" on the main page:
     // <form id="actionForm" action="" method=""></form>
     doAction: function(theAction, theURL, theNewTab, theVariables, debug) {
