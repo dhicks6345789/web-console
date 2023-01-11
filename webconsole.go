@@ -854,7 +854,8 @@ func main() {
 								if taskErr == nil {
 									for _, task := range taskList {
 										// Don't list Tasks that would already be listed in the "public" list.
-										if task["public"] != "Y" {
+										// Also, don't list special Tasks like the "new-task" Task.
+										if task["public"] != "Y" && task["taskID"] != "new-task" {
 											listTask := false
 											// If we have Edit permissions for the root Task
 											// (ID "/"), then we have permissions to view all Tasks.
