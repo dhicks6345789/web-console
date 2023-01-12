@@ -161,7 +161,7 @@
 			
 			// Return to the Home page.
 			function returnHome() {
-				webconsole.doAction("POST", window.location.href.replace("/view", ""), false, {"token":"<<TOKEN>>"}, true);
+				webconsole.doAction("POST", window.location.href.replace("/view", "").replace("/run", ""), false, {"token":"<<TOKEN>>"}, true);
 			}
 			
 			// Called when the document is first loaded and ready.
@@ -314,11 +314,15 @@
 				</div>
 				
 				<!-- The bottom of the page. -->
-				<div>
-					<!-- The Home button. -->
-					<a id="homeButton" class="btn btn-primary" role="button" onclick="returnHome()">Home</a>
+				<div class="row">
+					<div class="col-sm-10 align-self-center"></div>
+					<div class="col-sm-2 align-self-end">
+						<!-- The Home button. -->
+						<a id="homeButton" class="btn btn-primary" role="button" onclick="returnHome()">Home</a>
+					</div>
 				</div>
 			</div>
+			
 			<div class="col-sm-1 text-center align-self-center"></div>
 		</div>
 	</body>
