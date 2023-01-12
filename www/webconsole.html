@@ -159,6 +159,11 @@
 				});
 			}
 			
+			// Return to the Home page.
+			function returnHome() {
+				webconsole.doAction("POST", window.location.href.replace("/view", ""), false, {"token":"<<TOKEN>>"}, true);
+			}
+			
 			// Called when the document is first loaded and ready.
 			function pageReady() {
 				if (taskID == "/" && window.location.href.includes("/view?")) {
@@ -311,7 +316,7 @@
 				<!-- The bottom of the page. -->
 				<div>
 					<!-- The Home button. -->
-					<a id="privateTaskButton" class="btn btn-primary" role="button" onclick="webconsole.doAction('POST', '', false, {'token':'<<TOKEN>>'}, true)">Home</a>
+					<a id="homeButton" class="btn btn-primary" role="button" onclick="returnHome()">Home</a>
 				</div>
 			</div>
 			<div class="col-sm-1 text-center align-self-center"></div>
