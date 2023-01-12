@@ -161,7 +161,7 @@
 			
 			// Return to the Home page.
 			function returnHome() {
-				webconsole.doAction("POST", window.location.href.replace("/view", "").replace("/run", ""), false, {"token":"<<TOKEN>>"}, true);
+				webconsole.doAction("POST", window.location.href.replace("/view", "/").replace("/run", "/"), false, {"token":"<<TOKEN>>"}, true);
 			}
 			
 			// Called when the document is first loaded and ready.
