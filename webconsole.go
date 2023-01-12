@@ -595,6 +595,7 @@ func main() {
 	arguments["port"] = "8090"
 	arguments["localonly"] = "true"
 	arguments["debug"] = "false"
+	arguments["shellprefix"] = ""
 	setArgumentIfPathExists("webconsoleroot", []string {"/etc/webconsole", "C:\\Program Files\\WebConsole"})
 	setArgumentIfPathExists("config", []string {"config.csv", "/etc/webconsole/config.csv", "C:\\Program Files\\WebConsole\\config.csv"})
 	setArgumentIfPathExists("webroot", []string {"www", "/etc/webconsole/www", "C:\\Program Files\\WebConsole\\www", ""})
@@ -902,14 +903,16 @@ func main() {
 										// Get ready to run the Task - set up the Task's details...
 										if strings.HasPrefix(taskDetails["command"], "webconsole ") {
 											taskDetails["command"] = strings.Replace(taskDetails["command"], "webconsole ", "\"" + arguments["webconsoleroot"] + string(os.PathSeparator) + "webconsole\" ", 1)
+										} else {
+											taskDetails["command"] = strings.TrimSpace(arguments["shellprefix"] + " " + taskDetails["command"])
 										}
 										commandArray := parseCommandString(taskDetails["command"])
-										for _, batchExtension := range []string{".bat", ".btm", ".cmd"} {
+										/*for _, batchExtension := range []string{".bat", ".btm", ".cmd"} {
 											// If the command is a Windows batch file, we need to run the Windows command shell for it to execute.
 											if strings.HasSuffix(strings.ToLower(commandArray[0]), batchExtension) {
 												commandArray = parseCommandString("cmd /c " + taskDetails["command"])
 											}
-										}
+										}*/
 										var commandArgs []string
 										if len(commandArray) > 0 {
 											commandArgs = commandArray[1:]
