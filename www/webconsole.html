@@ -166,7 +166,6 @@
 					}
 					document.getElementById("saveFileButton").disabled = true;
 					aceEditor.session.on("change", function(delta) {
-						console.log("Change!");
 						document.getElementById("saveFileButton").disabled = false;
 					});
 				});
@@ -174,8 +173,7 @@
 			
 			// Save the current file being edited in the edit file panel.
 			function saveFile() {
-				fileContents = document.getElementById("editFileBox").value;
-				webconsole.APICall("saveFile", {"filename":currentEditFile, "contents":fileContents}, function(result) {
+				webconsole.APICall("saveFile", {"filename":currentEditFile, "contents":aceEditor.session.getValue()}, function(result) {
 					if (result != "OK") {
 						alert(result);
 					}
