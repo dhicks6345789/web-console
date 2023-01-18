@@ -152,8 +152,7 @@
 			function editFile(theFilename) {
 				currentEditFile = theFilename;
 				webconsole.APICall("getEditableFileContents", {"filename":theFilename}, function(result) {
-					aceEditor.session.on("change", function(delta) {
-					});
+					editor.session.removeAllListeners("change");
 					aceEditor.session.setValue(result, -1);
 					if (theFilename == "config.txt") {
 						aceEditor.session.setMode("ace/mode/yaml");
@@ -162,10 +161,8 @@
 					}
 					if (theFilename == "log.txt") {
 						aceEditor.setReadOnly(true);
-						document.getElementById("saveFileButton").disabled = true;
 					} else {
 						aceEditor.setReadOnly(false);
-						document.getElementById("saveFileButton").disabled = false;
 					}
 					aceEditor.session.on("change", function(delta) {
 						console.log("Change!");
