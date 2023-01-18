@@ -32,6 +32,14 @@
 		<script>
 			// Only run once the page is ready.
 			function pageReady() {
+				if (window.location.href.includes("?")) {
+					window.location.href.split("?")[1].split("&").forEach(function(varItem) {
+						if varItem.startsWith("taskID=") {
+							webconsole.doAction("POST", "view", false, {"taskID":varItem.split("=")[1], "token":"<<TOKEN>>"}, true);
+						}
+					});
+				}
+				
 				// Get a list of public Tasks from the server - might be empty.
 				webconsole.APICall("getPublicTaskList", {}, function(result) {
 					rowCount = 1;
@@ -139,7 +147,7 @@
 			<div class="col-sm-10 align-self-center"></div>
 			<div class="col-sm-1 align-self-end">
 				<div id="newTaskSection" style="display:none;">
-					<a id="privateTaskButton" class="btn btn-primary" role="button" onclick="webconsole.doAction('POST', 'run', false, {'taskID':'new-task', 'token':'<<TOKEN>>'}, true)">New Task</a>
+					<a id="newTaskButton" class="btn btn-primary" role="button" onclick="webconsole.doAction('POST', 'run', false, {'taskID':'new-task', 'token':'<<TOKEN>>'}, true)">New Task</a>
 				</div>
 			</div>
 		</div>
