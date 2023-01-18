@@ -164,6 +164,7 @@
 					} else {
 						aceEditor.setReadOnly(false);
 					}
+					document.getElementById("saveFileButton").disabled = true;
 					aceEditor.session.on("change", function(delta) {
 						console.log("Change!");
 						document.getElementById("saveFileButton").disabled = false;
