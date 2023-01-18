@@ -152,11 +152,17 @@
 			function editFile(theFilename) {
 				currentEditFile = theFilename;
 				webconsole.APICall("getEditableFileContents", {"filename":theFilename}, function(result) {
-					aceEditor.setValue(result);
+					aceEditor.session.setValue(result, -1);
+					// aceEditor.setValue(result, -1);
 					if (theFilename == "config.txt") {
 						aceEditor.session.setMode("ace/mode/yaml");
 					} else {
 						aceEditor.session.setMode("ace/mode/text");
+					}
+					if (theFilename == "log.txt") {
+						aceEditor.setReadOnly(true);
+					} else {
+						aceEditor.setReadOnly(false);
 					}
 				});
 			}
