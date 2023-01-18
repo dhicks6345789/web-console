@@ -328,7 +328,7 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 				for taskDetailName, taskDetailValue := range taskDetails {
 					if strings.HasPrefix(taskDetailName, "mystart") {
 						authTypes["mystart"] = 1
-						if string.HasSuffix(taskDetailName, "Viewers") || string.HasSuffix(taskDetailName, "Runners") || string.HasSuffix(taskDetailName, "Editors") {
+						if strings.HasSuffix(taskDetailName, "Viewers") || strings.HasSuffix(taskDetailName, "Runners") || strings.HasSuffix(taskDetailName, "Editors") {
 							taskDetails[taskDetailName] = "tasks/" + taskDetails["taskID"] + "/" + taskDetailValue
 						}
 					}
