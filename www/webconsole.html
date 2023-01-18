@@ -182,7 +182,7 @@
 				document.getElementById("CURLCommand").value = "curl " + pageURL.slice(0, pageURL.lastIndexOf("/")) + "/api/runTask?taskID=" + taskID;
 				// If appropriate (i.e. if this Task / server in general is set up to use Mystart.Online for logins), set the MyStart.Online Login URL value for the user and display it.
 				if (mystartLoginPage != "") {
-					document.getElementById("mystartLogin").value = mystartLoginPage + "?taskID=" + taskID;
+					document.getElementById("mystartLogin").value = "https://dev.mystart.online/page/" + mystartLoginPage + "?taskID=" + taskID;
 					document.getElementById("mystartBlock").style.display = "block";
 				}
 				// If the URL includes "run" rather than "view", run the Task right away - handy for some users.
