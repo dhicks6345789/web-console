@@ -161,8 +161,10 @@
 					}
 					if (theFilename == "log.txt") {
 						aceEditor.setReadOnly(true);
+						document.getElementById("saveFileButton").disabled = true;
 					} else {
 						aceEditor.setReadOnly(false);
+						document.getElementById("saveFileButton").disabled = false;
 					}
 				});
 			}
@@ -221,6 +223,12 @@
 				}
 				if (permission == "E") {
 					aceEditor = ace.edit("editFileBox");
+					editor.session.on("change", function(delta) {
+						if (currentEditFile != "log.txt") {
+							document.getElementById("saveFileButton").disabled = false;
+						}
+					});
+
 					
 					document.getElementById("editBlock").style.display = "block";
 					webconsole.APICall("getEditableFileList", {}, function(result) {
@@ -324,7 +332,7 @@
 								</div>
 								<div class="row">
 									<div class="col-sm-12">
-										<button class="btn btn-success" type="button" id="saveFileButton" onclick="saveFile()">Save</button>
+										<button class="btn btn-success disabled" type="button" id="saveFileButton" onclick="saveFile()">Save</button>
 									</div>
 								</div>
 							</div>
