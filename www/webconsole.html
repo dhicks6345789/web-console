@@ -223,8 +223,8 @@
 				}
 				if (permission == "E") {
 					var editor = ace.edit("editFileBox");
-					editor.setTheme("ace/theme/twilight");
-					editor.session.setMode("ace/mode/javascript");
+					// editor.setTheme("ace/theme/twilight");
+					// editor.session.setMode("ace/mode/javascript");
 					
 					document.getElementById("editBlock").style.display = "block";
 					webconsole.APICall("getEditableFileList", {}, function(result) {
@@ -323,12 +323,13 @@
 									</div>
 									<div class="col-sm-8" id="editFilePanel">
 										<!-- <textarea id="editFileBox" rows="25" cols="80"></textarea> -->
-										<pre id="editFileBox">function foo(items) {
+										<div id="editFileBox">some text</div>
+										<!-- <pre id="editFileBox">function foo(items) {
 											var i;
 											for (i = 0; i &lt; items.length; i++) {
 												alert("Ace Rocks " + items[i]);
 											}
-										}</pre>
+										}</pre> -->
 										<button class="btn btn-success" type="button" id="saveFileButton" onclick="saveFile()">Save</button>
 									</div>
 								</div>
