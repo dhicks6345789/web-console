@@ -310,13 +310,27 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 					}
 				}
 				
+				// Keep a list of any mystart items we might need to adjust.
+				mystartItems := []string{}
 				// Read the Task's details from its config file.
 				scanner := bufio.NewScanner(inFile)
 				for scanner.Scan() {
 					itemSplit := strings.SplitN(scanner.Text(), ":", 2)
-					taskDetails[strings.TrimSpace(itemSplit[0])] = strings.TrimSpace(itemSplit[1])
+					itemName := strings.TrimSpace(itemSplit[0])
+					itemVal := strings.TrimSpace(itemSplit[1])
+					if strings.HasPrefix(itemName, "mystart") {
+						if strings.HasSuffix(itemName, "Viewers") || strings.HasSuffix(itemName, "Runners") || strings.HasSuffix(itemName, "Editors") {
+							mystartItems = append(mystartItems, itemName)
+							
+						}
+					}
+					taskDetails[itemName] = itemVal
 				}
 				inFile.Close()
+				// Adjust any mystart items so the path is a "local" Task path rather than the root.
+				for _, mystartItem := range mystartItems {
+					taskDetails[mystartItem] = "tasks/" + taskDetails["taskID"] + "/" + taskDetails[mystartItem]
+				}
 			
 				// Figure out what authentication types this Task accepts.
 				authTypes := map[string]int{}
@@ -328,9 +342,6 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 				for taskDetailName, taskDetailValue := range taskDetails {
 					if strings.HasPrefix(taskDetailName, "mystart") {
 						authTypes["mystart"] = 1
-						if strings.HasSuffix(taskDetailName, "Viewers") || strings.HasSuffix(taskDetailName, "Runners") || strings.HasSuffix(taskDetailName, "Editors") {
-							taskDetails[taskDetailName] = "tasks/" + taskDetails["taskID"] + "/" + taskDetailValue
-						}
 					}
 				}
 				for authType, _ := range authTypes {
