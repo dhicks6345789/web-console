@@ -583,7 +583,7 @@ func doServeFile(theResponseWriter http.ResponseWriter, theRequest *http.Request
 		if fileReadErr == nil {
 			formattingJSString := string(formattingJSBuffer)
 			webconsoleString := string(webconsoleBuffer)
-			webconsoleString = strings.Replace(webconsoleString, "<<MYSTARTLOGINPAGE>>", arguments["mystartPageName"], -1)
+			webconsoleString = strings.Replace(webconsoleString, "<<MYSTARTLOGINPAGE>>", arguments["mystartpagename"], -1)
 			webconsoleString = strings.Replace(webconsoleString, "<<TASKID>>", theTaskID, -1)
 			webconsoleString = strings.Replace(webconsoleString, "<<TOKEN>>", theToken, -1)
 			webconsoleString = strings.Replace(webconsoleString, "<<PERMISSION>>", thePermission, -1)
