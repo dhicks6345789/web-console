@@ -230,7 +230,6 @@
 							document.getElementById("saveFileButton").disabled = false;
 						}
 					});
-
 					
 					document.getElementById("editBlock").style.display = "block";
 					webconsole.APICall("getEditableFileList", {}, function(result) {
@@ -239,6 +238,7 @@
 							editableFileList.innerHTML = editableFileList.innerHTML + "<div><a href=\"#\" onclick=\"editFile('" + editableFile + "'); return false;\">" + editableFile + "</a></div>";
 						});
 					});
+					document.getElementById("saveFileButton").disabled = false;
 				}
 			}
 		</script>
@@ -334,7 +334,7 @@
 								</div>
 								<div class="row">
 									<div class="col-sm-12">
-										<button class="btn btn-success disabled" type="button" id="saveFileButton" onclick="saveFile()">Save</button>
+										<button class="btn btn-success" type="button" id="saveFileButton" onclick="saveFile()">Save</button>
 									</div>
 								</div>
 							</div>
