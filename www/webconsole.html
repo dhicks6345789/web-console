@@ -26,26 +26,12 @@
 		<script src="ace/ace.js" type="text/javascript" charset="utf-8"></script>
 		
 		<!-- <style type="text/css" media="screen">
-			body {
-				overflow: hidden;
-			}
-			
-			#editFileBox {
-				margin: 0;
-				position: absolute;
-				top: 0;
-				bottom: 0;
-				left: 0;
-				right: 0;
-			}
-		</style> -->
-		<style type="text/css" media="screen">
 			#editFileBox {
 				position: relative;
 				width: 500px;
 				height: 400px;
 			}
-		</style>
+		</style> -->
 		
 		<!-- Our own Javascript library, which contains some handy utility functions. -->
 		<script src="webconsole.js"></script>
@@ -330,13 +316,7 @@
 									</div>
 									<div class="col-sm-8" id="editFilePanel">
 										<!-- <textarea id="editFileBox" rows="25" cols="80"></textarea> -->
-										<div id="editFileBox">some text</div>
-										<!-- <pre id="editFileBox">function foo(items) {
-											var i;
-											for (i = 0; i &lt; items.length; i++) {
-												alert("Ace Rocks " + items[i]);
-											}
-										}</pre> -->
+										<div id="editFileBox" style="position:relative; width:500px; height:400px;">Text goes here!</div>
 										<button class="btn btn-success" type="button" id="saveFileButton" onclick="saveFile()">Save</button>
 									</div>
 								</div>
