@@ -44,6 +44,9 @@
 			var currentEditFile = "";
 			outputLine = 0;
 			
+			// A variable to reference the Ace text / code editor object.
+			var aceEditor;
+			
 			// Simply calls the keepAlive API method to make sure the session's token is refreshed.
 			function keepAlive() {
 				webconsole.APICall("keepAlive", {}, function(result) {});
@@ -150,7 +153,9 @@
 				console.log("Editing file: " + theFilename);
 				currentEditFile = theFilename;
 				webconsole.APICall("getEditableFileContents", {"filename":theFilename}, function(result) {
-					document.getElementById("editFileBox").value = result;
+					//document.getElementById("editFileBox").value = result;
+					aceEditor.setValue(result);
+					aceEditor.session.setMode("ace/mode/javascript");
 				});
 			}
 			
@@ -207,9 +212,7 @@
 					});
 				}
 				if (permission == "E") {
-					var editor = ace.edit("editFileBox");
-					// editor.setTheme("ace/theme/twilight");
-					// editor.session.setMode("ace/mode/javascript");
+					aceEditor = ace.edit("editFileBox");
 					
 					document.getElementById("editBlock").style.display = "block";
 					webconsole.APICall("getEditableFileList", {}, function(result) {
@@ -307,9 +310,7 @@
 									<div class="col-sm-3" id="editFileList">
 									</div>
 									<div class="col-sm-9" id="editFilePanel">
-										<!-- <textarea id="editFileBox" rows="25" cols="80"></textarea> -->
-										<!-- <div id="editFileBox" style="position:relative; width:500px; height:400px;">Text goes here!</div> -->
-										<div id="editFileBox" style="position:relative; width:100%; height:100%;">Text goes here!</div>
+										<div id="editFileBox" style="position:relative; width:100%; height:500px;"></div>
 										
 									</div>
 								</div>
