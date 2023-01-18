@@ -583,6 +583,7 @@ func doServeFile(theResponseWriter http.ResponseWriter, theRequest *http.Request
 		if fileReadErr == nil {
 			formattingJSString := string(formattingJSBuffer)
 			webconsoleString := string(webconsoleBuffer)
+			webconsoleString = strings.Replace(webconsoleString, "<<MYSTARTLOGINPAGE>>", arguments["mystartPageName"], -1)
 			webconsoleString = strings.Replace(webconsoleString, "<<TASKID>>", theTaskID, -1)
 			webconsoleString = strings.Replace(webconsoleString, "<<TOKEN>>", theToken, -1)
 			webconsoleString = strings.Replace(webconsoleString, "<<PERMISSION>>", thePermission, -1)
@@ -613,6 +614,7 @@ func main() {
 	arguments["localonly"] = "true"
 	arguments["debug"] = "false"
 	arguments["shellprefix"] = ""
+	arguments["mystartPageName"] = ""
 	setArgumentIfPathExists("webconsoleroot", []string {"/etc/webconsole", "C:\\Program Files\\WebConsole"})
 	setArgumentIfPathExists("config", []string {"config.csv", "/etc/webconsole/config.csv", "C:\\Program Files\\WebConsole\\config.csv"})
 	setArgumentIfPathExists("webroot", []string {"www", "/etc/webconsole/www", "C:\\Program Files\\WebConsole\\www", ""})
