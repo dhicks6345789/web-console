@@ -224,7 +224,9 @@
 				if (permission == "E") {
 					aceEditor = ace.edit("editFileBox");
 					aceEditor.session.on("change", function(delta) {
+						console.log("Change!");
 						if (currentEditFile != "log.txt") {
+							console.log("Enable!");
 							document.getElementById("saveFileButton").disabled = false;
 						}
 					});
