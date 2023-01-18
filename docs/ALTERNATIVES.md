@@ -15,6 +15,8 @@
 - High performance. Web Console stores configuration data and user settings in simple text-based files which are read in during each operation, it is not optomised for performance. It should be able to handle in the region of tens of Tasks and hundreds of users, more than that and it might struggle. This way of operating does mean it should be easy to export lists of user data to Web Console, you can have scripts simply dunmp lists of valid users in Task folders and they'll be read straight away during the next operation.
 - Designed as a local development environment, although actually it can work quite well in that context. The web server itself is fully self-contained, and the web-based user interface generated relies only on a self-hosted version of Bootstrap, so running Web Console on a non-Internet-connected machine should work quite well.
 - A self-contained, single cross-platform executable, like [Redbean](https://redbean.dev/). Web Console, written in Go, compiles to an executable that then relies on finding a set of files on the filesystem. See the [installation](INSTALLATION.md) instructions for a list of platforms executables are provided for, but it should run on any platform supported by Go.
+- As mature (yet!) as something like [QuickServe](https://github.com/jstrieb/quickserv).
+- Certified in any way, although we hope to have security certifications in place for milestone releases at some point.
 - Finished! As of writing, Web Console is really still only a beta, not even a version 1 yet. Plans for Version 2 are for it to be able to handle user inputs via various web-based input components, at which point it should become a much more useful project.
 
 # Web Console Is (or is, at least, intended to be):
