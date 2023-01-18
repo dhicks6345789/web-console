@@ -25,14 +25,6 @@
 		<!-- The Ace embedable Javascript code editor - see: https://github.com/ajaxorg/ace -->
 		<script src="ace/ace.js" type="text/javascript" charset="utf-8"></script>
 		
-		<!-- <style type="text/css" media="screen">
-			#editFileBox {
-				position: relative;
-				width: 500px;
-				height: 400px;
-			}
-		</style> -->
-		
 		<!-- Our own Javascript library, which contains some handy utility functions. -->
 		<script src="webconsole.js"></script>
 		
@@ -312,11 +304,14 @@
 						<div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionMain">
 							<div class="accordian-body text-start">
 								<div class="row">
-									<div class="col-sm-4" id="editFileList">
+									<div class="col-sm-3" id="editFileList">
 									</div>
 									<div class="col-sm-8" id="editFilePanel">
 										<!-- <textarea id="editFileBox" rows="25" cols="80"></textarea> -->
 										<div id="editFileBox" style="position:relative; width:500px; height:400px;">Text goes here!</div>
+										
+									</div>
+									<div class="col-sm-1">
 										<button class="btn btn-success" type="button" id="saveFileButton" onclick="saveFile()">Save</button>
 									</div>
 								</div>
