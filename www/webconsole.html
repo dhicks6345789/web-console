@@ -223,7 +223,7 @@
 				}
 				if (permission == "E") {
 					aceEditor = ace.edit("editFileBox");
-					editor.session.on("change", function(delta) {
+					aceEditor.session.on("change", function(delta) {
 						if (currentEditFile != "log.txt") {
 							document.getElementById("saveFileButton").disabled = false;
 						}
