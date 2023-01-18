@@ -152,8 +152,9 @@
 			function editFile(theFilename) {
 				currentEditFile = theFilename;
 				webconsole.APICall("getEditableFileContents", {"filename":theFilename}, function(result) {
+					aceEditor.session.on("change", function(delta) {
+					});
 					aceEditor.session.setValue(result, -1);
-					// aceEditor.setValue(result, -1);
 					if (theFilename == "config.txt") {
 						aceEditor.session.setMode("ace/mode/yaml");
 					} else {
@@ -166,6 +167,10 @@
 						aceEditor.setReadOnly(false);
 						document.getElementById("saveFileButton").disabled = false;
 					}
+					aceEditor.session.on("change", function(delta) {
+						console.log("Change!");
+						document.getElementById("saveFileButton").disabled = false;
+					});
 				});
 			}
 			
@@ -187,7 +192,6 @@
 			// Called when the document is first loaded and ready.
 			function pageReady() {
 				if (taskID == "/" && window.location.href.includes("/view?")) {
-					// window.location.href = window.location.href.split("/view?")[0];
 					webconsole.doAction("POST", window.location.href.split("/view?")[0], false, {"token":token}, false)
 				}
 				
@@ -223,14 +227,7 @@
 				}
 				if (permission == "E") {
 					aceEditor = ace.edit("editFileBox");
-					aceEditor.session.on("change", function(delta) {
-						console.log("Change!");
-						if (currentEditFile != "log.txt") {
-							console.log("Enable!");
-							document.getElementById("saveFileButton").disabled = false;
-						}
-					});
-					
+					aceEditor.setReadOnly(true);
 					document.getElementById("editBlock").style.display = "block";
 					webconsole.APICall("getEditableFileList", {}, function(result) {
 						JSON.parse(result).forEach(function(editableFile) {
@@ -238,7 +235,7 @@
 							editableFileList.innerHTML = editableFileList.innerHTML + "<div><a href=\"#\" onclick=\"editFile('" + editableFile + "'); return false;\">" + editableFile + "</a></div>";
 						});
 					});
-					document.getElementById("saveFileButton").disabled = false;
+					document.getElementById("saveFileButton").disabled = true;
 				}
 			}
 		</script>
