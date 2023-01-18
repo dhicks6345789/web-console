@@ -152,7 +152,7 @@
 			function editFile(theFilename) {
 				currentEditFile = theFilename;
 				webconsole.APICall("getEditableFileContents", {"filename":theFilename}, function(result) {
-					editor.session.removeAllListeners("change");
+					aceEditor.session.removeAllListeners("change");
 					aceEditor.session.setValue(result, -1);
 					if (theFilename == "config.txt") {
 						aceEditor.session.setMode("ace/mode/yaml");
