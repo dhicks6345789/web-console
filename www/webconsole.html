@@ -163,6 +163,8 @@
 						}
 						aceSessions[theFilename] = aceEditor.createEditSession(result, aceSessionMode);
 						aceSessions[theFilename].setUndoManager(new UndoManager());
+						console.log("Undo manager:");
+						console.log(aceSessions[theFilename].getUndoManager());
 						
 						if (theFilename == "log.txt") {
 							aceSessions[theFilename].setReadOnly(true);
