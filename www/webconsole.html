@@ -156,22 +156,12 @@
 					if (aceEditor == null) {
 						aceEditor = ace.edit("editFileBox");
 					}
-					console.log("Edit file: " + theFilename)
 					if (!(theFilename in aceSessions)) {
-						console.log("New session: " + theFilename);
 						aceSessionMode = "ace/mode/text";
 						if (theFilename == "config.txt") {
 							aceSessionMode = "ace/mode/yaml";
 						}
 						aceSessions[theFilename] = ace.createEditSession(result, aceSessionMode);
-						console.log("Undo manager:");
-						console.log(aceSessions[theFilename].getUndoManager());
-						
-						if (theFilename == "log.txt") {
-							aceSessions[theFilename].setReadOnly(true);
-						} else {
-							aceSessions[theFilename].setReadOnly(false);
-						}
 						aceSessions[theFilename].on("change", function(delta) {
 							document.getElementById("saveFileButton").disabled = false;
 						});
@@ -181,6 +171,11 @@
 						document.getElementById("saveFileButton").disabled = true;
 					} else {
 						document.getElementById("saveFileButton").disabled = false;
+					}
+					if (theFilename == "log.txt") {
+						aceEditor.setReadOnly(true);
+					} else {
+						aceEditor.setReadOnly(false);
 					}
 				});
 			}
