@@ -223,7 +223,7 @@
 				}
 				if (permission == "E") {
 					aceEditor = ace.edit("editFileBox");
-					aceEditor.setReadOnly(true);
+					//aceEditor.setReadOnly(true);
 					document.getElementById("editBlock").style.display = "block";
 					webconsole.APICall("getEditableFileList", {}, function(result) {
 						JSON.parse(result).forEach(function(editableFile) {
