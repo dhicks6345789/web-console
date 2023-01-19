@@ -157,14 +157,13 @@
 						aceEditor = ace.edit("editFileBox");
 					}
 					console.log("Edit file: " + theFilename)
-					if (!theFilename in aceSessions) {
-						console.log("New session: " + theFilename)
+					if (!(theFilename in aceSessions)) {
+						console.log("New session: " + theFilename);
 						aceSessionMode = "ace/mode/text";
 						if (theFilename == "config.txt") {
 							aceSessionMode = "ace/mode/yaml";
 						}
 						aceSessions[theFilename] = aceEditor.createEditSession(result, aceSessionMode);
-						aceSessions[theFilename].setUndoManager(new UndoManager());
 						console.log("Undo manager:");
 						console.log(aceSessions[theFilename].getUndoManager());
 						
