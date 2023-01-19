@@ -46,6 +46,7 @@
 			
 			// A variable to reference the Ace text / code editor object.
 			var aceEditor;
+			var aceSessions = [];
 			
 			// Simply calls the keepAlive API method to make sure the session's token is refreshed.
 			function keepAlive() {
@@ -152,22 +153,31 @@
 			function editFile(theFilename) {
 				currentEditFile = theFilename;
 				webconsole.APICall("getEditableFileContents", {"filename":theFilename}, function(result) {
-					aceEditor.session.removeAllListeners("change");
-					aceEditor.session.setValue(result, -1);
-					if (theFilename == "config.txt") {
-						aceEditor.session.setMode("ace/mode/yaml");
-					} else {
-						aceEditor.session.setMode("ace/mode/text");
+					if (aceEditor == null) {
+						aceEditor = ace.edit("editFileBox");
 					}
-					/*if (theFilename == "log.txt") {
-						aceEditor.setReadOnly(true);
+					if (!theFilename in aceSessions) {
+						aceSessions[theFilename] = aceEditor.createEditSession(result);
+						if (theFilename == "config.txt") {
+							aceSessions[theFilename].session.setMode("ace/mode/yaml");
+						} else {
+							aceSessions[theFilename].session.setMode("ace/mode/text");
+						}
+						if (theFilename == "log.txt") {
+							aceSessions[theFilename].setReadOnly(true);
+						} else {
+							aceSessions[theFilename].setReadOnly(false);
+						}
+						aceSessions[theFilename].on("change", function(delta) {
+							document.getElementById("saveFileButton").disabled = false;
+						});
+					}
+					aceEditor.setSession(aceSessions[theFilename]);
+					if (aceSessions[theFilename].getUndoManager().isClean()) {
+						document.getElementById("saveFileButton").disabled = true;
 					} else {
-						aceEditor.setReadOnly(false);
-					}*/
-					document.getElementById("saveFileButton").disabled = true;
-					aceEditor.session.on("change", function(delta) {
 						document.getElementById("saveFileButton").disabled = false;
-					});
+					}
 				});
 			}
 			
@@ -222,8 +232,6 @@
 					});
 				}
 				if (permission == "E") {
-					aceEditor = ace.edit("editFileBox");
-					//aceEditor.setReadOnly(true);
 					document.getElementById("editBlock").style.display = "block";
 					webconsole.APICall("getEditableFileList", {}, function(result) {
 						JSON.parse(result).forEach(function(editableFile) {
