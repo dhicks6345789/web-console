@@ -159,11 +159,11 @@
 					} else {
 						aceEditor.session.setMode("ace/mode/text");
 					}
-					if (theFilename == "log.txt") {
+					/*if (theFilename == "log.txt") {
 						aceEditor.setReadOnly(true);
 					} else {
 						aceEditor.setReadOnly(false);
-					}
+					}*/
 					document.getElementById("saveFileButton").disabled = true;
 					aceEditor.session.on("change", function(delta) {
 						document.getElementById("saveFileButton").disabled = false;
