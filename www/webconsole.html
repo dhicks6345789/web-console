@@ -162,6 +162,7 @@
 							aceSessionMode = "ace/mode/yaml";
 						}
 						aceSessions[theFilename] = aceEditor.createEditSession(result, aceSessionMode);
+						aceSessions[theFilename].setUndoManager(new UndoManager());
 						
 						if (theFilename == "log.txt") {
 							aceSessions[theFilename].setReadOnly(true);
