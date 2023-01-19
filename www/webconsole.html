@@ -157,12 +157,12 @@
 						aceEditor = ace.edit("editFileBox");
 					}
 					if (!theFilename in aceSessions) {
-						aceSessions[theFilename] = aceEditor.createEditSession(result);
+						aceSessionMode = "ace/mode/text";
 						if (theFilename == "config.txt") {
-							aceSessions[theFilename].session.setMode("ace/mode/yaml");
-						} else {
-							aceSessions[theFilename].session.setMode("ace/mode/text");
+							aceSessionMode = "ace/mode/yaml";
 						}
+						aceSessions[theFilename] = aceEditor.createEditSession(result, aceSessionMode);
+						
 						if (theFilename == "log.txt") {
 							aceSessions[theFilename].setReadOnly(true);
 						} else {
