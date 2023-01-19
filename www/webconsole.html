@@ -156,7 +156,9 @@
 					if (aceEditor == null) {
 						aceEditor = ace.edit("editFileBox");
 					}
+					console.log("Edit file: " + theFilename)
 					if (!theFilename in aceSessions) {
+						console.log("New session: " + theFilename)
 						aceSessionMode = "ace/mode/text";
 						if (theFilename == "config.txt") {
 							aceSessionMode = "ace/mode/yaml";
@@ -176,11 +178,11 @@
 						});
 					}
 					aceEditor.setSession(aceSessions[theFilename]);
-					if (aceSessions[theFilename].getUndoManager().isClean()) {
+					/*if (aceSessions[theFilename].getUndoManager().isClean()) {
 						document.getElementById("saveFileButton").disabled = true;
 					} else {
 						document.getElementById("saveFileButton").disabled = false;
-					}
+					}*/
 				});
 			}
 			
