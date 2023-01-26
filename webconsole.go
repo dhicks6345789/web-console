@@ -1036,8 +1036,7 @@ func main() {
 											outputString = outputString + "\"" + editableFile.Name() + "\",\n"
 										}
 										outputString = outputString[0:len(outputString)-2] + "\n]"
-										fmt.Print(theResponseWriter, outputString)
-										//http.ServeFile(theResponseWriter, theRequest, localFilePath)
+										fmt.Fprintf(theResponseWriter, outputString)
 									}
 								}
 							// Return the contents of an editable file - needs edit permissions.
@@ -1047,12 +1046,13 @@ func main() {
 								} else {
 									filename := theRequest.Form.Get("filename")
 									if filename != "" {
-										fileContents, fileContentsErr := ioutil.ReadFile(arguments["taskroot"] + "/" + taskID + "/" + filename)
-										if fileContentsErr != nil {
-											fmt.Fprintf(theResponseWriter, "ERROR: getEditableFileContents - cannot read file contents for file " + filename + ".")
-										} else {
-											fmt.Fprintf(theResponseWriter, string(fileContents))
-										}
+										http.ServeFile(theResponseWriter, theRequest, arguments["taskroot"] + "/" + taskID + "/" + filename)
+										//fileContents, fileContentsErr := ioutil.ReadFile(arguments["taskroot"] + "/" + taskID + "/" + filename)
+										//if fileContentsErr != nil {
+											//fmt.Fprintf(theResponseWriter, "ERROR: getEditableFileContents - cannot read file contents for file " + filename + ".")
+										//} else {
+											//fmt.Fprintf(theResponseWriter, string(fileContents))
+										//}
 									} else {
 										fmt.Fprintf(theResponseWriter, "ERROR: getEditableFileContents - missing filename parameter.")
 									}
