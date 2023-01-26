@@ -1036,7 +1036,8 @@ func main() {
 											outputString = outputString + "\"" + editableFile.Name() + "\",\n"
 										}
 										outputString = outputString[0:len(outputString)-2] + "\n]"
-										fmt.Fprintf(theResponseWriter, outputString)
+										fmt.Print(theResponseWriter, outputString)
+										//http.ServeFile(theResponseWriter, theRequest, localFilePath)
 									}
 								}
 							// Return the contents of an editable file - needs edit permissions.
