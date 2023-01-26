@@ -153,6 +153,7 @@
 			function editFile(theFilename) {
 				currentEditFile = theFilename;
 				webconsole.APICall("getEditableFileContents", {"filename":theFilename}, function(result) {
+					console.log(result);
 					if (aceEditor == null) {
 						aceEditor = ace.edit("editFileBox");
 					}
