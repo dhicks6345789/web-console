@@ -160,6 +160,8 @@
 						aceSessionMode = "ace/mode/text";
 						if (theFilename == "config.txt") {
 							aceSessionMode = "ace/mode/yaml";
+						} else if (theFilename.endsWith(".bat")) {
+							aceSessionMode = "ace/mode/batchfile";
 						}
 						aceSessions[theFilename] = ace.createEditSession(result, aceSessionMode);
 						aceSessions[theFilename].on("change", function(delta) {
