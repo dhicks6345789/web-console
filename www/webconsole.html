@@ -24,6 +24,8 @@
 		
 		<!-- The Ace embedable Javascript code editor - see: https://github.com/ajaxorg/ace -->
 		<script src="ace/ace.js" type="text/javascript" charset="utf-8"></script>
+		<!-- And the Ace "modelist" extension that lets us auto-set the edit mode for most well-known file types. -->
+		<script src="ace/ext-modelist.js"></script>
 		
 		<!-- Our own Javascript library, which contains some handy utility functions. -->
 		<script src="webconsole.js"></script>
@@ -47,6 +49,8 @@
 			// A variable to reference the Ace text / code editor object.
 			var aceEditor;
 			var aceSessions = [];
+			
+			var aceModelist = ace.require("ace/ext/modelist");
 			
 			// Simply calls the keepAlive API method to make sure the session's token is refreshed.
 			function keepAlive() {
@@ -160,8 +164,8 @@
 						aceSessionMode = "ace/mode/text";
 						if (theFilename == "config.txt") {
 							aceSessionMode = "ace/mode/yaml";
-						} else if (theFilename.endsWith(".bat")) {
-							aceSessionMode = "ace/mode/batchfile";
+						} else {
+							aceSessionMode = aceModelist.getModeForPath(path).mode;
 						}
 						aceSessions[theFilename] = ace.createEditSession(result, aceSessionMode);
 						aceSessions[theFilename].on("change", function(delta) {
