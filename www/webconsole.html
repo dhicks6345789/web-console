@@ -165,7 +165,7 @@
 						if (theFilename == "config.txt") {
 							aceSessionMode = "ace/mode/yaml";
 						} else {
-							aceSessionMode = aceModelist.getModeForPath(path).mode;
+							aceSessionMode = aceModelist.getModeForPath(theFilename).mode;
 						}
 						aceSessions[theFilename] = ace.createEditSession(result, aceSessionMode);
 						aceSessions[theFilename].on("change", function(delta) {
