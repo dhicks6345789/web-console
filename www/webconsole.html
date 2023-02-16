@@ -89,8 +89,10 @@
 			function updateTaskOutput() {
 				console.log("Point 4");
 				webconsole.APICall("getTaskOutput", {"line":outputLine}, function(result) {
+					console.log("Point 4-1");
 					for (value of result.split("\n")) {
 						if (value.trim() != "") {
+							console.log("Point 4-2");
 							// If the Task has finished, reset the "Run" button state.
 							if (value.trim() == "ERROR: REDIRECT" || value.trim() == "ERROR: EOF") {
 								clearInterval(intervalFunction);
@@ -123,15 +125,18 @@
 									// percentage completion value, and update the progress bar accordingly.
 									progressBarName = value.substring(value.indexOf(":")+1, value.lastIndexOf(" ")).trim();
 									progressBarValue = value.substring(value.lastIndexOf(" ")+1, value.length).replace("%","").trim();
+									console.log("Point 4-3");
 									document.getElementById("taskProgress").innerHTML = progressBarName + ": " + progressBarValue + "% <div class='progress'><div class='progress-bar' role='progressbar' style='width:" + progressBarValue + "%' aria-valuenow='" + progressBarValue + "' aria-valuemin='0' aria-valuemax='100'></div></div>";
 								} else {
 									// Otherwise, display the line as a message for the user.
+									console.log("Point 4-4");
 									document.getElementById("taskOutput").innerHTML = document.getElementById("taskOutput").innerHTML + value + "\n";
 								}
 								outputLine = outputLine + 1;
 							}
 						}
 					}
+					console.log("Point 4-5");
 				});
 			}
 			
