@@ -92,6 +92,7 @@
 							if (value.trim() == "ERROR: REDIRECT" || value.trim() == "ERROR: EOF") {
 								clearInterval(intervalFunction);
 								intervalFunction = setInterval(keepAlive, keepAlivePeriod);
+								console.log("Point 1");
 								document.getElementById("runTaskButton").innerHTML = "Run";
 								document.getElementById("runTaskButton").disabled = false;
 								document.getElementById("taskProgress").innerHTML = "";
