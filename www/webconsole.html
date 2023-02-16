@@ -54,7 +54,6 @@
 			
 			// Simply calls the keepAlive API method to make sure the session's token is refreshed.
 			function keepAlive() {
-				console.log("Point 2");
 				webconsole.APICall("keepAlive", {}, function(result) {});
 			}
 			
@@ -63,7 +62,6 @@
 				// First thing to do is disable the "Run" button so the user can't click it repeatadly.
 				document.getElementById("runTaskButton").disabled = true;
 				// Run the Task (if the Task is already running, this has no effect).
-				console.log("Point 3");
 				webconsole.APICall("runTask", {}, function(result) {
 					if (result == "OK") {
 						document.getElementById("runTaskButton").innerHTML = "<span class='spinner-border spinner-border-sm' role='status'></span> Running...";
@@ -87,17 +85,13 @@
 			
 			// Called periodically (period defined by constant at start of file) after a Task has been started to update information for the user.
 			function updateTaskOutput() {
-				console.log("Point 4");
 				webconsole.APICall("getTaskOutput", {"line":outputLine}, function(result) {
-					console.log("Point 4-1");
 					for (value of result.split("\n")) {
 						if (value.trim() != "") {
-							console.log("Point 4-2");
 							// If the Task has finished, reset the "Run" button state.
 							if (value.trim() == "ERROR: REDIRECT" || value.trim() == "ERROR: EOF") {
 								clearInterval(intervalFunction);
 								intervalFunction = setInterval(keepAlive, keepAlivePeriod);
-								console.log("Point 1");
 								document.getElementById("runTaskButton").innerHTML = "Run";
 								document.getElementById("runTaskButton").disabled = false;
 								document.getElementById("taskProgress").innerHTML = "";
@@ -125,19 +119,15 @@
 									// percentage completion value, and update the progress bar accordingly.
 									progressBarName = value.substring(value.indexOf(":")+1, value.lastIndexOf(" ")).trim();
 									progressBarValue = value.substring(value.lastIndexOf(" ")+1, value.length).replace("%","").trim();
-									console.log("Point 4-3");
 									document.getElementById("taskProgress").innerHTML = progressBarName + ": " + progressBarValue + "% <div class='progress'><div class='progress-bar' role='progressbar' style='width:" + progressBarValue + "%' aria-valuenow='" + progressBarValue + "' aria-valuemin='0' aria-valuemax='100'></div></div>";
 								} else {
 									// Otherwise, display the line as a message for the user.
-									console.log("Point 4-4");
 									document.getElementById("taskOutput").innerHTML = document.getElementById("taskOutput").innerHTML + value + "\n";
-									console.log("Point 4-6");
 								}
 								outputLine = outputLine + 1;
 							}
 						}
 					}
-					console.log("Point 4-5");
 				});
 			}
 			
@@ -179,7 +169,6 @@
 			// Get the given file contents from the server and place it in the file edit panel.
 			function editFile(theFilename) {
 				currentEditFile = theFilename;
-				console.log("Point 5");
 				webconsole.APICall("getEditableFileContents", {"filename":theFilename}, function(result) {
 					if (aceEditor == null) {
 						aceEditor = ace.edit("editFileBox");
@@ -252,7 +241,6 @@
 					runTask();
 				} else {
 					// If the Task is already running call the "runTask" function to set up the interface.
-					console.log("Point 6");
 					webconsole.APICall("getTaskRunning", {}, function(result) {
 						if (result == "YES") {
 							runTask();
@@ -265,7 +253,6 @@
 				}
 				if (permission == "E") {
 					// If the user has "edit" permissions, show the "edit" block.
-					console.log("Point 7");
 					webconsole.APICall("getEditableFileList", {}, function(result) {
 						JSON.parse(result).forEach(function(editableFile) {
 							editableFileList = document.getElementById("editFileList");
@@ -307,7 +294,7 @@
 					<div id="taskResults"></div>
 				</div>
 				
-				<!-- The output block, where users with "run" or "edit" permissions can see the output of the Task.
+				<!-- The output block, where users with "run" or "edit" permissions can see the output of the Task. -->
 				<div class="accordion" id="accordionOutput">
 					<div class="accordion-item">
 						<h2 class="accordion-header" id="headingOutput">
