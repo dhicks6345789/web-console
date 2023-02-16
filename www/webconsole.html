@@ -96,17 +96,17 @@
 								document.getElementById("runTaskButton").disabled = false;
 								document.getElementById("taskProgress").innerHTML = "";
 								
+								// If there's a "www" folder present in the Task's folder after the Task has run, that's treated as the result of the Task,
+								// which is shown to the user. If the user has "view" or "run" permissions they are redirected to the result page. If they have
+								// "edit" permissions they are shown the result in a expanded collapse section so, they don't have to keep switching between the
+								// edit page and the results page as they edit code.
 								if (value.trim() == "ERROR: REDIRECT") {
 									if (displayAlerts == true) {
 										if (permission == "E") {
 											document.getElementById("resultIframe").contentWindow.location.reload();
-											
-											var myCollapse = document.getElementById("collapseFive");
-											var bsCollapse = new bootstrap.Collapse(myCollapse, {
+											var bsCollapse = new bootstrap.Collapse(document.getElementById("collapseFive"), {
 												toggle: true
 											});
-											
-											document.getElementById("collapseFive")
 										} else {
 											window.location.href = window.location.href.split("?")[0].slice(0, -4) + taskID + "/";
 										}
@@ -386,7 +386,7 @@
 						</h2>
 						<div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionMain">
 							<div class="accordian-body text-start">
-								<iframe id="resultIframe" title="Result"></iframe>
+								<iframe id="resultIframe" title="Result" style="height:75vh;"></iframe>
 							</div>
 						</div>
 					</div>
