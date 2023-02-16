@@ -89,20 +89,24 @@
 					for (value of result.split("\n")) {
 						if (value.trim() != "") {
 							// If the Task has finished, reset the "Run" button state.
-							if (value.trim() == "ERROR: REDIRECT") {
-								if (displayAlerts == true) {
-									if (permission == "E") {
-										document.getElementById("resultIframe").contentWindow.location.reload();
-									} else {
-										window.location.href = window.location.href.split("?")[0].slice(0, -4) + taskID + "/";
-									}
-								}
-							} else if (value.trim() == "ERROR: EOF") {
+							if (value.trim() == "ERROR: REDIRECT" or value.trim() == "ERROR: EOF") {
 								clearInterval(intervalFunction);
 								intervalFunction = setInterval(keepAlive, keepAlivePeriod);
 								document.getElementById("runTaskButton").innerHTML = "Run";
 								document.getElementById("runTaskButton").disabled = false;
 								document.getElementById("taskProgress").innerHTML = "";
+								
+								if (value.trim() == "ERROR: REDIRECT") {
+									if (displayAlerts == true) {
+										resultURL = window.location.href.split("?")[0].slice(0, -4) + taskID + "/";
+										if (permission == "E") {
+											document.getElementById("resultIframe").src = resultURL;
+											document.getElementById("resultIframe").contentWindow.location.reload();
+										} else {
+											window.location.href = resultURL;
+										}
+									}
+								}
 							} else {
 								// Include formatting.js.
 								if (value.toLowerCase().startsWith("progress:")) {
