@@ -98,12 +98,10 @@
 								
 								if (value.trim() == "ERROR: REDIRECT") {
 									if (displayAlerts == true) {
-										resultURL = window.location.href.split("?")[0].slice(0, -4) + taskID + "/";
 										if (permission == "E") {
-											document.getElementById("resultIframe").src = resultURL;
 											document.getElementById("resultIframe").contentWindow.location.reload();
 										} else {
-											window.location.href = resultURL;
+											window.location.href = window.location.href.split("?")[0].slice(0, -4) + taskID + "/";
 										}
 									}
 								}
@@ -257,6 +255,7 @@
 					document.getElementById("saveFileButton").disabled = true;
 					
 					// If the user has "edit" permisions they see any result produced in a "result" tab rather than be redirected as they would with "view" or "run" permissions.
+					document.getElementById("resultIframe").src = window.location.href.split("?")[0].slice(0, -4) + taskID + "/";
 					document.getElementById("resultBlock").style.display = "block";
 				}
 			}
@@ -380,7 +379,7 @@
 						</h2>
 						<div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionMain">
 							<div class="accordian-body text-start">
-								<iframe id="resultIframe" src="www" title="Result"></iframe>
+								<iframe id="resultIframe" title="Result"></iframe>
 							</div>
 						</div>
 					</div>
