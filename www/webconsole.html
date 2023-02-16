@@ -54,6 +54,7 @@
 			
 			// Simply calls the keepAlive API method to make sure the session's token is refreshed.
 			function keepAlive() {
+				console.log("Point 2");
 				webconsole.APICall("keepAlive", {}, function(result) {});
 			}
 			
@@ -62,6 +63,7 @@
 				// First thing to do is disable the "Run" button so the user can't click it repeatadly.
 				document.getElementById("runTaskButton").disabled = true;
 				// Run the Task (if the Task is already running, this has no effect).
+				console.log("Point 3");
 				webconsole.APICall("runTask", {}, function(result) {
 					if (result == "OK") {
 						document.getElementById("runTaskButton").innerHTML = "<span class='spinner-border spinner-border-sm' role='status'></span> Running...";
@@ -85,6 +87,7 @@
 			
 			// Called periodically (period defined by constant at start of file) after a Task has been started to update information for the user.
 			function updateTaskOutput() {
+				console.log("Point 4");
 				webconsole.APICall("getTaskOutput", {"line":outputLine}, function(result) {
 					for (value of result.split("\n")) {
 						if (value.trim() != "") {
@@ -170,6 +173,7 @@
 			// Get the given file contents from the server and place it in the file edit panel.
 			function editFile(theFilename) {
 				currentEditFile = theFilename;
+				console.log("Point 5");
 				webconsole.APICall("getEditableFileContents", {"filename":theFilename}, function(result) {
 					if (aceEditor == null) {
 						aceEditor = ace.edit("editFileBox");
@@ -242,6 +246,7 @@
 					runTask();
 				} else {
 					// If the Task is already running call the "runTask" function to set up the interface.
+					console.log("Point 6");
 					webconsole.APICall("getTaskRunning", {}, function(result) {
 						if (result == "YES") {
 							runTask();
@@ -254,6 +259,7 @@
 				}
 				if (permission == "E") {
 					// If the user has "edit" permissions, show the "edit" block.
+					console.log("Point 7");
 					webconsole.APICall("getEditableFileList", {}, function(result) {
 						JSON.parse(result).forEach(function(editableFile) {
 							editableFileList = document.getElementById("editFileList");
