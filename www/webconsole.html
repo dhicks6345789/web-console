@@ -252,7 +252,7 @@
 					});
 				}
 				if (permission == "E") {
-					document.getElementById("editBlock").style.display = "block";
+					// If the user has "edit" permissions, show the "edit" block.
 					webconsole.APICall("getEditableFileList", {}, function(result) {
 						JSON.parse(result).forEach(function(editableFile) {
 							editableFileList = document.getElementById("editFileList");
@@ -260,12 +260,17 @@
 						});
 					});
 					document.getElementById("saveFileButton").disabled = true;
+					document.getElementById("editBlock").style.display = "block";
 					
-					// If the user has "edit" permisions they see any result produced in a "result" tab rather than be redirected as they would with "view" or "run" permissions.
+					// If the user has "edit" permisions they see any result produced in a "result" tab rather than be redirected as
+					// they would with "view" or "run" permissions.
 					resultURL = window.location.href.split("?")[0].slice(0, -4) + taskID + "/";
 					document.getElementById("resultIframe").src = resultURL;
 					document.getElementById("resultButton").href = window.location.href.split("?")[0].slice(0, -4) + taskID + "/";
 					document.getElementById("resultBlock").style.display = "block";
+					
+					// If the user has "edit" permissions they also see the "backup" block.
+					document.getElementById("backupBlock").style.display = "block";
 				}
 			}
 		</script>
