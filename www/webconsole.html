@@ -100,7 +100,13 @@
 									if (displayAlerts == true) {
 										if (permission == "E") {
 											document.getElementById("resultIframe").contentWindow.location.reload();
-											document.getElementById("collapseFive").show();
+											
+											var myCollapse = document.getElementById("collapseFive");
+											var bsCollapse = new bootstrap.Collapse(myCollapse, {
+												toggle: true
+											});
+											
+											document.getElementById("collapseFive")
 										} else {
 											window.location.href = window.location.href.split("?")[0].slice(0, -4) + taskID + "/";
 										}
