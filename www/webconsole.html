@@ -100,7 +100,7 @@
 									if (displayAlerts == true) {
 										if (permission == "E") {
 											document.getElementById("resultIframe").contentWindow.location.reload();
-											document.getElementById("collapseFive").collapse("show");
+											document.getElementById("collapseFive").show();
 										} else {
 											window.location.href = window.location.href.split("?")[0].slice(0, -4) + taskID + "/";
 										}
