@@ -294,6 +294,7 @@
 					<div id="taskResults"></div>
 				</div>
 				
+				<!-- The output block, where users with "run" or "edit" permissions can see the output of the Task.
 				<div class="accordion" id="accordionOutput">
 					<div class="accordion-item">
 						<h2 class="accordion-header" id="headingOutput">
@@ -306,6 +307,8 @@
 						</div>
 					</div>
 				</div>
+
+				<!-- The automation block, with handy links and copy-and-paste blocks for various services. -->
 				<div class="accordion" id="accordionAutomation">
 					<div class="accordion-item">
 						<h2 class="accordion-header" id="headingAutomation">
@@ -351,6 +354,8 @@
 						</div>
 					</div>
 				</div>
+				
+				<!-- The edit block, where users with "edit" permission can edit code from the Task. -->
 				<div class="accordion" id="accordionEdit">
 					<div class="accordion-item" id="editBlock" style="display:none">
 						<h2 class="accordion-header" id="headingEdit">
@@ -376,22 +381,11 @@
 						</div>
 					</div>
 				</div>
-				<div class="accordion" id="accordionBackup">
-					<div class="accordion-item" id="backupBlock" style="display:none">
-						<h2 class="accordion-header" id="headingBackup">
-							<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBackup" aria-expanded="false" aria-controls="collapseBackup">
-								Backup
-							</button>
-						</h2>
-						<div id="collapseBackup" class="accordion-collapse collapse" aria-labelledby="headingBackup" data-bs-parent="#accordionBackup">
-							<div class="accordian-body text-start">
-								<div class="row">
-									<button class="btn btn-success" type="button" id="backupButton" onclick="downloadBackup()">Backup</button>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
+				
+				<!-- The result block, where user with "edit" permissions can see the result from the Task. Note that the result is different
+				from the output - the result is anything that winds up in the "www" folder in the Task's folder, and can be viewed by any
+				user with "view", "run" or "edit" permissions. This block is only for editors, as it's more handy to view the output in a
+				block alongside the code editor when editing. -->
 				<div class="accordion" id="accordionResult">
 					<div class="accordion-item" id="resultBlock" style="display:none">
 						<h2 class="accordion-header" id="headingResult">
@@ -405,6 +399,22 @@
 								<div class="align-self-start">
 									<a id="resultButton" class="btn btn-primary" role="button" target="_blank">New tab</a>
 								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<!-- For users with "edit" permissions, a backup function to allow a download / restore of the Task as an archive. -->
+				<div class="accordion" id="accordionBackup">
+					<div class="accordion-item" id="backupBlock" style="display:none">
+						<h2 class="accordion-header" id="headingBackup">
+							<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBackup" aria-expanded="false" aria-controls="collapseBackup">
+								Backup
+							</button>
+						</h2>
+						<div id="collapseBackup" class="accordion-collapse collapse" aria-labelledby="headingBackup" data-bs-parent="#accordionBackup">
+							<div class="accordian-body text-start">
+								<button class="btn btn-success" type="button" id="backupButton" onclick="downloadBackup()">Backup</button>
 							</div>
 						</div>
 					</div>
