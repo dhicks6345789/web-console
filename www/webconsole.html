@@ -261,11 +261,13 @@
 						editableFileList = "";
 						JSON.parse(result).forEach(function(editableFile) {
 							currentFolder = ""
+							currentFile = editableFile;
 							folderLevel = 0
 							if (editableFile.includes("/")) {
-								currentFolderSplit = editableFile.split("/").slice(0, -1);
-								folderLevel = currentFolderSplit.length;
-								currentFolder = currentFolderSplit.join("/");
+								currentFolderSplit = editableFile.split("/");
+								folderLevel = currentFolderSplit.length-1;
+								currentFolder = currentFolderSplit.slice(0, -1).join("/");
+								currentFile = currentFolderSplit[-1];
 							}
 							if (currentFolder != previousFolder && folderLevel <= previousFolderLevel) {
 								editableFileList = editableFileList + "</ul></li>\n";
@@ -274,7 +276,7 @@
 								folders.push(currentFolder);
 								editableFileList = editableFileList + "<li><span class=\"caret\">" + currentFolder + "</span><ul class=\"nested\">\n";
 							}
-							editableFileList = editableFileList + "<li><a href=\"#\" onclick=\"editFile('" + editableFile + "'); return false;\">" + editableFile + "</a></li>\n";
+							editableFileList = editableFileList + "<li><a href=\"#\" onclick=\"editFile('" + editableFile + "'); return false;\">" + currentFile + "</a></li>\n";
 							previousFolder = currentFolder;
 							previousFolderLevel = folderLevel;
 						});
