@@ -1029,11 +1029,14 @@ func main() {
 									fmt.Fprintf(theResponseWriter, "ERROR: getEditableFileList called - don't have edit permissions.")
 								} else {
 									outputString := "[\n"
-									editableErr := filepath.Walk(arguments["taskroot"] + "/" + taskID, func(path string, info os.FileInfo, err error) error {
+									taskPath := arguments["taskroot"] + "/" + taskID
+									editableErr := filepath.Walk(taskPath, func(path string, info os.FileInfo, err error) error {
 										if err != nil {
 											return err
 										}
-										outputString = outputString + "\"" + path + "\",\n"
+										if path != taskPath {
+											outputString = outputString + "\"" + path[:len(taskPath)] + "\",\n"
+										}
 										return nil
 									})
 									if editableErr != nil {
