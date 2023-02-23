@@ -268,7 +268,7 @@
 							}
 							if (!folders.includes(currentFolder)) {
 								folders.push(currentFolder);
-								if folderLevel == previousFolderLevel {
+								if (folderLevel == previousFolderLevel) {
 									console.log("/UL");
 									editableFileList.innerHTML = editableFileList.innerHTML + "</ul>";
 								}
