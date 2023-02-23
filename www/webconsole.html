@@ -254,6 +254,7 @@
 				if (permission == "E") {
 					// If the user has "edit" permissions, show the "edit" block.
 					webconsole.APICall("getEditableFileList", {}, function(result) {
+						console.log(result);
 						folders = [""]
 						previousFolder = ""
 						previousFolderLevel = 0
