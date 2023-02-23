@@ -254,7 +254,6 @@
 				if (permission == "E") {
 					// If the user has "edit" permissions, show the "edit" block.
 					webconsole.APICall("getEditableFileList", {}, function(result) {
-						console.log(result);
 						folders = [""]
 						previousFolder = ""
 						editableFileList = document.getElementById("editFileList");
@@ -264,11 +263,14 @@
 								currentFolder = editableFile.split("/").slice(0, -1).join("/")
 							}
 							if (!folders.includes(currentFolder)) {
+								console.log("New folder: " + currentFolder);
 								folders.push(currentFolder);
 								editableFileList.innerHTML = editableFileList.innerHTML + "<ul>";
 							} else if (currentFolder != previousFolder) {
+								console.log("End of folder: " + previousFolder)
 								editableFileList.innerHTML = editableFileList.innerHTML + "</ul>";
 							}
+							console.log(editableFile);
 							editableFileList.innerHTML = editableFileList.innerHTML + "<li><a href=\"#\" onclick=\"editFile('" + editableFile + "'); return false;\">" + editableFile + "</a></li>";
 							previousFolder = currentFolder
 						});
