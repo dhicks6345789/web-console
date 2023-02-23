@@ -256,23 +256,32 @@
 					webconsole.APICall("getEditableFileList", {}, function(result) {
 						folders = [""]
 						previousFolder = ""
+						previousFolderLevel = 0
 						editableFileList = document.getElementById("editFileList");
 						JSON.parse(result).forEach(function(editableFile) {
 							currentFolder = ""
+							folderLevel = 0
 							if (editableFile.includes("/")) {
-								currentFolder = editableFile.split("/").slice(0, -1).join("/")
+								currentFolderSplit = editableFile.split("/").slice(0, -1);
+								folderLevel = currentFolderSplit.length;
+								currentFolder = currentFolderSplit.join("/");
 							}
 							if (!folders.includes(currentFolder)) {
-								console.log("New folder: " + currentFolder);
 								folders.push(currentFolder);
+								if folderLevel == previousFolderLevel {
+									console.log("/UL");
+									editableFileList.innerHTML = editableFileList.innerHTML + "</ul>";
+								}
+								console.log("UL");
 								editableFileList.innerHTML = editableFileList.innerHTML + "<ul>";
-							} else if (currentFolder != previousFolder) {
-								console.log("End of folder: " + previousFolder)
+							} else if (folderLevel != previousFolderLevel) {
+								console.log("/UL");
 								editableFileList.innerHTML = editableFileList.innerHTML + "</ul>";
 							}
 							console.log(editableFile);
 							editableFileList.innerHTML = editableFileList.innerHTML + "<li><a href=\"#\" onclick=\"editFile('" + editableFile + "'); return false;\">" + editableFile + "</a></li>";
-							previousFolder = currentFolder
+							previousFolder = currentFolder;
+							previousFolderLevel = folderLevel;
 						});
 					});
 					document.getElementById("saveFileButton").disabled = true;
