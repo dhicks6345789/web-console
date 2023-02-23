@@ -257,7 +257,7 @@
 						folders = [""]
 						previousFolder = ""
 						previousFolderLevel = 0
-						editableFileList = document.getElementById("editFileList");
+						editableFileList = "";
 						JSON.parse(result).forEach(function(editableFile) {
 							currentFolder = ""
 							folderLevel = 0
@@ -270,19 +270,21 @@
 								folders.push(currentFolder);
 								if (folderLevel == previousFolderLevel) {
 									console.log("/UL");
-									editableFileList.innerHTML = editableFileList.innerHTML + "</ul>";
+									editableFileList = editableFileList + "</ul>";
 								}
 								console.log("UL");
-								editableFileList.innerHTML = editableFileList.innerHTML + "<ul>";
+								editableFileList = editableFileList + "<ul>";
 							} else if (folderLevel != previousFolderLevel) {
 								console.log("/UL");
-								editableFileList.innerHTML = editableFileList.innerHTML + "</ul>";
+								editableFileList = editableFileList + "</ul>";
 							}
 							console.log(editableFile);
-							editableFileList.innerHTML = editableFileList.innerHTML + "<li><a href=\"#\" onclick=\"editFile('" + editableFile + "'); return false;\">" + editableFile + "</a></li>";
+							editableFileList = editableFileList + "<li><a href=\"#\" onclick=\"editFile('" + editableFile + "'); return false;\">" + editableFile + "</a></li>";
 							previousFolder = currentFolder;
 							previousFolderLevel = folderLevel;
 						});
+						console.log(editableFileList);
+						document.getElementById("editFileList").innerHTML = editableFileList;
 					});
 					document.getElementById("saveFileButton").disabled = true;
 					document.getElementById("editBlock").style.display = "block";
