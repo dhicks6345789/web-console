@@ -262,7 +262,7 @@
 							if (editableFile.includes("/")) {
 								currentFolder = editableFile.split("/").slice(0, -1).join("/")
 							}
-							if (currentFoldr != previousFolder) {
+							if (currentFolder != previousFolder) {
 								console.log(currentFolder)
 							}
 							editableFileList.innerHTML = editableFileList.innerHTML + "<div><a href=\"#\" onclick=\"editFile('" + editableFile + "'); return false;\">" + editableFile + "</a></div>";
