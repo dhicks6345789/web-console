@@ -269,13 +269,13 @@
 							if (!folders.includes(currentFolder)) {
 								folders.push(currentFolder);
 								if (folderLevel == previousFolderLevel) {
-									editableFileList = editableFileList + "</li></ul>";
+									editableFileList = editableFileList + "</li></ul>\n";
 								}
-								editableFileList = editableFileList + "<ul class=\"nested\"><li><span class=\"caret\">" + currentFolder + "</span>";
+								editableFileList = editableFileList + "<ul class=\"nested\"><li><span class=\"caret\">" + currentFolder + "</span>\n";
 							} else if (folderLevel != previousFolderLevel) {
-								editableFileList = editableFileList + "</li></ul>";
+								editableFileList = editableFileList + "</li></ul>\n";
 							}
-							editableFileList = editableFileList + "<li><a href=\"#\" onclick=\"editFile('" + editableFile + "'); return false;\">" + editableFile + "</a></li>";
+							editableFileList = editableFileList + "<li><a href=\"#\" onclick=\"editFile('" + editableFile + "'); return false;\">" + editableFile + "</a></li>\n";
 							previousFolder = currentFolder;
 							previousFolderLevel = folderLevel;
 						});
@@ -443,8 +443,7 @@
 							<div class="accordian-body text-start">
 								<div class="row">
 									<div class="col-sm-3">
-										<ul class="nested">
-											<li id="editFileList"></li>
+										<ul class="nested" id="editFileList">
 										</ul>
 									</div>
 									<div class="col-sm-9" id="editFilePanel">
