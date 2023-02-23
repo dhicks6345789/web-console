@@ -25,6 +25,7 @@ import (
 	"encoding/csv"
 	"encoding/hex"
 	"encoding/json"
+	"path/filepath"
 	
 	// Image resizing library.
 	"github.com/nfnt/resize"
