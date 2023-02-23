@@ -285,6 +285,16 @@
 						});
 						console.log(editableFileList);
 						document.getElementById("editFileList").innerHTML = editableFileList;
+						
+						// Add functionality to each LI item in the edit file view to make a exandable / collapsible tree view.
+						var toggler = document.getElementsByClassName("caret");
+						var i;
+						for (i = 0; i < toggler.length; i++) {
+							toggler[i].addEventListener("click", function() {
+								this.parentElement.querySelector(".nested").classList.toggle("active");
+								this.classList.toggle("caret-down");
+							});
+						} 
 					});
 					document.getElementById("saveFileButton").disabled = true;
 					document.getElementById("editBlock").style.display = "block";
@@ -301,6 +311,48 @@
 				}
 			}
 		</script>
+		
+		<!-- CSS for the edit file tree view. -->
+		<style>
+			/* Remove default bullets */
+			ul, #editFileList {
+				list-style-type: none;
+			}
+			
+			/* Remove margins and padding from the parent ul */
+			#editFileList {
+				margin: 0;
+				padding: 0;
+			}
+			
+			/* Style the caret/arrow */
+			.caret {
+				cursor: pointer;
+				user-select: none; /* Prevent text selection */
+			}
+			
+			/* Create the caret/arrow with a unicode, and style it */
+			.caret::before {
+				content: "\25B6";
+				color: black;
+				display: inline-block;
+				margin-right: 6px;
+			}
+			
+			/* Rotate the caret/arrow icon when clicked on (using JavaScript) */
+			.caret-down::before {
+				transform: rotate(90deg);
+			}
+			
+			/* Hide the nested list */
+			.nested {
+				display: none;
+			}
+			
+			/* Show the nested list when the user clicks on the caret/arrow (with JavaScript) */
+			.active {
+				display: block;
+			}
 	</head>
 	<body onload="pageReady()">
 		<form id="actionForm" action="" method=""></form>
