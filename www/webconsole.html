@@ -255,7 +255,8 @@
 					// If the user has "edit" permissions, show the "edit" block.
 					webconsole.APICall("getEditableFileList", {}, function(result) {
 						console.log(result);
-						folders = []
+						folders = [""]
+						previousFolder = ""
 						editableFileList = document.getElementById("editFileList");
 						JSON.parse(result).forEach(function(editableFile) {
 							currentFolder = ""
@@ -264,9 +265,12 @@
 							}
 							if (!folders.includes(currentFolder)) {
 								folders.push(currentFolder);
-								console.log(currentFolder);
+								editableFileList.innerHTML = editableFileList.innerHTML + "<ul>";
+							} else if (currentFolder != previousFolder) {
+								editableFileList.innerHTML = editableFileList.innerHTML + "</ul>";
 							}
-							editableFileList.innerHTML = editableFileList.innerHTML + "<div><a href=\"#\" onclick=\"editFile('" + editableFile + "'); return false;\">" + editableFile + "</a></div>";
+							editableFileList.innerHTML = editableFileList.innerHTML + "<li><a href=\"#\" onclick=\"editFile('" + editableFile + "'); return false;\">" + editableFile + "</a></li>";
+							previousFolder = currentFolder
 						});
 					});
 					document.getElementById("saveFileButton").disabled = true;
@@ -376,7 +380,9 @@
 						<div id="collapseEdit" class="accordion-collapse collapse" aria-labelledby="headingEdit" data-bs-parent="#accordionEdit">
 							<div class="accordian-body text-start">
 								<div class="row">
-									<div class="col-sm-3" id="editFileList">
+									<div class="col-sm-3">
+										<ul id="editFileList">
+										</ul>
 									</div>
 									<div class="col-sm-9" id="editFilePanel">
 										<div id="editFileBox" style="position:relative; width:100%; height:500px;"></div>
