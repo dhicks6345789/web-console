@@ -255,9 +255,18 @@
 					// If the user has "edit" permissions, show the "edit" block.
 					webconsole.APICall("getEditableFileList", {}, function(result) {
 						console.log(result);
+						previousFolder = ""
+						editableFileList = document.getElementById("editFileList");
 						JSON.parse(result).forEach(function(editableFile) {
-							editableFileList = document.getElementById("editFileList");
+							currentFolder = ""
+							if (editableFile.includes("/")) {
+								currentFolder = editableFile.split("/").slice(0, -1).join("/")
+							}
+							if (currentFoldr != previousFolder) {
+								console.log(currentFolder)
+							}
 							editableFileList.innerHTML = editableFileList.innerHTML + "<div><a href=\"#\" onclick=\"editFile('" + editableFile + "'); return false;\">" + editableFile + "</a></div>";
+							previousFolder = currentFolder
 						});
 					});
 					document.getElementById("saveFileButton").disabled = true;
