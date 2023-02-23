@@ -269,16 +269,12 @@
 							if (!folders.includes(currentFolder)) {
 								folders.push(currentFolder);
 								if (folderLevel == previousFolderLevel) {
-									console.log("/UL");
-									editableFileList = editableFileList + "</ul>";
+									editableFileList = editableFileList + "</li></ul>";
 								}
-								console.log("UL");
-								editableFileList = editableFileList + "<ul>";
+								editableFileList = editableFileList + "<ul class=\"nested\"><li><span class=\"caret\">" + currentFolder + "</span>";
 							} else if (folderLevel != previousFolderLevel) {
-								console.log("/UL");
-								editableFileList = editableFileList + "</ul>";
+								editableFileList = editableFileList + "</li></ul>";
 							}
-							console.log(editableFile);
 							editableFileList = editableFileList + "<li><a href=\"#\" onclick=\"editFile('" + editableFile + "'); return false;\">" + editableFile + "</a></li>";
 							previousFolder = currentFolder;
 							previousFolderLevel = folderLevel;
@@ -353,6 +349,7 @@
 			.active {
 				display: block;
 			}
+		</style>
 	</head>
 	<body onload="pageReady()">
 		<form id="actionForm" action="" method=""></form>
@@ -446,7 +443,8 @@
 							<div class="accordian-body text-start">
 								<div class="row">
 									<div class="col-sm-3">
-										<ul id="editFileList">
+										<ul class="nested">
+											<li id="editFileList"></li>
 										</ul>
 									</div>
 									<div class="col-sm-9" id="editFilePanel">
