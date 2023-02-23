@@ -1027,7 +1027,15 @@ func main() {
 								if permission != "E" {
 									fmt.Fprintf(theResponseWriter, "ERROR: getEditableFileList called - don't have edit permissions.")
 								} else {
-									editableFiles, editableErr := ioutil.ReadDir(arguments["taskroot"] + "/" + taskID)
+									editableFiles := []string{}
+									// editableFiles, editableErr := ioutil.ReadDir(arguments["taskroot"] + "/" + taskID)
+									editableErr := filepath.Walk(".", func(path string, info os.FileInfo, err error) error {
+										if err != nil {
+											return err
+										}
+										editableFiles = append(editableFiles, path)
+										return nil
+									})
 									if editableErr != nil {
 										fmt.Fprintf(theResponseWriter, "ERROR: Can't list editable files.")
 									} else {
