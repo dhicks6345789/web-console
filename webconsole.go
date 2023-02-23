@@ -1035,7 +1035,7 @@ func main() {
 											return err
 										}
 										if path != taskPath {
-											outputString = outputString + "\"" + path[:len(taskPath)] + "\",\n"
+											outputString = outputString + "\"" + path[len(taskPath):] + "\",\n"
 										}
 										return nil
 									})
