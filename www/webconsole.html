@@ -269,18 +269,18 @@
 							if (!folders.includes(currentFolder)) {
 								folders.push(currentFolder);
 								if (folderLevel == previousFolderLevel) {
-									editableFileList = editableFileList + "</li></ul>\n";
+									editableFileList = editableFileList + "</ul></li>\n";
 								}
-								editableFileList = editableFileList + "<ul class=\"nested\"><li><span class=\"caret\">" + currentFolder + "</span>\n";
+								editableFileList = editableFileList + "<li><span class=\"caret\">" + currentFolder + "</span><ul class=\"nested\">\n";
 							} else if (folderLevel != previousFolderLevel) {
-								editableFileList = editableFileList + "</li></ul>\n";
+								editableFileList = editableFileList + "</ul></li>\n";
 							}
 							editableFileList = editableFileList + "<li><a href=\"#\" onclick=\"editFile('" + editableFile + "'); return false;\">" + editableFile + "</a></li>\n";
 							previousFolder = currentFolder;
 							previousFolderLevel = folderLevel;
 						});
-						console.log(editableFileList);
 						document.getElementById("editFileList").innerHTML = editableFileList;
+						console.log(document.getElementById("editFileList").innerHTML);
 						
 						// Add functionality to each LI item in the edit file view to make a exandable / collapsible tree view.
 						var toggler = document.getElementsByClassName("caret");
@@ -443,7 +443,7 @@
 							<div class="accordian-body text-start">
 								<div class="row">
 									<div class="col-sm-3">
-										<ul class="nested" id="editFileList">
+										<ul id="editFileList">
 										</ul>
 									</div>
 									<div class="col-sm-9" id="editFilePanel">
