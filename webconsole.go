@@ -1035,7 +1035,7 @@ func main() {
 											return err
 										}
 										if path != taskPath {
-											outputString = outputString + "\"" + path[len(taskPath)+1:].Replace("\\", "/", -1) + "\",\n"
+											outputString = outputString + "\"" + strings.Replace(path[len(taskPath)+1:], "\\", "/", -1) + "\",\n"
 										}
 										return nil
 									})
