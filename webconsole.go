@@ -1028,22 +1028,18 @@ func main() {
 								if permission != "E" {
 									fmt.Fprintf(theResponseWriter, "ERROR: getEditableFileList called - don't have edit permissions.")
 								} else {
-									editableFiles := []string{}
+									outputString := "[\n"
 									// editableFiles, editableErr := ioutil.ReadDir(arguments["taskroot"] + "/" + taskID)
 									editableErr := filepath.Walk(".", func(path string, info os.FileInfo, err error) error {
 										if err != nil {
 											return err
 										}
-										editableFiles = append(editableFiles, path)
+										outputString = outputString + "\"" + path + "\",\n"
 										return nil
 									})
 									if editableErr != nil {
 										fmt.Fprintf(theResponseWriter, "ERROR: Can't list editable files.")
 									} else {
-										outputString := "[\n"
-										for _, editableFile := range editableFiles {
-											outputString = outputString + "\"" + editableFile.Name() + "\",\n"
-										}
 										outputString = outputString[0:len(outputString)-2] + "\n]"
 										fmt.Fprintf(theResponseWriter, outputString)
 									}
