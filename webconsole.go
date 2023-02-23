@@ -1035,7 +1035,10 @@ func main() {
 											return err
 										}
 										if path != taskPath {
-											outputString = outputString + "\"" + strings.Replace(path[len(taskPath)+1:], "\\", "/", -1) + "\",\n"
+											canonicalPath := strings.Replace(path[len(taskPath)+1:], "\\", "/", -1)
+											if canonicalPath !strings.Contains(path, ".git/") {
+												outputString = outputString + "\"" + canonicalPath + "\",\n"
+											}
 										}
 										return nil
 									})
