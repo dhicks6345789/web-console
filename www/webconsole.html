@@ -274,11 +274,13 @@
 								currentFolderName = currentFolderSplit[currentFolderSplit.length-2];
 							}
 							folderIndent = "";
-							for (pl=0; pl < folderLevel; pl++) {
+							for (pl = 0; pl < folderLevel; pl = pl + 1) {
 								folderIndent = folderIndent + "   ";
 							}
 							if (currentFolder != previousFolder && folderLevel <= previousFolderLevel) {
-								editableFileList = editableFileList + folderIndent + "</ul></li>\n";
+								for (pl = 0; pl < ((previousFolderLevel - folderLevel) + 1); pl = pl + 1) {
+									editableFileList = editableFileList + folderIndent + "</ul></li>\n";
+								}
 							}
 							if (!folders.includes(currentFolder)) {
 								folders.push(currentFolder);
