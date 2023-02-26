@@ -260,10 +260,10 @@
 						previousFolderLevel = 0
 						editableFileList = "";
 						JSON.parse(result).forEach(function(editableFile) {
-							currentFolder = ""
-							currentFolderName = ""
+							currentFolder = "";
+							currentFolderName = "";
 							currentFileName = editableFile;
-							folderLevel = 0
+							folderLevel = 0;
 							if (editableFile.includes("/")) {
 								currentFolderSplit = editableFile.split("/");
 								folderLevel = currentFolderSplit.length-1;
@@ -271,9 +271,9 @@
 								currentFileName = currentFolderSplit[currentFolderSplit.length-1];
 								currentFolderName = currentFolderSplit[currentFolderSplit.length-2];
 							}
-							folderIndent = ""
+							folderIndent = "";
 							for (pl=0; pl < folderLevel; pl++) {
-								folderIndent = folderIndent + "   "
+								folderIndent = folderIndent + "   ";
 							}
 							if (currentFolder != previousFolder && folderLevel <= previousFolderLevel) {
 								editableFileList = editableFileList + folderIndent + "</ul></li>\n";
@@ -287,7 +287,8 @@
 							previousFolderLevel = folderLevel;
 						});
 						document.getElementById("editFileList").innerHTML = editableFileList;
-						console.log(document.getElementById("editFileList").innerHTML);
+						//console.log(document.getElementById("editFileList").innerHTML);
+						console.log(editableFileList);
 						
 						// Add functionality to each LI item in the edit file view to make a exandable / collapsible tree view.
 						var toggler = document.getElementsByClassName("caret");
