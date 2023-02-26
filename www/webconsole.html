@@ -254,7 +254,6 @@
 				if (permission == "E") {
 					// If the user has "edit" permissions, show the "edit" block.
 					webconsole.APICall("getEditableFileList", {}, function(result) {
-						//console.log(result);
 						folders = [""]
 						previousFolder = ""
 						previousFolderLevel = 0
@@ -265,26 +264,28 @@
 							currentFolder = "";
 							currentFolderName = "";
 							currentFileName = editableFile;
+							folderIndent = "";
 							folderLevel = 0;
 							if (editableFile.includes("/")) {
 								currentFolderSplit = editableFile.split("/");
 								folderLevel = currentFolderSplit.length-1;
+								for (pl = 0; pl < folderLevel; pl = pl + 1) {
+									currentFolder = currentFolder + "/" + currentFolderSplit[pl]
+									folderIndent = folderIndent + "   ";
+									if (!folders.includes(currentFolder)) {
+										folders.push(currentFolder);
+										//if (folderLevel == previousFolderLevel) {
+											//editableFileList = editableFileList + folderIndent + "</ul></li>\n";
+										//}
+										editableFileList = editableFileList + folderIndent + "<li><span class=\"caret\">" + currentFolderSplit[pl] + "</span><ul class=\"nested\">\n";
+									}
+								}
 								currentFolder = currentFolderSplit.slice(0, -1).join("/");
 								currentFileName = currentFolderSplit[currentFolderSplit.length-1];
 								currentFolderName = currentFolderSplit[currentFolderSplit.length-2];
 							}
-							folderIndent = "";
-							for (pl = 0; pl < folderLevel; pl = pl + 1) {
-								folderIndent = folderIndent + "   ";
-							}
-							if (!folders.includes(currentFolder)) {
-								folders.push(currentFolder);
-								if (folderLevel == previousFolderLevel) {
-									editableFileList = editableFileList + folderIndent + "</ul></li>\n";
-								}
-								editableFileList = editableFileList + folderIndent + "<li><span class=\"caret\">" + currentFolderName + "</span><ul class=\"nested\">\n";
-							} else if (currentFolder != previousFolder && folderLevel < previousFolderLevel) {
-								for (pl = 0; pl < (previousFolderLevel - folderLevel); pl = pl + 1) {
+							if (currentFolder != previousFolder && folderLevel <= previousFolderLevel) {
+								for (pl = 0; pl < (previousFolderLevel - folderLevel) + 1; pl = pl + 1) {
 									editableFileList = editableFileList + folderIndent + "</ul></li>\n";
 								}
 							}
