@@ -281,7 +281,7 @@
 								currentFileName = currentFolderSplit[currentFolderSplit.length-1];
 								currentFolderName = currentFolderSplit[currentFolderSplit.length-2];
 							}
-							if (currentFolder != previousFolder && folderLevel <= previousFolderLevel) {
+							if (currentFolder != previousFolder && folderLevel < previousFolderLevel) {
 								for (pl = 0; pl < (previousFolderLevel - folderLevel) + 1; pl = pl + 1) {
 									editableFileList = editableFileList + folderIndent + "</ul></li>\n";
 								}
@@ -292,7 +292,6 @@
 							previousFolderLevel = folderLevel;
 						});
 						document.getElementById("editFileList").innerHTML = editableFileList;
-						//console.log(document.getElementById("editFileList").innerHTML);
 						console.log(editableFileList);
 						
 						// Add functionality to each LI item in the edit file view to make a exandable / collapsible tree view.
