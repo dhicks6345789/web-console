@@ -275,14 +275,13 @@
 							for (pl=0; pl < folderLevel; pl++) {
 								folderIndent = folderIndent + "   ";
 							}
-							if (currentFolder != previousFolder && folderLevel <= previousFolderLevel) {
-								editableFileList = editableFileList + folderIndent + "</ul></li>\n";
-							}
 							if (!folders.includes(currentFolder)) {
 								folders.push(currentFolder);
 								editableFileList = editableFileList + folderIndent + "<li><span class=\"caret\">" + currentFolderName + "</span><ul class=\"nested\">\n";
+							} else if (currentFolder != previousFolder && folderLevel <= previousFolderLevel) {
+								editableFileList = editableFileList + folderIndent + "</ul></li>\n";
 							}
-							editableFileList = editableFileList + folderIndent + "<li><a href=\"#\" onclick=\"editFile('" + editableFile + "'); return false;\">" + currentFileName + "</a></li>\n";
+							editableFileList = editableFileList + folderIndent + "   <li><a href=\"#\" onclick=\"editFile('" + editableFile + "'); return false;\">" + currentFileName + "</a></li>\n";
 							previousFolder = currentFolder;
 							previousFolderLevel = folderLevel;
 						});
