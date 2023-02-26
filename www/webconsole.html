@@ -266,6 +266,7 @@
 							currentFileName = editableFile;
 							folderIndent = "";
 							folderLevel = 0;
+							newFoldersString = ""
 							if (editableFile.includes("/")) {
 								currentFolderSplit = editableFile.split("/");
 								folderLevel = currentFolderSplit.length-1;
@@ -274,13 +275,9 @@
 									folderIndent = folderIndent + "   ";
 									if (!folders.includes(currentFolder)) {
 										folders.push(currentFolder);
-										//if (folderLevel == previousFolderLevel) {
-											//editableFileList = editableFileList + folderIndent + "</ul></li>\n";
-										//}
-										editableFileList = editableFileList + folderIndent + "<li><span class=\"caret\">" + currentFolderSplit[pl] + "</span><ul class=\"nested\">\n";
+										newFoldersString = newFoldersString + folderIndent + "<li><span class=\"caret\">" + currentFolderSplit[pl] + "</span><ul class=\"nested\">\n";
 									}
 								}
-								//currentFolder = currentFolderSplit.slice(0, -1).join("/");
 								currentFileName = currentFolderSplit[currentFolderSplit.length-1];
 								currentFolderName = currentFolderSplit[currentFolderSplit.length-2];
 							}
@@ -289,6 +286,7 @@
 									editableFileList = editableFileList + folderIndent + "</ul></li>\n";
 								}
 							}
+							editableFileList = editableFileList + newFoldersString
 							editableFileList = editableFileList + folderIndent + "   <li><a href=\"#\" onclick=\"editFile('" + editableFile + "'); return false;\">" + currentFileName + "</a></li>\n";
 							previousFolder = currentFolder;
 							previousFolderLevel = folderLevel;
