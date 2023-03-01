@@ -215,6 +215,25 @@
 				webconsole.doAction("POST", window.location.href.replace("/view", "/").replace("/run", "/"), false, {"token":"<<TOKEN>>"}, true);
 			}
 			
+			function parseFolderTree(currentFolderLevel, currentFolder, theSubItems) {
+				items = [];
+				result = "";
+				theSubItems.forEach(function(item) {
+					subItem = item.substring(currentFolder.length);
+					if (subItem.includes("/")) {
+						items.push(subItem);
+					} else {
+						if (items.length > 0) {
+							result = result + folderIndent + "<li><span class=\"caret\">" + currentFolderSplit[pl] + "</span><ul class=\"nested\">\n";
+							result = result + parseFolderTree(currentFolderLevel+1, currentFolder + "/" + subItem, items);
+							result = result + folderIndent + "</ul></li>\n";
+						}
+						result = result + folderIndent + "   <li><a href=\"#\" onclick=\"editFile('" + item + "'); return false;\">" + subItem + "</a></li>\n";
+					}
+				}
+				return result;
+			}
+			
 			// Called when the document is first loaded and ready.
 			function pageReady() {
 				if (taskID == "/" && window.location.href.includes("/view?")) {
@@ -260,7 +279,8 @@
 						editableFileList = "";
 						JSONResult = JSON.parse(result);
 						console.log(JSONResult);
-						JSONResult.forEach(function(editableFile) {
+						editableFileList = parseFolderTree("", JSONResult);
+						/*JSONResult.forEach(function(editableFile) {
 							currentFolder = "";
 							currentFolderName = "";
 							currentFileName = editableFile;
@@ -305,7 +325,7 @@
 						});
 						for (pl = 0; pl < folderLevel; pl = pl + 1) {
 							editableFileList = editableFileList + folderIndent + "</ul></li>\n";
-						}
+						}*/
 						document.getElementById("editFileList").innerHTML = editableFileList;
 						console.log(editableFileList);
 						
