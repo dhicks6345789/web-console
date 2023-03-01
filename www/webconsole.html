@@ -216,6 +216,7 @@
 			}
 			
 			function parseFolderTree(currentFolderLevel, currentFolder, theSubItems) {
+				consloe.log("parseFolderTree: currentFolder: " + currentFolder)
 				console.log(theSubItems);
 				items = [];
 				result = "";
@@ -227,7 +228,7 @@
 				}
 				theSubItems.forEach(function(item) {
 					if (item.includes("/")) {
-						subItem = item.substring(currentFolder.length+2);
+						subItem = item.substring(currentFolder.length);
 						subFolder = "";
 						if (subItem.includes("/")) {
 							subFolder = subItem.split("/")[0];
