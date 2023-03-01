@@ -593,9 +593,9 @@ func listFolderAsJSON(folderLevel int, thePath string) string {
 			result = result + folderIndent + "\"" + items[pl].Name() + "\""
 		}
 		if pl < len(items) - 1 {
-			result = result + folderIndent + ","
+			result = result + ","
 		}
-		result = result + folderIndent + "\n"
+		result = result + "\n"
 	}
 	return result
 }
