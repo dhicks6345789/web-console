@@ -575,7 +575,7 @@ func contains(theItems []string, theMatch string) bool {
 func listFolderAsJSON(folderLevel int, thePath string) string {
 	result := ""
 	items, itemErr := ioutil.ReadDir(thePath)
-	if itemrr != nil {
+	if itemErr != nil {
 		return "Error reading path: " + thePath
 	}
 	folderIndent := ""
