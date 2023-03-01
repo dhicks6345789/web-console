@@ -563,8 +563,8 @@ func readUserFile(theConfigPath string, theHashKey string) map[string]string {
 	return result
 }
 
-func listFolderAsJSON(thePath string) {
-	result = ""
+func listFolderAsJSON(thePath string) string {
+	result := ""
 	files, err := ioutil.ReadDir(thePath)
 	if err != nil {
 		return "Error reading path: " + thePath
