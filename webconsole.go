@@ -603,7 +603,7 @@ func listFolderAsJSON(folderLevel int, thePath string) string {
 		}
 	}
 	if result == "" {
-		result = folderIndent + "\"\""
+		result = folderIndent + "\"\"\n"
 	}
 	return result
 }
