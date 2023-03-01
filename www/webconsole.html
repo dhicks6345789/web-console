@@ -217,6 +217,7 @@
 			
 			// A recursive function that steps through the given JSON folder structure and produces an HTML string consisting of nested UL elements.
 			function parseFolderTree(currentFolderLevel, currentFolder, theItems) {
+				console.log(theItems);
 				folderIndent = "";
 				for (pl = 0; pl < currentFolderLevel; pl = pl + 1) {
 					folderIndent = folderIndent + "   ";
