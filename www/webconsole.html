@@ -219,15 +219,29 @@
 				console.log(theSubItems);
 				items = [];
 				result = "";
+				subFolder = "";
+				previousSubFolder = "";
 				folderIndent = "";
 				for (pl = 0; pl < currentFolderLevel; pl = pl + 1) {
 					folderIndent = folderIndent + "   ";
 				}
 				theSubItems.forEach(function(item) {
-					subItem = item.substring(currentFolder.length);
-					//console.log("subItem: " + subItem);
-					if (subItem.includes("/")) {
+					if (item.includes("/")) {
+						subItem = item.substring(currentFolder.length+2);
+						subFolder = "";
+						if (subItem.includes("/")) {
+							subFolder = subItem.split("/")[0];
+						}
+						if (subFolder != previousSubFolder) {
+							if (items.length > 0) {
+								result = result + folderIndent + "<li><span class=\"caret\">" + currentFolder + "</span><ul class=\"nested\">\n";
+								result = result + parseFolderTree(currentFolderLevel+1, currentFolder + "/" + subFolder, items);
+								result = result + folderIndent + "</ul></li>\n";
+							}
+							items = [];
+						}
 						items.push(subItem);
+						previousSubFolder = subFolder;
 					} else {
 						if (items.length > 0) {
 							result = result + folderIndent + "<li><span class=\"caret\">" + currentFolder + "</span><ul class=\"nested\">\n";
