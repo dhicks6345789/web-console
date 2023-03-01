@@ -580,7 +580,7 @@ func listFolderAsJSON(thePath string) string {
 	}
 	for _, item := range files {
 		if item.IsDir() {
-			if contains([".git"], item.Name()) == false {
+			if contains([]string {".git"}, item.Name()) == false {
 				result = result + "[\"" + item.Name() + "\",\n"
 				result = result + listFolderAsJSON(thePath + "/" + item.Name())
 				result = result + "],"
