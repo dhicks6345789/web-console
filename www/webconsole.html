@@ -268,14 +268,23 @@
 							folderLevel = 0;
 							newFoldersString = ""
 							if (editableFile.includes("/")) {
-								currentFolderSplit = editableFile.split("/");
-								folderLevel = currentFolderSplit.length-1;
-								for (pl = 0; pl < folderLevel; pl = pl + 1) {
-									currentFolder = currentFolder + "/" + currentFolderSplit[pl]
-									folderIndent = folderIndent + "   ";
-									if (!folders.includes(currentFolder)) {
-										folders.push(currentFolder);
-										newFoldersString = newFoldersString + folderIndent + "<li><span class=\"caret\">" + currentFolderSplit[pl] + "</span><ul class=\"nested\">\n";
+								currentFolderSplit = editableFile.split("/").slice(0, -1);
+								folderLevel = currentFolderSplit.length;
+								previousFolderSplit = previousFolder.split("/");
+								if (folderLevel >= previousFolderSplit.length) {
+									previousFolder = "";
+									for (pl = 0; pl < folderLevel; pl = pl + 1) {
+										currentFolder = currentFolder + "/" + currentFolderSplit[pl]
+										previousFolder = previoudFolder + "/" + previousFolderSplit[pl]
+										folderIndent = folderIndent + "   ";
+										if (!folders.includes(currentFolder)) {
+											folders.push(currentFolder);
+											newFoldersString = newFoldersString + folderIndent + "<li><span class=\"caret\">" + currentFolderSplit[pl] + "</span><ul class=\"nested\">\n";
+										} else {
+											if (previousFolder != currentFolder) {
+												editableFileList = editableFileList + folderIndent + "CCC</ul></li>\n";
+											}
+										}
 									}
 								}
 								currentFileName = currentFolderSplit[currentFolderSplit.length-1];
