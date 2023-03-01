@@ -218,6 +218,10 @@
 			function parseFolderTree(currentFolderLevel, currentFolder, theSubItems) {
 				items = [];
 				result = "";
+				folderIndent = "";
+				for (pl = 0; pl < currentFolderLevel; pl = pl + 1) {
+					folderIndent = folderIndent + "   ";
+				}
 				theSubItems.forEach(function(item) {
 					subItem = item.substring(currentFolder.length);
 					if (subItem.includes("/")) {
