@@ -563,7 +563,7 @@ func readUserFile(theConfigPath string, theHashKey string) map[string]string {
 	return result
 }
 
-func listFolderAsJSON(thePath) {
+func listFolderAsJSON(thePath string) {
 	result = ""
 	files, err := ioutil.ReadDir(thePath)
 	if err != nil {
@@ -571,11 +571,11 @@ func listFolderAsJSON(thePath) {
 	}
 	for _, item := range files {
 		if item.IsDir() {
-			result = result + "["
+			result = result + "[\"" + item.Name + "\",\n"
 			result = result + listFolderAsJSON(thePath + "/" + item.Name)
 			result = result + "],"
 		} else {
-			result = result + listFolderAsJSON("\"" + item.Name + "\",")
+			result = result + "\"" + item.Name + "\","
 		}
 	}
 	return result
@@ -1045,7 +1045,7 @@ func main() {
 								if permission != "E" {
 									fmt.Fprintf(theResponseWriter, "ERROR: getEditableFileList called - don't have edit permissions.")
 								} else {
-									outputString := "[\n"
+									outputString := "[\"\",\n"
 									taskPath := arguments["taskroot"] + "/" + taskID
 									outputString = outputString + listFolderAsJSON(taskPath)
 									outputString = outputString + "\n]"
