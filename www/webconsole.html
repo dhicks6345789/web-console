@@ -217,7 +217,6 @@
 			
 			// A recursive function that steps through the given JSON folder structure and produces an HTML string consisting of nested UL elements.
 			function parseFolderTree(currentFolderLevel, currentFolder, theItems) {
-				console.log(theItems);
 				folderIndent = "";
 				for (pl = 0; pl < currentFolderLevel; pl = pl + 1) {
 					folderIndent = folderIndent + "   ";
@@ -274,17 +273,15 @@
 				if (permission == "E") {
 					// If the user has "edit" permissions, show the "edit" block - first, get a list of files for this task from the server.
 					webconsole.APICall("getEditableFileList", {}, function(result) {
-						console.log(result);
-						console.log(JSON.parse(result));
 						// Parse that list of file into a JSON structure, then call a function that turns that structure into a string of HTML
 						// unordered lists (<UL></UL>).
 						document.getElementById("editFileList").innerHTML = parseFolderTree(0, "", JSON.parse(result));
 						
 						// Add functionality to each LI item in the edit file view to make a exandable / collapsible tree view.
 						var toggler = document.getElementsByClassName("caret");
-						var i;
-						for (i = 0; i < toggler.length; i++) {
-							toggler[i].addEventListener("click", function() {
+						var pl;
+						for (pl = 0; pl < toggler.length; pl = pl + 1) {
+							toggler[pl].addEventListener("click", function() {
 								this.parentElement.querySelector(".nested").classList.toggle("active");
 								this.classList.toggle("caret-down");
 							});
