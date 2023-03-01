@@ -306,13 +306,15 @@
 							folderLevel = 0;
 							newFoldersString = ""
 							if (editableFile.includes("/")) {
+								currentFileName = editableFile.split("/").slice(-1)[0];
 								currentFolderSplit = editableFile.split("/").slice(0, -1);
 								folderLevel = currentFolderSplit.length;
 								previousFolderSplit = previousFolder.split("/");
 								if (folderLevel >= previousFolderSplit.length) {
 									previousFolder = "";
 									for (pl = 0; pl < folderLevel; pl = pl + 1) {
-										currentFolder = currentFolder + "/" + currentFolderSplit[pl]
+										currentFolderName = currentFolderSplit[pl]
+										currentFolder = currentFolder + "/" + currentFolderName
 										previousFolder = previousFolder + "/" + previousFolderSplit[pl]
 										folderIndent = folderIndent + "   ";
 										if (!folders.includes(currentFolder)) {
@@ -325,9 +327,6 @@
 										}
 									}
 								}
-								console.log(currentFolderSplit);
-								currentFileName = currentFolderSplit[folderLevel];
-								currentFolderName = currentFolderSplit[folderLevel-1];
 							}
 							/*if (currentFolder != previousFolder && folderLevel == previousFolderLevel) {
 								editableFileList = editableFileList + folderIndent + "AAA</ul></li>\n";
