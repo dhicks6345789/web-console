@@ -325,8 +325,8 @@
 										}
 									}
 								}
-								currentFileName = currentFolderSplit[currentFolderSplit.length];
-								currentFolderName = currentFolderSplit[currentFolderSplit.length-1];
+								currentFileName = currentFolderSplit[folderLevel];
+								currentFolderName = currentFolderSplit[folderLevel-1];
 							}
 							/*if (currentFolder != previousFolder && folderLevel == previousFolderLevel) {
 								editableFileList = editableFileList + folderIndent + "AAA</ul></li>\n";
@@ -336,7 +336,7 @@
 									editableFileList = editableFileList + folderIndent + "BBB</ul></li>\n";
 								}
 							}
-							editableFileList = editableFileList + newFoldersString
+							editableFileList = editableFileList + newFoldersString;
 							editableFileList = editableFileList + folderIndent + "   <li><a href=\"#\" onclick=\"editFile('" + editableFile + "'); return false;\">" + currentFileName + "</a></li>\n";
 							previousFolder = currentFolder;
 							previousFolderLevel = folderLevel;
