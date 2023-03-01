@@ -574,24 +574,28 @@ func contains(theItems []string, theMatch string) bool {
 
 func listFolderAsJSON(folderLevel int, thePath string) string {
 	result := ""
-	files, err := ioutil.ReadDir(thePath)
-	if err != nil {
+	items, itemErr := ioutil.ReadDir(thePath)
+	if itemrr != nil {
 		return "Error reading path: " + thePath
 	}
 	folderIndent := ""
 	for pl := 0; pl < folderLevel; pl = pl + 1 {
 		folderIndent = folderIndent + "   "
 	}
-	for _, item := range files {
-		if item.IsDir() {
+	for pl := 0; pl < len(items); pl = pl + 1 {
+		if items[pl].IsDir() {
 			if contains([]string {".git"}, item.Name()) == false {
-				result = result + folderIndent + "[\"" + item.Name() + "\",\n"
-				result = result + folderIndent + listFolderAsJSON(folderLevel + 1, thePath + "/" + item.Name())
-				result = result + folderIndent + "],\n"
+				result = result + folderIndent + "[\"" + items[pl].Name() + "\",\n"
+				result = result + folderIndent + listFolderAsJSON(folderLevel + 1, thePath + "/" + items[pl].Name())
+				result = result + folderIndent + "]"
 			}
 		} else {
-			result = result + folderIndent + "\"" + item.Name() + "\",\n"
+			result = result + folderIndent + "\"" + items[pl].Name() + "\""
 		}
+		if pl < len(items) - 1 {
+			result = result + folderIndent + ","
+		}
+		result = result + folderIndent + "\n"
 	}
 	return result
 }
