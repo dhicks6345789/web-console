@@ -231,7 +231,7 @@
 						result = result + folderIndent + "   <li><a href=\"#\" onclick=\"editFile('" + item + "'); return false;\">" + subItem + "</a></li>\n";
 					}
 				}
-				return result;
+				return(result);
 			}
 			
 			// Called when the document is first loaded and ready.
@@ -279,7 +279,7 @@
 						editableFileList = "";
 						JSONResult = JSON.parse(result);
 						console.log(JSONResult);
-						editableFileList = parseFolderTree("", JSONResult);
+						editableFileList = parseFolderTree(0, "", JSONResult);
 						/*JSONResult.forEach(function(editableFile) {
 							currentFolder = "";
 							currentFolderName = "";
