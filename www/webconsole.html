@@ -274,6 +274,8 @@
 				if (permission == "E") {
 					// If the user has "edit" permissions, show the "edit" block - first, get a list of files for this task from the server.
 					webconsole.APICall("getEditableFileList", {}, function(result) {
+						console.log(result);
+						console.log(JSON.parse(result));
 						// Parse that list of file into a JSON structure, then call a function that turns that structure into a string of HTML
 						// unordered lists (<UL></UL>).
 						document.getElementById("editFileList").innerHTML = parseFolderTree(0, "", JSON.parse(result));
