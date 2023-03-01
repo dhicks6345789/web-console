@@ -572,10 +572,10 @@ func listFolderAsJSON(thePath) {
 	for _, item := range files {
 		if item.IsDir() {
 			result = result + "["
-			result = result + listFolderAsJSON(thePath + "/" + item.name)
+			result = result + listFolderAsJSON(thePath + "/" + item.Name)
 			result = result + "],"
 		} else {
-			result = result + listFolderAsJSON("\"" + item.name + "\",")
+			result = result + listFolderAsJSON("\"" + item.Name + "\",")
 		}
 	}
 	return result
