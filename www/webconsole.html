@@ -228,11 +228,8 @@
 				}
 				theSubItems.forEach(function(item) {
 					if (item.includes("/")) {
-						subItem = item.substring(currentFolder.length);
-						subFolder = "";
-						if (subItem.includes("/")) {
-							subFolder = subItem.split("/")[0];
-						}
+						subFolder = item.split("/")[0];
+						items.push(item.substring(subFolder.length));
 						if (subFolder != previousSubFolder) {
 							if (items.length > 0) {
 								result = result + folderIndent + "<li><span class=\"caret\">" + currentFolder + "</span><ul class=\"nested\">\n";
@@ -241,7 +238,6 @@
 							}
 							items = [];
 						}
-						items.push(subItem);
 						previousSubFolder = subFolder;
 					} else {
 						if (items.length > 0) {
@@ -249,6 +245,7 @@
 							result = result + parseFolderTree(currentFolderLevel+1, currentFolder + "/" + subFolder, items);
 							result = result + folderIndent + "</ul></li>\n";
 						}
+						items = [];
 						result = result + folderIndent + "<li><a href=\"#\" onclick=\"editFile('" + item + "'); return false;\">" + item + "</a></li>\n";
 					}
 				});
