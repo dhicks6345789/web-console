@@ -563,6 +563,15 @@ func readUserFile(theConfigPath string, theHashKey string) map[string]string {
 	return result
 }
 
+func contains(theItems []string, theMatch string) bool {
+	for _, item := range theItems {
+		if theMatch == item {
+			return true
+		}
+	}
+	return false
+}
+
 func listFolderAsJSON(thePath string) string {
 	result := ""
 	files, err := ioutil.ReadDir(thePath)
@@ -571,11 +580,13 @@ func listFolderAsJSON(thePath string) string {
 	}
 	for _, item := range files {
 		if item.IsDir() {
-			result = result + "[\"" + item.Name() + "\",\n"
-			result = result + listFolderAsJSON(thePath + "/" + item.Name())
-			result = result + "],"
+			if contains([".git"], item.Name()) == false {
+				result = result + "[\"" + item.Name() + "\",\n"
+				result = result + listFolderAsJSON(thePath + "/" + item.Name())
+				result = result + "],"
+			}
 		} else {
-			result = result + "\"" + item.Name() + "\","
+			result = result + "\"" + item.Name() + "\",\n"
 		}
 	}
 	return result
