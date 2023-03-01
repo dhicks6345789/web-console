@@ -224,6 +224,7 @@
 				}
 				theSubItems.forEach(function(item) {
 					subItem = item.substring(currentFolder.length);
+					console.log("subItem: " + subItem);
 					if (subItem.includes("/")) {
 						items.push(subItem);
 					} else {
@@ -232,7 +233,7 @@
 							result = result + parseFolderTree(currentFolderLevel+1, currentFolder + "/" + subItem, items);
 							result = result + folderIndent + "</ul></li>\n";
 						}
-						result = result + folderIndent + "   <li><a href=\"#\" onclick=\"editFile('" + item + "'); return false;\">" + subItem + "</a></li>\n";
+						result = result + folderIndent + "<li><a href=\"#\" onclick=\"editFile('" + item + "'); return false;\">" + subItem + "</a></li>\n";
 					}
 				});
 				return(result);
