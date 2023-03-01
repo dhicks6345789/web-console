@@ -1074,7 +1074,7 @@ func main() {
 								if permission != "E" {
 									fmt.Fprintf(theResponseWriter, "ERROR: getEditableFileList called - don't have edit permissions.")
 								} else {
-									outputString := "[\"\",\n"
+									outputString := "[\n"
 									outputString = outputString + listFolderAsJSON(1, arguments["taskroot"] + "/" + taskID)
 									outputString = outputString + "]"
 									fmt.Fprintf(theResponseWriter, outputString)
