@@ -215,38 +215,20 @@
 				webconsole.doAction("POST", window.location.href.replace("/view", "/").replace("/run", "/"), false, {"token":"<<TOKEN>>"}, true);
 			}
 			
-			function parseFolderTree(currentFolderLevel, currentFolder, theSubItems) {
-				console.log("parseFolderTree: currentFolder: " + currentFolder)
-				console.log(theSubItems);
-				items = [];
-				result = "";
-				subFolder = "";
-				previousSubFolder = "";
+			// A recursive function that steps through the given JSON folder structure and produces an HTML string consisting of nested UL elements.
+			function parseFolderTree(currentFolderLevel, currentFolder, theItems) {
 				folderIndent = "";
 				for (pl = 0; pl < currentFolderLevel; pl = pl + 1) {
 					folderIndent = folderIndent + "   ";
 				}
-				theSubItems.forEach(function(item) {
-					if (item.includes("/")) {
-						subFolder = item.split("/")[0];
-						items.push(item.substring(subFolder.length));
-						if (subFolder != previousSubFolder) {
-							if (items.length > 0) {
-								result = result + folderIndent + "<li><span class=\"caret\">" + subFolder + "</span><ul class=\"nested\">\n";
-								result = result + parseFolderTree(currentFolderLevel+1, currentFolder + "/" + subFolder, items);
-								result = result + folderIndent + "</ul></li>\n";
-							}
-							items = [];
-						}
-						previousSubFolder = subFolder;
+				result = "";
+				theItems.forEach(function(item) {
+					if (typeof item === "string") {
+						result = result + folderIndent + "<li><a href=\"#\" onclick=\"editFile('" + currentFolder + "/" + item + "'); return false;\">" + item + "</a></li>\n";
 					} else {
-						if (items.length > 0) {
-							result = result + folderIndent + "<li><span class=\"caret\">" + currentFolder + "</span><ul class=\"nested\">\n";
-							result = result + parseFolderTree(currentFolderLevel+1, currentFolder + "/" + subFolder, items);
-							result = result + folderIndent + "</ul></li>\n";
-						}
-						items = [];
-						result = result + folderIndent + "<li><a href=\"#\" onclick=\"editFile('" + item + "'); return false;\">" + item + "</a></li>\n";
+						result = result + folderIndent + "<li><span class=\"caret\">" + item[0] + "</span><ul class=\"nested\">\n";
+						result = result + parseFolderTree(currentFolderLevel+1, currentFolder + "/" + item[0], item[1]);
+						result = result + folderIndent + "</ul></li>\n";
 					}
 				});
 				return(result);
@@ -289,64 +271,11 @@
 					});
 				}
 				if (permission == "E") {
-					// If the user has "edit" permissions, show the "edit" block.
+					// If the user has "edit" permissions, show the "edit" block - first, get a list of files for this task from the server.
 					webconsole.APICall("getEditableFileList", {}, function(result) {
-						folders = [""]
-						previousFolder = ""
-						previousFolderLevel = 0
-						editableFileList = "";
-						console.log(result);
-						JSONResult = JSON.parse(result);
-						console.log(JSONResult);
-						//editableFileList = parseFolderTree(0, "", JSONResult);
-						/*JSONResult.forEach(function(editableFile) {
-							currentFolder = "";
-							currentFolderName = "";
-							currentFileName = editableFile;
-							folderIndent = "";
-							folderLevel = 0;
-							newFoldersString = ""
-							if (editableFile.includes("/")) {
-								currentFileName = editableFile.split("/").slice(-1)[0];
-								currentFolderSplit = editableFile.split("/").slice(0, -1);
-								folderLevel = currentFolderSplit.length;
-								previousFolderSplit = previousFolder.split("/");
-								if (folderLevel >= previousFolderSplit.length) {
-									previousFolder = "";
-									for (pl = 0; pl < folderLevel; pl = pl + 1) {
-										currentFolderName = currentFolderSplit[pl]
-										currentFolder = currentFolder + "/" + currentFolderName
-										previousFolder = previousFolder + "/" + previousFolderSplit[pl]
-										folderIndent = folderIndent + "   ";
-										if (!folders.includes(currentFolder)) {
-											folders.push(currentFolder);
-											newFoldersString = newFoldersString + folderIndent + "<li><span class=\"caret\">" + currentFolderSplit[pl] + "</span><ul class=\"nested\">\n";
-										} else {
-											if (previousFolder != currentFolder) {
-												editableFileList = editableFileList + folderIndent + "CCC</ul></li>\n";
-											}
-										}
-									}
-								}
-							}
-							if (currentFolder != previousFolder && folderLevel == previousFolderLevel) {
-								editableFileList = editableFileList + folderIndent + "AAA</ul></li>\n";
-							}
-							if (currentFolder != previousFolder && folderLevel <= previousFolderLevel) {
-								for (pl = 0; pl < (previousFolderLevel - folderLevel); pl = pl + 1) {
-									editableFileList = editableFileList + folderIndent + "BBB</ul></li>\n";
-								}
-							}
-							editableFileList = editableFileList + newFoldersString;
-							editableFileList = editableFileList + folderIndent + "   <li><a href=\"#\" onclick=\"editFile('" + editableFile + "'); return false;\">" + currentFileName + "</a></li>\n";
-							previousFolder = currentFolder;
-							previousFolderLevel = folderLevel;
-						});
-						for (pl = 0; pl < folderLevel; pl = pl + 1) {
-							editableFileList = editableFileList + folderIndent + "</ul></li>\n";
-						}*/
-						document.getElementById("editFileList").innerHTML = editableFileList;
-						console.log(editableFileList);
+						// Parse that list of file into a JSON structure, then call a function that turns that structure into a string of HTML
+						// unordered lists (<UL></UL>).
+						document.getElementById("editFileList").innerHTML = parseFolderTree(0, "", JSON.parse(result));
 						
 						// Add functionality to each LI item in the edit file view to make a exandable / collapsible tree view.
 						var toggler = document.getElementsByClassName("caret");
