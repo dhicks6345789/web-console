@@ -563,6 +563,7 @@ func readUserFile(theConfigPath string, theHashKey string) map[string]string {
 	return result
 }
 
+// A utility function that returns true if the string-to-match is in the given array of strings.
 func contains(theItems []string, theMatch string) bool {
 	for _, item := range theItems {
 		if theMatch == item {
@@ -572,6 +573,7 @@ func contains(theItems []string, theMatch string) bool {
 	return false
 }
 
+// A function that recursivly walks a folder tree and constructs a JSON representation, returned as a string.
 func listFolderAsJSON(folderLevel int, thePath string) string {
 	result := ""
 	items, itemErr := ioutil.ReadDir(thePath)
@@ -1067,15 +1069,14 @@ func main() {
 								} else {
 									fmt.Fprintf(theResponseWriter, "NO")
 								}
-							// Return a list of editable files for this task - needs edit permissions.
+							// Return a list of editable files for this task, as a JSON structure - needs edit permissions.
 							} else if strings.HasPrefix(requestPath, "/api/getEditableFileList") {
 								if permission != "E" {
 									fmt.Fprintf(theResponseWriter, "ERROR: getEditableFileList called - don't have edit permissions.")
 								} else {
 									outputString := "[\"\",\n"
-									taskPath := arguments["taskroot"] + "/" + taskID
-									outputString = outputString + listFolderAsJSON(0, taskPath)
-									outputString = outputString + "\n]"
+									outputString = outputString + listFolderAsJSON(1, arguments["taskroot"] + "/" + taskID)
+									outputString = outputString + "]"
 									fmt.Fprintf(theResponseWriter, outputString)
 								}
 							// Return the contents of an editable file - needs edit permissions.
