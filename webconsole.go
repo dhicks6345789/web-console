@@ -578,8 +578,9 @@ func listFolderAsJSON(folderLevel int, thePath string) string {
 	if err != nil {
 		return "Error reading path: " + thePath
 	}
+	folderIndent := ""
 	for pl := 0; pl < folderLevel; pl = pl + 1 {
-		folderIndent = folderIndent + "   ";
+		folderIndent = folderIndent + "   "
 	}
 	for _, item := range files {
 		if item.IsDir() {
