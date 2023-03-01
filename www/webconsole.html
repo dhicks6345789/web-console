@@ -282,7 +282,7 @@
 								currentFolderName = currentFolderSplit[currentFolderSplit.length-2];
 							}
 							if (currentFolder != previousFolder && folderLevel <= previousFolderLevel) {
-								for (pl = 0; pl < (previousFolderLevel - folderLevel) + 1; pl = pl + 1) {
+								for (pl = 0; pl <= (previousFolderLevel - folderLevel); pl = pl + 1) {
 									editableFileList = editableFileList + folderIndent + "</ul></li>\n";
 								}
 							}
