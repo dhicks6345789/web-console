@@ -283,7 +283,7 @@
 							}
 							if (currentFolder != previousFolder && folderLevel <= previousFolderLevel) {
 								for (pl = 0; pl <= (previousFolderLevel - folderLevel); pl = pl + 1) {
-									editableFileList = editableFileList + folderIndent + "</ul></li>\n";
+									editableFileList = editableFileList + folderIndent + "AAA</ul></li>\n";
 								}
 							}
 							editableFileList = editableFileList + newFoldersString
@@ -292,7 +292,7 @@
 							previousFolderLevel = folderLevel;
 						});
 						for (pl = 0; pl < folderLevel; pl = pl + 1) {
-							editableFileList = editableFileList + folderIndent + "</ul></li>\n";
+							editableFileList = editableFileList + folderIndent + "BBB</ul></li>\n";
 						}
 						document.getElementById("editFileList").innerHTML = editableFileList;
 						console.log(editableFileList);
