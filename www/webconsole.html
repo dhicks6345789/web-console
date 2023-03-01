@@ -228,7 +228,7 @@
 						items.push(subItem);
 					} else {
 						if (items.length > 0) {
-							result = result + folderIndent + "<li><span class=\"caret\">" + currentFolderSplit[pl] + "</span><ul class=\"nested\">\n";
+							result = result + folderIndent + "<li><span class=\"caret\">" + currentFolder + "</span><ul class=\"nested\">\n";
 							result = result + parseFolderTree(currentFolderLevel+1, currentFolder + "/" + subItem, items);
 							result = result + folderIndent + "</ul></li>\n";
 						}
