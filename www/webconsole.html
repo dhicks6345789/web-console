@@ -216,6 +216,7 @@
 			}
 			
 			function parseFolderTree(currentFolderLevel, currentFolder, theSubItems) {
+				console.log(theSubItems);
 				items = [];
 				result = "";
 				folderIndent = "";
@@ -224,7 +225,7 @@
 				}
 				theSubItems.forEach(function(item) {
 					subItem = item.substring(currentFolder.length);
-					console.log("subItem: " + subItem);
+					//console.log("subItem: " + subItem);
 					if (subItem.includes("/")) {
 						items.push(subItem);
 					} else {
