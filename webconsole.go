@@ -583,19 +583,24 @@ func listFolderAsJSON(folderLevel int, thePath string) string {
 		folderIndent = folderIndent + "   "
 	}
 	for pl := 0; pl < len(items); pl = pl + 1 {
+		itemAdded := false
 		if items[pl].IsDir() {
 			if contains([]string {".git"}, items[pl].Name()) == false {
 				result = result + folderIndent + "[\"" + items[pl].Name() + "\",\n"
 				result = result + folderIndent + listFolderAsJSON(folderLevel + 1, thePath + "/" + items[pl].Name())
 				result = result + folderIndent + "]"
+				itemAdded = true
 			}
 		} else {
 			result = result + folderIndent + "\"" + items[pl].Name() + "\""
+			itemAdded = true
 		}
-		if pl < len(items) - 1 {
-			result = result + ","
+		if itemAdded == true {
+			if pl < len(items) - 1 {
+				result = result + ","
+			}
+			result = result + "\n"
 		}
-		result = result + "\n"
 	}
 	return result
 }
