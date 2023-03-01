@@ -25,7 +25,6 @@ import (
 	"encoding/csv"
 	"encoding/hex"
 	"encoding/json"
-	"path/filepath"
 	
 	// Image resizing library.
 	"github.com/nfnt/resize"
@@ -564,6 +563,24 @@ func readUserFile(theConfigPath string, theHashKey string) map[string]string {
 	return result
 }
 
+func listFolderAsJSON(thePath) {
+	result = ""
+	files, err := ioutil.ReadDir(thePath)
+	if err != nil {
+		return "Error reading path: " + thePath
+	}
+	for _, item := range files {
+		if item.IsDir() {
+			result = result + "["
+			result = result + listFolderAsJSON(thePath + "/" + item.name)
+			result = result + "],"
+		} else {
+			result = result + listFolderAsJSON("\"" + item.name + "\",")
+		}
+	}
+	return result
+}
+
 func doServeFile(theResponseWriter http.ResponseWriter, theRequest *http.Request, theFile string, theTaskID string, theToken string, thePermission string, theTitle string, theDescription string) {
 	// Serve the "fileToServe" file, first adding in the Task ID and token values to be used client-side, as well
 	// as including the appropriate formatting.js file.
@@ -1030,25 +1047,9 @@ func main() {
 								} else {
 									outputString := "[\n"
 									taskPath := arguments["taskroot"] + "/" + taskID
-									editableErr := filepath.Walk(taskPath, func(path string, info os.FileInfo, err error) error {
-										if err != nil {
-											return err
-										}
-										pathInfo, _ := os.Stat(path)
-										if !pathInfo.IsDir() {
-											canonicalPath := strings.Replace(path[len(taskPath)+1:], "\\", "/", -1)
-											if !strings.Contains(canonicalPath, ".git/") {
-												outputString = outputString + "\"" + canonicalPath + "\",\n"
-											}
-										}
-										return nil
-									})
-									if editableErr != nil {
-										fmt.Fprintf(theResponseWriter, "ERROR: Can't list editable files.")
-									} else {
-										outputString = outputString[0:len(outputString)-2] + "\n]"
-										fmt.Fprintf(theResponseWriter, outputString)
-									}
+									outputString = outputString + listFolderAsJSON(taskPath)
+									outputString = outputString + "\n]"
+									fmt.Fprintf(theResponseWriter, outputString)
 								}
 							// Return the contents of an editable file - needs edit permissions.
 							} else if strings.HasPrefix(requestPath, "/api/getEditableFileContents") {
