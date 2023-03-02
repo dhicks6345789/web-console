@@ -388,6 +388,8 @@
 				align-items: left;
 				display: flex;
 				justify-content: left;
+				overflow-x:hidden;
+				overflow-y:auto;
 			}
 			
 			.containerResizeableResizer {
@@ -544,10 +546,10 @@
 									<div class="containerResizeable">
 										<!-- The file browser component - populated via Javascript at page load time. -->
 										<div class="containerResizeableLeft">
-											<div style="overflow-x:hidden; overflow-y:auto;">
+											<!-- <div style="overflow-x:hidden; overflow-y:auto;"> -->
 												<ul id="editFileList">
 												</ul>
-											</div>
+											<!-- </div> -->
 										</div>
 										<!-- The "bar" for the user to click-and-drag to change panel sizes. -->
 										<div class="containerResizeableResizer" id="containerResizeableDragBar"></div>
