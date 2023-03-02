@@ -371,9 +371,9 @@
 		
 		<!-- CSS for the resizeable container, used for the file browser / code editor box. -->
 		<style>
-			* {
+			/* * {
 				box-sizing: border-box;
-			}
+			} */
 			
 			.containerResizeable {
 				display: flex;
@@ -385,9 +385,9 @@
 			.containerResizeableLeft {
 				/* The initial width of the left resizeable panel. */
 				width: 15%;
-				align-items: center;
+				align-items: left;
 				display: flex;
-				justify-content: center;
+				justify-content: left;
 			}
 			
 			.containerResizeableResizer {
@@ -544,7 +544,7 @@
 									<div class="containerResizeable">
 										<!-- The file browser component - populated via Javascript at page load time. -->
 										<div class="containerResizeableLeft">
-											<div style="overflow-x:hidden; overflow-y:auto; text-align:left;">
+											<div style="overflow-x:hidden; overflow-y:auto;">
 												<ul id="editFileList">
 												</ul>
 											</div>
