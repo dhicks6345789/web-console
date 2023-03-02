@@ -288,7 +288,10 @@
 						} 
 					});
 					
-					// --- Javascript to handle the resizeable file browser / code editor panel.
+					
+					
+					// Javascript to handle the resizeable file browser / code editor panel. See original code at:
+					// https://htmldom.dev/create-resizable-split-views/
 					
 					// Get the drag bar element.
 					const resizer = document.getElementById("containerResizeableDragBar");
@@ -347,8 +350,7 @@
 					
 					// Attach the handler.
 					resizer.addEventListener("mousedown", mouseDownHandler);
-					
-					// --- End of Javascript to handle the resizeable panel.
+					// End of Javascript to handle the resizeable panel.
 					
 					// Make the edit block visible.
 					document.getElementById("editBlock").style.display = "block";
