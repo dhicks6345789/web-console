@@ -171,7 +171,9 @@
 				currentEditFile = theFilename;
 				webconsole.APICall("getEditableFileContents", {"filename":theFilename}, function(result) {
 					if (aceEditor == null) {
-						aceEditor = ace.edit("editFileBox");
+						aceEditor = ace.edit("editFileBox", {
+							autoScrollEditorIntoView: true
+						});
 					}
 					if (!(theFilename in aceSessions)) {
 						aceSessionMode = "ace/mode/text";
