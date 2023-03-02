@@ -371,10 +371,6 @@
 		
 		<!-- CSS for the resizeable container, used for the file browser / code editor box. -->
 		<style>
-			/* * {
-				box-sizing: border-box;
-			} */
-			
 			.containerResizeable {
 				display: flex;
 				border: 1px solid #cbd5e0;
@@ -385,11 +381,12 @@
 			.containerResizeableLeft {
 				/* The initial width of the left resizeable panel. */
 				width: 15%;
+				
 				align-items: left;
 				display: flex;
 				justify-content: left;
-				overflow-x:hidden;
-				overflow-y:auto;
+				overflow-x: auto;
+				overflow-y: auto;
 			}
 			
 			.containerResizeableResizer {
@@ -402,9 +399,11 @@
 			.containerResizeableRight {
 				/* The right panel takes the remaining width. */
 				flex: 1;
-				align-items: center;
+				
+				align-items: left;
 				display: flex;
-				justify-content: center;
+				justify-content: left;
+				overflow-x: auto;
 			}
 		</style>
 		
@@ -546,10 +545,8 @@
 									<div class="containerResizeable">
 										<!-- The file browser component - populated via Javascript at page load time. -->
 										<div class="containerResizeableLeft">
-											<!-- <div style="overflow-x:hidden; overflow-y:auto;"> -->
-												<ul id="editFileList">
-												</ul>
-											<!-- </div> -->
+											<ul id="editFileList">
+											</ul>
 										</div>
 										<!-- The "bar" for the user to click-and-drag to change panel sizes. -->
 										<div class="containerResizeableResizer" id="containerResizeableDragBar"></div>
