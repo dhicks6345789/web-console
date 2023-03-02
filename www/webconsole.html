@@ -172,7 +172,8 @@
 				webconsole.APICall("getEditableFileContents", {"filename":theFilename}, function(result) {
 					if (aceEditor == null) {
 						aceEditor = ace.edit("editFileBox", {
-							autoScrollEditorIntoView: true
+							autoScrollEditorIntoView: true,
+							hScrollBarAlwaysVisible: true
 						});
 					}
 					if (!(theFilename in aceSessions)) {
