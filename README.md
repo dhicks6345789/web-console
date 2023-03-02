@@ -84,6 +84,10 @@ The web user interface is constructed using [Bootstrap 5](https://getbootstrap.c
 
 The text editor in the "Edit" section of the user interface is implemented using [Ace](https://ace.c9.io/). Ace isn't embedded in the project in the same way Bootstrap is (the Ace project consists of a large number of separate JS files, and I couldn't figure out Git's sub-project feature...), it's simply copied into the www/ace folder at build time - check the build scripts (build.sh/build.bat) for details.
 
+Code for the resizeable file browser / code editor panel originated from [Nguyen Huu Phuoc](https://htmldom.dev/create-resizable-split-views/).
+
+Code for the file browser tree view originated from [W3Schools](https://www.w3schools.com/howto/howto_js_treeview.asp).
+
 ## To Do
 
 See the dedicated [To-Do list](docs/TODO.md) in the documentation.
