@@ -173,7 +173,8 @@
 					if (aceEditor == null) {
 						aceEditor = ace.edit("editFileBox", {
 							autoScrollEditorIntoView: true,
-							hScrollBarAlwaysVisible: true
+							hScrollBarAlwaysVisible: true,
+							vScrollBarAlwaysVisible: true
 						});
 					}
 					if (!(theFilename in aceSessions)) {
@@ -378,9 +379,7 @@
 		<!-- CSS for the resizeable container, used for the file browser / code editor box. -->
 		<style>
 			.containerResizeable {
-				/* box-sizing: border-box; */
 				display: flex;
-				/* border: 1px solid #cbd5e0; */
 				height: 100%;
 				width: 100%;
 			}
@@ -569,7 +568,7 @@
 									</div>
 								</div>
 								<div class="row">
-									<div class="col-sm-12">
+									<div class="col-sm-12" style="border: 1px solid #cbd5e0;">
 										<button class="btn btn-success" type="button" id="saveFileButton" onclick="saveFile()">Save</button>
 									</div>
 								</div>
