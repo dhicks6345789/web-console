@@ -326,11 +326,11 @@
 						const newLeftWidth = ((leftWidth + dx) * 100) / resizer.parentNode.getBoundingClientRect().width;
 						leftSide.style.width = `${newLeftWidth}%`;
 						
-						resizer.style.cursor = 'col-resize';
-						document.body.style.cursor = 'col-resize';
+						resizer.style.cursor = "col-resize";
+						document.body.style.cursor = "col-resize";
 						
-						leftSide.style.userSelect = 'none';
-						leftSide.style.pointerEvents = 'none';
+						leftSide.style.userSelect = "none";
+						leftSide.style.pointerEvents = "none";
 						
 						rightSide.style.userSelect = "none";
 						rightSide.style.pointerEvents = "none";
@@ -545,7 +545,7 @@
 						</h2>
 						<div id="collapseEdit" class="accordion-collapse collapse" aria-labelledby="headingEdit" data-bs-parent="#accordionEdit">
 							<div class="accordian-body text-start">
-								<div class="row">
+								<div class="row" style="width:100%; height:84vh;">
 									<!-- A user-resizeable two-pane split panel, with a file browser on the left and code editor on the right. -->
 									<div class="containerResizeable">
 										<!-- The file browser component - populated via Javascript at page load time. -->
