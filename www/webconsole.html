@@ -380,7 +380,7 @@
 		<style>
 			.containerResizeable {
 				display: flex;
-				height: 100%;
+				height: 95vh;
 				width: 100%;
 			}
 			
@@ -549,14 +549,14 @@
 							<div class="accordian-body text-start">
 								<!-- The edit block fills all of the available vertical space (minus a bit for menu bars / save buttons) so
 								the user has a good-sized editor window. -->
-								<div class="row" style="width:100%; height:90vh;">
+								<!-- <div class="row" style="width:100%; height:90vh;"> -->
 									<!-- A user-resizeable two-pane split panel, with a file browser on the left and code editor on the right. -->
 									<div class="containerResizeable">
 										<!-- The file browser component - populated via Javascript at page load time. -->
 										<div class="containerResizeableLeft">
 											<div class="row">
 												<div class="col-sm-12">
-													<ul id="editFileList" style="height:100%;"></ul>
+													<ul id="editFileList" style="height:100%; width:100%;"></ul>
 												</div>
 											</div>
 											<div class="row">
@@ -574,12 +574,7 @@
 											</div>
 										</div>
 									</div>
-								</div>
-								<!-- <div class="row">
-									<div class="col-sm-12" style="border: 1px solid #cbd5e0;">
-										<button class="btn btn-success" type="button" id="saveFileButton" onclick="saveFile()">Save</button>
-									</div>
-								</div> -->
+								<!-- </div> -->
 							</div>
 						</div>
 					</div>
