@@ -393,6 +393,7 @@
 				justify-content: left;
 				overflow-x: auto;
 				overflow-y: auto;
+				height: 100%;
 			}
 			
 			.containerResizeableResizer {
@@ -409,6 +410,7 @@
 				align-items: left;
 				display: flex;
 				justify-content: left;
+				height: 100%;
 			}
 		</style>
 		
@@ -544,8 +546,8 @@
 							</button>
 						</h2>
 						<div id="collapseEdit" class="accordion-collapse collapse" aria-labelledby="headingEdit" data-bs-parent="#accordionEdit">
-							<div class="accordian-body text-start" style="width:100%; height:84vh;">
-								<div class="row">
+							<div class="accordian-body text-start">
+								<div class="row" style="width:100%; height:84vh;">
 									<!-- A user-resizeable two-pane split panel, with a file browser on the left and code editor on the right. -->
 									<div class="containerResizeable">
 										<!-- The file browser component - populated via Javascript at page load time. -->
