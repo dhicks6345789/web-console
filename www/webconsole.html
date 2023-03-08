@@ -377,7 +377,8 @@
 						const dy = e.clientY - y;
 						
 						const newTopHeight = ((topHeight + dy) * 100) / verticalResizer.parentNode.getBoundingClientRect().height;
-						topSide.style.height = `${newTopHeight}vh`;
+						//topSide.style.height = `${newTopHeight}vh`;
+						console.log(newTopHeight);
 						
 						verticalResizer.style.cursor = "col-resize";
 						document.body.style.cursor = "col-resize";
