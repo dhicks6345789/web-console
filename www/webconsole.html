@@ -376,8 +376,9 @@
 						const dx = e.clientX - x;
 						const dy = e.clientY - y;
 						
-						const newTopHeight = ((topHeight + dy) * 100) / verticalResizer.parentNode.getBoundingClientRect().height;
+						//const newTopHeight = ((topHeight + dy) * 100) / verticalResizer.parentNode.getBoundingClientRect().height;
 						//topSide.style.height = `${newTopHeight}vh`;
+						const newTopHeight = topHeight + dy;
 						console.log("topHeight:");
 						console.log(topHeight);
 						console.log("newTopHeight:");
