@@ -385,8 +385,8 @@
 						console.log("newTopHeight:");
 						console.log(newTopHeight);
 						
-						verticalResizer.style.cursor = "ew-resize";
-						document.body.style.cursor = "ew-resize";
+						verticalResizer.style.cursor = "row-resize";
+						document.body.style.cursor = "row-resize";
 						
 						topSide.style.userSelect = "none";
 						topSide.style.pointerEvents = "none";
@@ -399,9 +399,8 @@
 					
 					const verticalResizerMouseUpHandler = function () {
 						verticalResizer.style.cursor = "ns-resize";
-						
 						//verticalResizer.style.removeProperty("cursor");
-						//document.body.style.removeProperty("cursor");
+						document.body.style.removeProperty("cursor");
 						
 						topSide.style.removeProperty("user-select");
 						topSide.style.removeProperty("pointer-events");
