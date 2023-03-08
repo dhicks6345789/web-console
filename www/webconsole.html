@@ -309,18 +309,18 @@
 					let leftWidth = 0;
 					
 					// Handle the mousedown event that's triggered when user drags the horizontalResizer.
-					const mouseDownHandler = function (e) {
+					const horizontalResizerMouseDownHandler = function (e) {
 						// Get the current mouse position.
 						x = e.clientX;
 						y = e.clientY;
 						leftWidth = leftSide.getBoundingClientRect().width;
 						
 						// Attach the listeners to "document".
-						document.addEventListener("mousemove", mouseMoveHandler);
-						document.addEventListener("mouseup", mouseUpHandler);
+						document.addEventListener("mousemove", horizontalResizerMouseMoveHandler);
+						document.addEventListener("mouseup", horizontalResizerMouseUpHandler);
 					};
 					
-					const mouseMoveHandler = function (e) {
+					const horizontalResizerMouseMoveHandler = function (e) {
 						// How far the mouse has been moved.
 						const dx = e.clientX - x;
 						const dy = e.clientY - y;
@@ -343,7 +343,7 @@
 						}
 					};
 					
-					const mouseUpHandler = function () {
+					const horizontalResizerMouseUpHandler = function () {
 						horizontalResizer.style.removeProperty("cursor");
 						document.body.style.removeProperty("cursor");
 						
@@ -354,12 +354,12 @@
 						rightSide.style.removeProperty("pointer-events");
 						
 						// Remove the handlers of "mousemove" and "mouseup".
-						document.removeEventListener("mousemove", mouseMoveHandler);
-						document.removeEventListener("mouseup", mouseUpHandler);
+						document.removeEventListener("mousemove", horizontalResizerMouseMoveHandler);
+						document.removeEventListener("mouseup", horizontalResizerMouseUpHandler);
 					};
 					
-					// Attach the handler.
-					horizontalResizer.addEventListener("mousedown", mouseDownHandler);
+					// Attach the handler to handle the mouse being clicked on the horizontal resizer bar.
+					horizontalResizer.addEventListener("mousedown", horizontalResizerMouseDownHandler);
 					// End of Javascript to handle the resizeable panel.
 					
 					
