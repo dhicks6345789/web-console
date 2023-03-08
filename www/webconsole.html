@@ -658,8 +658,14 @@
 								<div class="containerResizeable">
 									<!-- <div class="containerResizeableTop"> -->
 										<div class="containerResizeableLeft">
-											<!-- The file browser component - populated via Javascript at page load time. -->
- 											<ul id="editFileList" style="height:90vh; width:100%; overflow-x:auto; overflow-y:auto;"></ul>
+											<div class="containerResizeableTop">
+												<!-- The file browser component - populated via Javascript at page load time. -->
+ 												<ul id="editFileList" style="height:90vh; width:100%; overflow-x:auto; overflow-y:auto;"></ul>
+											</div>
+											<div class="containerResizeableResizer" data-direction="vertical" id="containerResizeableDragBarVertical">
+											</div>
+											<div class="containerResizeableBottom">
+											</div>
 										</div>
 										<!-- The "bar" for the user to click-and-drag to change panel sizes. -->
 										<div class="containerResizeableResizer" data-direction="horizontal" id="containerResizeableDragBarHorizontal"></div>
