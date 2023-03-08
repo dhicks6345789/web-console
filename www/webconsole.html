@@ -385,8 +385,8 @@
 						console.log("newTopHeight:");
 						console.log(newTopHeight);
 						
-						verticalResizer.style.cursor = "col-resize";
-						document.body.style.cursor = "col-resize";
+						verticalResizer.style.cursor = "ew-resize";
+						document.body.style.cursor = "ew-resize";
 						
 						topSide.style.userSelect = "none";
 						topSide.style.pointerEvents = "none";
@@ -398,8 +398,10 @@
 					};
 					
 					const verticalResizerMouseUpHandler = function () {
-						verticalResizer.style.removeProperty("cursor");
-						document.body.style.removeProperty("cursor");
+						verticalResizer.style.cursor = "ns-resize";
+						
+						//verticalResizer.style.removeProperty("cursor");
+						//document.body.style.removeProperty("cursor");
 						
 						topSide.style.removeProperty("user-select");
 						topSide.style.removeProperty("pointer-events");
