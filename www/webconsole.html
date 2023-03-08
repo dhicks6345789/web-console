@@ -494,28 +494,11 @@
 				
 				align-items: left;
 				display: flex;
-				flex-direction: column;
 				justify-content: left;
 				height: 100%;
 				padding: 0px;
 				margin: 0px;
 				border: 0px;
-			}
-			.containerResizeableTop {
-				/* Initial height. */
-				height: 90%;
-				align-items: left;
-				display: flex;
-				flex-direction: row;
-				justify-content: left;
-			}
-			.containerResizeableBottom {
-				/* The bottom panel takes the remaining height. */
-				flex: 1;
-				align-items: left;
-				display: flex;
-				flex-direction: row;
-				justify-content: left;
 			}
 		</style>
 		
@@ -656,35 +639,21 @@
 								editor on the right) fills all of the available vertical space (minus a bit for menu bars / save buttons)
 								so the user has a good-sized editor window. -->
 								<div class="containerResizeable">
-									<!-- <div class="containerResizeableTop"> -->
-										<div class="containerResizeableLeft">
-											<div class="containerResizeableTop">
-												<div>
-													<div>Top!</div>
-													<div>This is the top!</div>
-													<div>This is still the top!</div>
-													<!-- The file browser component - populated via Javascript at page load time. -->
- 													<ul id="editFileList" style="height:90vh; width:100%; overflow-x:auto; overflow-y:auto;"></ul>
-												</div>
-											</div>
-											<div class="containerResizeableResizer" data-direction="vertical" id="containerResizeableDragBarVertical">
-											</div>
-											<div class="containerResizeableBottom">
-												Bottom!
-											</div>
-										</div>
-										<!-- The "bar" for the user to click-and-drag to change panel sizes. -->
-										<div class="containerResizeableResizer" data-direction="horizontal" id="containerResizeableDragBarHorizontal"></div>
-										<!-- The code editor panel - we use an embeded version of the Ace editor. -->
-										<div class="containerResizeableRight" id="editFilePanel">
-											<div style="position:relative; width:100%; height:100%;">
-												<div id="editFileBox" style="width:100%; height:100%;"></div>
-											</div>
+									<div class="containerResizeableLeft">
+										<!-- The file browser component - populated via Javascript at page load time. -->
+										<ul id="editFileList" style="height:90vh; width:100%; overflow-x:auto; overflow-y:auto;"></ul>
+									</div>
+									<!-- The "bar" for the user to click-and-drag to change left / right panel sizes. -->
+									<div class="containerResizeableResizer" data-direction="horizontal" id="containerResizeableDragBarHorizontal"></div>
+									<!-- The code editor panel - we use an embeded version of the Ace editor. -->
+									<div class="containerResizeableRight" id="editFilePanel">
+										<div style="position:relative; width:100%; height:100%;">
+											<div id="editFileBox" style="width:100%; height:100%;"></div>
 										</div>
 									</div>
-									<!-- <div class="containerResizeableResizer" data-direction="vertical" id="containerResizeableDragBarVertical"></div>
-									<div class="containerResizeableBottom"></div>
-								</div> -->
+								</div>
+								<!-- The "bar" for the user to click-and-drag to change top / bottom panel sizes. -->
+								<div class="containerResizeableResizer" data-direction="horizontal" id="containerResizeableDragBarVertical"></div>
 								<div class="col-sm-12">
 									<button class="btn btn-success" type="button" id="saveFileButton" onclick="saveFile()">Save</button>
 								</div>
