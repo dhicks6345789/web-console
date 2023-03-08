@@ -460,26 +460,19 @@
 				height: 90vh;
 				width: 100%;
 			}
-			
 			.containerResizeableLeft {
 				/* The initial width of the left resizeable panel. */
 				width: 15%;
 				
 				align-items: left;
 				display: flex;
+				flex-direction: column;
 				justify-content: left;
 				height: 100%;
 				padding: 0px;
 				margin: 0px;
 				border: 0px;
 			}
-			
-			/*.containerResizeableResizer {
-				background-color: #cbd5e0;
-				cursor: ew-resize;
-				height: 100%;
-				width: 2px;
-			}*/
 			.containerResizeableResizer[data-direction="horizontal"] {
 				background-color: #cbd5e0;
 				cursor: ew-resize;
@@ -498,6 +491,7 @@
 				
 				align-items: left;
 				display: flex;
+				flex-direction: column;
 				justify-content: left;
 				height: 100%;
 				padding: 0px;
@@ -509,6 +503,7 @@
 				height: 90%;
 				align-items: left;
 				display: flex;
+				flex-direction: row;
 				justify-content: left;
 			}
 			.containerResizeableBottom {
@@ -516,6 +511,7 @@
 				flex: 1;
 				align-items: left;
 				display: flex;
+				flex-direction: row;
 				justify-content: left;
 			}
 		</style>
