@@ -364,7 +364,7 @@
 						// Get the current mouse position.
 						x = e.clientX;
 						y = e.clientY;
-						topHeight = topSide.getBoundingClientRect().width;
+						topHeight = topSide.getBoundingClientRect().height;
 						
 						// Attach the listeners to "document".
 						document.addEventListener("mousemove", verticalResizerMouseMoveHandler);
@@ -377,7 +377,7 @@
 						const dy = e.clientY - y;
 						
 						const newTopHeight = ((topHeight + dy) * 100) / verticalResizer.parentNode.getBoundingClientRect().height;
-						//topSide.style.height = `${newTopHeight}vh`;
+						topSide.style.height = `${newTopHeight}vh`;
 						console.log(newTopHeight);
 						
 						verticalResizer.style.cursor = "col-resize";
