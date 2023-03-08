@@ -348,7 +348,9 @@
 							nextSibling.style.pointerEvents = 'none';
 							
 							// We need to tell the Ace editor panel that it has changed size.
-							aceEditor.resize();
+							if (typeof aceEditor !== "undefined" {
+								aceEditor.resize();
+							}
 						};
 						
 						const mouseUpHandler = function () {
