@@ -376,15 +376,9 @@
 						const dx = e.clientX - x;
 						const dy = e.clientY - y;
 						
-						//const newTopHeight = ((topHeight + dy) * 100) / verticalResizer.parentNode.getBoundingClientRect().height;
-						//topSide.style.height = `${newTopHeight}vh`;
 						const newTopHeight = topHeight + dy;
-						//document.getElementById("editorWindow").style.height = newTopHeight;
-						document.getElementById("editorWindow").style.height = newTopHeight.toString() + "px"
-						console.log("topHeight:");
-						console.log(topHeight);
-						console.log("newTopHeight:");
-						console.log(newTopHeight);
+						topSide.style.height = `${newTopHeight}px`;
+						//document.getElementById("editorWindow").style.height = newTopHeight.toString() + "px"
 						
 						verticalResizer.style.cursor = "row-resize";
 						document.body.style.cursor = "row-resize";
