@@ -103,23 +103,26 @@
 								if (value.trim() == "ERROR: REDIRECT") {
 									if (displayAlerts == true) {
 										if (permission == "E") {
+											// Make sure the content in the "result" section is refreshed.
 											document.getElementById("resultIframe").contentWindow.location.reload();
+											
+											// Make sure the "result" section is un-collapsed.
 											var resultCollapse = new bootstrap.Collapse(document.getElementById("collapseResult"), {
 												toggle: false
 											});
 											resultCollapse.show();
 											
-											acc = document.getElementById("mainBody");
-											var scrollOffset = acc.scrollTop + document.getElementById("collapseResult").parentNode.offsetTop;
-											console.log(scrollOffset);
+											collapseResult = document.getElementById("collapseResult");
+											collapseResult.getAttribute("class");
+											console.log(collapseResult);
+											
+											// Scroll to the "result" section.
+											var scrollOffset = document.getElementById("mainBody").scrollTop + document.getElementById("collapseResult").parentNode.offsetTop;
 											window.scroll({
 												top: scrollOffset,
 												left: 0,
 												behavior: "smooth"
 											})
-											
-											//resultCollapse.scrollIntoView();
-											//document.getElementById("accordionResult").scrollIntoView({behavior: "auto", block: "nearest", inline: "nearest"});
 										} else {
 											window.location.href = window.location.href.split("?")[0].slice(0, -4) + taskID + "/";
 										}
