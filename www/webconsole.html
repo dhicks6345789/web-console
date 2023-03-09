@@ -104,9 +104,10 @@
 									if (displayAlerts == true) {
 										if (permission == "E") {
 											document.getElementById("resultIframe").contentWindow.location.reload();
-											var bsCollapse = new bootstrap.Collapse(document.getElementById("collapseFive"), {
+											var bsCollapse = new bootstrap.Collapse(document.getElementById("collapseResult"), {
 												toggle: true
 											});
+											document.getElementById("collapseResult").scrollIntoView();
 										} else {
 											window.location.href = window.location.href.split("?")[0].slice(0, -4) + taskID + "/";
 										}
