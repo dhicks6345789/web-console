@@ -107,13 +107,16 @@
 											document.getElementById("resultIframe").contentWindow.location.reload();
 											
 											// Make sure the "result" section is un-collapsed.
-											var resultCollapse = new bootstrap.Collapse(document.getElementById("collapseResult"), {
+											collapseResult = document.getElementById("collapseResult");
+											var resultCollapse = new bootstrap.Collapse(collapseResult, {
 												toggle: false
 											});
 											resultCollapse.show();
 											
-											collapseResult = document.getElementById("collapseResult");
-											console.log(collapseResult.getAttribute("class"));
+											collapseClasses = "collapsing";
+											while (.includes("collapsing")) {
+												collapseClasses = collapseResult.getAttribute("class");
+											}
 											
 											// Scroll to the "result" section.
 											var scrollOffset = document.getElementById("mainBody").scrollTop + document.getElementById("collapseResult").parentNode.offsetTop;
