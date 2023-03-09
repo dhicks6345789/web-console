@@ -584,49 +584,24 @@
 						</div>
 					</div>
 				</div>
-
-				<!-- The automation block, with handy links and copy-and-paste blocks for various services. -->
-				<div class="accordion" id="accordionAutomation">
-					<div class="accordion-item">
-						<h2 class="accordion-header" id="headingAutomation">
-							<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAutomation" aria-expanded="false" aria-controls="collapseAutomation">
-								Automation
+				
+				<!-- The result block, where user with "edit" permissions can see the result from the Task. Note that the result is different
+				from the output - the result is anything that winds up in the "www" folder in the Task's folder, and can be viewed by any
+				user with "view", "run" or "edit" permissions. This block is only for editors, as it's more handy to view the output in a
+				block alongside the code editor when editing. -->
+				<div class="accordion" id="accordionResult">
+					<div class="accordion-item" id="resultBlock" style="display:none">
+						<h2 class="accordion-header" id="headingResult">
+							<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseResult" aria-expanded="false" aria-controls="collapseResult">
+								Result
 							</button>
 						</h2>
-						<div id="collapseAutomation" class="accordion-collapse collapse" aria-labelledby="headingAutomation" data-bs-parent="#accordionAutomation">
-							<div class="accordion-body text-end">
-								<div>
-									<a href="https://ifttt.com/home" target="_blank"><img src="logos/IFTTT.svg" alt="IFTTT Logo" width="32" height="32"></a>
-									<a href="https://zapier.com/app/dashboard" target="_blank"><img src="logos/zapier.svg" alt="Zapier Logo" width="32" height="32"></a>
-									Automation URL: <input type="text" id="automationLink" value="https://" readonly/>
-									<button type="button" class="btn btn-default" aria-label="Copy Automation URL" onclick="copyAutomationURL()">
-										<img src="bootstrap-icons/1.8.1/stickies.svg" alt="Copy Automation URL" width="32" height="32">
-									</button>
-								</div>
-								<div>
-									<a href="https://curl.se/docs/manpage.html" target="_blank"><img src="logos/curl.svg" alt="curl Logo" width="32" height="32"></a>
-									curl command: <input type="text" id="CURLCommand" value="https://" readonly/>
-									<button type="button" class="btn btn-default" aria-label="Copy CURL command" onclick="copyCURLCommand()">
-										<img src="bootstrap-icons/1.8.1/stickies.svg" alt="Copy CURL command" width="32" height="32">
-									</button>
-								</div>
-								<div>
-									<a href="https://github.com/features/actions" target="_blank"><img src="logos/github.svg" alt="GitHub Logo" width="32" height="32"></a>
-									GitHub Action file:
-									<button type="button" class="btn btn-default" aria-label="Download GitHub Action file" onclick="downloadGitHubActionFile()">
-										<img src="bootstrap-icons/1.8.1/arrow-down-circle.svg" alt="Download GitHub Action file" width="32" height="32">
-									</button>
-								</div>
-								<div id="mystartBlock" style="display:none">
-									<a href="https://mystart.online" target="_blank"><img src="logos/mystart.svg" alt="Mystart.Online Logo" width="32" height="32"></a>
-									MyStart.Online Login URL: <input type="text" id="mystartLogin" value="https://" readonly/>
-									<a id="mystartLoginLink" class="btn btn-default" aria-label="Open MyStart.Online Login URL" href="#" role="button">
-										<img src="bootstrap-icons/1.8.1/arrow-right-circle.svg" alt="Open MyStart.Online Login URL" width="32" height="32">
-									</a>
-									<button type="button" class="btn btn-default" aria-label="Copy MyStart.Online Login URL" onclick="copyMystartLogin()">
-										<img src="bootstrap-icons/1.8.1/stickies.svg" alt="Copy MyStart.Online Login URL" width="32" height="32">
-									</button>
-								</div>
+						<div id="collapseResult" class="accordion-collapse collapse" aria-labelledby="headingResult" data-bs-parent="#accordionMain">
+							<div class="accordian-body text-start">
+								<!-- The result block fills 84% of the window's total verticle height to match the 10/12 width, giving
+								(hopefully) the same proportioned window size inside the iframe as the main window. -->
+								<iframe id="resultIframe" title="Result" style="width:100%; height:84vh;"></iframe>
+								<a id="resultButton" class="btn btn-primary" role="button" target="_blank">New tab</a>
 							</div>
 						</div>
 					</div>
@@ -669,23 +644,48 @@
 					</div>
 				</div>
 				
-				<!-- The result block, where user with "edit" permissions can see the result from the Task. Note that the result is different
-				from the output - the result is anything that winds up in the "www" folder in the Task's folder, and can be viewed by any
-				user with "view", "run" or "edit" permissions. This block is only for editors, as it's more handy to view the output in a
-				block alongside the code editor when editing. -->
-				<div class="accordion" id="accordionResult">
-					<div class="accordion-item" id="resultBlock" style="display:none">
-						<h2 class="accordion-header" id="headingResult">
-							<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseResult" aria-expanded="false" aria-controls="collapseResult">
-								Result
+				<!-- The automation block, with handy links and copy-and-paste blocks for various services. -->
+				<div class="accordion" id="accordionAutomation">
+					<div class="accordion-item">
+						<h2 class="accordion-header" id="headingAutomation">
+							<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAutomation" aria-expanded="false" aria-controls="collapseAutomation">
+								Automation
 							</button>
 						</h2>
-						<div id="collapseResult" class="accordion-collapse collapse" aria-labelledby="headingResult" data-bs-parent="#accordionMain">
-							<div class="accordian-body text-start">
-								<!-- The result block fills 84% of the window's total verticle height to match the 10/12 width, giving
-								(hopefully) the same proportioned window size inside the iframe as the main window. -->
-								<iframe id="resultIframe" title="Result" style="width:100%; height:84vh;"></iframe>
-								<a id="resultButton" class="btn btn-primary" role="button" target="_blank">New tab</a>
+						<div id="collapseAutomation" class="accordion-collapse collapse" aria-labelledby="headingAutomation" data-bs-parent="#accordionAutomation">
+							<div class="accordion-body text-end">
+								<div>
+									<a href="https://ifttt.com/home" target="_blank"><img src="logos/IFTTT.svg" alt="IFTTT Logo" width="32" height="32"></a>
+									<a href="https://zapier.com/app/dashboard" target="_blank"><img src="logos/zapier.svg" alt="Zapier Logo" width="32" height="32"></a>
+									Automation URL: <input type="text" id="automationLink" value="https://" readonly/>
+									<button type="button" class="btn btn-default" aria-label="Copy Automation URL" onclick="copyAutomationURL()">
+										<img src="bootstrap-icons/1.8.1/stickies.svg" alt="Copy Automation URL" width="32" height="32">
+									</button>
+								</div>
+								<div>
+									<a href="https://curl.se/docs/manpage.html" target="_blank"><img src="logos/curl.svg" alt="curl Logo" width="32" height="32"></a>
+									curl command: <input type="text" id="CURLCommand" value="https://" readonly/>
+									<button type="button" class="btn btn-default" aria-label="Copy CURL command" onclick="copyCURLCommand()">
+										<img src="bootstrap-icons/1.8.1/stickies.svg" alt="Copy CURL command" width="32" height="32">
+									</button>
+								</div>
+								<div>
+									<a href="https://github.com/features/actions" target="_blank"><img src="logos/github.svg" alt="GitHub Logo" width="32" height="32"></a>
+									GitHub Action file:
+									<button type="button" class="btn btn-default" aria-label="Download GitHub Action file" onclick="downloadGitHubActionFile()">
+										<img src="bootstrap-icons/1.8.1/arrow-down-circle.svg" alt="Download GitHub Action file" width="32" height="32">
+									</button>
+								</div>
+								<div id="mystartBlock" style="display:none">
+									<a href="https://mystart.online" target="_blank"><img src="logos/mystart.svg" alt="Mystart.Online Logo" width="32" height="32"></a>
+									MyStart.Online Login URL: <input type="text" id="mystartLogin" value="https://" readonly/>
+									<a id="mystartLoginLink" class="btn btn-default" aria-label="Open MyStart.Online Login URL" href="#" role="button">
+										<img src="bootstrap-icons/1.8.1/arrow-right-circle.svg" alt="Open MyStart.Online Login URL" width="32" height="32">
+									</a>
+									<button type="button" class="btn btn-default" aria-label="Copy MyStart.Online Login URL" onclick="copyMystartLogin()">
+										<img src="bootstrap-icons/1.8.1/stickies.svg" alt="Copy MyStart.Online Login URL" width="32" height="32">
+									</button>
+								</div>
 							</div>
 						</div>
 					</div>
