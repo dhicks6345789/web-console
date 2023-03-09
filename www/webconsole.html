@@ -93,6 +93,16 @@
 				})
 			}
 			
+			// Scroll to the "result" section, position it so it's at the top of the page so you can see the whole element.
+			function scrollToEditCollapse() {
+				var scrollOffset = document.body.scrollTop + document.getElementById("collapseEdit").parentNode.offsetTop;
+				window.scroll({
+					top: scrollOffset,
+					left: 0,
+					behavior: "smooth"
+				})
+			}
+			
 			// Called periodically (period defined by constant at start of file) after a Task has been started to update information for the user.
 			function updateTaskOutput() {
 				webconsole.APICall("getTaskOutput", {"line":outputLine}, function(result) {
@@ -124,12 +134,6 @@
 											
 											// Scroll to the "result" section.
 											scrollToResultCollapse();
-											var scrollOffset = document.getElementById("mainBody").scrollTop + document.getElementById("collapseResult").parentNode.offsetTop;
-											window.scroll({
-												top: scrollOffset,
-												left: 0,
-												behavior: "smooth"
-											})
 										} else {
 											window.location.href = window.location.href.split("?")[0].slice(0, -4) + taskID + "/";
 										}
@@ -435,6 +439,14 @@
 					verticalResizer.addEventListener("mousedown", verticalResizerMouseDownHandler);
 					// End of Javascript to handle the resizeable panel.
 					
+					
+					
+					// Set up an event handler for shown.bs.collapse so that the "edit" block is
+					// scrolled into view when the user expands it.
+					document.getElementById("collapseEdit").addEventListener("shown.bs.collapse", function () {
+						scrollToEditCollapse();
+					})
+					
 					// Make the edit block visible.
 					document.getElementById("editBlock").style.display = "block";
 					document.getElementById("saveFileButton").disabled = true;
@@ -446,8 +458,8 @@
 					document.getElementById("resultButton").href = window.location.href.split("?")[0].slice(0, -4) + taskID + "/";
 					document.getElementById("resultBlock").style.display = "block";
 					
-					// Set up an event handler for shown.bs.collapse so that the "result" block is scrolled into view
-					// when the user expands it.
+					// Set up an event handler for shown.bs.collapse so that the "result" block is
+					// scrolled into view when the user expands it.
 					document.getElementById("collapseResult").addEventListener("shown.bs.collapse", function () {
 						scrollToResultCollapse();
 					})
