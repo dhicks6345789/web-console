@@ -104,10 +104,11 @@
 									if (displayAlerts == true) {
 										if (permission == "E") {
 											document.getElementById("resultIframe").contentWindow.location.reload();
-											var resultCollapse = new bootstrap.Collapse(document.getElementById("collapseResult"), {
-												show: true
-											});
+											//var resultCollapse = new bootstrap.Collapse(document.getElementById("collapseResult"), {
+												//show: true
+											//});
 											//document.getElementById("collapseResult").show();
+											document.getElementById("collapseResult").collapse("show");
 											document.getElementById("accordionResult").scrollIntoView();
 										} else {
 											window.location.href = window.location.href.split("?")[0].slice(0, -4) + taskID + "/";
