@@ -83,6 +83,16 @@
 				});
 			}
 			
+			// Scroll to the "result" section, position it so it's at the top of the page so you can see the whole element.
+			function scrollToResultCollapse() {
+				var scrollOffset = document.body.scrollTop + document.getElementById("collapseResult").parentNode.offsetTop;
+				window.scroll({
+					top: scrollOffset,
+					left: 0,
+					behavior: "smooth"
+				})
+			}
+			
 			// Called periodically (period defined by constant at start of file) after a Task has been started to update information for the user.
 			function updateTaskOutput() {
 				webconsole.APICall("getTaskOutput", {"line":outputLine}, function(result) {
@@ -107,18 +117,13 @@
 											document.getElementById("resultIframe").contentWindow.location.reload();
 											
 											// Make sure the "result" section is un-collapsed.
-											collapseResult = document.getElementById("collapseResult");
-											var resultCollapse = new bootstrap.Collapse(collapseResult, {
+											var resultCollapse = new bootstrap.Collapse(document.getElementById("collapseResult"), {
 												toggle: false
 											});
 											resultCollapse.show();
 											
-											collapseClasses = "collapsing";
-											while (collapseClasses.includes("collapsing")) {
-												collapseClasses = collapseResult.getAttribute("class");
-											}
-											
 											// Scroll to the "result" section.
+											scrollToResultCollapse();
 											var scrollOffset = document.getElementById("mainBody").scrollTop + document.getElementById("collapseResult").parentNode.offsetTop;
 											window.scroll({
 												top: scrollOffset,
@@ -430,8 +435,6 @@
 					verticalResizer.addEventListener("mousedown", verticalResizerMouseDownHandler);
 					// End of Javascript to handle the resizeable panel.
 					
-					
-					
 					// Make the edit block visible.
 					document.getElementById("editBlock").style.display = "block";
 					document.getElementById("saveFileButton").disabled = true;
@@ -442,6 +445,12 @@
 					document.getElementById("resultIframe").src = resultURL;
 					document.getElementById("resultButton").href = window.location.href.split("?")[0].slice(0, -4) + taskID + "/";
 					document.getElementById("resultBlock").style.display = "block";
+					
+					// Set up an event handler for shown.bs.collapse so that the "result" block is scrolled into view
+					// when the user expands it.
+					document.getElementById("collapseResult").addEventListener("shown.bs.collapse", function () {
+						scrollToResultCollapse();
+					})
 					
 					// If the user has "edit" permissions they also see the "backup" block.
 					document.getElementById("backupBlock").style.display = "block";
@@ -531,7 +540,7 @@
 			}
 		</style>
 	</head>
-	<body onload="pageReady()" id="mainBody">
+	<body onload="pageReady()">
 		<form id="actionForm" action="" method=""></form>
 		<div class="row">
 			<div class="col-sm-1 text-center align-self-center"></div>
