@@ -112,7 +112,7 @@
 											acc = document.getElementById("mainBody");
 											var scrollOffset = acc.scrollTop + document.getElementById("collapseResult").parentNode.offsetTop;
 											console.log(scrollOffset);
-											acc.scroll({
+											window.scroll({
 												top: scrollOffset,
 												left: 0,
 												behavior: "smooth"
