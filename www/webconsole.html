@@ -109,7 +109,7 @@
 											});
 											resultCollapse.show();
 											//document.getElementById("accordionResult").scrollIntoView();
-											document.getElementById("scrollToDivResult").scrollIntoView();
+											document.getElementById("headingResult").scrollIntoView();
 										} else {
 											window.location.href = window.location.href.split("?")[0].slice(0, -4) + taskID + "/";
 										}
@@ -637,7 +637,6 @@
 				from the output - the result is anything that winds up in the "www" folder in the Task's folder, and can be viewed by any
 				user with "view", "run" or "edit" permissions. This block is only for editors, as it's more handy to view the output in a
 				block alongside the code editor when editing. -->
-				<div id="scrollToDivResult">Scroll To!</div>
 				<div class="accordion" id="accordionResult">
 					<div class="accordion-item" id="resultBlock" style="display:none">
 						<h2 class="accordion-header" id="headingResult">
