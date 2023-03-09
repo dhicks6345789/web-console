@@ -109,8 +109,9 @@
 											});
 											resultCollapse.show();
 											
-											acc = document.getElementById("centreColumn")
-											var scrollOffset = acc.scrollTop + document.getElementById("collapseResult").parentNode.offsetTop
+											acc = document.getElementById("mainBody");
+											var scrollOffset = acc.scrollTop + document.getElementById("collapseResult").parentNode.offsetTop;
+											console.log(scrollOffset);
 											acc.scroll({
 												top: scrollOffset,
 												left: 0,
@@ -525,11 +526,11 @@
 			}
 		</style>
 	</head>
-	<body onload="pageReady()">
+	<body onload="pageReady()" id="mainBody">
 		<form id="actionForm" action="" method=""></form>
 		<div class="row">
 			<div class="col-sm-1 text-center align-self-center"></div>
-			<div class="col-sm-10 text-center align-self-center" id="centreColumn">
+			<div class="col-sm-10 text-center align-self-center">
 				<!-- The main title block. -->
 				<div class="p-2 rounded m-3" style="background-color:LightSteelBlue">
 					<h1 class="text-center" id="taskTitle"><<TITLE>></h1>
