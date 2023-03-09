@@ -108,7 +108,16 @@
 												toggle: false
 											});
 											resultCollapse.show();
-											resultCollapse.scrollIntoView();
+											
+											acc = document.getElementById("centreColumn")
+											var scrollOffset = acc.scrollTop + document.getElementById("collapseResult").parentNode.offsetTop
+											acc.scroll({
+												top: scrollOffset,
+												left: 0,
+												behavior: "smooth"
+											})
+											
+											//resultCollapse.scrollIntoView();
 											//document.getElementById("accordionResult").scrollIntoView({behavior: "auto", block: "nearest", inline: "nearest"});
 										} else {
 											window.location.href = window.location.href.split("?")[0].slice(0, -4) + taskID + "/";
@@ -520,7 +529,7 @@
 		<form id="actionForm" action="" method=""></form>
 		<div class="row">
 			<div class="col-sm-1 text-center align-self-center"></div>
-			<div class="col-sm-10 text-center align-self-center">
+			<div class="col-sm-10 text-center align-self-center" id="centreColumn">
 				<!-- The main title block. -->
 				<div class="p-2 rounded m-3" style="background-color:LightSteelBlue">
 					<h1 class="text-center" id="taskTitle"><<TITLE>></h1>
