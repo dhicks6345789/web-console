@@ -54,7 +54,7 @@
 						document.getElementById("publicTaskList").appendChild(publicTaskRow);
 						document.getElementById("publicTaskTitle-" + rowCount).innerHTML = "<b>" + taskList[taskID]["title"] + ":</b> ";
 						document.getElementById("publicTaskDescription-" + rowCount).innerHTML = taskList[taskID]["description"];
-						<!-- document.getElementById("publicTaskButton-" + rowCount).setAttribute("href", "login?taskID=" + taskID); -->
+						// document.getElementById("publicTaskButton-" + rowCount).setAttribute("href", "login?taskID=" + taskID);
 						document.getElementById("publicTaskButton-" + rowCount).setAttribute("onclick", "webconsole.doAction('POST', 'view', false, {'taskID':'" + taskID + "', 'token':'" + token + "'}, true)");
 						publicTaskRow.style.display = "table-row";
 						rowCount = rowCount + 1;
