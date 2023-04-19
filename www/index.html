@@ -54,7 +54,6 @@
 						document.getElementById("publicTaskList").appendChild(publicTaskRow);
 						document.getElementById("publicTaskTitle-" + rowCount).innerHTML = "<b>" + taskList[taskID]["title"] + ":</b> ";
 						document.getElementById("publicTaskDescription-" + rowCount).innerHTML = taskList[taskID]["description"];
-						// document.getElementById("publicTaskButton-" + rowCount).setAttribute("href", "login?taskID=" + taskID);
 						document.getElementById("publicTaskButton-" + rowCount).setAttribute("onclick", "webconsole.doAction('POST', 'view', false, {'taskID':'" + taskID + "', 'token':'" + token + "'}, true)");
 						publicTaskRow.style.display = "table-row";
 						rowCount = rowCount + 1;
@@ -111,7 +110,7 @@
 						<tr id="publicTaskRow" style="display:none;">
 							<td id="publicTaskTitle" style="text-align:right"></td>
 							<td id="publicTaskDescription" style="text-align:left"></td>
-							<td style="text-align:right"><a id="publicTaskButton" href="#" class="btn btn-primary" role="button" target="_blank">Go</a></td>
+							<td style="text-align:right"><a id="publicTaskButton" class="btn btn-primary" role="button" target="_blank">Go</a></td>
 						</tr>
 					</tbody>
 				</table>
@@ -125,7 +124,6 @@
 						<tr id="privateTaskRow" style="display:none;">
 							<td id="privateTaskTitle" style="text-align:right"></td>
 							<td id="privateTaskDescription" style="text-align:left"></td>
-							<!-- <td style="text-align:right"><a id="privateTaskButton" href="#" class="btn btn-primary" role="button" target="_blank">Go</a></td> -->
 							<td style="text-align:right"><a id="privateTaskButton" class="btn btn-primary" role="button">Go</a></td>
 						</tr>
 					</tbody>
