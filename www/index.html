@@ -36,7 +36,10 @@
 				if (window.location.href.includes("?")) {
 					window.location.href.split("?")[1].split("&").forEach(function(varItem) {
 						if (varItem.startsWith("taskID=")) {
-							webconsole.doAction("POST", "view", false, {"taskID":varItem.split("=")[1], "token":"<<TOKEN>>"}, true);
+							taskID = varItem.split("=")[1];
+							if (taskID != "/") {
+								webconsole.doAction("POST", "view", false, {"taskID":taskID, "token":"<<TOKEN>>"}, true);
+							}
 						}
 					});
 				}
