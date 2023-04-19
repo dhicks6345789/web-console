@@ -358,7 +358,7 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 				}
 			}
 		} else {
-			return taskDetails, errors.New("No config file for taskID: " + theTaskID)
+			return taskDetails, errors.New("No config file for taskID: " + theTaskID + " - configPath: " + configPath)
 		}
 	}
 	return taskDetails, nil
