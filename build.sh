@@ -21,7 +21,9 @@ cp webconsole /usr/local/bin
 [ ! -d /etc/webconsole ] && mkdir /etc/webconsole
 [ ! -d /etc/webconsole/tasks ] && mkdir /etc/webconsole/tasks
 [ ! -d /etc/webconsole/www ] && mkdir /etc/webconsole/www
+[ ! -d /etc/webconsole/www/ace ] && mkdir /etc/webconsole/www/ace
 cp -r www/* /etc/webconsole/www
+cp -r ../ace-builds/src-noconflict/* /etc/webconsole/www/ace
 
 # Set up systemd to run Webconsole, if it isn't already.
 [ ! -f /etc/systemd/system/webconsole.service ] && cp webconsole.service /etc/systemd/system/webconsole.service && chmod 644 /etc/systemd/system/webconsole.service
