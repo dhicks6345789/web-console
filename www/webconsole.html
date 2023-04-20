@@ -109,7 +109,7 @@
 					for (value of result.split("\n")) {
 						if (value.trim() != "") {
 							// If the Task has finished, reset the "Run" button state.
-							if (value.trim() == "ERROR: REDIRECT" || value.trim() == "ERROR: EOF") {
+							if (value.startsWith("ERROR: REDIRECT") || value.trim() == "ERROR: EOF") {
 								clearInterval(intervalFunction);
 								intervalFunction = setInterval(keepAlive, keepAlivePeriod);
 								document.getElementById("runTaskButton").innerHTML = "Run";
@@ -120,7 +120,12 @@
 								// which is shown to the user. If the user has "view" or "run" permissions they are redirected to the result page. If they have
 								// "edit" permissions they are shown the result in a expanded collapse section so, they don't have to keep switching between the
 								// edit page and the results page as they edit code.
-								if (value.trim() == "ERROR: REDIRECT") {
+								if (value.startsWith("ERROR: REDIRECT")) {
+									redirectURL = window.location.href.split("?")[0].slice(0, -4) + taskID + "/";
+									redirectSplit = value.split(" ");
+									if (redirectSplit.length > 2) {
+										redirectURL = redirectSplit[2];
+									}
 									if (displayAlerts == true) {
 										if (permission == "E") {
 											// Make sure the content in the "result" section is refreshed.
@@ -135,7 +140,7 @@
 											// Scroll to the "result" section.
 											scrollToResultCollapse();
 										} else {
-											window.location.href = window.location.href.split("?")[0].slice(0, -4) + taskID + "/";
+											window.location.href = redirectURL;
 										}
 									}
 								}
@@ -451,12 +456,16 @@
 					document.getElementById("editBlock").style.display = "block";
 					document.getElementById("saveFileButton").disabled = true;
 					
-					// If the user has "edit" permisions they see any result produced in a "result" tab rather than be redirected as
-					// they would with "view" or "run" permissions.
-					resultURL = window.location.href.split("?")[0].slice(0, -4) + taskID + "/";
-					document.getElementById("resultIframe").src = resultURL;
-					document.getElementById("resultButton").href = window.location.href.split("?")[0].slice(0, -4) + taskID + "/";
-					document.getElementById("resultBlock").style.display = "block";
+					webconsole.APICall("getResultURL", {}, function(resultURL) {
+						// If the user has "edit" permisions they see any result produced in a "result" tab rather than be redirected as
+						// they would with "view" or "run" permissions.
+						// resultURL = window.location.href.split("?")[0].slice(0, -4) + taskID + "/";
+						if (resultURL != "") {
+							document.getElementById("resultIframe").src = resultURL;
+							document.getElementById("resultButton").href = window.location.href.split("?")[0].slice(0, -4) + taskID + "/";
+							document.getElementById("resultBlock").style.display = "block";
+						}
+					});
 					
 					// Set up an event handler for shown.bs.collapse so that the "result" block is
 					// scrolled into view when the user expands it.
