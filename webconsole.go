@@ -267,6 +267,7 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 	taskDetails["public"] = "N"
 	taskDetails["ratelimit"] = "0"
 	taskDetails["progress"] = "N"
+	taskDetails["resultURL"] = ""
 	taskDetails["command"] = ""
 	taskDetails["authentication"] = ""
 	
@@ -1057,7 +1058,9 @@ func main() {
 									if taskDetails["progress"] == "Y" {
 										fmt.Fprintf(theResponseWriter, "Progress: Progress 100%%\n")
 									}
-									if _, err := os.Stat(arguments["taskroot"] + "/" + taskID + "/www"); err == nil {
+									if taskDetails["resultURL"] != "" {
+										fmt.Fprintf(theResponseWriter, "ERROR: REDIRECT " + taskDetails["resultURL"])
+									} else if _, err := os.Stat(arguments["taskroot"] + "/" + taskID + "/www"); err == nil {
 										fmt.Fprintf(theResponseWriter, "ERROR: REDIRECT")
 									} else {
 										fmt.Fprintf(theResponseWriter, "ERROR: EOF")
