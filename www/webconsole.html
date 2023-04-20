@@ -459,10 +459,9 @@
 					webconsole.APICall("getResultURL", {}, function(resultURL) {
 						// If the user has "edit" permisions they see any result produced in a "result" tab rather than be redirected as
 						// they would with "view" or "run" permissions.
-						// resultURL = window.location.href.split("?")[0].slice(0, -4) + taskID + "/";
 						if (resultURL != "") {
 							document.getElementById("resultIframe").src = resultURL;
-							document.getElementById("resultButton").href = window.location.href.split("?")[0].slice(0, -4) + taskID + "/";
+							document.getElementById("resultButton").href = resultURL;
 							document.getElementById("resultBlock").style.display = "block";
 						}
 					});
