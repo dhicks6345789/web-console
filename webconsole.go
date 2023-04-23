@@ -785,8 +785,8 @@ func main() {
 			debug("Requested URL: " + requestPath)
 			
 			if arguments["debug"] == "true" && arguments["cloudflare"] == "true" {
-				for k, v := range theRequest.Header {
-					fmt.Println("Header field " + k + ", Value " + v + "\n")
+				for k, _ := range theRequest.Header {
+					fmt.Println("Header field " + k + "\n")
 					//debug(theRequest.Header.Get("User-Agent"))
 				}
 			}
