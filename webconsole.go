@@ -541,35 +541,39 @@ func readUserFile(theConfigPath string, theHashKey string) map[string]string {
 				if csvDataErr != nil {
 					fmt.Println("ERROR: " + csvDataErr.Error())
 				} else {
-					// Figure out if the first value is a valid hash.
-					emailAddress := strings.ToLower(strings.TrimSpace(csvDataRecord[0]))
-					emailAddressIsHash := true
-					if len(emailAddress) == 32 {
-						for _, addressCharValue := range emailAddress {
-							if !strings.Contains(letters, string(addressCharValue)) {
-								emailAddressIsHash = false
+					if theHashKey == "" {
+						result[emailAddress] = result[emailAddress]
+					} else {
+						// Figure out if the first value is a valid hash.
+						emailAddress := strings.ToLower(strings.TrimSpace(csvDataRecord[0]))
+						emailAddressIsHash := true
+						if len(emailAddress) == 32 {
+							for _, addressCharValue := range emailAddress {
+								if !strings.Contains(letters, string(addressCharValue)) {
+									emailAddressIsHash = false
+								}
+							}
+						} else {
+							emailAddressIsHash = false
+						}
+						hashedEmailAddress := ""
+						// If the first value is a valid hash, we need to re-write the CSV file in the correct order.
+						if emailAddressIsHash {
+							hashedEmailAddress = emailAddress
+							emailAddress = ""
+							rewriteCSVFile = true
+						} else {
+							if len(csvDataRecord) > 1 {
+								// If we already have a valid hash value, read it.
+								hashedEmailAddress = csvDataRecord[1]
+							} else {
+								// If we don't currently have a hash value, we'll need to calculate one, then re-write the CSV file.
+								hashedEmailAddress = hex.EncodeToString(argon2.Key([]byte(emailAddress), []byte(theHashKey), argon2Iterations, argon2Memory, argon2Parallelism, argon2KeyLength))
+								rewriteCSVFile = true
 							}
 						}
-					} else {
-						emailAddressIsHash = false
+						result[emailAddress] = hashedEmailAddress
 					}
-					hashedEmailAddress := ""
-					// If the first value is a valid hash, we need to re-write the CSV file in the correct order.
-					if emailAddressIsHash {
-						hashedEmailAddress = emailAddress
-						emailAddress = ""
-						rewriteCSVFile = true
-					} else {
-						if len(csvDataRecord) > 1 {
-							// If we already have a valid hash value, read it.
-							hashedEmailAddress = csvDataRecord[1]
-						} else {
-							// If we don't currently have a hash value, we'll need to calculate one, then re-write the CSV file.
-							hashedEmailAddress = hex.EncodeToString(argon2.Key([]byte(emailAddress), []byte(theHashKey), argon2Iterations, argon2Memory, argon2Parallelism, argon2KeyLength))
-							rewriteCSVFile = true
-						}
-					}
-					result[emailAddress] = hashedEmailAddress
 				}
 			}
 		} else {
