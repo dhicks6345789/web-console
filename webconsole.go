@@ -78,9 +78,12 @@ var taskRuntimeGuesses = map[string]float64{}
 // We record the stop time for each Task so we can implement rate limiting.
 var taskStopTimes = map[string]int64{}
 
-// Maps of MyStart.Online page names and API keys.
+// Valid authentication services.
 //var mystartNames = []string{}
+var authServices = []string{"mystart", "cloudflare"}
 var authServiceNames = map[string]string{}
+
+// Maps of MyStart.Online page names and API keys.
 var mystartPageNames = map[string]string{}
 var mystartAPIKeys = map[string]string{}
 
@@ -277,7 +280,7 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 		// The root Task is always public.
 		taskDetails["public"] = "Y"
 		
-		for _, authService := range []string{"mystart","cloudflare"} {
+		for _, authService := range authServices {
 			// If we have any (globally) defined authentication service variables then that authentication service is a valid authentication method for the root Task.
 			if len(authServiceNames[authService]) > 0 {
 				taskDetails["authentication"] = authService
@@ -677,8 +680,9 @@ func main() {
 	// configuration and setup.
 	
 	// Set valid authentication services.
-	authServiceNames["mystart"] = []string{}
-	authServiceNames["cloudflare"] = []string{}
+	for _, authService := range authServices {
+		authServiceNames[authService] = []string{}
+	}
 	
 	// Set some default argument values.
 	arguments["help"] = "false"
@@ -689,7 +693,6 @@ func main() {
 	arguments["localonly"] = "true"
 	arguments["debug"] = "false"
 	arguments["shellprefix"] = ""
-	arguments["mystartPageName"] = ""
 	arguments["cloudflare"] = "false"
 	setArgumentIfPathExists("webconsoleroot", []string {"/etc/webconsole", "C:\\Program Files\\WebConsole"})
 	setArgumentIfPathExists("config", []string {"config.csv", "/etc/webconsole/config.csv", "C:\\Program Files\\WebConsole\\config.csv"})
@@ -785,7 +788,7 @@ func main() {
 			if strings.HasSuffix(argName, "pagename") {
 				mystartName = argName[7:len(argName)-8]
 			}
-			mystartNames = append(mystartNames, mystartName)
+			authServiceNames["mystart"] = append(authServiceNames["mystart"], mystartName)
 			if mystartName == "" {
 				mystartName = "default"
 			}
@@ -795,6 +798,9 @@ func main() {
 			if strings.HasSuffix(argName, "pagename") {
 				mystartPageNames[mystartName] = argVal
 			}
+		} else if strings.HasPrefix(argName, "cloudflare") {
+			cloudflareName := argName[10:len(argName)]
+			authServiceNames["cloudflare"] = append(authServiceNames["cloudflare"], cloudflareName)
 		}
 	}
 	
