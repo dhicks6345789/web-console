@@ -81,8 +81,8 @@ var taskStopTimes = map[string]int64{}
 // Maps of MyStart.Online page names and API keys.
 //var mystartNames = []string{}
 var authServiceNames = map[string]string{}
-authServiceNames["mystart"] := []string{}
-authServiceNames["cloudflare"] := []string{}
+var authServiceNames["mystart"] = []string{}
+var authServiceNames["cloudflare"] = []string{}
 
 var mystartPageNames = map[string]string{}
 var mystartAPIKeys = map[string]string{}
