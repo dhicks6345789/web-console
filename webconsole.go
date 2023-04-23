@@ -414,7 +414,6 @@ func getTaskPermission(webConsoleRoot string, taskDetails map[string]string, use
 				}
 			}
 		} else if strings.HasPrefix(taskDetailName, "cloudflare") {
-			debug("Cloudflare setting found - name: " + taskDetailName + ", value: " + taskDetailValue)
 			//cloudflareName := ""
 			permissionToGrant := ""
 			for _, permissionCheck := range [3]string{"Editors", "Runners", "Viewers"} {
@@ -429,7 +428,6 @@ func getTaskPermission(webConsoleRoot string, taskDetails map[string]string, use
 				if _, err := os.Stat(cloudflareUsersPath); !os.IsNotExist(err) {
 					cloudflareUsers := readUserFile(cloudflareUsersPath, "")
 					for _, userEmail := range cloudflareUsers {
-						debug("Cloudflare user: " + userEmail + ", user ID: " + userID)
 						if userEmail == userID {
 							return permissionToGrant
 						}
