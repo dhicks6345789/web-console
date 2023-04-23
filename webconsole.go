@@ -287,17 +287,20 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 			}
 		
 			for _, authServiceName := range authServiceNames[authService] {
-				editorsPath := authService + authServiceName + "Editors.csv"
-				if _, err := os.Stat(arguments["webconsoleroot"] + "/" + editorsPath); err == nil {
-					taskDetails[authService + authServiceName + "Editors"] = editorsPath
+				editorsName := authService + authServiceName + "Editors"
+				editorsPath := arguments["webconsoleroot"] + "/" + editorsName + ".csv"
+				if _, err := os.Stat(editorsPath); err == nil {
+					taskDetails[editorsName] = editorsPath
 				}
-				runnersPath := authService + authServiceName + "Runners.csv"
-				if _, err := os.Stat(arguments["webconsoleroot"] + "/" + runnersPath); err == nil {
-					taskDetails[authService + authServiceName + "Runners"] = runnersPath
+				runnersName := authService + authServiceName + "Runners"
+				runnersPath := arguments["webconsoleroot"] + "/" + runnersName + ".csv"
+				if _, err := os.Stat(runnersPath); err == nil {
+					taskDetails[runnersName] = runnersPath
 				}
-				viewersPath := authService + authServiceName + "Viewers.csv"
-				if _, err := os.Stat(arguments["webconsoleroot"] + "/" + viewersPath); err == nil {
-					taskDetails[authService + authServiceName + "Viewers"] = viewersPath
+				viewersName := authService + authServiceName + "Viewers"
+				viewersPath := arguments["webconsoleroot"] + "/" + viewersName + ".csv"
+				if _, err := os.Stat(viewersPath); err == nil {
+					taskDetails[viewersName] = viewersPath
 				}
 			}
 		}
@@ -310,7 +313,7 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 				return taskDetails, errors.New("Can't open Task config file.")
 			} else {
 				// If any mystart authorisation paths are set at the root Task level, use those values as defaults - they
-				// can be overwritten by the Tasks local settings.
+				// can be overwritten by the Tasks' local settings.
 				for rootTaskDetailName, rootTaskDetailValue := range rootTaskDetails {
 					if strings.HasPrefix(rootTaskDetailName, "mystart") {
 						taskDetails[rootTaskDetailName] = rootTaskDetailValue
@@ -334,6 +337,7 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 					taskDetails[itemName] = itemVal
 				}
 				inFile.Close()
+				
 				// Adjust any mystart items so the path is a "local" Task path rather than the root.
 				for _, mystartItem := range mystartItems {
 					taskDetails[mystartItem] = "tasks/" + taskDetails["taskID"] + "/" + taskDetails[mystartItem]
