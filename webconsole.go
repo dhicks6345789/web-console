@@ -289,15 +289,15 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 			for _, authServiceName := range authServiceNames[authService] {
 				editorsPath := authService + strconv.QuoteRune(authServiceName) + "Editors.csv"
 				if _, err := os.Stat(arguments["webconsoleroot"] + "/" + editorsPath); err == nil {
-					taskDetails[authService + authServiceName + "Editors"] = editorsPath
+					taskDetails[authService + strconv.QuoteRune(authServiceName) + "Editors"] = editorsPath
 				}
-				runnersPath := authService + authServiceName + "Runners.csv"
+				runnersPath := authService + strconv.QuoteRune(authServiceName) + "Runners.csv"
 				if _, err := os.Stat(arguments["webconsoleroot"] + "/" + runnersPath); err == nil {
-					taskDetails[authService + authServiceName + "Runners"] = runnersPath
+					taskDetails[authService + strconv.QuoteRune(authServiceName) + "Runners"] = runnersPath
 				}
-				viewersPath := authService + authServiceName + "Viewers.csv"
+				viewersPath := authService + strconv.QuoteRune(authServiceName) + "Viewers.csv"
 				if _, err := os.Stat(arguments["webconsoleroot"] + "/" + viewersPath); err == nil {
-					taskDetails[authService + authServiceName + "Viewers"] = viewersPath
+					taskDetails[authService + strconv.QuoteRune(authServiceName) + "Viewers"] = viewersPath
 				}
 			}
 		}
