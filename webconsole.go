@@ -79,7 +79,11 @@ var taskRuntimeGuesses = map[string]float64{}
 var taskStopTimes = map[string]int64{}
 
 // Maps of MyStart.Online page names and API keys.
-var mystartNames = []string{}
+//var mystartNames = []string{}
+var authServiceNames = map[string]string{}
+authServiceNames["mystart"] = []string{}
+authServiceNames["cloudflare"] = []string{}
+
 var mystartPageNames = map[string]string{}
 var mystartAPIKeys = map[string]string{}
 
@@ -276,23 +280,25 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 		// The root Task is always public.
 		taskDetails["public"] = "Y"
 		
-		// If we have any (globally) defined mystart API keys then "mystart" is a valid authentication method for the root Task.
-		if len(mystartNames) > 0 {
-			taskDetails["authentication"] = "mystart"
-		}
+		for _, authService := range []string{"mystart","cloudflare"} {
+			// If we have any (globally) defined authentication service variables then that authentication service is a valid authentication method for the root Task.
+			if len(authServicesNames[authService]) > 0 {
+				taskDetails["authentication"] = authService
+			}
 		
-		for _, mystartName := range mystartNames {
-			editorsPath := "mystart" + mystartName + "Editors.csv"
-			if _, err := os.Stat(arguments["webconsoleroot"] + "/" + editorsPath); err == nil {
-				taskDetails["mystart" + mystartName + "Editors"] = editorsPath
-			}
-			runnersPath := "mystart" + mystartName + "Runners.csv"
-			if _, err := os.Stat(arguments["webconsoleroot"] + "/" + runnersPath); err == nil {
-				taskDetails["mystart" + mystartName + "Runners"] = runnersPath
-			}
-			viewersPath := "mystart" + mystartName + "Viewers.csv"
-			if _, err := os.Stat(arguments["webconsoleroot"] + "/" + viewersPath); err == nil {
-				taskDetails["mystart" + mystartName + "Viewers"] = viewersPath
+			for _, authServiceName := range authServiceNames[authService] {
+				editorsPath := authService + authServiceName + "Editors.csv"
+				if _, err := os.Stat(arguments["webconsoleroot"] + "/" + editorsPath); err == nil {
+					taskDetails[authService + authServiceName + "Editors"] = editorsPath
+				}
+				runnersPath := authService + authServiceName + "Runners.csv"
+				if _, err := os.Stat(arguments["webconsoleroot"] + "/" + runnersPath); err == nil {
+					taskDetails[authService + authServiceName + "Runners"] = runnersPath
+				}
+				viewersPath := authService + authServiceName + "Viewers.csv"
+				if _, err := os.Stat(arguments["webconsoleroot"] + "/" + viewersPath); err == nil {
+					taskDetails[authService + authServiceName + "Viewers"] = viewersPath
+				}
 			}
 		}
 	} else {
@@ -382,7 +388,7 @@ func getTaskList() ([]map[string]string, error) {
 	return taskList, nil
 }
 
-func getTaskPermission(webConsoleRoot string, taskDetails map[string]string, mystartEmailHash string) string {
+func getTaskPermission(webConsoleRoot string, taskDetails map[string]string, userID string) string {
 	debug("Finding permissions for Task: " + taskDetails["taskID"])
 	for taskDetailName, taskDetailValue := range taskDetails {
 		if strings.HasPrefix(taskDetailName, "mystart") {
@@ -401,7 +407,7 @@ func getTaskPermission(webConsoleRoot string, taskDetails map[string]string, mys
 				if _, err := os.Stat(mystartUsersPath); !os.IsNotExist(err) {
 					mystartUsers := readUserFile(mystartUsersPath, arguments["mystart" + mystartName + "apikey"])
 					for _, userHash := range mystartUsers {
-						if userHash == mystartEmailHash {
+						if userHash == UserID {
 							return permissionToGrant
 						}
 					}
@@ -423,7 +429,7 @@ func getTaskPermission(webConsoleRoot string, taskDetails map[string]string, mys
 				if _, err := os.Stat(cloudflareUsersPath); !os.IsNotExist(err) {
 					cloudflareUsers := readUserFile(cloudflareUsersPath, "")
 					for _, userEmail := range cloudflareUsers {
-						if userEmail == mystartEmailHash {
+						if userEmail == userID {
 							return permissionToGrant
 						}
 					}
