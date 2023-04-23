@@ -541,11 +541,11 @@ func readUserFile(theConfigPath string, theHashKey string) map[string]string {
 				if csvDataErr != nil {
 					fmt.Println("ERROR: " + csvDataErr.Error())
 				} else {
+					emailAddress := strings.ToLower(strings.TrimSpace(csvDataRecord[0]))
 					if theHashKey == "" {
-						result[emailAddress] = result[emailAddress]
+						result[emailAddress] = emailAddress
 					} else {
 						// Figure out if the first value is a valid hash.
-						emailAddress := strings.ToLower(strings.TrimSpace(csvDataRecord[0]))
 						emailAddressIsHash := true
 						if len(emailAddress) == 32 {
 							for _, addressCharValue := range emailAddress {
