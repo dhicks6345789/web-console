@@ -407,6 +407,28 @@ func getTaskPermission(webConsoleRoot string, taskDetails map[string]string, mys
 					}
 				}
 			}
+		} else if strings.HasPrefix(taskDetailName, "cloudflare") {
+			debug("Cloudflare setting found - name: " + taskDetailName + ", value: " + taskDetailValue)
+			cloudflareName := ""
+			permissionToGrant := ""
+			for _, permissionCheck := range [3]string{"Editors", "Runners", "Viewers"} {
+				if strings.HasSuffix(taskDetailName, permissionCheck) {
+					cloudflareName = taskDetailName[len("cloudflare"):len(taskDetailName)-len(permissionCheck)]
+					permissionToGrant = string(permissionCheck[0])
+				}
+			}
+			if permissionToGrant != "" {
+				cloudflareUsersPath := webConsoleRoot + "/" + taskDetailValue
+				debug("cloudflareUsersPath: " + cloudflareUsersPath)
+				if _, err := os.Stat(cloudflareUsersPath); !os.IsNotExist(err) {
+					cloudflareUsers := readUserFile(cloudflareUsersPath, "")
+					for _, userEmail := range cloudflareUsers {
+						if userEmail == mystartEmailHash {
+							return permissionToGrant
+						}
+					}
+				}
+			}
 		}
 	}
 	return ""
@@ -784,13 +806,6 @@ func main() {
 			// Print the request path.
 			debug("Requested URL: " + requestPath)
 			
-			if arguments["debug"] == "true" && arguments["cloudflare"] == "true" {
-				debug(theRequest.Header.Get("Cf-Access-Authenticated-User-Email"))
-				//for k, _ := range theRequest.Header {
-					//fmt.Println("Header field " + k + "\n")
-				//}
-			}
-			
 			if strings.HasPrefix(requestPath, arguments["pathPrefix"]) {
 				requestPath = requestPath[len(arguments["pathPrefix"]):]
 			}
@@ -841,9 +856,18 @@ func main() {
 						if rateLimitErr != nil {
 							rateLimit = 0
 						}
+						if arguments["cloudflare"] == "true" {
+							debug("User authenticated via Cloudflare Zero Trust, ID: " + theRequest.Header.Get("Cf-Access-Authenticated-User-Email"))
+							// Okay - we've authenticated the user, now we need to check authorisation.
+							permission = getTaskPermission(arguments["webconsoleroot"], taskDetails, theRequest.Header.Get("Cf-Access-Authenticated-User-Email"))
+							if permission != "" {
+								authorised = true
+								userID = theRequest.Header.Get("Cf-Access-Authenticated-User-Email")
+								debug("User permissions granted via MyStart.Online login, ID: " + userID + ", permission: " + permission)
+							}
 						// Handle a login from MyStart.Online - validate the details passed and check that the user ID given has
 						// permission to access this Task.
-						if strings.HasPrefix(requestPath, "/api/mystartLogin") {
+						} else if strings.HasPrefix(requestPath, "/api/mystartLogin") {
 							mystartLoginToken := theRequest.Form.Get("loginToken")
 							if mystartLoginToken != "" {
 								requestURL := fmt.Sprintf("https://dev.mystart.online/api/validateToken?loginToken=%s&pageName=%s", mystartLoginToken, arguments["mystartpagename"])
@@ -857,7 +881,7 @@ func main() {
 									mystartJSONResult := json.NewDecoder(mystartResult.Body).Decode(mystartJSON)
 									if mystartJSONResult == nil {
 										if mystartJSON.Login == "valid" {
-											debug("User authorised via MyStart.Online login, ID: " + mystartJSON.EmailHash)
+											debug("User authenticated via MyStart.Online login, ID: " + mystartJSON.EmailHash)
 											// Okay - we've authenticated the user, now we need to check authorisation.
 											permission = getTaskPermission(arguments["webconsoleroot"], taskDetails, mystartJSON.EmailHash)
 											if permission != "" {
