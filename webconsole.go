@@ -785,10 +785,10 @@ func main() {
 			debug("Requested URL: " + requestPath)
 			
 			if arguments["debug"] == "true" && arguments["cloudflare"] == "true" {
-				for k, _ := range theRequest.Header {
-					fmt.Println("Header field " + k + "\n")
-					//debug(theRequest.Header.Get("User-Agent"))
-				}
+				debug(theRequest.Header.Get("Cf-Access-Authenticated-User-Email"))
+				//for k, _ := range theRequest.Header {
+					//fmt.Println("Header field " + k + "\n")
+				//}
 			}
 			
 			if strings.HasPrefix(requestPath, arguments["pathPrefix"]) {
