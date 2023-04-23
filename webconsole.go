@@ -429,6 +429,7 @@ func getTaskPermission(webConsoleRoot string, taskDetails map[string]string, use
 				if _, err := os.Stat(cloudflareUsersPath); !os.IsNotExist(err) {
 					cloudflareUsers := readUserFile(cloudflareUsersPath, "")
 					for _, userEmail := range cloudflareUsers {
+						debug("Cloudflare user: " + userEmail + ", user ID: " + userID)
 						if userEmail == userID {
 							return permissionToGrant
 						}
