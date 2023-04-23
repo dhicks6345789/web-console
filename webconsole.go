@@ -81,7 +81,7 @@ var taskStopTimes = map[string]int64{}
 // Valid authentication services.
 //var mystartNames = []string{}
 var authServices = []string{"mystart", "cloudflare"}
-var authServiceNames = map[string]map[string]string{}
+var authServiceNames = map[string][]string{}
 
 // Maps of MyStart.Online page names and API keys.
 var mystartPageNames = map[string]string{}
