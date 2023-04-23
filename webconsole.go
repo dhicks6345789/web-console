@@ -409,11 +409,11 @@ func getTaskPermission(webConsoleRoot string, taskDetails map[string]string, mys
 			}
 		} else if strings.HasPrefix(taskDetailName, "cloudflare") {
 			debug("Cloudflare setting found - name: " + taskDetailName + ", value: " + taskDetailValue)
-			cloudflareName := ""
+			//cloudflareName := ""
 			permissionToGrant := ""
 			for _, permissionCheck := range [3]string{"Editors", "Runners", "Viewers"} {
 				if strings.HasSuffix(taskDetailName, permissionCheck) {
-					cloudflareName = taskDetailName[len("cloudflare"):len(taskDetailName)-len(permissionCheck)]
+					//cloudflareName = taskDetailName[len("cloudflare"):len(taskDetailName)-len(permissionCheck)]
 					permissionToGrant = string(permissionCheck[0])
 				}
 			}
