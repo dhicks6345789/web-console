@@ -281,9 +281,10 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 		taskDetails["public"] = "Y"
 		
 		for _, authService := range authServices {
-			// If we have any (globally) defined authentication service variables then that authentication service is a valid authentication method for the root Task.
+			// If we have any globally defined authentication service variables then that authentication service is a
+			// valid authentication method for the root Task.
 			if len(authServiceNames[authService]) > 0 {
-				taskDetails["authentication"] = authService
+				taskDetails["authentication"] = taskDetails["authentication"] + authService + ","
 			}
 		
 			for _, authServiceName := range authServiceNames[authService] {
@@ -305,27 +306,30 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 			}
 		}
 	} else {
+		// Get the root Task's details to provide default values if this Task doesn't overwrite them.
 		rootTaskDetails, _ := getTaskDetails("/")
+		// Read this Task's config file.
 		configPath := arguments["taskroot"] + "/" + theTaskID + "/config.txt"
 		if _, err := os.Stat(configPath); !os.IsNotExist(err) {
 			inFile, inFileErr := os.Open(configPath)
 			if inFileErr != nil {
 				return taskDetails, errors.New("Can't open Task config file.")
 			} else {
-				// If any authorisation service paths are set at the root Task level, use those values as
-				// defaults - they can be overwritten by this Tasks' local settings.
 				for _, authService := range authServices {
+					// If any authorisation service paths are set at the root Task level, use those values as
+					// defaults - they can be overwritten by this Task's local settings.
 					for rootTaskDetailName, rootTaskDetailValue := range rootTaskDetails {
 						if strings.HasPrefix(rootTaskDetailName, authService) {
 							taskDetails[rootTaskDetailName] = rootTaskDetailValue
 						}
 					}
 				
-					// If we have any (globally) defined authentication service variables then that authentication service is a valid authentication method for the root Task.
+					// If we have any globally defined authentication service variables then that authentication service is a
+					// valid authentication method for this Task.
 					if len(authServiceNames[authService]) > 0 {
-						taskDetails["authentication"] = authService
+						taskDetails["authentication"] = taskDetails["authentication"] + authService + ","
 					}
-		
+					
 					for _, authServiceName := range authServiceNames[authService] {
 						editorsName := authService + authServiceName + "Editors"
 						editorsPath := arguments["webconsoleroot"] + "/tasks/" + taskDetails["taskID"] + "/" + editorsName + ".csv"
@@ -343,43 +347,39 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 							taskDetails[viewersName] = viewersPath
 						}
 					}
+				}
 				
-					// Read the Task's details from its config file.
-					scanner := bufio.NewScanner(inFile)
-					for scanner.Scan() {
-						itemSplit := strings.SplitN(scanner.Text(), ":", 2)
-						itemName := strings.TrimSpace(itemSplit[0])
-						itemVal := strings.TrimSpace(itemSplit[1])
-						taskDetails[itemName] = itemVal
-					}
-					inFile.Close()
+				// Read the Task's details from its config file.
+				scanner := bufio.NewScanner(inFile)
+				for scanner.Scan() {
+					itemSplit := strings.SplitN(scanner.Text(), ":", 2)
+					itemName := strings.TrimSpace(itemSplit[0])
+					itemVal := strings.TrimSpace(itemSplit[1])
+					taskDetails[itemName] = itemVal
+				}
+				inFile.Close()
 			
-					// Figure out what authentication types this Task accepts.
-					authTypes := map[string]int{}
-					for _, secretType := range []string{"secretViewers","secretRunners","secretEditors"} {
-						if taskDetails[secretType] != "" {
-							authTypes["secret"] = 1
-						}
+				// Figure out what authentication types this Task accepts...
+				authTypes := map[string]int{}
+				for _, secretType := range []string{"secretViewers","secretRunners","secretEditors"} {
+					if taskDetails[secretType] != "" {
+						authTypes["secret"] = 1
 					}
-				
-					for taskDetailName, _ := range taskDetails {
-						if strings.HasPrefix(taskDetailName, authService) {
-							authTypes[authService] = 1
-						}
-					}
-					
-					for authType, _ := range authTypes {
-						taskDetails["authentication"] = taskDetails["authentication"] + authType + ","
-					}
-					if len(taskDetails["authentication"]) > 0 {
-						taskDetails["authentication"] = taskDetails["authentication"][0:len(taskDetails["authentication"])-1]
-					}
+				}
+				// ...and condense them into a comma-separated string value...
+				for authType, _ := range authTypes {
+					taskDetails["authentication"] = taskDetails["authentication"] + authType + ","
+				}
+				// ...making sure we trim the last comma off the end.
+				if len(taskDetails["authentication"]) > 0 {
+					taskDetails["authentication"] = taskDetails["authentication"][0:len(taskDetails["authentication"])-1]
+				}
 			
-					// Get the Task's description.
-					descriptionContents, descriptionContentsErr := ioutil.ReadFile(arguments["taskroot"] + "/" + theTaskID + "/description.txt")
-					if descriptionContentsErr == nil {
-						taskDetails["description"] = string(descriptionContents)
-					}
+				// Get the Task's description - see if there's a "description.txt" file, otherwise use the value set in
+				// the "description" value (empty string by default if not otherwise set in the Task's config file).
+				descriptionContents, descriptionContentsErr := ioutil.ReadFile(arguments["taskroot"] + "/" + theTaskID + "/description.txt")
+				if descriptionContentsErr == nil {
+					taskDetails["description"] = string(descriptionContents)
 				}
 			}
 		} else {
