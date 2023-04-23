@@ -81,9 +81,6 @@ var taskStopTimes = map[string]int64{}
 // Maps of MyStart.Online page names and API keys.
 //var mystartNames = []string{}
 var authServiceNames = map[string]string{}
-var authServiceNames["mystart"] = []string{}
-var authServiceNames["cloudflare"] = []string{}
-
 var mystartPageNames = map[string]string{}
 var mystartAPIKeys = map[string]string{}
 
@@ -678,6 +675,10 @@ func doServeFile(theResponseWriter http.ResponseWriter, theRequest *http.Request
 func main() {
 	// This application is both a web server for handling API requests and displaying a web-based front end, and a command-line application for handling
 	// configuration and setup.
+	
+	// Set valid authentication services.
+	authServiceNames["mystart"] = []string{}
+	authServiceNames["cloudflare"] = []string{}
 	
 	// Set some default argument values.
 	arguments["help"] = "false"
