@@ -874,14 +874,17 @@ func main() {
 						if rateLimitErr != nil {
 							rateLimit = 0
 						}
+						// Handle a login from Cloudflare's Zero Trust product - validate the details passed and check that the user ID given has
+						// permission to access this Task.
 						if arguments["cloudflare"] == "true" {
+							// To do - actual authentication. Only Cloudflare will be passing traffic anyway, but best to check.
 							debug("User authenticated via Cloudflare Zero Trust, ID: " + theRequest.Header.Get("Cf-Access-Authenticated-User-Email"))
 							// Okay - we've authenticated the user, now we need to check authorisation.
 							permission = getTaskPermission(arguments["webconsoleroot"], taskDetails, theRequest.Header.Get("Cf-Access-Authenticated-User-Email"))
 							if permission != "" {
 								authorised = true
 								userID = theRequest.Header.Get("Cf-Access-Authenticated-User-Email")
-								debug("User permissions granted via MyStart.Online login, ID: " + userID + ", permission: " + permission)
+								debug("User permissions granted via Cloudflare authentication, ID: " + userID + ", permission: " + permission)
 							}
 						// Handle a login from MyStart.Online - validate the details passed and check that the user ID given has
 						// permission to access this Task.
