@@ -786,7 +786,7 @@ func main() {
 			
 			if arguments["debug"] == "true" && arguments["cloudflare"] == "true" {
 				for k, v := range theRequest.Header {
-					fmt.Fprintf(w, "Header field %q, Value %q\n", k, v)
+					fmt.Println("Header field " + k + ", Value " + v + "\n")
 					//debug(theRequest.Header.Get("User-Agent"))
 				}
 			}
