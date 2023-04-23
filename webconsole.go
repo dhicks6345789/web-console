@@ -661,6 +661,7 @@ func main() {
 	arguments["debug"] = "false"
 	arguments["shellprefix"] = ""
 	arguments["mystartPageName"] = ""
+	arguments["cloudflare"] = "false"
 	setArgumentIfPathExists("webconsoleroot", []string {"/etc/webconsole", "C:\\Program Files\\WebConsole"})
 	setArgumentIfPathExists("config", []string {"config.csv", "/etc/webconsole/config.csv", "C:\\Program Files\\WebConsole\\config.csv"})
 	setArgumentIfPathExists("webroot", []string {"www", "/etc/webconsole/www", "C:\\Program Files\\WebConsole\\www", ""})
@@ -782,6 +783,13 @@ func main() {
 			
 			// Print the request path.
 			debug("Requested URL: " + requestPath)
+			
+			if arguments["debug"] == "true" && arguments["cloudflare"] == "true" {
+				for k, v := range theRequest.Header {
+					fmt.Fprintf(w, "Header field %q, Value %q\n", k, v)
+					//debug(theRequest.Header.Get("User-Agent"))
+				}
+			}
 			
 			if strings.HasPrefix(requestPath, arguments["pathPrefix"]) {
 				requestPath = requestPath[len(arguments["pathPrefix"]):]
