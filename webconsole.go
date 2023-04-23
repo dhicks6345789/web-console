@@ -279,7 +279,7 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 		
 		for _, authService := range []string{"mystart","cloudflare"} {
 			// If we have any (globally) defined authentication service variables then that authentication service is a valid authentication method for the root Task.
-			if len(authServicesNames[authService]) > 0 {
+			if len(authServiceNames[authService]) > 0 {
 				taskDetails["authentication"] = authService
 			}
 		
