@@ -322,9 +322,9 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 				
 				// If any authorisation service paths are set at the root Task level, use those values as
 				// defaults - they can be overwritten by this Tasks' local settings.
-				for _, authServiceName := range authServiceNames[authService] {
+				for _, authService := range authServices {
 					for rootTaskDetailName, rootTaskDetailValue := range rootTaskDetails {
-						if strings.HasPrefix(rootTaskDetailName, authServiceName) {
+						if strings.HasPrefix(rootTaskDetailName, authService) {
 							taskDetails[rootTaskDetailName] = rootTaskDetailValue
 						}
 					}
