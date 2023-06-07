@@ -1,13 +1,13 @@
 # Web Console
 Provides a simple web interface for command-line applications - quickly publish a Python / Bash / Powershell / Batch / etc script as a basic web app. Turns STDOUT into formatted text, alerts and progress indicators.
 
-Cross-platform, runs as a self-contained web server, binaries are available for Windows, Linux (including Raspberry Pi) and MacOS. The install process includes setup as a service on each platform and, optionally, for the cross-platform [tunnelto.dev](https://tunnelto.dev/) service to provide an HTTPS-secured connection through a firewall.
+Cross-platform, runs as a self-contained web server, binaries are available for Windows and Linux (including Raspberry Pi). The install process includes setup as a service on each platform.
 
-Web Console is intended to be used behind a proxy server or tunneling service - it doesn't by itself handle HTTPS connections. Web Console's implementation prioritises ease of configuration and use over performance, meaning that for larger setups a proxy server is probably going to be a good idea. However, it can be used to provide a basic user interface for a stand-alone, non-networked system, such as a kiosk machine, using HTTP only on a local web browser.
+Web Console is intended to be used behind a proxy server or tunneling service, it doesn't by itself handle HTTPS connections. Web Console has been used behind [Apache](https://httpd.apache.org/) and [NGINX](https://www.nginx.com/) acting as reverse-proxy servers, we recommend [Caddy](https://caddyserver.com/) for its ease-of-use in automatically dealing with HTTPS provision for you. Web Console includes built-in support for [Cloudflare's Zero-Trust platform](https://www.cloudflare.com/en-gb/lp/ppc/zero-trust-network-access-x/), with more supported tunneling platforms (e.g. [ngrok](https://ngrok.com/)) planned.
 
-Web Console has been used behind [Apache](https://httpd.apache.org/) and [NGINX](https://www.nginx.com/) acting as reverse-proxy servers, although we recommend [Caddy](https://caddyserver.com/), simply for its ease-of-use in automatically dealing with HTTPS provision for you.
+Web Console's implementation prioritises ease of configuration and use - it's easy to manipulate configurations and user data to provide the functionality you want.
 
-As well as providing a user interface, Web Console also provides a simple REST API, providing URLs for services such as [IFTTT](https://ifttt.com/) and [Zapier](https://zapier.com/) or letting you trigger tasks from remote systems (including [GitHub Actions](https://github.com/features/actions)) with command-line tools like [curl](https://curl.se/).
+As well as providing a user interface, Web Console also provides a simple REST API, providing URLs for services such as [IFTTT](https://ifttt.com/) and [Zapier](https://zapier.com/) or letting you trigger tasks from remote systems (including [GitHub Actions](https://github.com/features/actions)) with command-line tools like [wget](https://www.gnu.org/software/wget/) and [curl](https://curl.se/).
 
 If the above explanation of what Web Console is doesn't match up with what you are trying to do, try the [Alternatives](docs/ALTERNATIVES.md) page for links to applications that might be more suitable.
 
