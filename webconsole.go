@@ -1383,6 +1383,9 @@ func main() {
 		}
 		fmt.Println("Web server using webroot " + arguments["webroot"] + ", taskroot " + arguments["taskroot"] + ".")
 		fmt.Println("Web server available at: http://localhost:" + arguments["port"] + "/")
+		if _, err := os.Stat("/usr/local/bin/ngrok"); err == nil {
+			fmt.Println("ngrok URL: ")
+		}
 		if arguments["debug"] == "true" {
 			fmt.Println("Debug mode set - arguments:.")
 			for argName, argVal := range arguments {
