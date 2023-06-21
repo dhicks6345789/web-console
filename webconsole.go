@@ -663,7 +663,7 @@ func listFolderAsJSON(folderLevel int, thePath string) string {
 	}
 
 	// ...and remove anything we want to exclude.
-	var items []io.fs.FileInfo
+	var items []os.FileInfo
 	for pl := 0; pl < len(readItems); pl = pl + 1 {
 		if contains(listFolderExcludes, items[pl].Name()) == false {
 			items = append(items, readItems[pl])
