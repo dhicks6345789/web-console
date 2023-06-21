@@ -5,8 +5,8 @@ package main
 import (
 	// Standard libraries.
 	"io"
+	"io/fs"
 	"os"
-	"fs"
 	"fmt"
 	"log"
 	"sort"
