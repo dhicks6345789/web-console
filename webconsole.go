@@ -841,7 +841,7 @@ func main() {
 			debug("Requested URL: " + requestPath)
 			if arguments["debug"] == "true" {
 				for k, v := range theRequest.Header {
-					fmt.Fprintf(w, "Header field %q, Value %q\n", k, v)
+					fmt.Fprintf("Header field %q, Value %q\n", k, v)
 				}
 			}
 			
