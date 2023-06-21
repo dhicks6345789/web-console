@@ -1384,7 +1384,7 @@ func main() {
 		fmt.Println("Web server using webroot " + arguments["webroot"] + ", taskroot " + arguments["taskroot"] + ".")
 		fmt.Println("Web server available at: http://localhost:" + arguments["port"] + "/")
 		if _, err := os.Stat("/usr/local/bin/ngrok"); err == nil {
-			ngrokURL, _ := exec.Command('cat /var/log/syslog | grep ngrok.*localhost | tail -1 | cut -d "=" -f 8').Output()
+			ngrokURL, _ := exec.Command("cat /var/log/syslog | grep ngrok.*localhost | tail -1 | cut -d '=' -f 8").Output()
 			fmt.Printf("ngrok URL: %s --nostop\n", ngrokURL)
 		}
 		if arguments["debug"] == "true" {
