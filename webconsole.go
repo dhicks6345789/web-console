@@ -906,7 +906,7 @@ func main() {
 							}
 						// Handle a login from MyStart.Online - validate the details passed and check that the user ID given has
 						// permission to access this Task.
-						} else if strings.HasPrefix(requestPath, "/api/mystartLogin") {
+						if strings.HasPrefix(requestPath, "/api/mystartLogin") {
 							mystartLoginToken := theRequest.Form.Get("loginToken")
 							if mystartLoginToken != "" {
 								requestURL := fmt.Sprintf("https://dev.mystart.online/api/validateToken?loginToken=%s&pageName=%s", mystartLoginToken, arguments["mystartpagename"])
