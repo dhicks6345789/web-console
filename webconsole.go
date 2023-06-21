@@ -678,7 +678,7 @@ func listFolderAsJSON(folderLevel int, thePath string) string {
 				itemAdded = true
 			}
 			if itemAdded == true {
-				if pl < itemsLen - 1 {
+				if pl < itemsLen {
 					result = result + ","
 				}
 				result = result + "\n"
