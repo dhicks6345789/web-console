@@ -274,7 +274,8 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 	taskDetails["resultURL"] = ""
 	taskDetails["command"] = ""
 	taskDetails["authentication"] = ""
-	
+
+	debug("Finding details for Task: " + theTaskID)
 	// Check to see if we have a valid task ID.
 	if (theTaskID == "/") {
 		// The root Task is always public.
