@@ -652,13 +652,13 @@ func listFolderAsJSON(folderLevel int, thePath string) string {
 		return "Error reading path: " + thePath
 	}
 	folderIndent := ""
-	var items []string
 	for pl := 0; pl < folderLevel; pl = pl + 1 {
 		folderIndent = folderIndent + "   "
 	}
+	var items []string
 	for pl := 0; pl < len(readItems); pl = pl + 1 {
 		if contains([]string {".git", "__pycache__"}, readItems[pl].Name()) == false {
-			items = append(items, readItems[pl])
+			items = append(items, string(readItems[pl]))
 		}
 	}
 	for pl := 0; pl < len(items); pl = pl + 1 {
