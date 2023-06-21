@@ -1385,7 +1385,7 @@ func main() {
 		fmt.Println("Web server available at: http://localhost:" + arguments["port"] + "/")
 		if _, err := os.Stat("/usr/local/bin/ngrok"); err == nil {
 			// ngrokURL, _ := exec.Command("bash -c \"cat /var/log/syslog | grep ngrok.*localhost | tail -1 | cut -d '=' -f 8\"").CombinedOutput()
-			ngrokURL, ngrokErr := exec.Command("bash", "-c \"echo bananas\"").CombinedOutput()
+			ngrokURL, ngrokErr := exec.Command("bash", "-c", "\"echo bananas\"").CombinedOutput()
 			if ngrokErr != nil {
 				fmt.Println("ERROR: " + ngrokErr.Error())
 			}
