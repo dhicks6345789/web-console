@@ -715,6 +715,7 @@ func main() {
 	arguments["debug"] = "false"
 	arguments["shellprefix"] = ""
 	arguments["cloudflare"] = "false"
+	arguments["ngrok"] = "false"
 	setArgumentIfPathExists("webconsoleroot", []string {"/etc/webconsole", "C:\\Program Files\\WebConsole"})
 	setArgumentIfPathExists("config", []string {"config.csv", "/etc/webconsole/config.csv", "C:\\Program Files\\WebConsole\\config.csv"})
 	setArgumentIfPathExists("webroot", []string {"www", "/etc/webconsole/www", "C:\\Program Files\\WebConsole\\www", ""})
@@ -839,12 +840,6 @@ func main() {
 			
 			// Print the request path.
 			debug("Requested URL: " + requestPath)
-			if arguments["debug"] == "true" {
-				for k, v := range theRequest.Header {
-					fmt.Println("Header field: " + string(k))
-					fmt.Println(v)
-				}
-			}
 			
 			if strings.HasPrefix(requestPath, arguments["pathPrefix"]) {
 				requestPath = requestPath[len(arguments["pathPrefix"]):]
@@ -907,6 +902,13 @@ func main() {
 								authorised = true
 								userID = theRequest.Header.Get("Cf-Access-Authenticated-User-Email")
 								debug("User permissions granted via Cloudflare authentication, ID: " + userID + ", permission: " + permission)
+							}
+						} else if arguments["ngrok"] == "true" {
+							for headerName, headerValue := range theRequest.Header {
+								if headerName == "Ngrok-Auth-User-Email" {
+									fmt.Println("Header field: " + string(headerName))
+									fmt.Println(headerValue)
+								}
 							}
 						// Handle a login from MyStart.Online - validate the details passed and check that the user ID given has
 						// permission to access this Task.
