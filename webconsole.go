@@ -437,11 +437,9 @@ func getTaskPermission(webConsoleRoot string, taskDetails map[string]string, use
 				}
 			}
 		} else if strings.HasPrefix(taskDetailName, "cloudflare") {
-			//cloudflareName := ""
 			permissionToGrant := ""
 			for _, permissionCheck := range [3]string{"Editors", "Runners", "Viewers"} {
 				if strings.HasSuffix(taskDetailName, permissionCheck) {
-					//cloudflareName = taskDetailName[len("cloudflare"):len(taskDetailName)-len(permissionCheck)]
 					permissionToGrant = string(permissionCheck[0])
 				}
 			}
@@ -451,6 +449,25 @@ func getTaskPermission(webConsoleRoot string, taskDetails map[string]string, use
 				if _, err := os.Stat(cloudflareUsersPath); !os.IsNotExist(err) {
 					cloudflareUsers := readUserFile(cloudflareUsersPath, "")
 					for _, userEmail := range cloudflareUsers {
+						if userEmail == userID {
+							return permissionToGrant
+						}
+					}
+				}
+			}
+		} else if strings.HasPrefix(taskDetailName, "ngrok") {
+			permissionToGrant := ""
+			for _, permissionCheck := range [3]string{"Editors", "Runners", "Viewers"} {
+				if strings.HasSuffix(taskDetailName, permissionCheck) {
+					permissionToGrant = string(permissionCheck[0])
+				}
+			}
+			if permissionToGrant != "" {
+				ngrokUsersPath := taskDetailValue
+				debug("ngrokUsersPath: " + ngrokUsersPath)
+				if _, err := os.Stat(ngrokUsersPath); !os.IsNotExist(err) {
+					ngrokUsers := readUserFile(ngrokUsersPath, "")
+					for _, userEmail := range ngrokUsers {
 						if userEmail == userID {
 							return permissionToGrant
 						}
