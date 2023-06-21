@@ -647,7 +647,7 @@ func contains(theItems []string, theMatch string) bool {
 // A function that recursivly walks a folder tree and constructs a JSON representation, returned as a string.
 func listFolderAsJSON(folderLevel int, thePath string) string {
 	result := ""
-	readItems, itemErr := ioutil.ReadDir(thePath)
+	items, itemErr := ioutil.ReadDir(thePath)
 	if itemErr != nil {
 		return "Error reading path: " + thePath
 	}
@@ -655,30 +655,32 @@ func listFolderAsJSON(folderLevel int, thePath string) string {
 	for pl := 0; pl < folderLevel; pl = pl + 1 {
 		folderIndent = folderIndent + "   "
 	}
-	var items []string
-	for pl := 0; pl < len(readItems); pl = pl + 1 {
+	itemsLen := 0
+	for pl := 0; pl < len(items); pl = pl + 1 {
 		if contains([]string {".git", "__pycache__"}, readItems[pl].Name()) == false {
-			items = append(items, readItems[pl].Name())
+			itemsLen = itemsLen + 1
 		}
 	}
-	for pl := 0; pl < len(items); pl = pl + 1 {
-		itemAdded := false
-		if items[pl].IsDir() {
-			result = result + folderIndent + "[\"" + items[pl].Name() + "\",\n"
-			result = result + folderIndent + "[\n"
-			result = result + listFolderAsJSON(folderLevel + 1, thePath + "/" + items[pl].Name())
-			result = result + folderIndent + "]\n"
-			result = result + folderIndent + "]"
-			itemAdded = true
-		} else {
-			result = result + folderIndent + "\"" + items[pl].Name() + "\""
-			itemAdded = true
-		}
-		if itemAdded == true {
-			if pl < len(items) - 1 {
-				result = result + ","
+	for pl := 0; pl < itemsLen; pl = pl + 1 {
+		if contains([]string {".git", "__pycache__"}, items[pl].Name()) == false {
+			itemAdded := false
+			if items[pl].IsDir() {
+				result = result + folderIndent + "[\"" + items[pl].Name() + "\",\n"
+				result = result + folderIndent + "[\n"
+				result = result + listFolderAsJSON(folderLevel + 1, thePath + "/" + items[pl].Name())
+				result = result + folderIndent + "]\n"
+				result = result + folderIndent + "]"
+				itemAdded = true
+			} else {
+				result = result + folderIndent + "\"" + items[pl].Name() + "\""
+				itemAdded = true
 			}
-			result = result + "\n"
+			if itemAdded == true {
+				if pl < itemsLen - 1 {
+					result = result + ","
+				}
+				result = result + "\n"
+			}
 		}
 	}
 	if result == "" {
