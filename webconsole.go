@@ -1385,7 +1385,7 @@ func main() {
 		fmt.Println("Web server available at: http://localhost:" + arguments["port"] + "/")
 		if _, err := os.Stat("/usr/local/bin/ngrok"); err == nil {
 			ngrokURL, _ := exec.Command("cat /var/log/syslog | grep ngrok.*localhost | tail -1 | cut -d \"=\" -f 8").Output()
-			fmt.Println("ngrok URL: " + ngrokURL)
+			fmt.Printf("ngrok URL: %s --nostop", ngrokURL)
 		}
 		if arguments["debug"] == "true" {
 			fmt.Println("Debug mode set - arguments:.")
