@@ -895,10 +895,12 @@ func main() {
 						// the details passed and check that the user ID given has permission to access this Task.
 						for headerName, headerValue := range theRequest.Header {
 							if (arguments["cloudflare"] == "true" && headerName == "Cf-Access-Authenticated-User-Email") || (arguments["ngrok"] == "true" && headerName == "Ngrok-Auth-User-Email") {
+								debug("Headers - found cloudflare / ngrok")
 								// To do - actual authentication. Assuming local-only operation, only Cloudflare / ngrok will be passing traffic anyway, but best to check.
 								userID = headerValue[0]
+								debug(userID)
 								// Okay - we've authenticated the user, now we need to check authorisation.
-								permission = getTaskPermission(arguments["webconsoleroot"], taskDetails, theRequest.Header.Get("Cf-Access-Authenticated-User-Email"))
+								permission = getTaskPermission(arguments["webconsoleroot"], taskDetails, userID)
 								if permission != "" {
 									authorised = true
 									debug("User permissions granted from header " + headerName + ", ID: " + userID + ", permission: " + permission)
