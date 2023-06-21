@@ -649,21 +649,29 @@ func contains(theItems []string, theMatch string) bool {
 // A function that recursivly walks a folder tree and constructs a JSON representation, returned as a string.
 func listFolderAsJSON(folderLevel int, thePath string) string {
 	result := ""
-	items, itemErr := ioutil.ReadDir(thePath)
-	if itemErr != nil {
-		return "Error reading path: " + thePath
-	}
+	
+	// Figure out the folder indent level.
 	folderIndent := ""
 	for pl := 0; pl < folderLevel; pl = pl + 1 {
 		folderIndent = folderIndent + "   "
 	}
-	itemsLen := 0
-	for pl := 0; pl < len(items); pl = pl + 1 {
+
+	// Read all items (both sub-folders and files) from the given folder path...
+	readItems, itemErr := io.fs.ReadDir(thePath)
+	if itemErr != nil {
+		return "Error reading path: " + thePath
+	}
+
+	// ...and remove anything we want to exclude.
+	var items []io.fs.FileInfo
+	for pl := 0; pl < len(readItems); pl = pl + 1 {
 		if contains(listFolderExcludes, items[pl].Name()) == false {
-			itemsLen = itemsLen + 1
+			items = append(items, readItems[pl])
 		}
 	}
-	for pl := 0; pl <len(items); pl = pl + 1 {
+
+	// Now, step through each item, producing JSON output as we go.
+	for pl := 0; pl < len(items); pl = pl + 1 {
 		if contains(listFolderExcludes, items[pl].Name()) == false {
 			itemAdded := false
 			if items[pl].IsDir() {
@@ -678,7 +686,7 @@ func listFolderAsJSON(folderLevel int, thePath string) string {
 				itemAdded = true
 			}
 			if itemAdded == true {
-				if pl < itemsLen {
+				if pl < len(items)-1 {
 					result = result + ","
 				}
 				result = result + "\n"
