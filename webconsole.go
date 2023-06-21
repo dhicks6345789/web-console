@@ -904,6 +904,7 @@ func main() {
 									debug("User permissions granted from header " + headerName + ", ID: " + userID + ", permission: " + permission)
 								}
 							}
+						}
 						// Handle a login from MyStart.Online - validate the details passed and check that the user ID given has
 						// permission to access this Task.
 						if strings.HasPrefix(requestPath, "/api/mystartLogin") {
