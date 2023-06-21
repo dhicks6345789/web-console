@@ -289,6 +289,7 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 			}
 		
 			for _, authServiceName := range authServiceNames[authService] {
+				debug("Looking: " + authServiceName)
 				editorsName := authService + authServiceName + "Editors"
 				editorsPath := arguments["webconsoleroot"] + "/" + editorsName + ".csv"
 				if _, err := os.Stat(editorsPath); err == nil {
