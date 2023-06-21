@@ -292,16 +292,19 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 				editorsPath := arguments["webconsoleroot"] + "/" + editorsName + ".csv"
 				if _, err := os.Stat(editorsPath); err == nil {
 					taskDetails[editorsName] = editorsPath
+					debug("Editors - found " + editorsName + " file: " + editorsPath)
 				}
 				runnersName := authService + authServiceName + "Runners"
 				runnersPath := arguments["webconsoleroot"] + "/" + runnersName + ".csv"
 				if _, err := os.Stat(runnersPath); err == nil {
 					taskDetails[runnersName] = runnersPath
+					debug("Runners - found " + runnersName + " file: " + runnersPath)
 				}
 				viewersName := authService + authServiceName + "Viewers"
 				viewersPath := arguments["webconsoleroot"] + "/" + viewersName + ".csv"
 				if _, err := os.Stat(viewersPath); err == nil {
 					taskDetails[viewersName] = viewersPath
+					debug("Viewers - found " + viewersName + " file: " + viewersPath)
 				}
 			}
 		}
