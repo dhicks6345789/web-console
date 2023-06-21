@@ -894,7 +894,7 @@ func main() {
 						// Check through request headers - handle a login from Cloudflare's Zero Trust product or ngrok's tunneling service. Validate
 						// the details passed and check that the user ID given has permission to access this Task.
 						for headerName, headerValue := range theRequest.Header {
-							if (arguments["cloudflare"] == "true" && headerName == "Cf-Access-Authenticated-User-Email") || (if arguments["ngrok"] == "true" && headerName == "Ngrok-Auth-User-Email") {
+							if (arguments["cloudflare"] == "true" && headerName == "Cf-Access-Authenticated-User-Email") || (arguments["ngrok"] == "true" && headerName == "Ngrok-Auth-User-Email") {
 								// To do - actual authentication. Assuming local-only operation, only Cloudflare / ngrok will be passing traffic anyway, but best to check.
 								userID = headerValue[0]
 								// Okay - we've authenticated the user, now we need to check authorisation.
