@@ -1388,7 +1388,7 @@ func main() {
 			if ngrokErr != nil {
 				fmt.Println("ERROR: " + ngrokErr.Error())
 			}
-			fmt.Println("ngrok URL: " + strings.Trim(string(ngrokURL)) + " --nostop")
+			fmt.Println("ngrok URL: " + strings.TrimSpace(string(ngrokURL)) + " --nostop")
 		}
 		if arguments["debug"] == "true" {
 			fmt.Println("Debug mode set - arguments:.")
