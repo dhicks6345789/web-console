@@ -1392,7 +1392,7 @@ func main() {
 			fmt.Println("ngrok URL: " + strings.TrimSpace(string(ngrokURL)))
 		}
 		if arguments["debug"] == "true" {
-			fmt.Println("Debug mode set - arguments:.")
+			fmt.Println("Debug mode set - arguments:")
 			for argName, argVal := range arguments {
 				fmt.Println("   " + argName + ": " + argVal)
 			}
