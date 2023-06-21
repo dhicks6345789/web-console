@@ -80,7 +80,7 @@ var taskStopTimes = map[string]int64{}
 
 // Valid authentication services.
 //var mystartNames = []string{}
-var authServices = []string{"mystart", "cloudflare"}
+var authServices = []string{"mystart", "cloudflare", "ngrok"}
 var authServiceNames = map[string][]string{}
 
 // Maps of MyStart.Online page names and API keys.
@@ -839,6 +839,11 @@ func main() {
 			
 			// Print the request path.
 			debug("Requested URL: " + requestPath)
+			if arguments["debug"] == "true" {
+				for k, v := range theRequest.Header {
+					fmt.Fprintf(w, "Header field %q, Value %q\n", k, v)
+				}
+			}
 			
 			if strings.HasPrefix(requestPath, arguments["pathPrefix"]) {
 				requestPath = requestPath[len(arguments["pathPrefix"]):]
