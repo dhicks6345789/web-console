@@ -829,7 +829,7 @@ func main() {
 			cloudflareName := argName[10:len(argName)]
 			authServiceNames["cloudflare"] = append(authServiceNames["cloudflare"], cloudflareName)
 		} else if strings.HasPrefix(argName, "ngrok") {
-			ngrokName := argName[10:len(argName)]
+			ngrokName := argName[5:len(argName)]
 			authServiceNames["ngrok"] = append(authServiceNames["ngrok"], ngrokName)
 		}
 	}
