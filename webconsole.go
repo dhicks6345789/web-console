@@ -657,7 +657,7 @@ func listFolderAsJSON(folderLevel int, thePath string) string {
 	}
 
 	// Read all items (both sub-folders and files) from the given folder path...
-	readItems, itemErr := io.fs.ReadDir(thePath)
+	readItems, itemErr := os.ReadDir(thePath)
 	if itemErr != nil {
 		return "Error reading path: " + thePath
 	}
