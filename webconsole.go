@@ -79,9 +79,11 @@ var taskRuntimeGuesses = map[string]float64{}
 var taskStopTimes = map[string]int64{}
 
 // Valid authentication services.
-//var mystartNames = []string{}
 var authServices = []string{"mystart", "cloudflare", "ngrok"}
 var authServiceNames = map[string][]string{}
+
+// Items to exclude from being returned from the listFolders API call.
+var listFolderExcludes = []string{".git", "__pycache__"}
 
 // Maps of MyStart.Online page names and API keys.
 var mystartPageNames = map[string]string{}
@@ -657,12 +659,12 @@ func listFolderAsJSON(folderLevel int, thePath string) string {
 	}
 	itemsLen := 0
 	for pl := 0; pl < len(items); pl = pl + 1 {
-		if contains([]string {".git", "__pycache__"}, readItems[pl].Name()) == false {
+		if contains(listFolderExcludes, items[pl].Name()) == false {
 			itemsLen = itemsLen + 1
 		}
 	}
 	for pl := 0; pl < itemsLen; pl = pl + 1 {
-		if contains([]string {".git", "__pycache__"}, items[pl].Name()) == false {
+		if contains(listFolderExcludes, items[pl].Name()) == false {
 			itemAdded := false
 			if items[pl].IsDir() {
 				result = result + folderIndent + "[\"" + items[pl].Name() + "\",\n"
