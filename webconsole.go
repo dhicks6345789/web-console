@@ -663,7 +663,7 @@ func listFolderAsJSON(folderLevel int, thePath string) string {
 			itemsLen = itemsLen + 1
 		}
 	}
-	for pl := 0; pl < itemsLen; pl = pl + 1 {
+	for pl := 0; pl <len(items); pl = pl + 1 {
 		if contains(listFolderExcludes, items[pl].Name()) == false {
 			itemAdded := false
 			if items[pl].IsDir() {
