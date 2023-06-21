@@ -906,8 +906,15 @@ func main() {
 						} else if arguments["ngrok"] == "true" {
 							for headerName, headerValue := range theRequest.Header {
 								if headerName == "Ngrok-Auth-User-Email" {
-									fmt.Println("Header field: " + string(headerName))
-									fmt.Println(headerValue)
+									// To do - actual authentication. Only ngrok will be passing traffic anyway, but best to check.
+									debug("User authenticated via ngrok, ID: " + headerValue)
+									// Okay - we've authenticated the user, now we need to check authorisation.
+									permission = getTaskPermission(arguments["webconsoleroot"], taskDetails, headerValue)
+									if permission != "" {
+										authorised = true
+										userID = headerValue
+										debug("User permissions granted via Cloudflare authentication, ID: " + userID + ", permission: " + permission)
+									}
 								}
 							}
 						// Handle a login from MyStart.Online - validate the details passed and check that the user ID given has
@@ -1391,7 +1398,7 @@ func main() {
 		}
 		fmt.Println("Web server using webroot " + arguments["webroot"] + ", taskroot " + arguments["taskroot"] + ".")
 		fmt.Println("Web server available at: http://localhost:" + arguments["port"] + "/")
-		// If we detect ngrok is running, search the syslog for the nrok URL to display to the user.
+		// If we detect ngrok is running, search the syslog for the ngrok URL to display to the user.
 		if _, err := os.Stat("/usr/local/bin/ngrok"); err == nil {
 			ngrokURL, ngrokErr := exec.Command("bash", "-c", "cat /var/log/syslog | grep ngrok.*localhost | tail -1 | cut -d '=' -f 8").CombinedOutput()
 			if ngrokErr != nil {
