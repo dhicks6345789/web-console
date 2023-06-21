@@ -647,25 +647,29 @@ func contains(theItems []string, theMatch string) bool {
 // A function that recursivly walks a folder tree and constructs a JSON representation, returned as a string.
 func listFolderAsJSON(folderLevel int, thePath string) string {
 	result := ""
-	items, itemErr := ioutil.ReadDir(thePath)
+	readItems, itemErr := ioutil.ReadDir(thePath)
 	if itemErr != nil {
 		return "Error reading path: " + thePath
 	}
 	folderIndent := ""
+	var items []string
 	for pl := 0; pl < folderLevel; pl = pl + 1 {
 		folderIndent = folderIndent + "   "
+	}
+	for pl := 0; pl < len(readItems); pl = pl + 1 {
+		if contains([]string {".git", "__pycache__"}, readItems[pl].Name()) == false {
+			items = append(items, readItems[pl])
+		}
 	}
 	for pl := 0; pl < len(items); pl = pl + 1 {
 		itemAdded := false
 		if items[pl].IsDir() {
-			if contains([]string {".git", "__pycache__"}, items[pl].Name()) == false {
-				result = result + folderIndent + "[\"" + items[pl].Name() + "\",\n"
-				result = result + folderIndent + "[\n"
-				result = result + listFolderAsJSON(folderLevel + 1, thePath + "/" + items[pl].Name())
-				result = result + folderIndent + "]\n"
-				result = result + folderIndent + "]"
-				itemAdded = true
-			}
+			result = result + folderIndent + "[\"" + items[pl].Name() + "\",\n"
+			result = result + folderIndent + "[\n"
+			result = result + listFolderAsJSON(folderLevel + 1, thePath + "/" + items[pl].Name())
+			result = result + folderIndent + "]\n"
+			result = result + folderIndent + "]"
+			itemAdded = true
 		} else {
 			result = result + folderIndent + "\"" + items[pl].Name() + "\""
 			itemAdded = true
