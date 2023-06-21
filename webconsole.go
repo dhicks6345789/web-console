@@ -658,7 +658,7 @@ func listFolderAsJSON(folderLevel int, thePath string) string {
 	var items []string
 	for pl := 0; pl < len(readItems); pl = pl + 1 {
 		if contains([]string {".git", "__pycache__"}, readItems[pl].Name()) == false {
-			items = append(items, string(readItems[pl]))
+			items = append(items, readItems[pl].Name())
 		}
 	}
 	for pl := 0; pl < len(items); pl = pl + 1 {
