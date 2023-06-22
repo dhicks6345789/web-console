@@ -123,6 +123,7 @@
 								if (value.startsWith("ERROR: REDIRECT")) {
 									console.log("Redirect message received.")
 									redirectURL = window.location.href.split("?")[0].slice(0, -4) + taskID + "/";
+									console.log(redirectURL);
 									redirectSplit = value.split(" ");
 									if (redirectSplit.length > 2) {
 										redirectURL = redirectSplit[2];
