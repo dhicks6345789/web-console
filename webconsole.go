@@ -1178,10 +1178,13 @@ func main() {
 										fmt.Fprintf(theResponseWriter, "Progress: Progress 100%%\n")
 									}
 									if taskDetails["resultURL"] != "" {
+										debug("Task complete - sending client resultURL: " + taskDetails["resultURL"])
 										fmt.Fprintf(theResponseWriter, "ERROR: REDIRECT " + taskDetails["resultURL"])
 									} else if _, err := os.Stat(arguments["taskroot"] + "/" + taskID + "/www"); err == nil {
+										debug("Task complete - www subfolder found, sending client redirect.")
 										fmt.Fprintf(theResponseWriter, "ERROR: REDIRECT")
 									} else {
+										debug("Task complete - sending client EOF.")
 										fmt.Fprintf(theResponseWriter, "ERROR: EOF")
 									}
 									//delete(taskOutputs, taskID)
