@@ -1070,7 +1070,7 @@ func main() {
 							} else if strings.HasPrefix(requestPath, "/api/getResultURL") {
 								_, checkWWWErr := os.Stat(arguments["taskroot"] + "/" + taskID + "/www")
 								if taskDetails["resultURL"] == "" && checkWWWErr == nil {
-									fmt.Fprintf("www")
+									fmt.Fprintf(theResponseWriter, "www")
 								} else {
 									fmt.Fprintf(theResponseWriter, taskDetails["resultURL"])
 								}
