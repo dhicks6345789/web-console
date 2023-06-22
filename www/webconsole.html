@@ -460,6 +460,7 @@
 					document.getElementById("saveFileButton").disabled = true;
 					
 					webconsole.APICall("getResultURL", {}, function(resultURL) {
+						console.log("Result URL: " + resultURL)
 						// If the user has "edit" permisions they see any result produced in a "result" tab rather than be redirected as
 						// they would with "view" or "run" permissions.
 						if (resultURL != "") {
