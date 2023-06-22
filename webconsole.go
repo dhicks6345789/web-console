@@ -1068,7 +1068,12 @@ func main() {
 								fmt.Fprintf(theResponseWriter, taskDetails["title"] + "\n" + taskDetails["description"])
 							// API - Return the Task's result URL (or blank if it doesn't have one).
 							} else if strings.HasPrefix(requestPath, "/api/getResultURL") {
-								fmt.Fprintf(theResponseWriter, taskDetails["resultURL"])
+								_, checkWWWErr := os.Stat(arguments["taskroot"] + "/" + taskID + "/www")
+								if taskDetails["resultURL"] == "" && checkWWWErr == nil {
+									fmt.Fprintf("www")
+								} else {
+									fmt.Fprintf(theResponseWriter, taskDetails["resultURL"])
+								}
 							// API - Run a given Task.
 							} else if strings.HasPrefix(requestPath, "/api/runTask") {
 								// If the Task is already running, simply return "OK".
