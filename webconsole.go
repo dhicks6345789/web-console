@@ -886,7 +886,9 @@ func main() {
 				requestPath = requestPath[len(arguments["pathPrefix"]):]
 			}
 			
+			userID := ""
 			serveFile := false
+			authorised := false
 			fileToServe := filesToServeList[requestPath]
 			// Handle the getPublicTaskList API call (the one API call that doesn't require authentication).
 			if strings.HasPrefix(requestPath, "/api/getPublicTaskList") {
@@ -919,10 +921,9 @@ func main() {
 				taskDetails, taskErr := getTaskDetails(taskID)
 				if taskErr == nil {
 					// If we get to this point, we know we have a valid Task ID.
-					authorised := false
+					
 					authorisationError := "unknown error"
 					permission := "E"
-					userID := ""
 					currentTimestamp := time.Now().Unix()
 					rateLimit, rateLimitErr := strconv.Atoi(taskDetails["ratelimit"])
 					if rateLimitErr != nil {
