@@ -3,7 +3,7 @@ Provides a simple web interface for command-line applications - quickly publish 
 
 Cross-platform, runs as a self-contained web server, binaries are available for Windows and Linux (including Raspberry Pi). The install process includes setup as a service on each platform.
 
-Web Console is intended to be used behind a proxy server or tunneling service, it doesn't by itself handle HTTPS connections. Web Console has been used behind [Apache](https://httpd.apache.org/) and [NGINX](https://www.nginx.com/) acting as reverse-proxy servers, we recommend [Caddy](https://caddyserver.com/) for its ease-of-use in automatically dealing with HTTPS provision for you. Web Console includes built-in support for [Cloudflare's Zero-Trust platform](https://www.cloudflare.com/en-gb/lp/ppc/zero-trust-network-access-x/), with more supported tunneling platforms (e.g. [ngrok](https://ngrok.com/)) planned.
+Web Console is intended to be used behind a proxy server or tunneling service, it doesn't by itself handle HTTPS connections. Web Console has been used behind [Apache](https://httpd.apache.org/) and [NGINX](https://www.nginx.com/) acting as reverse-proxy servers, we recommend [Caddy](https://caddyserver.com/) for its ease-of-use in automatically dealing with HTTPS provision for you. Web Console includes built-in support for tunnling-with-authentication services from [Cloudflare](https://www.cloudflare.com/en-gb/lp/ppc/zero-trust-network-access-x/) and [ngrok](https://ngrok.com/).
 
 Web Console's implementation prioritises ease of configuration and use - it's easy to manipulate configurations and user data to provide the functionality you want.
 
