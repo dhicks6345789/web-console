@@ -1088,12 +1088,6 @@ func main() {
 										taskDetails["command"] = strings.TrimSpace(strings.TrimSpace(arguments["shellprefix"]) + " " + taskDetails["command"])
 									}
 									commandArray := parseCommandString(taskDetails["command"])
-									/*for _, batchExtension := range []string{".bat", ".btm", ".cmd"} {
-										// If the command is a Windows batch file, we need to run the Windows command shell for it to execute.
-										if strings.HasSuffix(strings.ToLower(commandArray[0]), batchExtension) {
-											commandArray = parseCommandString("cmd /c " + taskDetails["command"])
-										}
-									}*/
 									var commandArgs []string
 									if len(commandArray) > 0 {
 										commandArgs = commandArray[1:]
@@ -1101,7 +1095,7 @@ func main() {
 									debug("Task ID " + taskID + " - running command: " + commandArray[0])
 									debug("With arguments: " + strings.Join(commandArgs, ","))
 									
-										runningTasks[taskID] = exec.Command(commandArray[0], commandArgs...)
+									runningTasks[taskID] = exec.Command(commandArray[0], commandArgs...)
 									runningTasks[taskID].Dir = arguments["taskroot"] + "/" + taskID
 									
 									// ...get a list (if available) of recent run times...
@@ -1413,14 +1407,22 @@ func main() {
 					serveFile = false
 				}
 				if serveFile == true {
-					localFilePath := arguments["webroot"] + requestPath
-					debug("Asked for webroot file: " + localFilePath)
-					if _, err := os.Stat(localFilePath); errors.Is(err, os.ErrNotExist) {
-						theResponseWriter.WriteHeader(http.StatusNotFound)
-						//http.ServeFile(theResponseWriter, theRequest, arguments["webroot"] + "/404.html")
-						fmt.Fprint(theResponseWriter, "Custom 404 content goes here.")
+					// Serve a static file. A file found in the appropriate "webconsole/users/username" folder will override one found in "webconsole/www", so you can serve user-specific content for authenticated users
+					// simply by placing files in the appropriate user subfolder.
+					usersFilePath := arguments["webconsoleroot"] + "/users/" +  userID + requestPath
+					if _, err := os.Stat(usersFilePath); !errors.Is(err, os.ErrNotExist) {
+						debug("Serving: " + usersFilePath)
+						http.ServeFile(theResponseWriter, theRequest, usersFilePath)
 					} else {
-						http.ServeFile(theResponseWriter, theRequest, localFilePath)
+						localFilePath := arguments["webroot"] + requestPath
+						if _, err := os.Stat(localFilePath); !errors.Is(err, os.ErrNotExist) {
+							debug("Serving: " + usersFilePath)
+							http.ServeFile(theResponseWriter, theRequest, localFilePath)
+						} else {
+							theResponseWriter.WriteHeader(http.StatusNotFound)
+							//http.ServeFile(theResponseWriter, theRequest, arguments["webroot"] + "/404.html")
+							fmt.Fprint(theResponseWriter, "Custom 404 content goes here.")
+						}
 					}
 				}
 			}
