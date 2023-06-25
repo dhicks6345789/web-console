@@ -1,7 +1,7 @@
 # Build script for WebConsole. Tested on Debian, x86 and Raspberry Pi.
 
 source VERSION
-CURRENTDATE=`date +"%D-%H:%M"`
+CURRENTDATE=`date +"%d/%m/%Y-%H:%M"`
 BUILDVERSION="$VERSION-local-$CURRENTDATE"
 
 echo Building Web Console...
