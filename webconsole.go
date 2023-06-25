@@ -913,350 +913,345 @@ func main() {
 			} else if fileToServe != "" || strings.HasPrefix(requestPath, "/api/") {
 				taskID := theRequest.Form.Get("taskID")
 				token := theRequest.Form.Get("token")
-				// if taskID == "" && requestPath == "/" {
 				if taskID == "" {
 					taskID = "/"
 				}
-				if taskID == "" {
-					fmt.Fprintf(theResponseWriter, "ERROR: Missing parameter taskID.")
-				} else {
-					taskDetails, taskErr := getTaskDetails(taskID)
-					if taskErr == nil {
-						// If we get to this point, we know we have a valid Task ID.
-						authorised := false
-						authorisationError := "unknown error"
-						permission := "E"
-						userID := ""
-						currentTimestamp := time.Now().Unix()
-						rateLimit, rateLimitErr := strconv.Atoi(taskDetails["ratelimit"])
-						if rateLimitErr != nil {
-							rateLimit = 0
-						}
-						// Check through request headers - handle a login from Cloudflare's Zero Trust product or ngrok's tunneling service. Validate
-						// the details passed and check that the user ID given has permission to access this Task.
-						if arguments["cloudflare"] == "true" || arguments["ngrok"] == "true" {
-							for headerName, headerValue := range theRequest.Header {
-								if (arguments["cloudflare"] == "true" && headerName == "Cf-Access-Authenticated-User-Email") || (arguments["ngrok"] == "true" && headerName == "Ngrok-Auth-User-Email") {
-									// To do - actual authentication. Assuming local-only operation, only Cloudflare / ngrok will be passing traffic anyway, but best to check.
-									userID = headerValue[0]
-									// Okay - we've authenticated the user, now we need to check authorisation.
-									permission = getTaskPermission(arguments["webconsoleroot"], taskDetails, userID)
-									if permission == "" {
-										authorisationError = "authetication attempted via header authorisation (Cloudflare / ngrok), but no valid permissions granted (you're probably missing a users file)"
-									} else {
-										authorised = true
-										debug("User permissions granted from header " + headerName + ", ID: " + userID + ", permission: " + permission)
-									}
-								}
-							}
-						// Handle a login from MyStart.Online - validate the details passed and check that the user ID given has
-						// permission to access this Task.
-						} else if strings.HasPrefix(requestPath, "/api/mystartLogin") {
-							mystartLoginToken := theRequest.Form.Get("loginToken")
-							if mystartLoginToken != "" {
-								requestURL := fmt.Sprintf("https://dev.mystart.online/api/validateToken?loginToken=%s&pageName=%s", mystartLoginToken, arguments["mystartpagename"])
-								mystartResult, mystartErr := http.Get(requestURL)
-								if mystartErr != nil {
-									fmt.Println("webconsole: mystartLogin - error when doing callback.")
-								}
-								if mystartResult.StatusCode == 200 {
-									defer mystartResult.Body.Close()
-									mystartJSON := new(mystartStruct)
-									mystartJSONResult := json.NewDecoder(mystartResult.Body).Decode(mystartJSON)
-									if mystartJSONResult == nil {
-										if mystartJSON.Login == "valid" {
-											debug("User authenticated via MyStart.Online login, ID: " + mystartJSON.EmailHash)
-											// Okay - we've authenticated the user, now we need to check authorisation.
-											permission = getTaskPermission(arguments["webconsoleroot"], taskDetails, mystartJSON.EmailHash)
-											if permission != "" {
-												authorised = true
-												userID = mystartJSON.EmailHash
-												debug("User permissions granted via MyStart.Online login, ID: " + userID + ", permission: " + permission)
-											}
-										}
-									}
-								}
-							} else {
-								fmt.Fprintf(theResponseWriter, "ERROR: Missing parameter loginToken.")
-							}
-						} else if token != "" {
-							if tokens[token] == 0 {
-								authorisationError = "invalid or expired token"
-							} else {
-								authorised = true
-								permission = permissions[token]
-								userID = userIDs[token]
-								debug("User authorised - valid token found: " + token + ", permission: " + permission + ", user ID: " + userID)
-							}
-						} else if checkPasswordHash(theRequest.Form.Get("secret"), taskDetails["secretViewers"]) {
-							authorised = true
-							permission = "V"
-							debug("User authorised via Task secret, permission: " + permission)
-						} else if checkPasswordHash(theRequest.Form.Get("secret"), taskDetails["secretRunners"]) {
-							authorised = true
-							permission = "R"
-							debug("User authorised via Task secret, permission: " + permission)
-						} else if checkPasswordHash(theRequest.Form.Get("secret"), taskDetails["secretEditors"]) {
-							authorised = true
-							permission = "E"
-							debug("User authorised via Task secret, permission: " + permission)
-						} else {
-							authorisationError = "no external authorisation used, no valid secret given, no valid token supplied"
-						}
-						if !authorised && taskDetails["authentication"] == "" {
-							debug("User authorised - no other authentication method defined, assigning Viewer permsisions.")
-							authorised = true
-							authorisationError = ""
-							permission = "V"
-						}
-						if authorised {
-							// If we get this far, we know the user is authorised for this Task - they've either provided a valid
-							// secret or no secret is set.
-							if token == "" {
-								token = generateRandomString()
-								debug("New token generated: " + token)
-							}
-							tokens[token] = currentTimestamp
-							permissions[token] = permission
-							userIDs[token] = userID
-							
-							// Handle view and run requests - no difference server-side, only the client-side treates the URLs differently
-							// (the "runTask" method gets called by the client-side code if the URL contains "run" rather than "view").
-							if fileToServe != "" {
-								doServeFile(theResponseWriter, theRequest, fileToServe, taskID, token, permission, taskDetails["title"], taskDetails["description"])
-							// API - Handle a request for a list of "private" Tasks, i.e. Tasks that the user has explicit
-							// authorisation to view, run or edit. We return the list of private tasks in JSON format.
-							} else if strings.HasPrefix(requestPath, "/api/getPrivateTaskList") {
-								taskList, taskErr := getTaskList()
-								taskListString := ""
-								if taskErr == nil {
-									for _, task := range taskList {
-										// Don't list Tasks that would already be listed in the "public" list.
-										// Also, don't list special Tasks like the "new-task" Task.
-										if task["public"] != "Y" && task["taskID"] != "new-task" {
-											listTask := false
-											// If we have Edit permissions for the root Task
-											// (ID "/"), then we have permissions to view all Tasks.
-											if taskID == "/" && permission == "E" {
-												listTask = true
-											} else {
-												// Otherwise, work out permissions for each Task.
-												taskPermission := getTaskPermission(arguments["webconsoleroot"], task, userID)
-												if taskPermission == "V" || taskPermission == "R" || taskPermission == "E" {
-													listTask = true
-												}
-											}
-											if listTask {
-												taskDetailsString, _ := json.Marshal(map[string]string{"title":task["title"], "description":task["description"], "authentication":task["authentication"]})
-												taskListString = taskListString + "\"" + task["taskID"] + "\":" + string(taskDetailsString) + ","
-											}
-										}
-									}
-									if taskListString == "" {
-										fmt.Fprintf(theResponseWriter, "{}")
-									} else {
-										fmt.Fprintf(theResponseWriter, "{" + taskListString[:len(taskListString)-1] + "}")
-									}
-								} else {
-									fmt.Fprintf(theResponseWriter, "ERROR: " + taskErr.Error())
-								}
-							// API - Exchange the secret for a token.
-							} else if strings.HasPrefix(requestPath, "/api/getToken") {
-								fmt.Fprintf(theResponseWriter, token)
-							// API - Return the Task's title.
-							} else if strings.HasPrefix(requestPath, "/api/getTaskDetails") {
-								fmt.Fprintf(theResponseWriter, taskDetails["title"] + "\n" + taskDetails["description"])
-							// API - Return the Task's result URL (or blank if it doesn't have one).
-							} else if strings.HasPrefix(requestPath, "/api/getResultURL") {
-								_, checkWWWErr := os.Stat(arguments["taskroot"] + "/" + taskID + "/www")
-								if taskDetails["resultURL"] == "" && checkWWWErr == nil {
-									fmt.Fprintf(theResponseWriter, "www")
-								} else {
-									fmt.Fprintf(theResponseWriter, taskDetails["resultURL"])
-								}
-							// API - Run a given Task.
-							} else if strings.HasPrefix(requestPath, "/api/runTask") {
-								// If the Task is already running, simply return "OK".
-								if taskIsRunning(taskID) {
-									fmt.Fprintf(theResponseWriter, "OK")
-								} else {
-									// Check to see if there's any rate limit set for this task, and don't run the Task if we're still
-									// within the rate limited time.
-									if currentTimestamp - taskStopTimes[taskID] < int64(rateLimit) {
-										fmt.Fprintf(theResponseWriter, "ERROR: Rate limit (%d seconds) exceeded - try again in %d seconds.", rateLimit, int64(rateLimit) - (currentTimestamp - taskStopTimes[taskID]))
-									} else {
-										// Get ready to run the Task - set up the Task's details...
-										if strings.HasPrefix(taskDetails["command"], "webconsole ") {
-											taskDetails["command"] = strings.Replace(taskDetails["command"], "webconsole ", "\"" + arguments["webconsoleroot"] + string(os.PathSeparator) + "webconsole\" ", 1)
-										} else {
-											taskDetails["command"] = strings.TrimSpace(strings.TrimSpace(arguments["shellprefix"]) + " " + taskDetails["command"])
-										}
-										commandArray := parseCommandString(taskDetails["command"])
-										/*for _, batchExtension := range []string{".bat", ".btm", ".cmd"} {
-											// If the command is a Windows batch file, we need to run the Windows command shell for it to execute.
-											if strings.HasSuffix(strings.ToLower(commandArray[0]), batchExtension) {
-												commandArray = parseCommandString("cmd /c " + taskDetails["command"])
-											}
-										}*/
-										var commandArgs []string
-										if len(commandArray) > 0 {
-											commandArgs = commandArray[1:]
-										}
-										debug("Task ID " + taskID + " - running command: " + commandArray[0])
-										debug("With arguments: " + strings.Join(commandArgs, ","))
-										
-										runningTasks[taskID] = exec.Command(commandArray[0], commandArgs...)
-										runningTasks[taskID].Dir = arguments["taskroot"] + "/" + taskID
-										
-										// ...get a list (if available) of recent run times...
-										taskRunTimes[taskID] = make([]int64, 0)
-										runTimesBytes, fileErr := ioutil.ReadFile(arguments["taskroot"] + "/" + taskID + "/runTimes.txt")
-										if fileErr == nil {
-											runTimeSplit := strings.Split(string(runTimesBytes), "\n")
-											for pl := 0; pl < len(runTimeSplit); pl = pl + 1 {
-												runTimeVal, runTimeErr := strconv.Atoi(runTimeSplit[pl])
-												if runTimeErr == nil {
-													taskRunTimes[taskID] = append(taskRunTimes[taskID], int64(runTimeVal))
-												}
-											}
-										}
-										
-										// ...use those to guess the run time for this time (just use a simple mean of the
-										// existing runtimes)...
-										var totalRunTime int64
-										totalRunTime = 0
-										for pl := 0; pl < len(taskRunTimes[taskID]); pl = pl + 1 {
-											totalRunTime = totalRunTime + taskRunTimes[taskID][pl]
-										}
-										if len(taskRunTimes[taskID]) == 0 {
-											taskRuntimeGuesses[taskID] = float64(10)
-										} else {
-											taskRuntimeGuesses[taskID] = float64(totalRunTime / int64(len(taskRunTimes[taskID])))
-										}
-										taskStartTimes[taskID] = time.Now().Unix()
-										
-										// ...then run the Task as a goroutine (thread) in the background.
-										go runTask(taskID)
-										// Respond to the front-end code that all is okay.
-										fmt.Fprintf(theResponseWriter, "OK")
-									}
-								}
-							// Designed to be called periodically, will return the given Tasks' output as a simple string,
-							// with lines separated by newlines. Takes one parameter, "line", indicating which output line
-							// it should return output from, to save the client-side code having to be sent all of the output each time.
-							} else if strings.HasPrefix(requestPath, "/api/getTaskOutput") {
-								var atoiErr error
-								// Parse the "line" parameter - defaults to 0, so if not set this method will simply return
-								// all current output.
-								outputLineNumber := 0
-								if theRequest.Form.Get("line") != "" {
-									outputLineNumber, atoiErr = strconv.Atoi(theRequest.Form.Get("line"))
-									if atoiErr != nil {
-										fmt.Fprintf(theResponseWriter, "ERROR: Line number not parsable.")
-									}
-								}
-								if _, runningTaskFound := runningTasks[taskID]; !runningTaskFound {
-									// If the Task isn't currently running, load the previous run's log file (if it exists)
-									// into the Task's output buffer.
-									logContents, logContentsErr := ioutil.ReadFile(arguments["taskroot"] + "/" + taskID + "/log.txt")
-									if logContentsErr == nil {
-										taskOutputs[taskID] = strings.Split(string(logContents), "\n")
-									}
-								} else if taskDetails["progress"] == "Y" {
-									// If the job details have the "progress" option set to "Y", output a (best guess, using previous
-									// run times) progresss report line.
-									currentTime := time.Now().Unix()
-									percentage := int((float64(currentTime - taskStartTimes[taskID]) / taskRuntimeGuesses[taskID]) * 100)
-									if percentage > 100 {
-										percentage = 100
-									}
-									taskOutputs[taskID] = append(taskOutputs[taskID], fmt.Sprintf("Progress: Progress %d%%", percentage))
-								}
-								// Return to the user all the output lines from the given starting point.
-								for outputLineNumber < len(taskOutputs[taskID]) {
-									fmt.Fprintln(theResponseWriter, taskOutputs[taskID][outputLineNumber])
-									outputLineNumber = outputLineNumber + 1
-								}
-								// If the Task is no longer running, make sure we tell the client-side code that.
-								if _, runningTaskFound := runningTasks[taskID]; !runningTaskFound {
-									if taskDetails["progress"] == "Y" {
-										fmt.Fprintf(theResponseWriter, "Progress: Progress 100%%\n")
-									}
-									if taskDetails["resultURL"] != "" {
-										debug("Task complete - sending client resultURL: " + taskDetails["resultURL"])
-										fmt.Fprintf(theResponseWriter, "ERROR: REDIRECT " + taskDetails["resultURL"])
-									} else if _, err := os.Stat(arguments["taskroot"] + "/" + taskID + "/www"); err == nil {
-										debug("Task complete - www subfolder found, sending client redirect.")
-										fmt.Fprintf(theResponseWriter, "ERROR: REDIRECT")
-									} else {
-										debug("Task complete - sending client EOF.")
-										fmt.Fprintf(theResponseWriter, "ERROR: EOF")
-									}
-									//delete(taskOutputs, taskID)
-								}
-							// Simply returns "YES" if a given Task is running, "NO" otherwise.
-							} else if strings.HasPrefix(requestPath, "/api/getTaskRunning") {
-								if taskIsRunning(taskID) {
-									fmt.Fprintf(theResponseWriter, "YES")
-								} else {
-									fmt.Fprintf(theResponseWriter, "NO")
-								}
-							// Return a list of editable files for this task, as a JSON structure - needs edit permissions.
-							} else if strings.HasPrefix(requestPath, "/api/getEditableFileList") {
-								if permission != "E" {
-									fmt.Fprintf(theResponseWriter, "ERROR: getEditableFileList called - don't have edit permissions.")
-								} else {
-									outputString := "[\n"
-									outputString = outputString + listFolderAsJSON(1, arguments["taskroot"] + "/" + taskID)
-									outputString = outputString + "]"
-									fmt.Fprintf(theResponseWriter, outputString)
-								}
-							// Return the contents of an editable file - needs edit permissions.
-							} else if strings.HasPrefix(requestPath, "/api/getEditableFileContents") {
-								if permission != "E" {
-									fmt.Fprintf(theResponseWriter, "ERROR: getEditableFileContents called - don't have edit permissions.")
-								} else {
-									filename := theRequest.Form.Get("filename")
-									if filename != "" {
-										http.ServeFile(theResponseWriter, theRequest, arguments["taskroot"] + "/" + taskID + "/" + filename)
-									} else {
-										fmt.Fprintf(theResponseWriter, "ERROR: getEditableFileContents - missing filename parameter.")
-									}
-								}
-							// Save a file.
-							} else if strings.HasPrefix(requestPath, "/api/saveFile") {
-								if permission != "E" {
-									fmt.Fprintf(theResponseWriter, "ERROR: saveFile called - don't have edit permissions.")
-								} else {
-									filename := theRequest.Form.Get("filename")
-									if filename != "" {
-										contents := theRequest.Form.Get("contents")
-										if contents != "" {
-											debug("Write " + arguments["taskroot"] + "/" + taskID + "/" + filename)
-											ioutil.WriteFile(arguments["taskroot"] + "/" + taskID + "/" + filename, []byte(contents), 0644)
-											fmt.Fprintf(theResponseWriter, "OK")
-										} else {
-											fmt.Fprintf(theResponseWriter, "ERROR: saveFile - missing contents parameter.")
-										}
-									} else {
-										fmt.Fprintf(theResponseWriter, "ERROR: saveFile - missing filename parameter.")
-									}
-								}
-							// A simple call that doesn't do anything except serve to keep the timestamp for the given Task up-to-date.
-							} else if strings.HasPrefix(requestPath, "/api/keepAlive") {
-								fmt.Fprintf(theResponseWriter, "OK")
-							// To do: return API documentation here.
-							} else if strings.HasPrefix(requestPath, "/api/") {
-								fmt.Fprintf(theResponseWriter, "ERROR: Unknown API call: %s", requestPath)
-							}
-						} else if strings.HasPrefix(requestPath, "/login") {
-							doServeFile(theResponseWriter, theRequest, fileToServe, taskID, "", "", taskDetails["title"], taskDetails["description"])
-						} else {
-							fmt.Fprintf(theResponseWriter, "ERROR: Not authorised - %s.", authorisationError)
-						}
-					} else {
-						fmt.Fprintf(theResponseWriter, "ERROR: %s", taskErr.Error())
+				taskDetails, taskErr := getTaskDetails(taskID)
+				if taskErr == nil {
+					// If we get to this point, we know we have a valid Task ID.
+					authorised := false
+					authorisationError := "unknown error"
+					permission := "E"
+					userID := ""
+					currentTimestamp := time.Now().Unix()
+					rateLimit, rateLimitErr := strconv.Atoi(taskDetails["ratelimit"])
+					if rateLimitErr != nil {
+						rateLimit = 0
 					}
+					// Check through request headers - handle a login from Cloudflare's Zero Trust product or ngrok's tunneling service. Validate
+					// the details passed and check that the user ID given has permission to access this Task.
+					if arguments["cloudflare"] == "true" || arguments["ngrok"] == "true" {
+						for headerName, headerValue := range theRequest.Header {
+							if (arguments["cloudflare"] == "true" && headerName == "Cf-Access-Authenticated-User-Email") || (arguments["ngrok"] == "true" && headerName == "Ngrok-Auth-User-Email") {
+								// To do - actual authentication. Assuming local-only operation, only Cloudflare / ngrok will be passing traffic anyway, but best to check.
+								userID = headerValue[0]
+								// Okay - we've authenticated the user, now we need to check authorisation.
+								permission = getTaskPermission(arguments["webconsoleroot"], taskDetails, userID)
+								if permission == "" {
+									authorisationError = "authetication attempted via header authorisation (Cloudflare / ngrok), but no valid permissions granted (you're probably missing a users file)"
+								} else {
+									authorised = true
+									debug("User permissions granted from header " + headerName + ", ID: " + userID + ", permission: " + permission)
+								}
+							}
+						}
+					// Handle a login from MyStart.Online - validate the details passed and check that the user ID given has
+					// permission to access this Task.
+					} else if strings.HasPrefix(requestPath, "/api/mystartLogin") {
+						mystartLoginToken := theRequest.Form.Get("loginToken")
+						if mystartLoginToken != "" {
+							requestURL := fmt.Sprintf("https://dev.mystart.online/api/validateToken?loginToken=%s&pageName=%s", mystartLoginToken, arguments["mystartpagename"])
+							mystartResult, mystartErr := http.Get(requestURL)
+							if mystartErr != nil {
+								fmt.Println("webconsole: mystartLogin - error when doing callback.")
+							}
+							if mystartResult.StatusCode == 200 {
+								defer mystartResult.Body.Close()
+								mystartJSON := new(mystartStruct)
+								mystartJSONResult := json.NewDecoder(mystartResult.Body).Decode(mystartJSON)
+								if mystartJSONResult == nil {
+									if mystartJSON.Login == "valid" {
+										debug("User authenticated via MyStart.Online login, ID: " + mystartJSON.EmailHash)
+										// Okay - we've authenticated the user, now we need to check authorisation.
+										permission = getTaskPermission(arguments["webconsoleroot"], taskDetails, mystartJSON.EmailHash)
+										if permission != "" {
+											authorised = true
+											userID = mystartJSON.EmailHash
+											debug("User permissions granted via MyStart.Online login, ID: " + userID + ", permission: " + permission)
+										}
+									}
+								}
+							}
+						} else {
+							fmt.Fprintf(theResponseWriter, "ERROR: Missing parameter loginToken.")
+						}
+					} else if token != "" {
+						if tokens[token] == 0 {
+							authorisationError = "invalid or expired token"
+						} else {
+							authorised = true
+							permission = permissions[token]
+							userID = userIDs[token]
+							debug("User authorised - valid token found: " + token + ", permission: " + permission + ", user ID: " + userID)
+						}
+					} else if checkPasswordHash(theRequest.Form.Get("secret"), taskDetails["secretViewers"]) {
+						authorised = true
+						permission = "V"
+						debug("User authorised via Task secret, permission: " + permission)
+					} else if checkPasswordHash(theRequest.Form.Get("secret"), taskDetails["secretRunners"]) {
+						authorised = true
+						permission = "R"
+						debug("User authorised via Task secret, permission: " + permission)
+					} else if checkPasswordHash(theRequest.Form.Get("secret"), taskDetails["secretEditors"]) {
+						authorised = true
+						permission = "E"
+						debug("User authorised via Task secret, permission: " + permission)
+					} else {
+						authorisationError = "no external authorisation used, no valid secret given, no valid token supplied"
+					}
+					if !authorised && taskDetails["authentication"] == "" {
+						debug("User authorised - no other authentication method defined, assigning Viewer permsisions.")
+						authorised = true
+						authorisationError = ""
+						permission = "V"
+					}
+					if authorised {
+						// If we get this far, we know the user is authorised for this Task - they've either provided a valid
+						// secret or no secret is set.
+						if token == "" {
+							token = generateRandomString()
+							debug("New token generated: " + token)
+						}
+						tokens[token] = currentTimestamp
+						permissions[token] = permission
+						userIDs[token] = userID
+							
+						// Handle view and run requests - no difference server-side, only the client-side treates the URLs differently
+						// (the "runTask" method gets called by the client-side code if the URL contains "run" rather than "view").
+						if fileToServe != "" {
+							doServeFile(theResponseWriter, theRequest, fileToServe, taskID, token, permission, taskDetails["title"], taskDetails["description"])
+						// API - Handle a request for a list of "private" Tasks, i.e. Tasks that the user has explicit
+						// authorisation to view, run or edit. We return the list of private tasks in JSON format.
+						} else if strings.HasPrefix(requestPath, "/api/getPrivateTaskList") {
+							taskList, taskErr := getTaskList()
+							taskListString := ""
+							if taskErr == nil {
+								for _, task := range taskList {
+									// Don't list Tasks that would already be listed in the "public" list.
+									// Also, don't list special Tasks like the "new-task" Task.
+									if task["public"] != "Y" && task["taskID"] != "new-task" {
+										listTask := false
+										// If we have Edit permissions for the root Task
+										// (ID "/"), then we have permissions to view all Tasks.
+										if taskID == "/" && permission == "E" {
+											listTask = true
+										} else {
+											// Otherwise, work out permissions for each Task.
+											taskPermission := getTaskPermission(arguments["webconsoleroot"], task, userID)
+											if taskPermission == "V" || taskPermission == "R" || taskPermission == "E" {
+												listTask = true
+											}
+										}
+										if listTask {
+											taskDetailsString, _ := json.Marshal(map[string]string{"title":task["title"], "description":task["description"], "authentication":task["authentication"]})
+											taskListString = taskListString + "\"" + task["taskID"] + "\":" + string(taskDetailsString) + ","
+										}
+									}
+								}
+								if taskListString == "" {
+									fmt.Fprintf(theResponseWriter, "{}")
+								} else {
+									fmt.Fprintf(theResponseWriter, "{" + taskListString[:len(taskListString)-1] + "}")
+								}
+							} else {
+								fmt.Fprintf(theResponseWriter, "ERROR: " + taskErr.Error())
+							}
+						// API - Exchange the secret for a token.
+						} else if strings.HasPrefix(requestPath, "/api/getToken") {
+							fmt.Fprintf(theResponseWriter, token)
+						// API - Return the Task's title.
+						} else if strings.HasPrefix(requestPath, "/api/getTaskDetails") {
+							fmt.Fprintf(theResponseWriter, taskDetails["title"] + "\n" + taskDetails["description"])
+						// API - Return the Task's result URL (or blank if it doesn't have one).
+						} else if strings.HasPrefix(requestPath, "/api/getResultURL") {
+							_, checkWWWErr := os.Stat(arguments["taskroot"] + "/" + taskID + "/www")
+							if taskDetails["resultURL"] == "" && checkWWWErr == nil {
+								fmt.Fprintf(theResponseWriter, "www")
+							} else {
+								fmt.Fprintf(theResponseWriter, taskDetails["resultURL"])
+							}
+						// API - Run a given Task.
+						} else if strings.HasPrefix(requestPath, "/api/runTask") {
+							// If the Task is already running, simply return "OK".
+							if taskIsRunning(taskID) {
+								fmt.Fprintf(theResponseWriter, "OK")
+							} else {
+								// Check to see if there's any rate limit set for this task, and don't run the Task if we're still
+								// within the rate limited time.
+								if currentTimestamp - taskStopTimes[taskID] < int64(rateLimit) {
+									fmt.Fprintf(theResponseWriter, "ERROR: Rate limit (%d seconds) exceeded - try again in %d seconds.", rateLimit, int64(rateLimit) - (currentTimestamp - taskStopTimes[taskID]))
+								} else {
+									// Get ready to run the Task - set up the Task's details...
+									if strings.HasPrefix(taskDetails["command"], "webconsole ") {
+										taskDetails["command"] = strings.Replace(taskDetails["command"], "webconsole ", "\"" + arguments["webconsoleroot"] + string(os.PathSeparator) + "webconsole\" ", 1)
+									} else {
+										taskDetails["command"] = strings.TrimSpace(strings.TrimSpace(arguments["shellprefix"]) + " " + taskDetails["command"])
+									}
+									commandArray := parseCommandString(taskDetails["command"])
+									/*for _, batchExtension := range []string{".bat", ".btm", ".cmd"} {
+										// If the command is a Windows batch file, we need to run the Windows command shell for it to execute.
+										if strings.HasSuffix(strings.ToLower(commandArray[0]), batchExtension) {
+											commandArray = parseCommandString("cmd /c " + taskDetails["command"])
+										}
+									}*/
+									var commandArgs []string
+									if len(commandArray) > 0 {
+										commandArgs = commandArray[1:]
+									}
+									debug("Task ID " + taskID + " - running command: " + commandArray[0])
+									debug("With arguments: " + strings.Join(commandArgs, ","))
+									
+										runningTasks[taskID] = exec.Command(commandArray[0], commandArgs...)
+									runningTasks[taskID].Dir = arguments["taskroot"] + "/" + taskID
+									
+									// ...get a list (if available) of recent run times...
+									taskRunTimes[taskID] = make([]int64, 0)
+									runTimesBytes, fileErr := ioutil.ReadFile(arguments["taskroot"] + "/" + taskID + "/runTimes.txt")
+									if fileErr == nil {
+										runTimeSplit := strings.Split(string(runTimesBytes), "\n")
+										for pl := 0; pl < len(runTimeSplit); pl = pl + 1 {
+											runTimeVal, runTimeErr := strconv.Atoi(runTimeSplit[pl])
+											if runTimeErr == nil {
+												taskRunTimes[taskID] = append(taskRunTimes[taskID], int64(runTimeVal))
+											}
+										}
+									}
+									
+									// ...use those to guess the run time for this time (just use a simple mean of the
+									// existing runtimes)...
+									var totalRunTime int64
+									totalRunTime = 0
+									for pl := 0; pl < len(taskRunTimes[taskID]); pl = pl + 1 {
+										totalRunTime = totalRunTime + taskRunTimes[taskID][pl]
+									}
+									if len(taskRunTimes[taskID]) == 0 {
+										taskRuntimeGuesses[taskID] = float64(10)
+									} else {
+										taskRuntimeGuesses[taskID] = float64(totalRunTime / int64(len(taskRunTimes[taskID])))
+									}
+									taskStartTimes[taskID] = time.Now().Unix()
+									
+									// ...then run the Task as a goroutine (thread) in the background.
+									go runTask(taskID)
+									// Respond to the front-end code that all is okay.
+									fmt.Fprintf(theResponseWriter, "OK")
+								}
+							}
+						// Designed to be called periodically, will return the given Tasks' output as a simple string,
+						// with lines separated by newlines. Takes one parameter, "line", indicating which output line
+						// it should return output from, to save the client-side code having to be sent all of the output each time.
+						} else if strings.HasPrefix(requestPath, "/api/getTaskOutput") {
+							var atoiErr error
+							// Parse the "line" parameter - defaults to 0, so if not set this method will simply return
+							// all current output.
+							outputLineNumber := 0
+							if theRequest.Form.Get("line") != "" {
+								outputLineNumber, atoiErr = strconv.Atoi(theRequest.Form.Get("line"))
+								if atoiErr != nil {
+									fmt.Fprintf(theResponseWriter, "ERROR: Line number not parsable.")
+								}
+							}
+							if _, runningTaskFound := runningTasks[taskID]; !runningTaskFound {
+								// If the Task isn't currently running, load the previous run's log file (if it exists)
+								// into the Task's output buffer.
+								logContents, logContentsErr := ioutil.ReadFile(arguments["taskroot"] + "/" + taskID + "/log.txt")
+								if logContentsErr == nil {
+									taskOutputs[taskID] = strings.Split(string(logContents), "\n")
+								}
+							} else if taskDetails["progress"] == "Y" {
+								// If the job details have the "progress" option set to "Y", output a (best guess, using previous
+								// run times) progresss report line.
+								currentTime := time.Now().Unix()
+								percentage := int((float64(currentTime - taskStartTimes[taskID]) / taskRuntimeGuesses[taskID]) * 100)
+								if percentage > 100 {
+									percentage = 100
+								}
+								taskOutputs[taskID] = append(taskOutputs[taskID], fmt.Sprintf("Progress: Progress %d%%", percentage))
+							}
+							// Return to the user all the output lines from the given starting point.
+							for outputLineNumber < len(taskOutputs[taskID]) {
+								fmt.Fprintln(theResponseWriter, taskOutputs[taskID][outputLineNumber])
+								outputLineNumber = outputLineNumber + 1
+							}
+							// If the Task is no longer running, make sure we tell the client-side code that.
+							if _, runningTaskFound := runningTasks[taskID]; !runningTaskFound {
+								if taskDetails["progress"] == "Y" {
+									fmt.Fprintf(theResponseWriter, "Progress: Progress 100%%\n")
+								}
+								if taskDetails["resultURL"] != "" {
+									debug("Task complete - sending client resultURL: " + taskDetails["resultURL"])
+									fmt.Fprintf(theResponseWriter, "ERROR: REDIRECT " + taskDetails["resultURL"])
+								} else if _, err := os.Stat(arguments["taskroot"] + "/" + taskID + "/www"); err == nil {
+									debug("Task complete - www subfolder found, sending client redirect.")
+									fmt.Fprintf(theResponseWriter, "ERROR: REDIRECT")
+								} else {
+									debug("Task complete - sending client EOF.")
+									fmt.Fprintf(theResponseWriter, "ERROR: EOF")
+								}
+								//delete(taskOutputs, taskID)
+							}
+						// Simply returns "YES" if a given Task is running, "NO" otherwise.
+						} else if strings.HasPrefix(requestPath, "/api/getTaskRunning") {
+							if taskIsRunning(taskID) {
+								fmt.Fprintf(theResponseWriter, "YES")
+							} else {
+								fmt.Fprintf(theResponseWriter, "NO")
+							}
+						// Return a list of editable files for this task, as a JSON structure - needs edit permissions.
+						} else if strings.HasPrefix(requestPath, "/api/getEditableFileList") {
+							if permission != "E" {
+								fmt.Fprintf(theResponseWriter, "ERROR: getEditableFileList called - don't have edit permissions.")
+							} else {
+								outputString := "[\n"
+								outputString = outputString + listFolderAsJSON(1, arguments["taskroot"] + "/" + taskID)
+								outputString = outputString + "]"
+								fmt.Fprintf(theResponseWriter, outputString)
+							}
+						// Return the contents of an editable file - needs edit permissions.
+						} else if strings.HasPrefix(requestPath, "/api/getEditableFileContents") {
+							if permission != "E" {
+								fmt.Fprintf(theResponseWriter, "ERROR: getEditableFileContents called - don't have edit permissions.")
+							} else {
+								filename := theRequest.Form.Get("filename")
+								if filename != "" {
+									http.ServeFile(theResponseWriter, theRequest, arguments["taskroot"] + "/" + taskID + "/" + filename)
+								} else {
+									fmt.Fprintf(theResponseWriter, "ERROR: getEditableFileContents - missing filename parameter.")
+								}
+							}
+						// Save a file.
+						} else if strings.HasPrefix(requestPath, "/api/saveFile") {
+							if permission != "E" {
+								fmt.Fprintf(theResponseWriter, "ERROR: saveFile called - don't have edit permissions.")
+							} else {
+								filename := theRequest.Form.Get("filename")
+								if filename != "" {
+									contents := theRequest.Form.Get("contents")
+									if contents != "" {
+										debug("Write " + arguments["taskroot"] + "/" + taskID + "/" + filename)
+										ioutil.WriteFile(arguments["taskroot"] + "/" + taskID + "/" + filename, []byte(contents), 0644)
+										fmt.Fprintf(theResponseWriter, "OK")
+									} else {
+										fmt.Fprintf(theResponseWriter, "ERROR: saveFile - missing contents parameter.")
+									}
+								} else {
+									fmt.Fprintf(theResponseWriter, "ERROR: saveFile - missing filename parameter.")
+								}
+							}
+						// A simple call that doesn't do anything except serve to keep the timestamp for the given Task up-to-date.
+						} else if strings.HasPrefix(requestPath, "/api/keepAlive") {
+							fmt.Fprintf(theResponseWriter, "OK")
+						// To do: return API documentation here.
+						} else if strings.HasPrefix(requestPath, "/api/") {
+							fmt.Fprintf(theResponseWriter, "ERROR: Unknown API call: %s", requestPath)
+						}
+					} else if strings.HasPrefix(requestPath, "/login") {
+						doServeFile(theResponseWriter, theRequest, fileToServe, taskID, "", "", taskDetails["title"], taskDetails["description"])
+					} else {
+						fmt.Fprintf(theResponseWriter, "ERROR: Not authorised - %s.", authorisationError)
+					}
+				} else {
+					fmt.Fprintf(theResponseWriter, "ERROR: %s", taskErr.Error())
 				}
 			} else if strings.HasSuffix(requestPath, "/site.webmanifest") {
 				taskID := ""
