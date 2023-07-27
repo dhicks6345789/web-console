@@ -260,7 +260,7 @@
 					if (typeof item === "string") {
 						result = result + folderIndent + "<li><a href=\"#\" onclick=\"editFile('" + currentFolder + "/" + item + "'); return false;\">" + item + "</a></li>\n";
 					} else {
-						result = result + folderIndent + "<li><span class=\"caret\">" + item[0] + "</span><ul class=\"nested\">\n";
+						result = result + folderIndent + "<li><span class=\"caret\">" + item[0] + "</span><ul class=\"editFileList nested\">\n";
 						result = result + parseFolderTree(currentFolderLevel+1, currentFolder + "/" + item[0], item[1]);
 						result = result + folderIndent + "</ul></li>\n";
 					}
@@ -525,7 +525,7 @@
 		<!-- CSS for the edit file tree view. See original code at: https://www.w3schools.com/howto/howto_js_treeview.asp -->
 		<style>
 			/* Remove default bullets */
-			ul, #editFileList {
+			ul.editFileList, #editFileList {
 				list-style-type: none;
 			}
 			
@@ -637,7 +637,7 @@
 								<div class="containerResizeable" id="editorWindow">
 									<div class="containerResizeableLeft">
 										<!-- The file browser component - populated via Javascript at page load time. -->
-										<ul id="editFileList" style="height:100%; width:100%; overflow-x:auto; overflow-y:auto;"></ul>
+										<ul class="editFileList" id="editFileList" style="height:100%; width:100%; overflow-x:auto; overflow-y:auto;"></ul>
 									</div>
 									<!-- The "bar" for the user to click-and-drag to change left / right panel sizes. -->
 									<div class="containerResizeableResizer" id="containerResizeableDragBarHorizontal"></div>
