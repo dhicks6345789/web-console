@@ -80,6 +80,8 @@ This project contains binaries from:
 
 The web user interface is constructed using [Bootstrap 5](https://getbootstrap.com/docs/5.0/getting-started/introduction/) with [Popper](https://popper.js.org/). All required library files are included in the project and release distributions so Web Console can run as a self-contained application on a non-networked workstation / kiosk device if needed.
 
+In-browser Markdown rendering (for the "description" section of each Task page) is handled by the [Marked](https://marked.js.org/) Javascript library.
+
 The text editor in the "Edit" section of the user interface is implemented using [Ace](https://ace.c9.io/). Ace isn't embedded in the project in the same way Bootstrap is (the Ace project consists of a large number of separate JS files, and I couldn't figure out Git's sub-project feature...), it's simply copied into the www/ace folder at build time - check the build scripts (build.sh/build.bat) for details.
 
 Code for the resizeable file browser / code editor panel originated from [Nguyen Huu Phuoc](https://htmldom.dev/create-resizable-split-views/).
