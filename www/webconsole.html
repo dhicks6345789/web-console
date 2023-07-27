@@ -26,6 +26,9 @@
 		<script src="ace/ace.js" type="text/javascript" charset="utf-8"></script>
 		<!-- And the Ace "modelist" extension that lets us auto-set the edit mode for most well-known file types. -->
 		<script src="ace/ext-modelist.js"></script>
+
+		<!-- The Marked in-browser Markdown parsing / rendering library (temporary: add to local install files). -->
+		<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 		
 		<!-- Our own Javascript library, which contains some handy utility functions. -->
 		<script src="webconsole.js"></script>
@@ -35,6 +38,7 @@
 			taskID = "<<TASKID>>";
 			token = "<<TOKEN>>";
 			permission = "<<PERMISSION>>"
+			fullDescription = "<<FULLDESCRIPTION>>
 			
 			// We either call getTaskOutput every 2 seconds to provide updates to the user for a running
 			// task, or keepAlive every 10 minutes (or thereabouts) to refresh a session's token.
@@ -283,6 +287,10 @@
 				
 				// Set up the keepAlive call.
 				intervalFunction = setInterval(keepAlive, keepAlivePeriod);
+
+				// renderedFullDescription = 
+    				// document.getElementById('content').innerHTML =
+				console.log(marked.parse(fullDescription));
 				
 				pageURL = window.location.href.split("?")[0]
 				// Set the Direct Link URL value for the user - useful for people to link straight ot a Task.
