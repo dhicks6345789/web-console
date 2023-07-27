@@ -53,7 +53,7 @@
 						webconsole.numberElementIDs(publicTaskRow, rowCount);
 						document.getElementById("publicTaskList").appendChild(publicTaskRow);
 						document.getElementById("publicTaskTitle-" + rowCount).innerHTML = "<b>" + taskList[taskID]["title"] + ":</b> ";
-						document.getElementById("publicTaskDescription-" + rowCount).innerHTML = taskList[taskID]["description"];
+						document.getElementById("publicTaskDescription-" + rowCount).innerHTML = taskList[taskID]["shortDescription"];
 						document.getElementById("publicTaskButton-" + rowCount).setAttribute("onclick", "webconsole.doAction('POST', 'view', false, {'taskID':'" + taskID + "', 'token':'" + token + "'}, true)");
 						publicTaskRow.style.display = "table-row";
 						rowCount = rowCount + 1;
@@ -73,7 +73,7 @@
 						webconsole.numberElementIDs(privateTaskRow, rowCount);
 						document.getElementById("privateTaskList").appendChild(privateTaskRow);
 						document.getElementById("privateTaskTitle-" + rowCount).innerHTML = "<b>" + taskList[taskID]["title"] + ":</b> ";
-						document.getElementById("privateTaskDescription-" + rowCount).innerHTML = taskList[taskID]["description"];
+						document.getElementById("privateTaskDescription-" + rowCount).innerHTML = taskList[taskID]["shortDescription"];
 						document.getElementById("privateTaskButton-" + rowCount).setAttribute("onclick", "webconsole.doAction('POST', 'view', false, {'taskID':'" + taskID + "', 'token':'" + token + "'}, true)");
 						
 						privateTaskRow.style.display = "table-row";
