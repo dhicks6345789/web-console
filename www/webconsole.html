@@ -286,7 +286,7 @@
 				
 				pageURL = window.location.href.split("?")[0]
 				// Set the Direct Link URL value for the user - useful for people to link straight ot a Task.
-				document.getElementById("directLinkURL").value = pageURL.slice(0, pageURL.lastIndexOf("/")) + "view?taskID=" + taskID;
+				document.getElementById("directLinkURL").value = pageURL.slice(0, pageURL.lastIndexOf("/")) + "/view?taskID=" + taskID;
 				// Set the webhook value for the user - the "run" API call for this Task, handy for services such as IFTTT and Zapier.
 				document.getElementById("automationLink").value = pageURL.slice(0, pageURL.lastIndexOf("/")) + "/api/runTask?taskID=" + taskID;
 				// Set the CURL command webhook value for the user - the "run" API call for this Task, handy for calling from the command line or a cron job / Windows schedualed task.
