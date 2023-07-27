@@ -386,7 +386,15 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 				// the "description" value (empty string by default if not otherwise set in the Task's config file).
 				descriptionContents, descriptionContentsErr := ioutil.ReadFile(arguments["taskroot"] + "/" + theTaskID + "/description.txt")
 				if descriptionContentsErr == nil {
-					taskDetails["description"] = string(descriptionContents)
+					taskDetails["fullDescription"] = string(descriptionContents)
+				}
+				if taskDetails["description"] == "" {
+					taskDetails["description"] = taskDetails["fullDescription"]
+				}
+				taskDetails["shortDescription"] = taskDetails["description"]
+				delete(taskDetails, "description");
+				if taskDetails["fullDescription"] == "" {
+					taskDetails["fullDescription"] = taskDetails["shortDescription"]
 				}
 			}
 		} else {
@@ -700,7 +708,7 @@ func listFolderAsJSON(folderLevel int, thePath string) string {
 	return result
 }
 
-func doServeFile(theResponseWriter http.ResponseWriter, theRequest *http.Request, theFile string, theTaskID string, theToken string, thePermission string, theTitle string, theDescription string) {
+func doServeFile(theResponseWriter http.ResponseWriter, theRequest *http.Request, theFile string, theTaskID string, theToken string, thePermission string, theTitle string, theShortDescription string, theFullDescription string) {
 	// Serve the "fileToServe" file, first adding in the Task ID and token values to be used client-side, as well
 	// as including the appropriate formatting.js file.
 	debug("Serving file: " + theFile)
@@ -721,7 +729,8 @@ func doServeFile(theResponseWriter http.ResponseWriter, theRequest *http.Request
 			webconsoleString = strings.Replace(webconsoleString, "<<TOKEN>>", theToken, -1)
 			webconsoleString = strings.Replace(webconsoleString, "<<PERMISSION>>", thePermission, -1)
 			webconsoleString = strings.Replace(webconsoleString, "<<TITLE>>", theTitle, -1)
-			webconsoleString = strings.Replace(webconsoleString, "<<DESCRIPTION>>", theDescription, -1)
+			webconsoleString = strings.Replace(webconsoleString, "<<SHORTDESCRIPTION>>", theShortDescription, -1)
+			webconsoleString = strings.Replace(webconsoleString, "<<FULLDESCRIPTION>>", theFullDescription, -1)
 			webconsoleString = strings.Replace(webconsoleString, "<<FAVICONPATH>>", theTaskID + "/", -1)
 			webconsoleString = strings.Replace(webconsoleString, "// Include formatting.js.", formattingJSString, -1)
 			http.ServeContent(theResponseWriter, theRequest, theFile, time.Now(), strings.NewReader(webconsoleString))
@@ -899,7 +908,7 @@ func main() {
 					taskListString := ""
 					for _, task := range taskList {
 						if task["public"] == "Y" {
-							taskDetailsString, _ := json.Marshal(map[string]string{"title":task["title"], "description":task["description"], "authentication":task["authentication"]})
+							taskDetailsString, _ := json.Marshal(map[string]string{"title":task["title"], "shortDescription":task["shortDescription"], "fullDescription":task["fullDescription"], "authentication":task["authentication"]})
 							taskListString = taskListString + "\"" + task["taskID"] + "\":" + string(taskDetailsString) + ","
 						}
 					}
@@ -1020,7 +1029,7 @@ func main() {
 						// Handle view and run requests - no difference server-side, only the client-side treates the URLs differently
 						// (the "runTask" method gets called by the client-side code if the URL contains "run" rather than "view").
 						if fileToServe != "" {
-							doServeFile(theResponseWriter, theRequest, fileToServe, taskID, token, permission, taskDetails["title"], taskDetails["description"])
+							doServeFile(theResponseWriter, theRequest, fileToServe, taskID, token, permission, taskDetails["title"], taskDetails["shortDescription"], taskDetails["fullDescription"])
 						// API - Handle a request for a list of "private" Tasks, i.e. Tasks that the user has explicit
 						// authorisation to view, run or edit. We return the list of private tasks in JSON format.
 						} else if strings.HasPrefix(requestPath, "/api/getPrivateTaskList") {
@@ -1044,7 +1053,7 @@ func main() {
 											}
 										}
 										if listTask {
-											taskDetailsString, _ := json.Marshal(map[string]string{"title":task["title"], "description":task["description"], "authentication":task["authentication"]})
+											taskDetailsString, _ := json.Marshal(map[string]string{"title":task["title"], "shortDescription":task["shortDescription"], "fullDescription":task["fullDescription"], "authentication":task["authentication"]})
 											taskListString = taskListString + "\"" + task["taskID"] + "\":" + string(taskDetailsString) + ","
 										}
 									}
@@ -1062,7 +1071,7 @@ func main() {
 							fmt.Fprintf(theResponseWriter, token)
 						// API - Return the Task's title.
 						} else if strings.HasPrefix(requestPath, "/api/getTaskDetails") {
-							fmt.Fprintf(theResponseWriter, taskDetails["title"] + "\n" + taskDetails["description"])
+							fmt.Fprintf(theResponseWriter, taskDetails["title"] + "\n" + taskDetails["shortDescription"] + "\n" + taskDetails["fullDescription"])
 						// API - Return the Task's result URL (or blank if it doesn't have one).
 						} else if strings.HasPrefix(requestPath, "/api/getResultURL") {
 							_, checkWWWErr := os.Stat(arguments["taskroot"] + "/" + taskID + "/www")
@@ -1241,7 +1250,7 @@ func main() {
 							fmt.Fprintf(theResponseWriter, "ERROR: Unknown API call: %s", requestPath)
 						}
 					} else if strings.HasPrefix(requestPath, "/login") {
-						doServeFile(theResponseWriter, theRequest, fileToServe, taskID, "", "", taskDetails["title"], taskDetails["description"])
+						doServeFile(theResponseWriter, theRequest, fileToServe, taskID, "", "", taskDetails["title"], taskDetails["shortDescription"], taskDetails["fullDescription"])
 					} else {
 						fmt.Fprintf(theResponseWriter, "ERROR: Not authorised - %s.", authorisationError)
 					}
