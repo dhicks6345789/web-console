@@ -574,11 +574,12 @@
 				<div class="p-2 rounded m-3" style="background-color:LightSteelBlue">
 					<h1 class="text-center" id="taskTitle"><<TITLE>></h1>
 				</div>
+
+				<div><<FULLDESCRIPTION>></div>
 				
 				<!-- The main "alerts" section where the most important output for the user goes. -->
 				<div class="p-2 rounded m-3" style="background-color:LightSteelBlue">
-					<!-- <div class="m-4" id="taskDescription"><<FULLDESCRIPTION>></div> -->
-					<div id="taskDescription"><<FULLDESCRIPTION>></div>
+					<div class="m-4" id="taskDescription"><<FULLDESCRIPTION>></div>
 					<button class="btn btn-success" type="button" id="runTaskButton" onclick="runTask()">Run</button>
 					<div id="taskProgress"></div>
 					<div id="taskAlerts"></div>
