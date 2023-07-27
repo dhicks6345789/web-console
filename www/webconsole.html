@@ -38,7 +38,6 @@
 			taskID = "<<TASKID>>";
 			token = "<<TOKEN>>";
 			permission = "<<PERMISSION>>"
-			fullDescription = "<<FULLDESCRIPTION>>"
 			
 			// We either call getTaskOutput every 2 seconds to provide updates to the user for a running
 			// task, or keepAlive every 10 minutes (or thereabouts) to refresh a session's token.
@@ -288,9 +287,8 @@
 				// Set up the keepAlive call.
 				intervalFunction = setInterval(keepAlive, keepAlivePeriod);
 
-				// renderedFullDescription = 
-    				// document.getElementById('content').innerHTML =
-				console.log(marked.parse(fullDescription));
+				// Render the (possibly Markdown-formatted) Full Desription section as HTML.
+				console.log(marked.parse(document.getElementById("taskDescription").innerHTML));
 				
 				pageURL = window.location.href.split("?")[0]
 				// Set the Direct Link URL value for the user - useful for people to link straight ot a Task.
