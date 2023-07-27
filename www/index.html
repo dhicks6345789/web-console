@@ -72,6 +72,7 @@
 						privateTaskRow = document.getElementById("privateTaskRow").cloneNode(true);
 						webconsole.numberElementIDs(privateTaskRow, rowCount);
 						document.getElementById("privateTaskList").appendChild(privateTaskRow);
+						document.getElementById("privateTaskList").appendChild(document.getElementById("privateTaskSpacer").cloneNode(true));
 						document.getElementById("privateTaskTitle-" + rowCount).innerHTML = "<b>" + taskList[taskID]["title"] + ":</b> ";
 						document.getElementById("privateTaskDescription-" + rowCount).innerHTML = taskList[taskID]["shortDescription"];
 						document.getElementById("privateTaskButton-" + rowCount).setAttribute("onclick", "webconsole.doAction('POST', 'view', false, {'taskID':'" + taskID + "', 'token':'" + token + "'}, true)");
@@ -126,7 +127,7 @@
 							<td id="privateTaskDescription" style="text-align:left"></td>
 							<td style="text-align:right"><a id="privateTaskButton" class="btn btn-primary" role="button">--></a></td>
 						</tr>
-						<tr>
+						<tr id="privateTaskSpacer">
 							<td colspan="3">---</td>
 						</tr>
 					</tbody>
