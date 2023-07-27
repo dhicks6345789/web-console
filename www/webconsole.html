@@ -171,6 +171,13 @@
 					document.getElementById("showOutputButton").innerHTML = "Show output";
 				}
 			}
+
+			// Copt the direct link URL for this Task page to the clipboard for the user.
+			function copyDirectLinkURL() {
+				copyText = document.getElementById("directLinkURL")
+				copyText.select();
+				document.execCommand("copy");
+			}
 			
 			// Copy the webhook URL to the clipboard for the user.
 			function copyAutomationURL() {
@@ -657,16 +664,22 @@
 					</div>
 				</div>
 				
-				<!-- The automation block, with handy links and copy-and-paste blocks for various services. -->
-				<div class="accordion" id="accordionAutomation">
+				<!-- The info block, with handy links and copy-and-paste blocks for various services. -->
+				<div class="accordion" id="accordionInfo">
 					<div class="accordion-item">
-						<h2 class="accordion-header" id="headingAutomation">
-							<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAutomation" aria-expanded="false" aria-controls="collapseAutomation">
-								Automation
+						<h2 class="accordion-header" id="headingInfo">
+							<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInfo" aria-expanded="false" aria-controls="collapseInfo">
+								Info
 							</button>
 						</h2>
-						<div id="collapseAutomation" class="accordion-collapse collapse" aria-labelledby="headingAutomation" data-bs-parent="#accordionAutomation">
+						<div id="collapseInfo" class="accordion-collapse collapse" aria-labelledby="headingInfo" data-bs-parent="#accordionInfo">
 							<div class="accordion-body text-end">
+								<div>
+									Direct link to this Task: <input type="text" id="directLinkURL" value="https://" readonly/>
+									<button type="button" class="btn btn-default" aria-label="Copy direct link URL" onclick="copyDirectLinkURL()">
+										<img src="bootstrap-icons/1.8.1/stickies.svg" alt="Copy direct link URL" width="32" height="32">
+									</button>
+								</div>
 								<div>
 									<a href="https://ifttt.com/home" target="_blank"><img src="logos/IFTTT.svg" alt="IFTTT Logo" width="32" height="32"></a>
 									<a href="https://zapier.com/app/dashboard" target="_blank"><img src="logos/zapier.svg" alt="Zapier Logo" width="32" height="32"></a>
