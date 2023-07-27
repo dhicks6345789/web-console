@@ -288,7 +288,7 @@
 				intervalFunction = setInterval(keepAlive, keepAlivePeriod);
 
 				// Render the (possibly Markdown-formatted) Full Desription section as HTML.
-				console.log(marked.parse(document.getElementById("taskDescription").innerHTML));
+				document.getElementById("taskDescription").innerHTML = marked.parse(document.getElementById("taskDescription").innerHTML);
 				
 				pageURL = window.location.href.split("?")[0]
 				// Set the Direct Link URL value for the user - useful for people to link straight ot a Task.
