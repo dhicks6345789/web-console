@@ -268,7 +268,7 @@
 				result = "";
 				theItems.forEach(function(item) {
 					if (typeof item === "string") {
-						result = result + folderIndent + "<li><a href=\"#\" onclick=\"editFile('" + currentFolder + "/" + item + "'); return false;\">" + item + "</a><a href=\"#\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Rename\"><img src=\"bootstrap-icons/1.8.1/pencil.svg\" alt=\"Rename\" width=\"8\" height=\"8\"></a></li>\n";
+						result = result + folderIndent + "<li><a href=\"#\" onclick=\"editFile('" + currentFolder + "/" + item + "'); return false;\">" + item + "</a><a class=\"btn btn-outline-primary\" style=\"height:8; width:8;\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Rename\" role=\"button\"><img src=\"bootstrap-icons/1.8.1/pencil.svg\" alt=\"Go To Task\"></a></li>\n";
 					} else {
 						result = result + folderIndent + "<li><span class=\"caret\">" + item[0] + "</span><ul class=\"editFileList nested\">\n";
 						result = result + parseFolderTree(currentFolderLevel+1, currentFolder + "/" + item[0], item[1]);
