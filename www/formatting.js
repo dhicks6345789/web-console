@@ -5,7 +5,7 @@
 										document.getElementById("taskAlerts").innerHTML = value;
 									}
 								} else if (value.toLowerCase().startsWith("warning: ") || value.toLowerCase().startsWith("alert: ")) {
-									value = "<span style='color:DarkOrange'>" + value.substr(9) + "</span>"
+									value = "<span style='color:DarkGoldenRod'>" + value.substr(9) + "</span>"
 									if (displayAlerts == true) {
 										document.getElementById("taskAlerts").innerHTML = value;
 									}
