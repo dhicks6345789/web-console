@@ -270,7 +270,7 @@
 			}
 
 			function showRenameFileModal(theFileName, theFilePath) {
-				document.getElementById("renameFileModalFileName").innerHTML = theFileName;
+				document.getElementById("renameFileModalFilePath").innerHTML = theFilePath.substr(1);
 				document.getElementById("renameFileModalNewFilePath").value = theFilePath.substr(1);
 			}
 			
@@ -811,7 +811,7 @@
 			<div class="modal-dialog modal-dialog-centered">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title" id="renameFileModalTitle">Rename file:&nbsp;</h5><h5 class="modal-title" id="renameFileModalFileName"></h5>
+						<h5 class="modal-title" id="renameFileModalTitle">Rename file:&nbsp;</h5><h5 class="modal-title" id="renameFileModalFilePath"></h5>
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body">
