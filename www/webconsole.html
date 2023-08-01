@@ -265,8 +265,13 @@
 			}
 
 			function renameFile() {
-				console.log(document.getElementById("renameFileModalFilePath").innerHTML);
-				console.log(document.getElementById("renameFileModalNewFilePath").value);
+				webconsole.APICall("deleteFile", {"filename":document.getElementById("renameFileModalFilePath").innerHTML, "newFilename":document.getElementById("renameFileModalNewFilePath").value}, function(result) {
+					if (result == "OK") {
+						refreshFolderTreeView();
+					} else {
+						alert(result);
+					}
+				});
 			}
 
 			function showRenameFileModal(theFileName, theFilePath) {
