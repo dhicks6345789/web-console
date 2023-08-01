@@ -264,8 +264,9 @@
 				});
 			}
 
-			function renameFile(theFile) {
-				console.log(theFile);
+			function renameFile() {
+				console.log(document.getElementById("renameFileModalFilePath").innerHTML);
+				console.log(document.getElementById("renameFileModalNewFilePath").innerHTML);
 			}
 
 			function showRenameFileModal(theFileName, theFilePath) {
@@ -815,7 +816,7 @@
 					</div>
 					<div class="modal-body">
 						<p>Rename file: <span id="renameFileModalFilePath"></span></p>
-						<input type="text" class="form-control" placeholder="filename">
+						<input id="renameFileModalNewFilePath" type="text" class="form-control" placeholder="filename">
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
