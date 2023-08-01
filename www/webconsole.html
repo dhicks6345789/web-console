@@ -299,10 +299,6 @@
 			function returnHome() {
 				webconsole.doAction("POST", window.location.href.replace("/view", "/").replace("/run", "/"), false, {"token":"<<TOKEN>>"}, true);
 			}
-
-			function folderAdminLine(theFolder) {
-				return("<li><a class=\"btn btn-outline-primary\" onclick=\"showRenameFileModal('" + theFolder + "')\" style=\"padding: 2px 2px; font-size: 2px; border-radius: 2px;\" data-toggle=\"tooltip\" data-placement=\"top\" data-bs-toggle=\"modal\" data-bs-target=\"#renameFileModal\" title=\"New file\" role=\"button\"><img src=\"bootstrap-icons/1.8.1/file-earmark-plus.svg\" width=\"8\" height=\"8\"></a></li>")
-			}
 			
 			// A recursive function that steps through the given JSON folder structure and produces an HTML string consisting of nested UL elements.
 			function parseFolderTree(currentFolderLevel, currentFolder, theItems) {
@@ -310,7 +306,7 @@
 				for (pl = 0; pl < currentFolderLevel; pl = pl + 1) {
 					folderIndent = folderIndent + "   ";
 				}
-				result = "" + folderIndent + folderAdminLine("");
+				result = "" + folderIndent + "<li><a class=\"btn btn-outline-primary\" onclick=\"showRenameFileModal('" + currentFolder + "')\" style=\"padding: 2px 2px; font-size: 2px; border-radius: 2px;\" data-toggle=\"tooltip\" data-placement=\"top\" data-bs-toggle=\"modal\" data-bs-target=\"#renameFileModal\" title=\"New file\" role=\"button\"><img src=\"bootstrap-icons/1.8.1/file-earmark-plus.svg\" width=\"8\" height=\"8\"></a></li>"
 				theItems.forEach(function(item) {
 					if (typeof item === "string") {
 						result = result + folderIndent + "<li><a href=\"#\" onclick=\"editFile('" + currentFolder + "/" + item + "'); return false;\">" + item + "</a> <a class=\"btn btn-outline-primary\" onclick=\"showRenameFileModal('" + item + "', '" + currentFolder + "/" + item + "')\" style=\"padding: 2px 2px; font-size: 2px; border-radius: 2px;\" data-toggle=\"tooltip\" data-placement=\"top\" data-bs-toggle=\"modal\" data-bs-target=\"#renameFileModal\" title=\"Rename file " + item + "\" role=\"button\"><img src=\"bootstrap-icons/1.8.1/pencil.svg\" width=\"8\" height=\"8\"></a> <a class=\"btn btn-outline-primary\" onclick=\"showDeleteFileModal('" + item + "', '" + currentFolder + "/" + item + "')\" style=\"padding: 2px 2px; font-size: 2px; border-radius: 2px;\" data-toggle=\"tooltip\" data-placement=\"top\" data-bs-toggle=\"modal\" data-bs-target=\"#deleteFileModal\" title=\"Delete file " + item + "\" role=\"button\"><img src=\"bootstrap-icons/1.8.1/trash.svg\" width=\"8\" height=\"8\"></a></li>\n";
