@@ -124,6 +124,10 @@
 								document.getElementById("runTaskButton").innerHTML = "Run";
 								document.getElementById("runTaskButton").disabled = false;
 								document.getElementById("taskProgress").innerHTML = "";
+
+								if (permission == "E") {
+									refreshFolderTreeView();
+								}
 								
 								// If there's a "www" folder present in the Task's folder after the Task has run, that's treated as the result of the Task,
 								// which is shown to the user. If the user has "view" or "run" permissions they are redirected to the result page. If they have
@@ -267,7 +271,6 @@
 			function deleteFile() {
 				webconsole.APICall("deleteFile", {"filename":document.getElementById("deleteFileModalFilePath").innerHTML}, function(result) {
 					if (result == "OK") {
-						// console.log("File deleted: " + document.getElementById("deleteFileModalFilePath").innerHTML)
 						refreshFolderTreeView();
 					} else {
 						alert(result);
