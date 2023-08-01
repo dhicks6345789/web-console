@@ -277,9 +277,6 @@
 				result = "";
 				theItems.forEach(function(item) {
 					if (typeof item === "string") {
-						//<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#deleteFileModal">
-						//Delete file modal
-						//</button>
 						result = result + folderIndent + "<li><a href=\"#\" onclick=\"editFile('" + currentFolder + "/" + item + "'); return false;\">" + item + "</a> <a class=\"btn btn-outline-primary\" onclick=\"renameFile('" + item + "')\" style=\"padding: 2px 2px; font-size: 2px; border-radius: 2px;\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Rename file " + item + "\" role=\"button\"><img src=\"bootstrap-icons/1.8.1/pencil.svg\" width=\"8\" height=\"8\"></a> <a class=\"btn btn-outline-primary\" onclick=\"deleteFile('" + item + "')\" style=\"padding: 2px 2px; font-size: 2px; border-radius: 2px;\" data-toggle=\"tooltip\" data-placement=\"top\" data-bs-toggle=\"modal\" data-bs-target=\"#deleteFileModal\" title=\"Delete file " + item + "\" role=\"button\"><img src=\"bootstrap-icons/1.8.1/trash.svg\" width=\"8\" height=\"8\"></a></li>\n";
 					} else {
 						result = result + folderIndent + "<li><span class=\"caret\">" + item[0] + "</span><ul class=\"editFileList nested\">\n";
@@ -765,19 +762,19 @@
 			
 			<div class="col-sm-1 text-center align-self-center"></div>
 		</div>
-		<div class="modal fade" id="deleteFileModal" tabindex="-1" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+		<div class="modal fade" id="deleteFileModal" tabindex="-1" aria-labelledby="deleteFileModalTitle" aria-hidden="true">
 			<div class="modal-dialog modal-dialog-centered">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+						<h5 class="modal-title" id="deleteFileModalTitle">Delete file:</h5>
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body">
-						<p>This is a vertically centered modal.</p>
+						<p>Are you sure?</p>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-						<button type="button" class="btn btn-primary">Save changes</button>
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No - Keep File</button>
+						<button type="button" class="btn btn-danger">Yes - Delete File</button>
 					</div>
 				</div>
 			</div>
