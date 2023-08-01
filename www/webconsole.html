@@ -55,9 +55,10 @@
 			
 			var aceModelist = ace.require("ace/ext/modelist");
 
-			// Set Marked options.
+			// Set Marked options - set options to avoid using depreceated features.
 			marked.use({
-				mangle: false
+				mangle: false,
+				headerIds: false
 			});
 			
 			// Simply calls the keepAlive API method to make sure the session's token is refreshed.
