@@ -1242,6 +1242,19 @@ func main() {
 									fmt.Fprintf(theResponseWriter, "ERROR: saveFile - missing filename parameter.")
 								}
 							}
+						// Delete a file.
+						} else if strings.HasPrefix(requestPath, "/api/deleteFile") {
+							if permission != "E" {
+								fmt.Fprintf(theResponseWriter, "ERROR: deleteFile called - don't have edit permissions.")
+							} else {
+								filename := theRequest.Form.Get("filename")
+								if filename != "" {
+									debug("Delete " + arguments["taskroot"] + "/" + taskID + "/" + filename)
+									fmt.Fprintf(theResponseWriter, "OK")
+								} else {
+									fmt.Fprintf(theResponseWriter, "ERROR: deleteFile - missing filename parameter.")
+								}
+							}
 						// A simple call that doesn't do anything except serve to keep the timestamp for the given Task up-to-date.
 						} else if strings.HasPrefix(requestPath, "/api/keepAlive") {
 							fmt.Fprintf(theResponseWriter, "OK")
