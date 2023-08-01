@@ -271,8 +271,7 @@
 
 			function showRenameFileModal(theFileName, theFilePath) {
 				document.getElementById("renameFileModalFileName").innerHTML = theFileName;
-				document.getElementById("renameFileModalFilePath").innerHTML = theFilePath.substr(1);
-				document.getElementById("renameFileModalNewFilePath").placeholder = theFilePath.substr(1);
+				document.getElementById("renameFileModalNewFilePath").value = theFilePath.substr(1);
 			}
 			
 			function deleteFile() {
@@ -812,12 +811,12 @@
 			<div class="modal-dialog modal-dialog-centered">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title" id="renameFileModalTitle">Delete file:&nbsp;</h5><h5 class="modal-title" id="renameFileModalFileName"></h5>
+						<h5 class="modal-title" id="renameFileModalTitle">Rename file:&nbsp;</h5><h5 class="modal-title" id="renameFileModalFileName"></h5>
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body">
-						<p>Rename file: <span id="renameFileModalFilePath"></span></p>
-						<input id="renameFileModalNewFilePath" type="text" class="form-control" placeholder="filename">
+						<p>Rename file:</p>
+						<input id="renameFileModalNewFilePath" type="text" class="form-control">
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
