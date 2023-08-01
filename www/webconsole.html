@@ -264,7 +264,7 @@
 			
 			function showDeleteFileModal(theFileName, theFilePath) {
 				document.getElementById("deleteFileModalFileName").innerHTML = theFileName;
-				document.getElementById("deleteFileModalFilePath").innerHTML = theFilePath;
+				document.getElementById("deleteFileModalFilePath").innerHTML = theFilePath.substr(1);
 				document.getElementById("deleteFileModalConfirm").onclick = deleteFile;
 			}
 			
