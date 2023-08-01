@@ -272,6 +272,7 @@
 			function showRenameFileModal(theFileName, theFilePath) {
 				document.getElementById("renameFileModalFileName").innerHTML = theFileName;
 				document.getElementById("renameFileModalFilePath").innerHTML = theFilePath.substr(1);
+				document.getElementById("renameFileModalNewFilePath").placeholder = theFilePath.substr(1);
 			}
 			
 			function deleteFile() {
