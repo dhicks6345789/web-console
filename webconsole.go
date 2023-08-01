@@ -1250,6 +1250,7 @@ func main() {
 								filename := theRequest.Form.Get("filename")
 								if filename != "" {
 									debug("Delete " + arguments["taskroot"] + "/" + taskID + "/" + filename)
+									os.Remove(arguments["taskroot"] + "/" + taskID + "/" + filename)
 									fmt.Fprintf(theResponseWriter, "OK")
 								} else {
 									fmt.Fprintf(theResponseWriter, "ERROR: deleteFile - missing filename parameter.")
