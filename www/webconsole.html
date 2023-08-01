@@ -265,7 +265,7 @@
 			}
 
 			function renameFile() {
-				webconsole.APICall("deleteFile", {"filename":document.getElementById("renameFileModalFilePath").innerHTML, "newFilename":document.getElementById("renameFileModalNewFilePath").value}, function(result) {
+				webconsole.APICall("renameFile", {"filename":document.getElementById("renameFileModalFilePath").innerHTML, "newFilename":document.getElementById("renameFileModalNewFilePath").value}, function(result) {
 					if (result == "OK") {
 						refreshFolderTreeView();
 					} else {
