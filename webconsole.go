@@ -1264,7 +1264,7 @@ func main() {
 								filename := theRequest.Form.Get("filename")
 								if filename != "" {
 									newFilename := theRequest.Form.Get("newFilename")
-									if contents != "" {
+									if newFilename != "" {
 										debug("Rename " + arguments["taskroot"] + "/" + taskID + "/" + filename + " to " + arguments["taskroot"] + "/" + taskID + "/" + newFilename)
 										os.Rename(arguments["taskroot"] + "/" + taskID + "/" + filename, arguments["taskroot"] + "/" + taskID + "/" + newFilename)
 										fmt.Fprintf(theResponseWriter, "OK")
