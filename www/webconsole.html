@@ -299,6 +299,10 @@
 			function returnHome() {
 				webconsole.doAction("POST", window.location.href.replace("/view", "/").replace("/run", "/"), false, {"token":"<<TOKEN>>"}, true);
 			}
+
+			function folderAdminLine() {
+				return("<li><a class=\"btn btn-outline-primary\" onclick=\"showRenameFileModal('" + item + "', '" + currentFolder + "/" + item + "')\" style=\"padding: 2px 2px; font-size: 2px; border-radius: 2px;\" data-toggle=\"tooltip\" data-placement=\"top\" data-bs-toggle=\"modal\" data-bs-target=\"#renameFileModal\" title=\"New file\" role=\"button\"><img src=\"bootstrap-icons/1.8.1/file-earmark-plus.svg\" width=\"8\" height=\"8\"></a></li>")
+			}
 			
 			// A recursive function that steps through the given JSON folder structure and produces an HTML string consisting of nested UL elements.
 			function parseFolderTree(currentFolderLevel, currentFolder, theItems) {
@@ -306,13 +310,13 @@
 				for (pl = 0; pl < currentFolderLevel; pl = pl + 1) {
 					folderIndent = folderIndent + "   ";
 				}
-				result = "";
+				result = "" + folderIndent + folderAdminLine();
 				theItems.forEach(function(item) {
 					if (typeof item === "string") {
 						result = result + folderIndent + "<li><a href=\"#\" onclick=\"editFile('" + currentFolder + "/" + item + "'); return false;\">" + item + "</a> <a class=\"btn btn-outline-primary\" onclick=\"showRenameFileModal('" + item + "', '" + currentFolder + "/" + item + "')\" style=\"padding: 2px 2px; font-size: 2px; border-radius: 2px;\" data-toggle=\"tooltip\" data-placement=\"top\" data-bs-toggle=\"modal\" data-bs-target=\"#renameFileModal\" title=\"Rename file " + item + "\" role=\"button\"><img src=\"bootstrap-icons/1.8.1/pencil.svg\" width=\"8\" height=\"8\"></a> <a class=\"btn btn-outline-primary\" onclick=\"showDeleteFileModal('" + item + "', '" + currentFolder + "/" + item + "')\" style=\"padding: 2px 2px; font-size: 2px; border-radius: 2px;\" data-toggle=\"tooltip\" data-placement=\"top\" data-bs-toggle=\"modal\" data-bs-target=\"#deleteFileModal\" title=\"Delete file " + item + "\" role=\"button\"><img src=\"bootstrap-icons/1.8.1/trash.svg\" width=\"8\" height=\"8\"></a></li>\n";
 					} else {
-						result = result + folderIndent + "<li><a class=\"btn btn-outline-primary\" onclick=\"showRenameFileModal('" + item + "', '" + currentFolder + "/" + item + "')\" style=\"padding: 2px 2px; font-size: 2px; border-radius: 2px;\" data-toggle=\"tooltip\" data-placement=\"top\" data-bs-toggle=\"modal\" data-bs-target=\"#renameFileModal\" title=\"New file\" role=\"button\"><img src=\"bootstrap-icons/1.8.1/file-earmark-plus.svg\" width=\"8\" height=\"8\"></a></li>"
 						result = result + folderIndent + "<li><span class=\"caret\">" + item[0] + "</span><ul class=\"editFileList nested\">\n";
+						result = result + folderIndent + folderAdminLine();
 						result = result + parseFolderTree(currentFolderLevel+1, currentFolder + "/" + item[0], item[1]);
 						result = result + folderIndent + "</ul></li>\n";
 					}
