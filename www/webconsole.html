@@ -267,7 +267,8 @@
 			function deleteFile() {
 				webconsole.APICall("deleteFile", {"filename":document.getElementById("deleteFileModalFilePath").innerHTML}, function(result) {
 					if (result == "OK") {
-						console.log("File deleted: " + document.getElementById("deleteFileModalFilePath").innerHTML)
+						// console.log("File deleted: " + document.getElementById("deleteFileModalFilePath").innerHTML)
+						refreshFolderTreeView();
 					} else {
 						alert(result);
 					}
@@ -302,6 +303,24 @@
 					}
 				});
 				return(result);
+			}
+
+			function refreshFolderTreeView() {
+				webconsole.APICall("getEditableFileList", {}, function(result) {
+					// Parse that list of file into a JSON structure, then call a function that turns that structure into a string of HTML
+					// unordered lists (<UL></UL>).
+					document.getElementById("editFileList").innerHTML = parseFolderTree(0, "", JSON.parse(result));
+						
+					// Add functionality to each LI item in the edit file view to make a exandable / collapsible tree view.
+					var toggler = document.getElementsByClassName("caret");
+					var pl;
+					for (pl = 0; pl < toggler.length; pl = pl + 1) {
+						toggler[pl].addEventListener("click", function() {
+							this.parentElement.querySelector(".nested").classList.toggle("active");
+							this.classList.toggle("caret-down");
+						});
+					} 
+				});
 			}
 			
 			// Called when the document is first loaded and ready.
@@ -347,23 +366,7 @@
 				}
 				if (permission == "E") {
 					// If the user has "edit" permissions, show the "edit" block - first, get a list of files for this task from the server.
-					webconsole.APICall("getEditableFileList", {}, function(result) {
-						// Parse that list of file into a JSON structure, then call a function that turns that structure into a string of HTML
-						// unordered lists (<UL></UL>).
-						document.getElementById("editFileList").innerHTML = parseFolderTree(0, "", JSON.parse(result));
-						
-						// Add functionality to each LI item in the edit file view to make a exandable / collapsible tree view.
-						var toggler = document.getElementsByClassName("caret");
-						var pl;
-						for (pl = 0; pl < toggler.length; pl = pl + 1) {
-							toggler[pl].addEventListener("click", function() {
-								this.parentElement.querySelector(".nested").classList.toggle("active");
-								this.classList.toggle("caret-down");
-							});
-						} 
-					});
-					
-					
+					refreshFolderTreeView();
 					
 					// Javascript to handle the resizeable file browser / code editor panel. See original code at:
 					// https://htmldom.dev/create-resizable-split-views/
