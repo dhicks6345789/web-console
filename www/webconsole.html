@@ -277,7 +277,10 @@
 				result = "";
 				theItems.forEach(function(item) {
 					if (typeof item === "string") {
-						result = result + folderIndent + "<li><a href=\"#\" onclick=\"editFile('" + currentFolder + "/" + item + "'); return false;\">" + item + "</a> <a class=\"btn btn-outline-primary\" onclick=\"renameFile('" + item + "')\" style=\"padding: 2px 2px; font-size: 2px; border-radius: 2px;\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Rename file " + item + "\" role=\"button\"><img src=\"bootstrap-icons/1.8.1/pencil.svg\" width=\"8\" height=\"8\"></a> <a class=\"btn btn-outline-primary\" onclick=\"deleteFile('" + item + "')\" style=\"padding: 2px 2px; font-size: 2px; border-radius: 2px;\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Delete file " + item + "\" role=\"button\"><img src=\"bootstrap-icons/1.8.1/trash.svg\" width=\"8\" height=\"8\"></a></li>\n";
+						//<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#deleteFileModal">
+						//Delete file modal
+						//</button>
+						result = result + folderIndent + "<li><a href=\"#\" onclick=\"editFile('" + currentFolder + "/" + item + "'); return false;\">" + item + "</a> <a class=\"btn btn-outline-primary\" onclick=\"renameFile('" + item + "')\" style=\"padding: 2px 2px; font-size: 2px; border-radius: 2px;\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Rename file " + item + "\" role=\"button\"><img src=\"bootstrap-icons/1.8.1/pencil.svg\" width=\"8\" height=\"8\"></a> <a class=\"btn btn-outline-primary\" onclick=\"deleteFile('" + item + "')\" style=\"padding: 2px 2px; font-size: 2px; border-radius: 2px;\" data-toggle=\"tooltip\" data-placement=\"top\" data-bs-toggle=\"modal\" data-bs-target=\"#deleteFileModal\" title=\"Delete file " + item + "\" role=\"button\"><img src=\"bootstrap-icons/1.8.1/trash.svg\" width=\"8\" height=\"8\"></a></li>\n";
 					} else {
 						result = result + folderIndent + "<li><span class=\"caret\">" + item[0] + "</span><ul class=\"editFileList nested\">\n";
 						result = result + parseFolderTree(currentFolderLevel+1, currentFolder + "/" + item[0], item[1]);
@@ -779,8 +782,5 @@
 				</div>
 			</div>
 		</div>
-		<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#deleteFileModal">
-			Delete file modal
-		</button>
 	</body>
 </html>
