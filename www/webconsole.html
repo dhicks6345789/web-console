@@ -54,6 +54,13 @@
 			var aceSessions = [];
 			
 			var aceModelist = ace.require("ace/ext/modelist");
+
+			// Set Marked options.
+			marked.use({
+				langPrefix: '',
+				mangle: false,
+				headerIds: false
+			});
 			
 			// Simply calls the keepAlive API method to make sure the session's token is refreshed.
 			function keepAlive() {
