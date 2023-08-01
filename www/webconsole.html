@@ -267,6 +267,11 @@
 			function renameFile(theFile) {
 				console.log(theFile);
 			}
+
+			function showRenameFileModal(theFileName, theFilePath) {
+				document.getElementById("renameFileModalFileName").innerHTML = theFileName;
+				document.getElementById("renameFileModalFilePath").innerHTML = theFilePath.substr(1);
+			}
 			
 			function deleteFile() {
 				webconsole.APICall("deleteFile", {"filename":document.getElementById("deleteFileModalFilePath").innerHTML}, function(result) {
@@ -281,7 +286,6 @@
 			function showDeleteFileModal(theFileName, theFilePath) {
 				document.getElementById("deleteFileModalFileName").innerHTML = theFileName;
 				document.getElementById("deleteFileModalFilePath").innerHTML = theFilePath.substr(1);
-				document.getElementById("deleteFileModalConfirm").onclick = deleteFile;
 			}
 			
 			// Return to the Home page.
@@ -298,7 +302,7 @@
 				result = "";
 				theItems.forEach(function(item) {
 					if (typeof item === "string") {
-						result = result + folderIndent + "<li><a href=\"#\" onclick=\"editFile('" + currentFolder + "/" + item + "'); return false;\">" + item + "</a> <a class=\"btn btn-outline-primary\" onclick=\"renameFile('" + item + "')\" style=\"padding: 2px 2px; font-size: 2px; border-radius: 2px;\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Rename file " + item + "\" role=\"button\"><img src=\"bootstrap-icons/1.8.1/pencil.svg\" width=\"8\" height=\"8\"></a> <a class=\"btn btn-outline-primary\" onclick=\"showDeleteFileModal('" + item + "', '" + currentFolder + "/" + item + "')\" style=\"padding: 2px 2px; font-size: 2px; border-radius: 2px;\" data-toggle=\"tooltip\" data-placement=\"top\" data-bs-toggle=\"modal\" data-bs-target=\"#deleteFileModal\" title=\"Delete file " + item + "\" role=\"button\"><img src=\"bootstrap-icons/1.8.1/trash.svg\" width=\"8\" height=\"8\"></a></li>\n";
+						result = result + folderIndent + "<li><a href=\"#\" onclick=\"editFile('" + currentFolder + "/" + item + "'); return false;\">" + item + "</a> <a class=\"btn btn-outline-primary\" onclick=\"showRenameFileModal('" + item + "', '" + currentFolder + "/" + item + "')\" style=\"padding: 2px 2px; font-size: 2px; border-radius: 2px;\" data-toggle=\"tooltip\" data-placement=\"top\" data-bs-toggle=\"modal\" data-bs-target=\"#renameFileModal\" title=\"Rename file " + item + "\" role=\"button\"><img src=\"bootstrap-icons/1.8.1/pencil.svg\" width=\"8\" height=\"8\"></a> <a class=\"btn btn-outline-primary\" onclick=\"showDeleteFileModal('" + item + "', '" + currentFolder + "/" + item + "')\" style=\"padding: 2px 2px; font-size: 2px; border-radius: 2px;\" data-toggle=\"tooltip\" data-placement=\"top\" data-bs-toggle=\"modal\" data-bs-target=\"#deleteFileModal\" title=\"Delete file " + item + "\" role=\"button\"><img src=\"bootstrap-icons/1.8.1/trash.svg\" width=\"8\" height=\"8\"></a></li>\n";
 					} else {
 						result = result + folderIndent + "<li><span class=\"caret\">" + item[0] + "</span><ul class=\"editFileList nested\">\n";
 						result = result + parseFolderTree(currentFolderLevel+1, currentFolder + "/" + item[0], item[1]);
@@ -797,7 +801,7 @@
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No - Keep File</button>
-						<button type="button" class="btn btn-danger" data-bs-dismiss="modal" id="deleteFileModalConfirm">Yes - Delete File</button>
+						<button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="deleteFile()">Yes - Delete File</button>
 					</div>
 				</div>
 			</div>
@@ -815,7 +819,7 @@
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-						<button type="button" class="btn btn-success" data-bs-dismiss="modal" id="renameFileModalConfirm">Rename</button>
+						<button type="button" class="btn btn-success" data-bs-dismiss="modal" onclick="renameFile()">Rename</button>
 					</div>
 				</div>
 			</div>
