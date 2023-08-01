@@ -265,7 +265,13 @@
 			}
 			
 			function deleteFile() {
-				console.log("Delete file: " + document.getElementById("deleteFileModalFilePath").innerHTML)
+				webconsole.APICall("deleteFile", {"filename":document.getElementById("deleteFileModalFilePath").innerHTML}, function(result) {
+					if (result == "OK") {
+						console.log("File deleted: " + document.getElementById("deleteFileModalFilePath").innerHTML)
+					} else {
+						alert(result);
+					}
+				});
 			}
 			
 			function showDeleteFileModal(theFileName, theFilePath) {
@@ -777,7 +783,7 @@
 			<div class="modal-dialog modal-dialog-centered">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title">Delete file:</h5> <h5 class="modal-title" id="deleteFileModalFileName"></h5>
+						<h5 class="modal-title">Delete file:&nbsp;</h5><h5 class="modal-title" id="deleteFileModalFileName"></h5>
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body">
