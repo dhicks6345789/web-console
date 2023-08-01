@@ -258,13 +258,14 @@
 				console.log(theFile);
 			}
 			
-			function deleteFile(theFilePath) {
-				console.log("Delete file: " + theFilePath)
+			function deleteFile() {
+				console.log("Delete file: " + document.getElementById("deleteFileModalFilePath").innerHTML)
 			}
 			
 			function showDeleteFileModal(theFileName, theFilePath) {
-				document.getElementById("deleteFileModalTitle").innerHTML = "Delete File: " + theFileName;
-				document.getElementById("deleteFileModalConfirm").onclick = "deleteFile('" + theFilePath + "')"
+				document.getElementById("deleteFileModalFileName").innerHTML = theFileName;
+				document.getElementById("deleteFileModalFilePath").innerHTML = theFilePath;
+				document.getElementById("deleteFileModalConfirm").onclick = deleteFile;
 			}
 			
 			// Return to the Home page.
@@ -770,11 +771,11 @@
 			<div class="modal-dialog modal-dialog-centered">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title" id="deleteFileModalTitle">Delete file:</h5>
+						<h5 class="modal-title">Delete file: </h5><h5 class="modal-title" id="deleteFileModalFileName"></h5>
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body">
-						<p>Are you sure?</p>
+						<p>Delete file <span id="deleteFileModalFilePath"></span> - are you sure?</p>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No - Keep File</button>
