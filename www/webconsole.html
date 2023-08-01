@@ -789,7 +789,7 @@
 			<div class="modal-dialog modal-dialog-centered">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title">Delete file:&nbsp;</h5><h5 class="modal-title" id="deleteFileModalFileName"></h5>
+						<h5 class="modal-title" id="deleteFileModalTitle">Delete file:&nbsp;</h5><h5 class="modal-title" id="deleteFileModalFileName"></h5>
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body">
@@ -798,6 +798,24 @@
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No - Keep File</button>
 						<button type="button" class="btn btn-danger" data-bs-dismiss="modal" id="deleteFileModalConfirm">Yes - Delete File</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="renameFileModal" tabindex="-1" aria-labelledby="renameFileModalTitle" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="renameFileModalTitle">Delete file:&nbsp;</h5><h5 class="modal-title" id="renameFileModalFileName"></h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<p>Rename file: <span id="renameFileModalFilePath"></span></p>
+						<input type="text" class="form-control" placeholder="filename">
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+						<button type="button" class="btn btn-success" data-bs-dismiss="modal" id="renameFileModalConfirm">Rename</button>
 					</div>
 				</div>
 			</div>
