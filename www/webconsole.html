@@ -342,6 +342,21 @@
 				document.getElementById("deleteFileModalFileName").innerHTML = theFileName;
 				document.getElementById("deleteFileModalFilePath").innerHTML = theFilePath.substr(1);
 			}
+
+			function deleteFolder() {
+				webconsole.APICall("deleteFolder", {"filename":document.getElementById("deleteFolderModalFilePath").innerHTML}, function(result) {
+					if (result == "OK") {
+						refreshFolderTreeView();
+					} else {
+						alert(result);
+					}
+				});
+			}
+			
+			function showDeleteFolderModal(theFileName, theFilePath) {
+				document.getElementById("deleteFolderModalFileName").innerHTML = theFileName;
+				document.getElementById("deleteFolderModalFilePath").innerHTML = theFilePath.substr(1);
+			}
 			
 			// Return to the Home page.
 			function returnHome() {
@@ -359,7 +374,7 @@
 					if (typeof item === "string") {
 						result = result + folderIndent + "<li><a href=\"#\" onclick=\"editFile('" + currentFolder + "/" + item + "'); return false;\">" + item + "</a> <a class=\"btn btn-outline-primary\" onclick=\"showRenameFileModal('" + item + "', '" + currentFolder + "/" + item + "')\" style=\"padding: 2px 2px; font-size: 2px; border-radius: 2px;\" data-toggle=\"tooltip\" data-placement=\"top\" data-bs-toggle=\"modal\" data-bs-target=\"#renameFileModal\" title=\"Rename file " + item + "\" role=\"button\"><img src=\"bootstrap-icons/1.8.1/pencil.svg\" width=\"8\" height=\"8\"></a> <a class=\"btn btn-outline-primary\" onclick=\"showDeleteFileModal('" + item + "', '" + currentFolder + "/" + item + "')\" style=\"padding: 2px 2px; font-size: 2px; border-radius: 2px;\" data-toggle=\"tooltip\" data-placement=\"top\" data-bs-toggle=\"modal\" data-bs-target=\"#deleteFileModal\" title=\"Delete file " + item + "\" role=\"button\"><img src=\"bootstrap-icons/1.8.1/trash.svg\" width=\"8\" height=\"8\"></a></li>\n";
 					} else {
-						result = result + folderIndent + "<li><span class=\"caret\">" + item[0] + "</span><a class=\"btn btn-outline-primary\" onclick=\"showDeleteFolderModal('" + item + "', '" + currentFolder + "/" + item[0] + "')\" style=\"padding: 2px 2px; font-size: 2px; border-radius: 2px;\" data-toggle=\"tooltip\" data-placement=\"top\" data-bs-toggle=\"modal\" data-bs-target=\"#deleteFileModal\" title=\"Delete folder " + item[0] + "\" role=\"button\"><img src=\"bootstrap-icons/1.8.1/trash.svg\" width=\"8\" height=\"8\"></a><ul class=\"editFileList nested\">\n";
+						result = result + folderIndent + "<li><span class=\"caret\">" + item[0] + "</span> <a class=\"btn btn-outline-primary\" onclick=\"showDeleteFolderModal('" + item + "', '" + currentFolder + "/" + item[0] + "')\" style=\"padding: 2px 2px; font-size: 2px; border-radius: 2px;\" data-toggle=\"tooltip\" data-placement=\"top\" data-bs-toggle=\"modal\" data-bs-target=\"#deleteFileModal\" title=\"Delete folder " + item[0] + "\" role=\"button\"><img src=\"bootstrap-icons/1.8.1/trash.svg\" width=\"8\" height=\"8\"></a><ul class=\"editFileList nested\">\n";
 						result = result + parseFolderTree(currentFolderLevel+1, currentFolder + "/" + item[0], item[1]);
 						result = result + folderIndent + "</ul></li>\n";
 					}
@@ -911,6 +926,23 @@
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
 						<button type="button" class="btn btn-success" data-bs-dismiss="modal" onclick="newFolder()">Create</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="deleteFolderModal" tabindex="-1" aria-labelledby="deleteFolderModalTitle" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="deleteFolderModalTitle">Delete folder:&nbsp;</h5><h5 class="modal-title" id="deleteFolderModalFileName"></h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<p>Delete folder <span id="deleteFolderModalFilePath"></span> - are you sure?</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No - Keep Folder</button>
+						<button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="deleteFolder()">Yes - Delete Folder</button>
 					</div>
 				</div>
 			</div>
