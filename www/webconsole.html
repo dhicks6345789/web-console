@@ -281,11 +281,7 @@
 			}
 
 			function newFile() {
-				folderName = document.getElementById("newFileModalFilePath").innerHTML;
-				if (folderName == "/") {
-					folderName = ""
-				}
-				webconsole.APICall("newFile", {"filename":folderName + "/" + document.getElementById("newFileModalNewFileName").value}, function(result) {
+				webconsole.APICall("newFile", {"filename":document.getElementById("newFileModalFilePath").innerHTML.substr(1) + "/" + document.getElementById("newFileModalNewFileName").value}, function(result) {
 					if (result == "OK") {
 						refreshFolderTreeView();
 					} else {
@@ -295,11 +291,7 @@
 			}
 
 			function showNewFileModal(theFilePath) {
-				folderName = theFilePath.substr(1);
-				if (folderName == "") {
-					folderName = "/"
-				}
-				document.getElementById("newFileModalFilePath").innerHTML = folderName;
+				document.getElementById("newFileModalFilePath").innerHTML = theFilePath;
 				document.getElementById("newFileModalNewFileName").value = "";
 			}
 			
