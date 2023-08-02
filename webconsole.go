@@ -1301,7 +1301,7 @@ func main() {
 								filename := theRequest.Form.Get("filename")
 								if filename != "" {
 									debug("New folder " + arguments["taskroot"] + "/" + taskID + "/" + filename)
-									os.Mkdir(arguments["taskroot"] + "/" + taskID + "/" + filename)
+									os.Mkdir(arguments["taskroot"] + "/" + taskID + "/" + filename, os.ModePerm)
 									fmt.Fprintf(theResponseWriter, "OK")
 								} else {
 									fmt.Fprintf(theResponseWriter, "ERROR: newFolder - missing filename parameter.")
