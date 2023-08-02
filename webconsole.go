@@ -1275,6 +1275,24 @@ func main() {
 									fmt.Fprintf(theResponseWriter, "ERROR: renameFile - missing filename parameter.")
 								}
 							}
+						// Create a new, empty, text-format file.
+						} else if strings.HasPrefix(requestPath, "/api/newFile") {
+							if permission != "E" {
+								fmt.Fprintf(theResponseWriter, "ERROR: newFile called - don't have edit permissions.")
+							} else {
+								filename := theRequest.Form.Get("filename")
+								if filename != "" {
+									debug("New file " + arguments["taskroot"] + "/" + taskID + "/" + filename)
+									newFile, newFileErr := os.OpenFile(name, os.O_RDONLY|os.O_CREATE, 0644)
+									if newFileErr != nil {
+										fmt.Fprintf(theResponseWriter, "ERROR: newFile - " + newFileErr.Error())
+									}
+									newFile.Close()
+									fmt.Fprintf(theResponseWriter, "OK")
+								} else {
+									fmt.Fprintf(theResponseWriter, "ERROR: newFile - missing filename parameter.")
+								}
+							}
 						// A simple call that doesn't do anything except serve to keep the timestamp for the given Task up-to-date.
 						} else if strings.HasPrefix(requestPath, "/api/keepAlive") {
 							fmt.Fprintf(theResponseWriter, "OK")
