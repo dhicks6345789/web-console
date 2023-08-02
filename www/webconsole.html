@@ -281,7 +281,7 @@
 			}
 
 			function newFile() {
-				newFilename = "/" + document.getElementById("newFileModalFilePath").innerHTML + document.getElementById("newFileModalNewFileName").value
+				newFilename = document.getElementById("newFileModalFilePath").innerHTML + "/" + document.getElementById("newFileModalNewFileName").value
 				webconsole.APICall("newFile", {"filename":newFilename.substr(1)}, function(result) {
 					if (result == "OK") {
 						refreshFolderTreeView();
