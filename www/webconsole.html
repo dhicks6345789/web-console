@@ -281,7 +281,8 @@
 			}
 
 			function newFile() {
-				webconsole.APICall("newFile", {"filename":document.getElementById("newFileModalFilePath").innerHTML.substr(1) + "/" + document.getElementById("newFileModalNewFileName").value}, function(result) {
+				newFilename = "/" + document.getElementById("newFileModalFilePath").innerHTML + document.getElementById("newFileModalNewFileName").value
+				webconsole.APICall("newFile", {"filename":newFilename.substr(1)}, function(result) {
 					if (result == "OK") {
 						refreshFolderTreeView();
 					} else {
