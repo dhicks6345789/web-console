@@ -279,6 +279,22 @@
 				document.getElementById("renameFileModalFilePath").innerHTML = theFilePath.substr(1);
 				document.getElementById("renameFileModalNewFilePath").value = theFilePath.substr(1);
 			}
+
+			function newFile() {
+				webconsole.APICall("newFile", {"filename":document.getElementById("newFileModalNewFilePath").value}, function(result) {
+					if (result == "OK") {
+						refreshFolderTreeView();
+					} else {
+						alert(result);
+					}
+				});
+			}
+
+			function showNewFileModal(theFileName, theFilePath) {
+				document.getElementById("newFileModalFileName").innerHTML = theFileName;
+				document.getElementById("newFileModalFilePath").innerHTML = theFilePath.substr(1);
+				document.getElementById("newFileModalNewFilePath").value = theFilePath.substr(1);
+			}
 			
 			function deleteFile() {
 				webconsole.APICall("deleteFile", {"filename":document.getElementById("deleteFileModalFilePath").innerHTML}, function(result) {
@@ -306,7 +322,7 @@
 				for (pl = 0; pl < currentFolderLevel; pl = pl + 1) {
 					folderIndent = folderIndent + "   ";
 				}
-				result = "" + folderIndent + "<li><a class=\"btn btn-outline-primary\" onclick=\"showRenameFileModal('" + currentFolder + "')\" style=\"padding: 2px 2px; font-size: 2px; border-radius: 2px;\" data-toggle=\"tooltip\" data-placement=\"top\" data-bs-toggle=\"modal\" data-bs-target=\"#renameFileModal\" title=\"New file\" role=\"button\"><img src=\"bootstrap-icons/1.8.1/file-earmark-plus.svg\" width=\"8\" height=\"8\"></a></li>"
+				result = "" + folderIndent + "<li><a class=\"btn btn-outline-primary\" onclick=\"showNewFileModal('" + currentFolder + "')\" style=\"padding: 2px 2px; font-size: 2px; border-radius: 2px;\" data-toggle=\"tooltip\" data-placement=\"top\" data-bs-toggle=\"modal\" data-bs-target=\"#newFileModal\" title=\"New file\" role=\"button\"><img src=\"bootstrap-icons/1.8.1/file-earmark-plus.svg\" width=\"8\" height=\"8\"></a></li>"
 				theItems.forEach(function(item) {
 					if (typeof item === "string") {
 						result = result + folderIndent + "<li><a href=\"#\" onclick=\"editFile('" + currentFolder + "/" + item + "'); return false;\">" + item + "</a> <a class=\"btn btn-outline-primary\" onclick=\"showRenameFileModal('" + item + "', '" + currentFolder + "/" + item + "')\" style=\"padding: 2px 2px; font-size: 2px; border-radius: 2px;\" data-toggle=\"tooltip\" data-placement=\"top\" data-bs-toggle=\"modal\" data-bs-target=\"#renameFileModal\" title=\"Rename file " + item + "\" role=\"button\"><img src=\"bootstrap-icons/1.8.1/pencil.svg\" width=\"8\" height=\"8\"></a> <a class=\"btn btn-outline-primary\" onclick=\"showDeleteFileModal('" + item + "', '" + currentFolder + "/" + item + "')\" style=\"padding: 2px 2px; font-size: 2px; border-radius: 2px;\" data-toggle=\"tooltip\" data-placement=\"top\" data-bs-toggle=\"modal\" data-bs-target=\"#deleteFileModal\" title=\"Delete file " + item + "\" role=\"button\"><img src=\"bootstrap-icons/1.8.1/trash.svg\" width=\"8\" height=\"8\"></a></li>\n";
@@ -827,6 +843,24 @@
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
 						<button type="button" class="btn btn-success" data-bs-dismiss="modal" onclick="renameFile()">Rename</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="newFileModal" tabindex="-1" aria-labelledby="newFileModalTitle" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="newFileModalTitle">Create new file:&nbsp;</h5><h5 class="modal-title" id="newFileModalFileName"></h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<p>Create new file: <span id="newFileModalFilePath"></span></p>
+						<input id="newFileModalNewFilePath" type="text" class="form-control">
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+						<button type="button" class="btn btn-success" data-bs-dismiss="modal" onclick="newFile()">Create</button>
 					</div>
 				</div>
 			</div>
