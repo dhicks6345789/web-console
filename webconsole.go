@@ -1283,7 +1283,7 @@ func main() {
 								filename := theRequest.Form.Get("filename")
 								if filename != "" {
 									debug("New file " + arguments["taskroot"] + "/" + taskID + "/" + filename)
-									newFile, newFileErr := os.OpenFile(name, os.O_RDONLY|os.O_CREATE, 0644)
+									newFile, newFileErr := os.OpenFile(arguments["taskroot"] + "/" + taskID + "/" + filename, os.O_RDONLY|os.O_CREATE, 0644)
 									if newFileErr != nil {
 										fmt.Fprintf(theResponseWriter, "ERROR: newFile - " + newFileErr.Error())
 									}
