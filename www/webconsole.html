@@ -290,10 +290,13 @@
 				});
 			}
 
-			function showNewFileModal(theFileName, theFilePath) {
-				document.getElementById("newFileModalFileName").innerHTML = theFileName;
-				document.getElementById("newFileModalFilePath").innerHTML = theFilePath.substr(1);
-				document.getElementById("newFileModalNewFilePath").value = theFilePath.substr(1);
+			function showNewFileModal(theFilePath) {
+				folderName = theFilePath.substr(1);
+				if (folderName == "") {
+					folderName = "/"
+				}
+				document.getElementById("newFileModalFilePath").innerHTML = folderName;
+				document.getElementById("newFileModalNewFileName").value = "";
 			}
 			
 			function deleteFile() {
@@ -851,12 +854,12 @@
 			<div class="modal-dialog modal-dialog-centered">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title" id="newFileModalTitle">Create new file:&nbsp;</h5><h5 class="modal-title" id="newFileModalFileName"></h5>
+						<h5 class="modal-title" id="newFileModalTitle">Create new file in folder:&nbsp;</h5><h5 class="modal-title" id="newFileModalFilePath"></h5>
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body">
-						<p>Create new file: <span id="newFileModalFilePath"></span></p>
-						<input id="newFileModalNewFilePath" type="text" class="form-control">
+						<p>New file name:</p>
+						<input id="newFileModalNewFileName" type="text" class="form-control">
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
