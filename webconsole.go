@@ -1293,6 +1293,20 @@ func main() {
 									fmt.Fprintf(theResponseWriter, "ERROR: newFile - missing filename parameter.")
 								}
 							}
+						// Create a new folder.
+						} else if strings.HasPrefix(requestPath, "/api/newFolder") {
+							if permission != "E" {
+								fmt.Fprintf(theResponseWriter, "ERROR: newFolder called - don't have edit permissions.")
+							} else {
+								filename := theRequest.Form.Get("filename")
+								if filename != "" {
+									debug("New folder " + arguments["taskroot"] + "/" + taskID + "/" + filename)
+									os.Mkdir(arguments["taskroot"] + "/" + taskID + "/" + filename)
+									fmt.Fprintf(theResponseWriter, "OK")
+								} else {
+									fmt.Fprintf(theResponseWriter, "ERROR: newFolder - missing filename parameter.")
+								}
+							}
 						// A simple call that doesn't do anything except serve to keep the timestamp for the given Task up-to-date.
 						} else if strings.HasPrefix(requestPath, "/api/keepAlive") {
 							fmt.Fprintf(theResponseWriter, "OK")
