@@ -1249,11 +1249,25 @@ func main() {
 							} else {
 								filename := theRequest.Form.Get("filename")
 								if filename != "" {
-									debug("Delete " + arguments["taskroot"] + "/" + taskID + "/" + filename)
+									debug("Delete file " + arguments["taskroot"] + "/" + taskID + "/" + filename)
 									os.Remove(arguments["taskroot"] + "/" + taskID + "/" + filename)
 									fmt.Fprintf(theResponseWriter, "OK")
 								} else {
 									fmt.Fprintf(theResponseWriter, "ERROR: deleteFile - missing filename parameter.")
+								}
+							}
+						// Delete a folder.
+						} else if strings.HasPrefix(requestPath, "/api/deleteFolder") {
+							if permission != "E" {
+								fmt.Fprintf(theResponseWriter, "ERROR: deleteFolder called - don't have edit permissions.")
+							} else {
+								filename := theRequest.Form.Get("filename")
+								if filename != "" {
+									debug("Delete folder " + arguments["taskroot"] + "/" + taskID + "/" + filename)
+									os.RemoveAll(arguments["taskroot"] + "/" + taskID + "/" + filename)
+									fmt.Fprintf(theResponseWriter, "OK")
+								} else {
+									fmt.Fprintf(theResponseWriter, "ERROR: deleteFolder - missing filename parameter.")
 								}
 							}
 						// Rename a file.
