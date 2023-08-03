@@ -223,10 +223,12 @@
 			function editFile(theFilename) {
 				previousEditFile = currentEditFile;
 				currentEditFile = theFilename;
-				if (aceSessions[previousEditFile].getUndoManager().isClean()) {
-					document.getElementById("treeItem-"+previousEditFile).style.backgroundColor = "White";
-				} else {
-					document.getElementById("treeItem-"+previousEditFile).style.backgroundColor = "Salmon";
+				if (previousEditFile != "") {
+					if (aceSessions[previousEditFile].getUndoManager().isClean()) {
+						document.getElementById("treeItem-"+previousEditFile).style.backgroundColor = "White";
+					} else {
+						document.getElementById("treeItem-"+previousEditFile).style.backgroundColor = "Salmon";
+					}
 				}
 				document.getElementById("treeItem-"+currentEditFile).style.backgroundColor = "Green";
 				webconsole.APICall("getEditableFileContents", {"filename":theFilename}, function(result) {
