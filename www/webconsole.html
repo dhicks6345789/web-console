@@ -226,7 +226,7 @@
 				}
 				[".jpg", ".png"].forEach(function(bitmapType) {
 					if (theFilename.toLowerCase().endsWith(bitmapType)) {
-						result = "bitmap";
+						result = "bitmap" + bitmapType;
 					}
 				});
 				[".csv"].forEach(function(csvType) {
@@ -249,14 +249,15 @@
 					}
 				}
 				document.getElementById("treeItem-"+currentEditFile).style.backgroundColor = "PaleGreen";
-				if (getFileEditorType(currentEditFile) == "bitmap") {
-					document.getElementById("editFileBox").style.display = "none";
-					document.getElementById("viewImageBox").style.display = "block";
-					document.getElementById("viewImageBox").innerHTML = "<img src=\"" + currentEditFile + "\" width=\"100%\" height=\"100%\">";
-				} else {
-					document.getElementById("editFileBox").style.display = "block";
-					document.getElementById("viewImageBox").style.display = "none";
-					webconsole.APICall("getEditableFileContents", {"filename":theFilename}, function(result) {
+				webconsole.APICall("getEditableFileContents", {"filename":theFilename}, function(result) {
+					fileEditorType = getFileEditorType(currentEditFile);
+					if (fileEditorType.startsWith("bitmap")) {
+						document.getElementById("editFileBox").style.display = "none";
+						document.getElementById("viewImageBox").style.display = "block";
+						document.getElementById("viewImageBox").innerHTML = "<img src=\"data:image/" + fileEditorType.split(".")[1] + ";base64," + btoa(currentEditFile) + "\" width=\"100%\" height=\"100%\">";
+					} else {
+						document.getElementById("editFileBox").style.display = "block";
+						document.getElementById("viewImageBox").style.display = "none";
 						if (aceEditor == null) {
 							aceEditor = ace.edit("editFileBox", {
 								autoScrollEditorIntoView: true
