@@ -240,22 +240,23 @@
 			// Get the given file contents from the server and place it in the file edit panel.
 			function editFile(theFilename) {
 				previousEditFile = currentEditFile;
+				previousEditFileType = getFileEditorType(previousEditFile);
 				currentEditFile = theFilename;
-				if (getFileEditorType(previousEditFile) == "ace") {
+				if (previousEditFileType == "ace") {
 					if (aceSessions[previousEditFile].getUndoManager().isClean()) {
-						document.getElementById("treeItem-"+previousEditFile).style.backgroundColor = "White";
+						document.getElementById("treeItem-" + previousEditFile).style.backgroundColor = "White";
 					} else {
-						document.getElementById("treeItem-"+previousEditFile).style.backgroundColor = "LightSalmon";
+						document.getElementById("treeItem-" + previousEditFile).style.backgroundColor = "LightSalmon";
 					}
+				} else if (previousEditFileType.startsWith("bitmap")) {
+					document.getElementById("treeItem-" + previousEditFile).style.backgroundColor = "White";
 				}
 				document.getElementById("treeItem-"+currentEditFile).style.backgroundColor = "PaleGreen";
 				fileEditorType = getFileEditorType(currentEditFile);
 				if (fileEditorType.startsWith("bitmap")) {
 					document.getElementById("editFileBox").style.display = "none";
 					document.getElementById("viewImageBox").style.display = "block";
-					imgHTML = "<img src=\"api/getEditableFileContents?taskID=" + taskID + "&token=" + token + "&filename=" + currentEditFile + "\">"
-					console.log(imgHTML);
-					document.getElementById("viewImageBox").innerHTML = imgHTML;
+					document.getElementById("viewImageBox").innerHTML = "<img src=\"api/getEditableFileContents?taskID=" + taskID + "&token=" + token + "&filename=" + currentEditFile + "\">";
 				} else {
 					document.getElementById("editFileBox").style.display = "block";
 					document.getElementById("viewImageBox").style.display = "none";
