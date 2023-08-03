@@ -254,7 +254,8 @@
 					if (fileEditorType.startsWith("bitmap")) {
 						document.getElementById("editFileBox").style.display = "none";
 						document.getElementById("viewImageBox").style.display = "block";
-						imgHTML = "<img src=\"data:image/" + fileEditorType.split(".")[1] + ";base64," + btoa(currentEditFile) + "\" width=\"100%\" height=\"100%\">"
+						// imgHTML = "<img src=\"data:image/" + fileEditorType.split(".")[1] + ";base64," + btoa(currentEditFile) + "\" width=\"100%\" height=\"100%\">"
+						imgHTML = "<img src=\"getEditableFileContents?taskID=" + taskID + "&token=\"" + token + " width=\"100%\" height=\"100%\">"
 						console.log(imgHTML);
 						document.getElementById("viewImageBox").innerHTML = imgHTML;
 					} else {
