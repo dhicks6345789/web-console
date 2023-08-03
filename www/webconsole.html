@@ -249,10 +249,13 @@
 					}
 				}
 				document.getElementById("treeItem-"+currentEditFile).style.backgroundColor = "PaleGreen";
-				console.log(getFileEditorType(currentEditFile));
 				if (getFileEditorType(currentEditFile) == "bitmap") {
-					console.log("Bitmap file...");
+					document.getElementById("editFileBox").style.display = "none";
+					document.getElementById("viewImageBox").style.display = "block";
+					document.getElementById("viewImageBox").innerHTML = "Image!";
 				} else {
+					document.getElementById("editFileBox").style.display = "block";
+					document.getElementById("viewImageBox").style.display = "none";
 					webconsole.APICall("getEditableFileContents", {"filename":theFilename}, function(result) {
 						if (aceEditor == null) {
 							aceEditor = ace.edit("editFileBox", {
