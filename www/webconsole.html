@@ -220,21 +220,21 @@
 			}
 
 			function getFileEditorType(theFilename) {
+				result = "ace";
 				if (theFilename == "") {
-					return("none");
+					result = "none";
 				}
 				[".jpg", ".png"].forEach(function(bitmapType) {
-					console.log(bitmapType + " == " + theFilename.toLowerCase() + "AAA");
 					if (theFilename.toLowerCase().endsWith(bitmapType)) {
-						return("bitmap");
+						result = "bitmap";
 					}
 				});
 				[".csv"].forEach(function(csvType) {
 					if (theFilename.toLowerCase().endsWith(csvType)) {
-						return("csv");
+						result = "csv";
 					}
 				});
-				return("ace");
+				return(result);
 			}
 			
 			// Get the given file contents from the server and place it in the file edit panel.
