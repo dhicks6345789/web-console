@@ -228,8 +228,8 @@
 						return("bitmap");
 					}
 				});
-				["csv"].forEach(function(bitmapType) {
-					if (theFilename.toLowerCase().endsWith("." + bitmapType)) {
+				["csv"].forEach(function(csvType) {
+					if (theFilename.toLowerCase().endsWith("." + csvType)) {
 						return("csv");
 					}
 				});
@@ -248,6 +248,7 @@
 					}
 				}
 				document.getElementById("treeItem-"+currentEditFile).style.backgroundColor = "PaleGreen";
+				console.log(getFileEditorType(currentEditFile));
 				if (getFileEditorType(currentEditFile) == "bitmap") {
 					console.log("Bitmap file...");
 				} else {
