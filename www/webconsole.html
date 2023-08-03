@@ -227,10 +227,10 @@
 					if (aceSessions[previousEditFile].getUndoManager().isClean()) {
 						document.getElementById("treeItem-"+previousEditFile).style.backgroundColor = "White";
 					} else {
-						document.getElementById("treeItem-"+previousEditFile).style.backgroundColor = "Salmon";
+						document.getElementById("treeItem-"+previousEditFile).style.backgroundColor = "LightSalmon";
 					}
 				}
-				document.getElementById("treeItem-"+currentEditFile).style.backgroundColor = "Green";
+				document.getElementById("treeItem-"+currentEditFile).style.backgroundColor = "PaleGreen";
 				webconsole.APICall("getEditableFileContents", {"filename":theFilename}, function(result) {
 					if (aceEditor == null) {
 						aceEditor = ace.edit("editFileBox", {
