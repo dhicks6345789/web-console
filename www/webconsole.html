@@ -231,7 +231,7 @@
 				});
 				[".csv"].forEach(function(csvType) {
 					if (theFilename.toLowerCase().endsWith(csvType)) {
-						result = "csv";
+						result = "grid";
 					}
 				});
 				return(result);
@@ -252,7 +252,7 @@
 				if (getFileEditorType(currentEditFile) == "bitmap") {
 					document.getElementById("editFileBox").style.display = "none";
 					document.getElementById("viewImageBox").style.display = "block";
-					document.getElementById("viewImageBox").innerHTML = "Image!";
+					document.getElementById("viewImageBox").innerHTML = "<img src=\"" + currentEditFile + "\" width=\"100%\" height=\"100%\">";
 				} else {
 					document.getElementById("editFileBox").style.display = "block";
 					document.getElementById("viewImageBox").style.display = "none";
