@@ -231,36 +231,40 @@
 					}
 				}
 				document.getElementById("treeItem-"+currentEditFile).style.backgroundColor = "PaleGreen";
-				webconsole.APICall("getEditableFileContents", {"filename":theFilename}, function(result) {
-					if (aceEditor == null) {
-						aceEditor = ace.edit("editFileBox", {
-							autoScrollEditorIntoView: true
-						});
-					}
-					if (!(theFilename in aceSessions)) {
-						aceSessionMode = "ace/mode/text";
-						if (theFilename == "config.txt") {
-							aceSessionMode = "ace/mode/yaml";
-						} else {
-							aceSessionMode = aceModelist.getModeForPath(theFilename).mode;
+				if (currentEditFile.toLowerCase().endsWith(".png")) {
+					console.log("Image file...");
+				} else {
+					webconsole.APICall("getEditableFileContents", {"filename":theFilename}, function(result) {
+						if (aceEditor == null) {
+							aceEditor = ace.edit("editFileBox", {
+								autoScrollEditorIntoView: true
+							});
 						}
-						aceSessions[theFilename] = ace.createEditSession(result, aceSessionMode);
-						aceSessions[theFilename].on("change", function(delta) {
+						if (!(theFilename in aceSessions)) {
+							aceSessionMode = "ace/mode/text";
+							if (theFilename == "config.txt") {
+								aceSessionMode = "ace/mode/yaml";
+							} else {
+								aceSessionMode = aceModelist.getModeForPath(theFilename).mode;
+							}
+							aceSessions[theFilename] = ace.createEditSession(result, aceSessionMode);
+							aceSessions[theFilename].on("change", function(delta) {
+								document.getElementById("saveFileButton").disabled = false;
+							});
+						}
+						aceEditor.setSession(aceSessions[theFilename]);
+						if (aceSessions[theFilename].getUndoManager().isClean()) {
+							document.getElementById("saveFileButton").disabled = true;
+						} else {
 							document.getElementById("saveFileButton").disabled = false;
-						});
-					}
-					aceEditor.setSession(aceSessions[theFilename]);
-					if (aceSessions[theFilename].getUndoManager().isClean()) {
-						document.getElementById("saveFileButton").disabled = true;
-					} else {
-						document.getElementById("saveFileButton").disabled = false;
-					}
-					if (theFilename == "log.txt") {
-						aceEditor.setReadOnly(true);
-					} else {
-						aceEditor.setReadOnly(false);
-					}
-				});
+						}
+						if (theFilename == "log.txt") {
+							aceEditor.setReadOnly(true);
+						} else {
+							aceEditor.setReadOnly(false);
+						}
+					});
+				}
 			}
 			
 			// Save the current file being edited in the edit file panel.
