@@ -220,6 +220,9 @@
 			}
 
 			function getFileEditorType(theFilename) {
+				if (theFilename == "") {
+					return("none");
+				}
 				["jpg", "png"].forEach(function(bitmapType) {
 					if (theFilename.toLowerCase().endsWith("." + bitmapType)) {
 						return("bitmap");
