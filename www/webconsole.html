@@ -218,12 +218,26 @@
 				copyText.select();
 				document.execCommand("copy");
 			}
+
+			function getFileEditorType(theFilename) {
+				["jpg", "png"].forEach(function(bitmapType) {
+					if (theFilename.toLowerCase().endsWith("." + bitmapType)) {
+						return("bitmap");
+					}
+				});
+				["csv"].forEach(function(bitmapType) {
+					if (theFilename.toLowerCase().endsWith("." + bitmapType)) {
+						return("csv");
+					}
+				});
+				return("ace");
+			}
 			
 			// Get the given file contents from the server and place it in the file edit panel.
 			function editFile(theFilename) {
 				previousEditFile = currentEditFile;
 				currentEditFile = theFilename;
-				if (previousEditFile != "") {
+				if (getFileEditorType(previousEditFile) == "ace") {
 					if (aceSessions[previousEditFile].getUndoManager().isClean()) {
 						document.getElementById("treeItem-"+previousEditFile).style.backgroundColor = "White";
 					} else {
@@ -231,8 +245,8 @@
 					}
 				}
 				document.getElementById("treeItem-"+currentEditFile).style.backgroundColor = "PaleGreen";
-				if (currentEditFile.toLowerCase().endsWith(".png")) {
-					console.log("Image file...");
+				if (getFileEditorType(currentEditFile) == "bitmap") {
+					console.log("Bitmap file...");
 				} else {
 					webconsole.APICall("getEditableFileContents", {"filename":theFilename}, function(result) {
 						if (aceEditor == null) {
