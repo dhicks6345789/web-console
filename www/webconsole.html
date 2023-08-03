@@ -220,17 +220,17 @@
 			}
 
 			function getFileEditorType(theFilename) {
-				console.log(theFilename);
 				if (theFilename == "") {
 					return("none");
 				}
-				["jpg", "png"].forEach(function(bitmapType) {
-					if (theFilename.toLowerCase().endsWith("." + bitmapType)) {
+				[".jpg", ".png"].forEach(function(bitmapType) {
+					console.log(theFilename.toLowerCase());
+					if (theFilename.toLowerCase().endsWith(bitmapType)) {
 						return("bitmap");
 					}
 				});
-				["csv"].forEach(function(csvType) {
-					if (theFilename.toLowerCase().endsWith("." + csvType)) {
+				[".csv"].forEach(function(csvType) {
+					if (theFilename.toLowerCase().endsWith(csvType)) {
 						return("csv");
 					}
 				});
