@@ -223,7 +223,7 @@
 			function editFile(theFilename) {
 				previousEditFile = currentEditFile;
 				currentEditFile = theFilename;
-				document.getElementById("treeItem-"+currentEditFile).style.backgroundColor = #00ff00;
+				document.getElementById("treeItem-"+currentEditFile).style.backgroundColor = "#00ff00";
 				webconsole.APICall("getEditableFileContents", {"filename":theFilename}, function(result) {
 					if (aceEditor == null) {
 						aceEditor = ace.edit("editFileBox", {
