@@ -224,7 +224,7 @@
 					return("none");
 				}
 				[".jpg", ".png"].forEach(function(bitmapType) {
-					console.log(theFilename.toLowerCase());
+					console.log(bitmapType + " == " + theFilename.toLowerCase());
 					if (theFilename.toLowerCase().endsWith(bitmapType)) {
 						return("bitmap");
 					}
