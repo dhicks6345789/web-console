@@ -1272,7 +1272,8 @@ func main() {
 										if zipErr != nil {
 											fmt.Fprintf(theResponseWriter, "ERROR: getZippedFolderContents - %s", zipErr.Error())
 										}
-										// http.ServeFile(theResponseWriter, theRequest, arguments["taskroot"] + "/" + taskID + "/" + filename)
+										// Return the zipped folder data to the user.
+										ioutil.WriteFile(arguments["taskroot"] + "/" + taskID + "/" + filename + ".zip", zipBuf.Bytes(), 0644)
 										http.ServeContent(theResponseWriter, theRequest, filename + ".zip", time.Now(), bytes.NewReader(zipBuf.Bytes()))
 									}
 								} else {
