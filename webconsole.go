@@ -6,7 +6,9 @@ import (
 	// Standard libraries.
 	"io"
 	"io/fs"
+	"io/ioutil"
 	"os"
+	"os/exec"
 	"fmt"
 	"log"
 	"sort"
@@ -20,10 +22,9 @@ import (
 	"image/color"
 	"strings"
 	"strconv"
-	"os/exec"
+	"filepath"
 	"net/http"
 	"math/rand"
-	"io/ioutil"
 	"archive/zip"
 	"encoding/csv"
 	"encoding/hex"
@@ -1263,7 +1264,7 @@ func main() {
 										}
 										return nil
 									}
-									zipErr := filepath.Walk(arguments["taskroot"] + "/" + taskID + "/" + filename, walker)
+									zipErr := filepath.Walk(arguments["taskroot"] + "/" + taskID + "/" + filename, zipWalker)
 									if zipErr != nil {
 										fmt.Fprintf(theResponseWriter, "ERROR: getZippedFolderContents - %s", zipErr.Error())
 									} else {
