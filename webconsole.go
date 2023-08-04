@@ -22,13 +22,13 @@ import (
 	"image/color"
 	"strings"
 	"strconv"
-	"filepath"
 	"net/http"
 	"math/rand"
 	"archive/zip"
 	"encoding/csv"
 	"encoding/hex"
 	"encoding/json"
+	"path/filepath"
 	
 	// Image resizing library.
 	"github.com/nfnt/resize"
