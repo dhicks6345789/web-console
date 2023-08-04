@@ -1271,7 +1271,7 @@ func main() {
 											fmt.Fprintf(theResponseWriter, "ERROR: getZippedFolderContents - %s", zipErr.Error())
 										}
 										// http.ServeFile(theResponseWriter, theRequest, arguments["taskroot"] + "/" + taskID + "/" + filename)
-										http.ServeContent(theResponseWriter, theRequest, filename + ".zip", time.Now(), zipWriter)
+										http.ServeContent(theResponseWriter, theRequest, filename + ".zip", time.Now(), zipBuf)
 									}
 								} else {
 									fmt.Fprintf(theResponseWriter, "ERROR: getZippedFolderContents - missing filename parameter.")
