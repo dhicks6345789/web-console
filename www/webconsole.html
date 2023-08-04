@@ -401,8 +401,7 @@
 
 			function downloadFile(theFilePath) {
 				// href=\"api/getEditableFileContents?taskID=" + taskID + "&token=" + token + "&filename=" + currentFolder + "/" + item + "\" target=\"_blank\"
-				// doAction: function(theAction, theURL, theNewTab, theVariables, debug) {
-				webconsole.doAction("POST", theFilePath, true, {"taskID":"<<TASKID>>","token":"<<TOKEN>>"}, false);
+				webconsole.doAction("POST", "api/getEditableFileContents?filename=" + theFilePath, true, {"taskID":"<<TASKID>>","token":"<<TOKEN>>"}, false);
 			}
 			
 			// Return to the Home page.
