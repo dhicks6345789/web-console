@@ -23,6 +23,7 @@ import (
 	"net/http"
 	"math/rand"
 	"io/ioutil"
+	"archive/zip"
 	"encoding/csv"
 	"encoding/hex"
 	"encoding/json"
@@ -1221,6 +1222,59 @@ func main() {
 									http.ServeFile(theResponseWriter, theRequest, arguments["taskroot"] + "/" + taskID + "/" + filename)
 								} else {
 									fmt.Fprintf(theResponseWriter, "ERROR: getEditableFileContents - missing filename parameter.")
+								}
+							}
+						// Return the (zipped) contents of a folder - needs edit permissions.
+						} else if strings.HasPrefix(requestPath, "/api/getZippedFolderContents") {
+							if permission != "E" {
+								fmt.Fprintf(theResponseWriter, "ERROR: getZippedFolderContents called - don't have edit permissions.")
+							} else {
+								filename := theRequest.Form.Get("filename")
+								if filename != "" {
+									// Create a buffer to write the zip file to.
+									zipBuf := new(bytes.Buffer)
+									
+									// Create a new zip archive.
+									zipWriter := zip.NewWriter(zipBuf)
+									
+									zipWalker := func(path string, info os.FileInfo, walkErr error) error {
+										fmt.Printf("Crawling: %#v\n", path)
+										if walkErr != nil {
+											return walkErr
+										}
+										if info.IsDir() {
+											return nil
+										}
+										file, err := os.Open(path)
+										if err != nil {
+											return err
+										}
+										defer file.Close()
+										
+										f, err := zipWriter.Create(path)
+										if err != nil {
+											return err
+										}
+										
+										_, err = io.Copy(f, file)
+										if err != nil {
+											return err
+										}
+										return nil
+									}
+									zipErr := filepath.Walk(arguments["taskroot"] + "/" + taskID + "/" + filename, walker)
+									if zipErr != nil {
+										fmt.Fprintf(theResponseWriter, "ERROR: getZippedFolderContents - %s", zipErr.Error())
+									} else {
+										zipErr = zipWriter.Close()
+										if zipErr != nil {
+											fmt.Fprintf(theResponseWriter, "ERROR: getZippedFolderContents - %s", zipErr.Error())
+										}
+										// http.ServeFile(theResponseWriter, theRequest, arguments["taskroot"] + "/" + taskID + "/" + filename)
+										http.ServeContent(theResponseWriter, theRequest, filename + ".zip", time.Now(), zipWriter)
+									}
+								} else {
+									fmt.Fprintf(theResponseWriter, "ERROR: getZippedFolderContents - missing filename parameter.")
 								}
 							}
 						// Save a file.
