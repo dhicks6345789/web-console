@@ -711,12 +711,18 @@ func listFolderAsJSON(folderLevel int, thePath string) string {
 }
 
 func normalisePath(thePath string) string {
+	otherPathSeparator := "/"
+	if string(os.PathSeparator) == "/" {
+		otherPathSeparator = "\\"
+	}
+
 	previousResult := ""
-	result := thePath
+	result := strings.Replace(thePath, otherPathSeparator, string(os.PathSeparator), -1)
 	for result != previousResult {
 		previousResult = result
 		result = strings.Replace(previousResult, string(os.PathSeparator) + string(os.PathSeparator), string(os.PathSeparator), -1)
 	}
+	
 	return result
 }
 
@@ -1300,7 +1306,7 @@ func main() {
 									// Create a new zip archive.
 									zipWriter := zip.NewWriter(zipBuf)
 
-									zipErr := getZippedFolderContents(zipWriter, arguments["taskroot"] + string(os.PathSeparator) + taskID + string(os.PathSeparator) + filename, "")
+									zipErr := getZippedFolderContents(zipWriter, normalisePath(arguments["taskroot"] + string(os.PathSeparator) + taskID + string(os.PathSeparator) + filename), "")
 									if zipErr != nil {
 										fmt.Fprintf(theResponseWriter, "ERROR: getZippedFolderContents - %s", zipErr.Error())
 									} else {
