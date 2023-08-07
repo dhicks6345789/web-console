@@ -736,7 +736,7 @@ func getZippedFolderContents(rootPath string, currentPath string) (error, []byte
 		// Now, step through each item, adding to the Zip archive as we go.
 		for pl := 0; pl < len(items); pl = pl + 1 {
 			if contains(listFolderExcludes, items[pl].Name()) == false {
-				itemPath = thePath + "/" + items[pl].Name()
+				itemPath := thePath + "/" + items[pl].Name()
 				if items[pl].IsDir() {
 					zipErr = zipCrawler(itemPath)
 					if zipErr != nil {
