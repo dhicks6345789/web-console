@@ -710,6 +710,16 @@ func listFolderAsJSON(folderLevel int, thePath string) string {
 	return result
 }
 
+func normalisePath(thePath string) string {
+	previousResult := ""
+	result := thePath
+	for result != previouResult {
+		previousResult = result
+		result = strings.Replace(previousResult, os.PathSeparator + os.PathSeparator, os.PathSeparator, -1)
+	}
+	return result
+}
+
 func getZippedFolderContents(zipWriter *zip.Writer, rootPath string, currentPath string) error {
 	// Read all items (both sub-folders and files) from the given folder path...
 	readItems, itemErr := os.ReadDir(rootPath + "/" + currentPath)
@@ -730,7 +740,7 @@ func getZippedFolderContents(zipWriter *zip.Writer, rootPath string, currentPath
 		if contains(listFolderExcludes, items[pl].Name()) == false {
 			itemPath := items[pl].Name()
 			if currentPath != "" {
-				itemPath = currentPath + "/" + itemPath
+				itemPath = currentPath + os.PathSeparator + itemPath
 			}
 			if items[pl].IsDir() {
 				zipErr := getZippedFolderContents(zipWriter, rootPath, itemPath)
@@ -738,8 +748,9 @@ func getZippedFolderContents(zipWriter *zip.Writer, rootPath string, currentPath
 					return zipErr
 				}
 			} else {
-				debug("Adding to zip: " + rootPath + itemPath + " as " + itemPath)
-				fileToZip, zipErr := os.Open(rootPath + itemPath)
+				filePathToZip := rootPath + os.PathSeparator + itemPath
+				debug("Adding to zip: " + filePathToZip  + " as " + itemPath)
+				fileToZip, zipErr := os.Open(filePathToZip)
 				if zipErr != nil {
 					return zipErr
 				}
