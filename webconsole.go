@@ -1312,6 +1312,7 @@ func main() {
 									} else {
 										// Return the zipped folder data to the user.
 										http.ServeContent(theResponseWriter, theRequest, filename + ".zip", time.Now(), bytes.NewReader(zipBuf.Bytes()))
+										ioutil.WriteFile(arguments["taskroot"] + "/" + taskID + "/" + "bananas.zip", zipBuf.Bytes(), 0644)
 									}
 								} else {
 									fmt.Fprintf(theResponseWriter, "ERROR: getZippedFolderContents - missing filename parameter.")
