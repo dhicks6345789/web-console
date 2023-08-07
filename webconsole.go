@@ -1313,6 +1313,7 @@ func main() {
 									if zipErr != nil {
 										fmt.Fprintf(theResponseWriter, "ERROR: getZippedFolderContents - %s", zipErr.Error())
 									} else {
+										zipWriter.Close()
 										// Return the zipped folder data to the user.
 										http.ServeContent(theResponseWriter, theRequest, filename + ".zip", time.Now(), bytes.NewReader(zipBuf.Bytes()))
 									}
