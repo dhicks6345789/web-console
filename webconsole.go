@@ -712,7 +712,7 @@ func listFolderAsJSON(folderLevel int, thePath string) string {
 
 func getZippedFolderContents(zipWriter *zip.Writer, rootPath string, currentPath string) error {
 	// Read all items (both sub-folders and files) from the given folder path...
-	readItems, itemErr := os.ReadDir(thePath)
+	readItems, itemErr := os.ReadDir(rootPath + "/" + currentPath)
 	if itemErr != nil {
 		return itemErr
 	}
