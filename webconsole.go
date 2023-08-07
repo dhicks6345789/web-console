@@ -722,7 +722,7 @@ func getZippedFolderContents(rootPath string, currentPath string) (error, []byte
 		// Read all items (both sub-folders and files) from the given folder path...
 		readItems, itemErr := os.ReadDir(thePath)
 		if itemErr != nil {
-			return "Error reading path: " + thePath
+			return itemErr
 		}
 		
 		// ...and remove anything we want to exclude.
