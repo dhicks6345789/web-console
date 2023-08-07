@@ -735,6 +735,7 @@ func getZippedFolderContents(zipWriter *zip.Writer, rootPath string, currentPath
 					return zipErr
 				}
 			} else {
+				debug("Adding to zip: " + rootPath + "/" + itemPath + " as " + itemPath)
 				fileToZip, zipErr := os.Open(rootPath + "/" + itemPath)
 				if zipErr != nil {
 					return zipErr
@@ -748,6 +749,7 @@ func getZippedFolderContents(zipWriter *zip.Writer, rootPath string, currentPath
 					return zipErr
 				}
 				fileToZip.Close()
+				zippedFile.Close()
 			}
 		}
 	}
