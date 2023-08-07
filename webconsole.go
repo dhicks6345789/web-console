@@ -722,7 +722,7 @@ func normalisePath(thePath string) string {
 
 func getZippedFolderContents(zipWriter *zip.Writer, rootPath string, currentPath string) error {
 	// Read all items (both sub-folders and files) from the given folder path...
-	readItems, itemErr := os.ReadDir(rootPath + "/" + currentPath)
+	readItems, itemErr := os.ReadDir(rootPath + string(os.PathSeparator) + currentPath)
 	if itemErr != nil {
 		return itemErr
 	}
@@ -1299,7 +1299,7 @@ func main() {
 									// Create a new zip archive.
 									zipWriter := zip.NewWriter(zipBuf)
 
-									zipErr := getZippedFolderContents(zipWriter, arguments["taskroot"] + "/" + taskID + "/" + filename, "")
+									zipErr := getZippedFolderContents(zipWriter, arguments["taskroot"] + string(os.PathSeparator) + taskID + string(os.PathSeparator) + filename, "")
 									if zipErr != nil {
 										fmt.Fprintf(theResponseWriter, "ERROR: getZippedFolderContents - %s", zipErr.Error())
 									} else {
