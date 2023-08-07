@@ -740,7 +740,7 @@ func getZippedFolderContents(zipWriter *zip.Writer, rootPath string, currentPath
 		if contains(listFolderExcludes, items[pl].Name()) == false {
 			itemPath := items[pl].Name()
 			if currentPath != "" {
-				itemPath = currentPath + os.PathSeparator + itemPath
+				itemPath = currentPath + string(os.PathSeparator) + itemPath
 			}
 			if items[pl].IsDir() {
 				zipErr := getZippedFolderContents(zipWriter, rootPath, itemPath)
@@ -748,7 +748,7 @@ func getZippedFolderContents(zipWriter *zip.Writer, rootPath string, currentPath
 					return zipErr
 				}
 			} else {
-				filePathToZip := rootPath + os.PathSeparator + itemPath
+				filePathToZip := rootPath + string(os.PathSeparator) + itemPath
 				debug("Adding to zip: " + filePathToZip  + " as " + itemPath)
 				fileToZip, zipErr := os.Open(filePathToZip)
 				if zipErr != nil {
