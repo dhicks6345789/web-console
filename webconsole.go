@@ -711,7 +711,7 @@ func listFolderAsJSON(folderLevel int, thePath string) string {
 	return result
 }
 
-func getZippedFolderContents(rootPath string, currentPath string) error, []byte {
+func getZippedFolderContents(rootPath string, currentPath string) (error, []byte) {
 	// Create a buffer to write the zip file to.
 	zipBuf := new(bytes.Buffer)
 
