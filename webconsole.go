@@ -749,12 +749,13 @@ func getZippedFolderContents(zipWriter *zip.Writer, rootPath string, currentPath
 				}
 			} else {
 				filePathToZip := rootPath + string(os.PathSeparator) + itemPath
-				debug("Adding to zip: " + filePathToZip  + " as " + itemPath)
+				zipPath := strings.Replace(itemPath, string(os.PathSeparator), "/", -1)
+				debug("Adding to zip: " + filePathToZip  + " as " + zipPath)
 				fileToZip, zipErr := os.Open(filePathToZip)
 				if zipErr != nil {
 					return zipErr
 				}
-				zippedFile, zipErr := zipWriter.Create(itemPath)
+				zippedFile, zipErr := zipWriter.Create(zipPath)
 				if zipErr != nil {
 					return zipErr
 				}
