@@ -749,7 +749,6 @@ func getZippedFolderContents(zipWriter *zip.Writer, rootPath string, currentPath
 					return zipErr
 				}
 				fileToZip.Close()
-				zippedFile.Close()
 			}
 		}
 	}
