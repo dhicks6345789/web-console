@@ -754,7 +754,7 @@ func getZippedFolderContents(zipWriter *zip.Writer, rootPath string, currentPath
 					return zipErr
 				}
 			} else {
-				filePathToZip := rootPath + string(os.PathSeparator) + itemPath
+				filePathToZip := normalisePath(rootPath + string(os.PathSeparator) + itemPath)
 				zipPath := strings.Replace(itemPath, string(os.PathSeparator), "/", -1)
 				debug("Adding to zip: " + filePathToZip  + " as " + zipPath)
 				fileToZip, zipErr := os.Open(filePathToZip)
@@ -1306,7 +1306,7 @@ func main() {
 									// Create a new zip archive.
 									zipWriter := zip.NewWriter(zipBuf)
 
-									zipErr := getZippedFolderContents(zipWriter, normalisePath(arguments["taskroot"] + string(os.PathSeparator) + taskID + string(os.PathSeparator) + filename), "")
+									zipErr := getZippedFolderContents(zipWriter, arguments["taskroot"] + string(os.PathSeparator) + taskID + string(os.PathSeparator) + filename, "")
 									if zipErr != nil {
 										fmt.Fprintf(theResponseWriter, "ERROR: getZippedFolderContents - %s", zipErr.Error())
 									} else {
