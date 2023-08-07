@@ -759,14 +759,17 @@ func getZippedFolderContents(zipWriter *zip.Writer, rootPath string, currentPath
 				debug("Adding to zip: " + filePathToZip  + " as " + zipPath)
 				fileToZip, zipErr := os.Open(filePathToZip)
 				if zipErr != nil {
+					debug("getZippedFolderContents - error: " + zipErr.Error())
 					return zipErr
 				}
 				zippedFile, zipErr := zipWriter.Create(zipPath)
 				if zipErr != nil {
+					debug("getZippedFolderContents - error: " + zipErr.Error())
 					return zipErr
 				}
 				_, zipErr = io.Copy(zippedFile, fileToZip)
 				if zipErr != nil {
+					debug("getZippedFolderContents - error: " + zipErr.Error())
 					return zipErr
 				}
 				fileToZip.Close()
@@ -1312,7 +1315,6 @@ func main() {
 									} else {
 										// Return the zipped folder data to the user.
 										http.ServeContent(theResponseWriter, theRequest, filename + ".zip", time.Now(), bytes.NewReader(zipBuf.Bytes()))
-										ioutil.WriteFile(arguments["taskroot"] + "/" + taskID + "/" + "bananas.zip", zipBuf.Bytes(), 0644)
 									}
 								} else {
 									fmt.Fprintf(theResponseWriter, "ERROR: getZippedFolderContents - missing filename parameter.")
