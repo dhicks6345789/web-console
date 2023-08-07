@@ -710,56 +710,48 @@ func listFolderAsJSON(folderLevel int, thePath string) string {
 	return result
 }
 
-func getZippedFolderContents(rootPath string, currentPath string) (error, []byte) {
-	// Create a buffer to write the zip file to.
-	zipBuf := new(bytes.Buffer)
-
-	// Create a new zip archive.
-	zipWriter := zip.NewWriter(zipBuf)
-
-	func zipCrawler(thePath string) error {
-		// Read all items (both sub-folders and files) from the given folder path...
-		readItems, itemErr := os.ReadDir(thePath)
-		if itemErr != nil {
-			return itemErr
+func getZippedFolderContents(zipWriter *zip.Writer, rootPath string, currentPath string) error {
+	// Read all items (both sub-folders and files) from the given folder path...
+	readItems, itemErr := os.ReadDir(thePath)
+	if itemErr != nil {
+		return itemErr
+	}
+	
+	// ...and remove anything we want to exclude.
+	var items []fs.DirEntry
+	for pl := 0; pl < len(readItems); pl = pl + 1 {
+		if contains(listFolderExcludes, readItems[pl].Name()) == false {
+			items = append(items, readItems[pl])
 		}
-		
-		// ...and remove anything we want to exclude.
-		var items []fs.DirEntry
-		for pl := 0; pl < len(readItems); pl = pl + 1 {
-			if contains(listFolderExcludes, readItems[pl].Name()) == false {
-				items = append(items, readItems[pl])
-			}
-		}
-		
-		// Now, step through each item, adding to the Zip archive as we go.
-		for pl := 0; pl < len(items); pl = pl + 1 {
-			if contains(listFolderExcludes, items[pl].Name()) == false {
-				itemPath := thePath + "/" + items[pl].Name()
-				if items[pl].IsDir() {
-					zipErr := zipCrawler(itemPath)
-					if zipErr != nil {
-						return zipErr
-					}
-				} else {
-					fileToZip, zipErr := os.Open(rootPath + "/" + itemPath)
-					if zipErr != nil {
-						return zipErr
-					}
-					zippedFile, zipErr := zipWriter.Create(itemPath)
-					if zipErr != nil {
-						return zipErr
-					}
-					_, zipErr = io.Copy(zippedFile, fileToZip)
-					if zipErr != nil {
-						return zipErr
-					}
-					fileToZip.Close()
+	}
+	
+	// Now, step through each item, adding to the Zip archive as we go.
+	for pl := 0; pl < len(items); pl = pl + 1 {
+		if contains(listFolderExcludes, items[pl].Name()) == false {
+			itemPath := currentPath + "/" + items[pl].Name()
+			if items[pl].IsDir() {
+				zipErr := getZippedFolderContents(zipWriter, rootPath, itemPath)
+				if zipErr != nil {
+					return zipErr
 				}
+			} else {
+				fileToZip, zipErr := os.Open(rootPath + "/" + itemPath)
+				if zipErr != nil {
+					return zipErr
+				}
+				zippedFile, zipErr := zipWriter.Create(itemPath)
+				if zipErr != nil {
+					return zipErr
+				}
+				_, zipErr = io.Copy(zippedFile, fileToZip)
+				if zipErr != nil {
+					return zipErr
+				}
+				fileToZip.Close()
 			}
 		}
 	}
-	return zipCrawler(currentPath), zipBuf.Bytes()
+	return nil
 }
 
 
@@ -1286,12 +1278,18 @@ func main() {
 							} else {
 								filename := theRequest.Form.Get("filename")
 								if filename != "" {
-									zipErr, zipBytes := getZippedFolderContents(arguments["taskroot"] + "/" + taskID + "/" + filename, "")
+									// Create a buffer to write the zip file to.
+									zipBuf := new(bytes.Buffer)
+
+									// Create a new zip archive.
+									zipWriter := zip.NewWriter(zipBuf)
+
+									zipErr := getZippedFolderContents(zipWriter, arguments["taskroot"] + "/" + taskID + "/" + filename, "")
 									if zipErr != nil {
 										fmt.Fprintf(theResponseWriter, "ERROR: getZippedFolderContents - %s", zipErr.Error())
 									} else {
 										// Return the zipped folder data to the user.
-										http.ServeContent(theResponseWriter, theRequest, filename + ".zip", time.Now(), bytes.NewReader(zipBytes))
+										http.ServeContent(theResponseWriter, theRequest, filename + ".zip", time.Now(), bytes.NewReader(zipBuf.Bytes()))
 									}
 								} else {
 									fmt.Fprintf(theResponseWriter, "ERROR: getZippedFolderContents - missing filename parameter.")
