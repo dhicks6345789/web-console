@@ -737,7 +737,7 @@ func getZippedFolderContents(rootPath string, currentPath string) (error, []byte
 			if contains(listFolderExcludes, items[pl].Name()) == false {
 				itemPath := thePath + "/" + items[pl].Name()
 				if items[pl].IsDir() {
-					zipErr = zipCrawler(itemPath)
+					zipErr := zipCrawler(itemPath)
 					if zipErr != nil {
 						return zipErr
 					}
