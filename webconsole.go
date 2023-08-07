@@ -728,7 +728,10 @@ func getZippedFolderContents(zipWriter *zip.Writer, rootPath string, currentPath
 	// Now, step through each item, adding to the Zip archive as we go.
 	for pl := 0; pl < len(items); pl = pl + 1 {
 		if contains(listFolderExcludes, items[pl].Name()) == false {
-			itemPath := currentPath + "/" + items[pl].Name()
+			itemPath := items[pl].Name()
+			if currentPath != "" {
+				itemPath = currentPath + "/" + itemPath
+			}
 			if items[pl].IsDir() {
 				zipErr := getZippedFolderContents(zipWriter, rootPath, itemPath)
 				if zipErr != nil {
