@@ -1287,7 +1287,7 @@ func main() {
 							} else {
 								filename := theRequest.Form.Get("filename")
 								if filename != "" {
-									zipErr, zipBytes := getZippedFolderContents(rootPath string, currentPath string)
+									zipErr, zipBytes := getZippedFolderContents(arguments["taskroot"] + "/" + taskID + "/" + filename, "")
 									if zipErr != nil {
 										fmt.Fprintf(theResponseWriter, "ERROR: getZippedFolderContents - %s", zipErr.Error())
 									} else {
