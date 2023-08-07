@@ -713,9 +713,9 @@ func listFolderAsJSON(folderLevel int, thePath string) string {
 func normalisePath(thePath string) string {
 	previousResult := ""
 	result := thePath
-	for result != previouResult {
+	for result != previousResult {
 		previousResult = result
-		result = strings.Replace(previousResult, os.PathSeparator + os.PathSeparator, os.PathSeparator, -1)
+		result = strings.Replace(previousResult, string(os.PathSeparator) + string(os.PathSeparator), string(os.PathSeparator), -1)
 	}
 	return result
 }
