@@ -717,7 +717,7 @@ func getZippedFolderContents(rootPath string, currentPath string) (error, []byte
 	// Create a new zip archive.
 	zipWriter := zip.NewWriter(zipBuf)
 
-	zipCrawler := func(thePath string, thisFunction func) error {
+	func zipCrawler(thePath string) error {
 		// Read all items (both sub-folders and files) from the given folder path...
 		readItems, itemErr := os.ReadDir(thePath)
 		if itemErr != nil {
@@ -737,7 +737,7 @@ func getZippedFolderContents(rootPath string, currentPath string) (error, []byte
 			if contains(listFolderExcludes, items[pl].Name()) == false {
 				itemPath := thePath + "/" + items[pl].Name()
 				if items[pl].IsDir() {
-					zipErr := thisFunction(itemPath, thisFunction)
+					zipErr := zipCrawler(itemPath)
 					if zipErr != nil {
 						return zipErr
 					}
@@ -759,7 +759,7 @@ func getZippedFolderContents(rootPath string, currentPath string) (error, []byte
 			}
 		}
 	}
-	return zipCrawler(currentPath, zipCrawler), zipBuf.Bytes()
+	return zipCrawler(currentPath), zipBuf.Bytes()
 }
 
 
