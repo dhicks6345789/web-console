@@ -658,8 +658,9 @@
 						console.log("Shown BS Modal");
 
 						// Set up the edit block's upload-files drag-n-drop functionality.
-						dropArea = document.getElementById("uploadFilesBackground");
-						dropArea.trigger("focus");
+						//dropArea = document.getElementById("uploadFilesBackground");
+						dropArea = document.getElementById("filesUploadDropZone");
+						//dropArea.trigger("focus");
 						["dragenter", "dragover", "dragleave", "drop"].forEach(function (eventName) {
 							dropArea.addEventListener(eventName, preventDefaults, false);
 						});
@@ -1159,7 +1160,7 @@
 						<h5 class="modal-title" id="uploadFilesModalTitle">Upload files to folder:&nbsp;</h5><h5 class="modal-title" id="uploadFilesModalFilePath"></h5>
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
-					<div class="modal-body">
+					<div id="filesUploadDropZone" class="modal-body">
 						<form>
 							<fieldset class="upload_dropZone text-center mb-3 p-4">
 								<legend class="visually-hidden">File uploader</legend>
