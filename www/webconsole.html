@@ -666,6 +666,10 @@
 						e.preventDefault();
 						e.stopPropagation();
 					}
+					
+					document.getElementById("uploadFilesModal").addEventListener("shown.bs.modal", function () {
+						console.log("Shown BS Modal");
+					});
 
 					['dragenter', 'dragover'].forEach(eventName => {
 						dropArea.addEventListener(eventName, highlight, false);
