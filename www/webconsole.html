@@ -654,24 +654,25 @@
 
 					
 					// Set up the edit block's upload-files drag-n-drop functionality.
+					filesUploadDropZone = document.getElementById("filesUploadDropZone");
 					["dragenter", "dragover"].forEach(function (eventName) {
-						dropArea.addEventListener(eventName, function (theEvent) {
+						filesUploadDropZone.addEventListener(eventName, function (theEvent) {
 							theEvent.preventDefault();
 							theEvent.stopPropagation();
-							document.getElementById("filesUploadDropZone").classList.add("highlight");
+							filesUploadDropZone.classList.add("highlight");
 						}, false);
 					});
 
-					dropArea.addEventListener("dragleave", function (theEvent) {
+					filesUploadDropZone.addEventListener("dragleave", function (theEvent) {
 						theEvent.preventDefault();
 						theEvent.stopPropagation();
-						document.getElementById("filesUploadDropZone").classList.remove("highlight");
+						filesUploadDropZone.classList.remove("highlight");
 					}, false);
 
-					dropArea.addEventListener("drop", function (theEvent) {
+					filesUploadDropZone.addEventListener("drop", function (theEvent) {
 						theEvent.preventDefault();
 						theEvent.stopPropagation();
-						document.getElementById("filesUploadDropZone").classList.remove("highlight");
+						filesUploadDropZone.classList.remove("highlight");
 						([...theEvent.dataTransfer.files]).forEach(function (theFile) {
 							console.log(theFile);
 						});
