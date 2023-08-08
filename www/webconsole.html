@@ -651,6 +651,8 @@
 						scrollToEditCollapse();
 					});
 
+
+					
 					// Set up the edit block's upload-files drag-n-drop functionality.
 					let dropArea = document.getElementById("uploadFilesBackground");
 					
@@ -659,6 +661,7 @@
 					});
 						
 					function preventDefaults (e) {
+						console.log("preventDefaults");
 						e.preventDefault();
 						e.stopPropagation();
 					}
