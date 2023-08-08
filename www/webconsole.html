@@ -659,6 +659,7 @@
 
 						// Set up the edit block's upload-files drag-n-drop functionality.
 						dropArea = document.getElementById("uploadFilesBackground");
+						dropArea.trigger("focus");
 						["dragenter", "dragover", "dragleave", "drop"].forEach(function (eventName) {
 							dropArea.addEventListener(eventName, preventDefaults, false);
 						});
