@@ -658,9 +658,9 @@
 						console.log("Shown BS Modal");
 
 						// Set up the edit block's upload-files drag-n-drop functionality.
-						let dropArea = document.getElementById("uploadFilesBackground");
-						['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-							dropArea.addEventListener(eventName, preventDefaults, false)
+						dropArea = document.getElementById("uploadFilesBackground");
+						["dragenter", "dragover", "dragleave", "drop"].forEach(function (eventName) {
+							dropArea.addEventListener(eventName, preventDefaults, false);
 						});
 					});
 					
