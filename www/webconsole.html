@@ -399,6 +399,17 @@
 				document.getElementById("deleteFolderModalFilePath").innerHTML = theFilePath.substr(1);
 			}
 
+			function uploadFiles() {
+			}
+			
+			function showUploadFilesModal(theFilePath) {
+				if (theFilePath == "") {
+					document.getElementById("uploadFilesModalFilePath").innerHTML = "/";
+				} else {
+					document.getElementById("uploadFilesModalFilePath").innerHTML = theFilePath;
+				}
+			}
+
 			function previewFile(theFilePath, theFileName) {
 				webconsole.doAction("POST", "api/getEditableFileContents?filename=" + theFilePath + "/" + theFileName, true, {"taskID":"<<TASKID>>","token":"<<TOKEN>>"}, false);
 			}
@@ -427,6 +438,7 @@
 				}
 				result = result + "<a class=\"btn btn-outline-primary\" style=\"padding: 2px 2px; font-size: 2px; border-radius: 2px;\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Download folder " + ifBlankString(currentFolderName, "/") + "\" role=\"button\" href=\"api/getZippedFolderContents?taskID=" + taskID + "&token=" + token + "&filename=" + ifBlankString(currentFolderPath, "/") + "\" target=\"_blank\" download=\"" + ifBlankString(currentFolderName, taskID) + ".zip\"><img src=\"folder-arrow-down.svg\" width=\"8\" height=\"8\"></a>"
 				result = result + " <a class=\"btn btn-outline-primary\" onclick=\"showNewFileModal('" + currentFolderPath + "')\" style=\"padding: 2px 2px; font-size: 2px; border-radius: 2px;\" data-toggle=\"tooltip\" data-placement=\"top\" data-bs-toggle=\"modal\" data-bs-target=\"#newFileModal\" title=\"New file\" role=\"button\"><img src=\"bootstrap-icons/1.8.1/file-earmark-plus.svg\" width=\"8\" height=\"8\"></a>"
+				result = result + " <a class=\"btn btn-outline-primary\" onclick=\"showUploadFilesModal('" + currentFolderPath + "')\" style=\"padding: 2px 2px; font-size: 2px; border-radius: 2px;\" data-toggle=\"tooltip\" data-placement=\"top\" data-bs-toggle=\"modal\" data-bs-target=\"#uploadFilesModal\" title=\"Upload files\" role=\"button\"><img src=\"bootstrap-icons/1.8.1/file-earmark-arrow-up.svg\" width=\"8\" height=\"8\"></a>"
 				result = result + " <a class=\"btn btn-outline-primary\" onclick=\"showNewFolderModal('" + currentFolderPath + "')\" style=\"padding: 2px 2px; font-size: 2px; border-radius: 2px;\" data-toggle=\"tooltip\" data-placement=\"top\" data-bs-toggle=\"modal\" data-bs-target=\"#newFolderModal\" title=\"New folder\" role=\"button\"><img src=\"bootstrap-icons/1.8.1/folder-plus.svg\" width=\"8\" height=\"8\"></a>"
 				result = result + "</li>"
 				theItems.forEach(function(item) {
