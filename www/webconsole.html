@@ -654,22 +654,21 @@
 
 
 					console.log("Setting up drag-n-drop...");
-					// Set up the edit block's upload-files drag-n-drop functionality.
-					let dropArea = document.getElementById("uploadFilesBackground");
-					
-					['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-						dropArea.addEventListener(eventName, preventDefaults, false)
+					document.getElementById("uploadFilesModal").addEventListener("shown.bs.modal", function () {
+						console.log("Shown BS Modal");
+
+						// Set up the edit block's upload-files drag-n-drop functionality.
+						let dropArea = document.getElementById("uploadFilesBackground");
+						['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+							dropArea.addEventListener(eventName, preventDefaults, false)
+						});
 					});
-						
+					
 					function preventDefaults (e) {
 						console.log("preventDefaults");
 						e.preventDefault();
 						e.stopPropagation();
 					}
-					
-					document.getElementById("uploadFilesModal").addEventListener("shown.bs.modal", function () {
-						console.log("Shown BS Modal");
-					});
 
 					['dragenter', 'dragover'].forEach(eventName => {
 						dropArea.addEventListener(eventName, highlight, false);
