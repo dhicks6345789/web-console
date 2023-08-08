@@ -1303,16 +1303,16 @@ func main() {
 							} else {
 								filename := theRequest.Form.Get("filename")
 								if filename != "" {
-									// Create a buffer to write the zip file to.
+									// Create a buffer and writer to write the Zip file to.
 									zipBuf := new(bytes.Buffer)
-
-									// Create a new zip archive.
 									zipWriter := zip.NewWriter(zipBuf)
-
-									zipErr := getZippedFolderContents(zipWriter, arguments["taskroot"] + string(os.PathSeparator) + taskID + string(os.PathSeparator) + filename, "")
+									zipFolder = arguments["taskroot"] + string(os.PathSeparator) + taskID + string(os.PathSeparator) + filename
+									debug("Zipping folder: " + zipFolder)
+									zipErr := getZippedFolderContents(zipWriter, zipFolder, "")
 									if zipErr != nil {
 										fmt.Fprintf(theResponseWriter, "ERROR: getZippedFolderContents - %s", zipErr.Error())
 									} else {
+										// Make sure the Zip buffer / writer is properly finished (the Zip file will be invalid otherwise).
 										zipWriter.Close()
 										// Return the zipped folder data to the user.
 										http.ServeContent(theResponseWriter, theRequest, filename + ".zip", time.Now(), bytes.NewReader(zipBuf.Bytes()))
