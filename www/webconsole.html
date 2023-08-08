@@ -659,7 +659,7 @@
 						dropArea.addEventListener(eventName, function (theEvent) {
 							theEvent.preventDefault();
 							theEvent.stopPropagation();
-							dropArea.classList.add("highlight");
+							document.getElementById("uploadFilesBackground").classList.add("highlight");
 						}, false);
 					});
 
@@ -673,12 +673,8 @@
 						theEvent.preventDefault();
 						theEvent.stopPropagation();
 						dropArea.classList.remove("highlight");
-						handleFiles(theEvent.dataTransfer.files);
+						([...theEvent.dataTransfer.files]).forEach(uploadFile);
 					}, false);
-
-					function handleFiles(files) {
-						([...files]).forEach(uploadFile);
-					}
 					
 					function uploadFile(file) {
 						let url = 'YOUR URL HERE';
