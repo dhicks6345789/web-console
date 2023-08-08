@@ -1306,7 +1306,7 @@ func main() {
 									// Create a buffer and writer to write the Zip file to.
 									zipBuf := new(bytes.Buffer)
 									zipWriter := zip.NewWriter(zipBuf)
-									zipFolder = arguments["taskroot"] + string(os.PathSeparator) + taskID + string(os.PathSeparator) + filename
+									zipFolder := arguments["taskroot"] + string(os.PathSeparator) + taskID + string(os.PathSeparator) + filename
 									debug("Zipping folder: " + zipFolder)
 									zipErr := getZippedFolderContents(zipWriter, zipFolder, "")
 									if zipErr != nil {
