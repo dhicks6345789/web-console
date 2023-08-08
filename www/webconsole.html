@@ -655,40 +655,26 @@
 					
 					// Set up the edit block's upload-files drag-n-drop functionality.
 					dropArea = document.getElementById("filesUploadDropArea");
-					["dragenter", "dragover", "dragleave", "drop"].forEach(function (eventName) {
+					["dragenter", "dragover"].forEach(function (eventName) {
 						dropArea.addEventListener(eventName, function (theEvent) {
-							console.log("Prevent defaults.");
 							theEvent.preventDefault();
 							theEvent.stopPropagation();
+							dropArea.classList.add("highlight");
 						}, false);
 					});
-					
-					['dragenter', 'dragover'].forEach(function (eventName) {
-						dropArea.addEventListener(eventName, highlight, false);
-					});
-					
-					['dragleave', 'drop'].forEach(function (eventName) {
-						dropArea.addEventListener(eventName, unhighlight, false);
-					});
 
-					dropArea.addEventListener("drop", handleDrop, false);
-					
-					function highlight(e) {
-						console.log("Highlight");
-						dropArea.classList.add("highlight");
-					}
-					
-					function unhighlight(e) {
-						console.log("Un-Highlight");
+					dropArea.addEventListener("dragleave", function (theEvent) {
+						theEvent.preventDefault();
+						theEvent.stopPropagation();
 						dropArea.classList.remove("highlight");
-					}
-						
-					function handleDrop(e) {
-						console.log("Handle drop");
-						let dt = e.dataTransfer;
-						let files = dt.files;
-						handleFiles(files);
-					}
+					}, false);
+
+					dropArea.addEventListener("drop", function (theEvent) {
+						theEvent.preventDefault();
+						theEvent.stopPropagation();
+						dropArea.classList.remove("highlight");
+						handleFiles(theEvent.dataTransfer.files);
+					}, false);
 
 					function handleFiles(files) {
 						([...files]).forEach(uploadFile);
@@ -697,6 +683,8 @@
 					function uploadFile(file) {
 						let url = 'YOUR URL HERE';
 						let formData = new FormData();
+
+						console.log("Upload file");
 						
 						formData.append('file', file);
 						fetch(url, {
