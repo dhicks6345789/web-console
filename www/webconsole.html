@@ -400,6 +400,7 @@
 			}
 
 			function uploadFiles() {
+				console.log(document.getElementById("upload_files_background").value);
 			}
 			
 			function showUploadFilesModal(theFilePath) {
@@ -1100,15 +1101,15 @@
 								<legend class="visually-hidden">File uploader</legend>
 								<img src="bootstrap-icons/1.8.1/file-earmark-arrow-up.svg" width="20%">
 								<p class="small my-2">Drag &amp; Drop file(s) inside dashed region<br><i>or</i></p>
-								<input id="upload_image_background" data-post-name="image_background" data-post-url="api/uploadFiles" class="position-absolute invisible" type="file" multiple/>
-								<label class="btn btn-upload mb-3" for="upload_image_background">Choose file(s)</label>
+								<input id="upload_files_background" data-post-name="files_background" data-post-url="api/uploadFiles" class="position-absolute invisible" type="file" multiple/>
+								<label class="btn btn-upload mb-3" for="upload_files_background">Choose file(s)</label>
 								<div class="upload_gallery d-flex flex-wrap justify-content-center gap-3 mb-0"></div>
 							</fieldset>
 						</form>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-						<button type="button" class="btn btn-success" data-bs-dismiss="modal" onclick="newFolder()">Upload</button>
+						<button type="button" class="btn btn-success" data-bs-dismiss="modal" onclick="uploadFiles()">Upload</button>
 					</div>
 				</div>
 			</div>
