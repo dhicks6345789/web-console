@@ -674,7 +674,13 @@
 						theEvent.stopPropagation();
 						filesUploadDropZone.classList.remove("highlight");
 						([...theEvent.dataTransfer.files]).forEach(function (theFile) {
-							console.log(theFile);
+							webconsole.APICall("saveFile", {"filename":theFile.name, "contents":theFile}, function(result) {
+								if (result == "OK") {
+									console.log("File uploaded!");
+								} else {
+									alert(result);
+								}
+							});
 						});
 					}, false);
 					
