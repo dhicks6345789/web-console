@@ -676,7 +676,8 @@
 						([...theEvent.dataTransfer.files]).forEach(function (theFile) {
 							uploadFileReader = new FileReader();
 							uploadFileReader.addEventListener('load', function (loadEvent) {
-								webconsole.APICall("saveFile", {"filename":theFile.name, "contents":loadEvent.target.result}, function(result) {
+								console.log(loadEvent);
+								webconsole.APICall("saveFile", {"filename":"zzz.png", "contents":loadEvent.target.result}, function(result) {
 									if (result == "OK") {
 										console.log("File uploaded!");
 									} else {
@@ -687,21 +688,6 @@
 							uploadFileReader.readAsDataURL(theFile);
 						});
 					}, false);
-					
-					function uploadFile(file) {
-						let url = "api/uploadFile";
-						let formData = new FormData();
-
-						console.log("Upload file");
-						
-						formData.append('file', file);
-						fetch(url, {
-							method: 'POST',
-							body: formData
-						})
-							.then(() => { /* Done. Inform the user */ })
-							.catch(() => { /* Error. Inform the user */ })
-					}
 
 
 					
