@@ -676,17 +676,14 @@
 						([...theEvent.dataTransfer.files]).forEach(function (theFile) {
 							uploadFileReader = new FileReader();
 							uploadFileReader.onloadend = function () {
-								console.log(theFile);
-								// console.log(uploadFileReader.result);
-								/*webconsole.APICall("saveFile", {"filename":"zzz.png", "contents":loadEvent.target.result}, function(result) {
+								webconsole.APICall("saveFile", {"filename":theFile.name, "contents":uploadFileReader.result}, function(result) {
 									if (result == "OK") {
 										console.log("File uploaded!");
 									} else {
 										alert(result);
 									}
-								});*/
+								});
 							}
-							//uploadFileReader.readAsDataURL(theFile);
 							uploadFileReader.readAsBinaryString(theFile);
 						});
 					}, false);
