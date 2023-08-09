@@ -674,15 +674,17 @@
 						theEvent.stopPropagation();
 						filesUploadDropZone.classList.remove("highlight");
 						([...theEvent.dataTransfer.files]).forEach(function (theFile) {
-							binaryFileReader = new FileReader();
-							binaryFileReader.readAsBinaryString(theFile);
-							webconsole.APICall("saveFile", {"filename":theFile.name, "contents":binaryFileReader.result}, function(result) {
-								if (result == "OK") {
-									console.log("File uploaded!");
-								} else {
-									alert(result);
-								}
+							uploadFileReader = new FileReader();
+							uploadFileReader.addEventListener('load', function (loadEvent) {
+								webconsole.APICall("saveFile", {"filename":theFile.name, "contents":loadEvent.target.result}, function(result) {
+									if (result == "OK") {
+										console.log("File uploaded!");
+									} else {
+										alert(result);
+									}
+								});
 							});
+							uploadFileReader.readAsDataURL(theFile);
 						});
 					}, false);
 					
