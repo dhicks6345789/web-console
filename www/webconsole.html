@@ -675,15 +675,15 @@
 						filesUploadDropZone.classList.remove("highlight");
 						([...theEvent.dataTransfer.files]).forEach(function (theFile) {
 							uploadFileReader = new FileReader();
-							uploadFileReader.addEventListener('load', function (loadEvent) {
-								console.log(loadEvent);
-								webconsole.APICall("saveFile", {"filename":"zzz.png", "contents":loadEvent.target.result}, function(result) {
+							uploadFileReader.onloadend = function () {
+								console.log(uploadFileReader.result);
+								/*webconsole.APICall("saveFile", {"filename":"zzz.png", "contents":loadEvent.target.result}, function(result) {
 									if (result == "OK") {
 										console.log("File uploaded!");
 									} else {
 										alert(result);
 									}
-								});
+								});*/
 							});
 							//uploadFileReader.readAsDataURL(theFile);
 							uploadFileReader.readAsBinaryString(theFile);
