@@ -676,7 +676,8 @@
 						([...theEvent.dataTransfer.files]).forEach(function (theFile) {
 							uploadFileReader = new FileReader();
 							uploadFileReader.onloadend = function () {
-								console.log(uploadFileReader.result);
+								console.log(theFile);
+								// console.log(uploadFileReader.result);
 								/*webconsole.APICall("saveFile", {"filename":"zzz.png", "contents":loadEvent.target.result}, function(result) {
 									if (result == "OK") {
 										console.log("File uploaded!");
