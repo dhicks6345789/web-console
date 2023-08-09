@@ -674,7 +674,9 @@
 						theEvent.stopPropagation();
 						filesUploadDropZone.classList.remove("highlight");
 						([...theEvent.dataTransfer.files]).forEach(function (theFile) {
-							webconsole.APICall("saveFile", {"filename":theFile.name, "contents":theFile}, function(result) {
+							binaryFileReader = new FileReader();
+							binaryFileReader.readAsBinaryString(theFile);
+							webconsole.APICall("saveFile", {"filename":theFile.name, "contents":binaryFileReader.result}, function(result) {
 								if (result == "OK") {
 									console.log("File uploaded!");
 								} else {
