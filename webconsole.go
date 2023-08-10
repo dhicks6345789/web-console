@@ -1323,9 +1323,23 @@ func main() {
 								}
 							}
 						// Save a file.
-						} else if strings.HasPrefix(requestPath, "/api/saveFile") {
+						} else if strings.HasPrefix(requestPath, "/api/startSaveFile") {
 							if permission != "E" {
-								fmt.Fprintf(theResponseWriter, "ERROR: saveFile called - don't have edit permissions.")
+								fmt.Fprintf(theResponseWriter, "ERROR: startSaveFile called - don't have edit permissions.")
+							} else {
+								filename := theRequest.Form.Get("filename")
+								if filename != "" {
+									debug("Zero: " + arguments["taskroot"] + "/" + taskID + "/" + filename)
+									ioutil.WriteFile(arguments["taskroot"] + "/" + taskID + "/" + filename, []byte(), 0644)
+									fmt.Fprintf(theResponseWriter, "OK")
+								} else {
+									fmt.Fprintf(theResponseWriter, "ERROR: startSaveFile - missing filename parameter.")
+								}
+							}
+						// Save a file.
+						} else if strings.HasPrefix(requestPath, "/api/saveFileChunk") {
+							if permission != "E" {
+								fmt.Fprintf(theResponseWriter, "ERROR: saveFileChunk called - don't have edit permissions.")
 							} else {
 								filename := theRequest.Form.Get("filename")
 								if filename != "" {
@@ -1336,10 +1350,10 @@ func main() {
 										ioutil.WriteFile(arguments["taskroot"] + "/" + taskID + "/" + filename, []byte(base64Contents), 0644)
 										fmt.Fprintf(theResponseWriter, "OK")
 									} else {
-										fmt.Fprintf(theResponseWriter, "ERROR: saveFile - missing contents parameter.")
+										fmt.Fprintf(theResponseWriter, "ERROR: saveFileChunk - missing contents parameter.")
 									}
 								} else {
-									fmt.Fprintf(theResponseWriter, "ERROR: saveFile - missing filename parameter.")
+									fmt.Fprintf(theResponseWriter, "ERROR: saveFileChunk - missing filename parameter.")
 								}
 							}
 						// Delete a file.
