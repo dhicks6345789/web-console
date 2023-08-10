@@ -49,6 +49,9 @@
 			var currentEditFile = "";
 			var previousEditFile = "";
 			outputLine = 0;
+
+			// A variable used to mark the current state of a file-upload operation.
+			var saveChunkState = 0;
 			
 			// A variable to reference the Ace text / code editor object.
 			var aceEditor;
@@ -300,7 +303,7 @@
 					if (startSaveFileResult == "OK") {
 						for (chunk = 0; chunk < theContents.length; chunk = chunk + uploadChunkSize) {
 							console.log("Chunk: " + chunk.toString());
-							var saveChunkState = 0;
+							saveChunkState = 0;
 							while (saveChunkState < 2) {
 								if (saveChunkState == 0) {
 									webconsole.APICall("saveFileChunk", {"filename":theFilename, "contents":btoa(theContents.slice(chunk, chunk+(uploadChunkSize-1)))}, function(saveFileChunkResult) {
