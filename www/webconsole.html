@@ -300,7 +300,7 @@
 					if (startSaveFileResult == "OK") {
 						for (chunk = 0; chunk < theContents.length; chunk = chunk + uploadChunkSize) {
 							console.log("Chunk: " + chunk.toString());
-							saveChunkState = 0;
+							var saveChunkState = 0;
 							while (saveChunkState < 2) {
 								if (saveChunkState == 0) {
 									webconsole.APICall("saveFileChunk", {"filename":theFilename, "contents":btoa(theContents.slice(chunk, chunk+(uploadChunkSize-1)))}, function(saveFileChunkResult) {
