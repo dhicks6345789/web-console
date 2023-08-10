@@ -297,6 +297,7 @@
 			function saveFile(theFilename, theContents) {
 				webconsole.APICall("startSaveFile", {"filename":theFilename}, function(startSaveFileResult) {
 					if (startSaveFileResult == "OK") {
+						console.log(theContents);
 						for (chunk = 0; chunk < theContents.length; chunk = chunk + (1024 * 1024)) {
 							saveChunkResult = null;
 							while (saveChunkResult == null) {
