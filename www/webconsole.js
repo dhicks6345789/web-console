@@ -1,6 +1,9 @@
 var webconsole = {
     // A utility function to do a webconsole API call.
     APICall: function(theMethod, theParams, theSuccessFunction, callMethod="POST", APIURLPrefix="") {
+        if (theMethod == "api/savefile") {
+            console.log(theParams);
+        }
         if (!("taskID" in theParams)) {
             if (typeof taskID !== "undefined") {
                 theParams["taskID"] = taskID;
