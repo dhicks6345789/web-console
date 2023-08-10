@@ -28,6 +28,7 @@ import (
 	"encoding/csv"
 	"encoding/hex"
 	"encoding/json"
+	"encoding/base64"
 	
 	// Image resizing library.
 	"github.com/nfnt/resize"
@@ -1331,7 +1332,8 @@ func main() {
 									contents := theRequest.Form.Get("contents")
 									if contents != "" {
 										debug("Write " + arguments["taskroot"] + "/" + taskID + "/" + filename)
-										ioutil.WriteFile(arguments["taskroot"] + "/" + taskID + "/" + filename, []byte(contents), 0644)
+										base64Contents, _ := base64.StdEncoding.DecodeString(contents)
+										ioutil.WriteFile(arguments["taskroot"] + "/" + taskID + "/" + filename, []byte(base64Contents), 0644)
 										fmt.Fprintf(theResponseWriter, "OK")
 									} else {
 										fmt.Fprintf(theResponseWriter, "ERROR: saveFile - missing contents parameter.")
