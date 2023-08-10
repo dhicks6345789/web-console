@@ -49,9 +49,6 @@
 			var currentEditFile = "";
 			var previousEditFile = "";
 			outputLine = 0;
-
-			// A variable used to mark the current state of a file-upload operation.
-			var saveChunkState = 0;
 			
 			// A variable to reference the Ace text / code editor object.
 			var aceEditor;
@@ -298,24 +295,24 @@
 			
 			// Save a file by sending it to the server, with larger files split into chunks.
 			uploadChunkSize = 1024 * 1024;
+			function saveFileChunk(theFilename, theContents) {
+				if (theContents.length < uploadChunkSize) {
+					webconsole.APICall("saveFileChunk", {"filename":theFilename, "contents":btoa(theContents)}, function(saveFileChunkResult) {
+						console.log("File uploaded as chunks.");
+					});
+					
+				} else {
+					webconsole.APICall("saveFileChunk", {"filename":theFilename, "contents":btoa(theContents.slice(0, uploadChunkSize-1))}, function(saveFileChunkResult) {
+						console.log("Chunk saved!");
+						saveFileChunk(theContents.slice(uploadChunkSize);
+					});
+				}
+			}
+
 			function saveFile(theFilename, theContents) {
 				webconsole.APICall("startSaveFile", {"filename":theFilename}, function(startSaveFileResult) {
 					if (startSaveFileResult == "OK") {
-						for (chunk = 0; chunk < theContents.length; chunk = chunk + uploadChunkSize) {
-							console.log("Chunk: " + chunk.toString());
-							saveChunkState = 0;
-							while (saveChunkState < 2) {
-								console.log("saveChunkState: " + saveChunkState.toString());
-								if (saveChunkState == 0) {
-									saveChunkState = 1;
-									webconsole.APICall("saveFileChunk", {"filename":theFilename, "contents":btoa(theContents.slice(chunk, chunk+(uploadChunkSize-1)))}, function(saveFileChunkResult) {
-										console.log("Chunk saved!");
-										saveChunkState = 2;
-									});
-								}
-							}
-						}
-						console.log("File uploaded as chunks.");
+						saveFileChunk(theFilename, theContents);
 					}
 				});
 			}
