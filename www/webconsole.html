@@ -312,6 +312,8 @@
 			function saveFile(theFilename, theContents) {
 				webconsole.APICall("startSaveFile", {"filename":theFilename}, function(startSaveFileResult) {
 					if (startSaveFileResult == "OK") {
+						uploadList = document.getElementById("uploadList").innerHTML
+						uploadList = uploadList + "<div>" + theFilename + "</div>";
 						saveFileChunk(theFilename, theContents);
 					}
 				});
@@ -1156,7 +1158,7 @@
 								<p class="small my-2">Drag &amp; Drop file(s) inside dashed region<br><i>or</i></p>
 								<input id="uploadFilesBackground" data-post-name="filesBackground" data-post-url="api/uploadFiles" class="position-absolute invisible" type="file" multiple/>
 								<label class="btn btn-upload mb-3" for="uploadFilesBackground">Choose file(s)</label>
-								<div class="upload_gallery d-flex flex-wrap justify-content-center gap-3 mb-0"></div>
+								<div class="uploadList d-flex flex-wrap justify-content-center gap-3 mb-0"></div>
 							</fieldset>
 						</form>
 					</div>
