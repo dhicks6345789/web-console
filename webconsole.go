@@ -1330,7 +1330,7 @@ func main() {
 								filename := theRequest.Form.Get("filename")
 								if filename != "" {
 									debug("Zero: " + arguments["taskroot"] + "/" + taskID + "/" + filename)
-									ioutil.WriteFile(arguments["taskroot"] + "/" + taskID + "/" + filename, []byte(), 0644)
+									ioutil.WriteFile(arguments["taskroot"] + "/" + taskID + "/" + filename, []byte, 0644)
 									fmt.Fprintf(theResponseWriter, "OK")
 								} else {
 									fmt.Fprintf(theResponseWriter, "ERROR: startSaveFile - missing filename parameter.")
