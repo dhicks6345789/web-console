@@ -307,10 +307,11 @@
 							while (saveChunkState < 2) {
 								console.log("saveChunkState: " + saveChunkState.toString());
 								if (saveChunkState == 0) {
+									saveChunkState = 1;
 									webconsole.APICall("saveFileChunk", {"filename":theFilename, "contents":btoa(theContents.slice(chunk, chunk+(uploadChunkSize-1)))}, function(saveFileChunkResult) {
+										console.log("Chunk saved!");
 										saveChunkState = 2;
 									});
-									saveChunkState = 1;
 								}
 							}
 						}
