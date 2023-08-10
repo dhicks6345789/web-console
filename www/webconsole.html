@@ -293,16 +293,31 @@
 				}
 			}
 			
-			// Save the current file being edited in the edit file panel.
-			function saveFile() {
-				webconsole.APICall("saveFile", {"filename":currentEditFile, "contents":btoa(aceEditor.session.getValue())}, function(result) {
-					if (result == "OK") {
-						aceSessions[currentEditFile].getUndoManager().markClean();
-						document.getElementById("saveFileButton").disabled = true;
-					} else {
-						alert(result);
+			// Save a file by sending it to the server, with larger files split into chunks.
+			function saveFile(theFilename, theContents) {
+				webconsole.APICall("startSaveFile", {"filename":theFilename}, function(startSaveFileResult) {
+					if (startSaveFileResult == "OK") {
+						for (chunk = 0; chunk < theContents.length; chunk = chunk + (1024 * 1024)) {
+							saveChunkResult = null;
+							while (saveChunkResult == null) {
+								webconsole.APICall("saveFileChunk", {"filename":theFilename, "contents":btoa(theContents.slice(chunk, chunk+1023))}, function(saveFileChunkResult) {
+									saveChunkResult = saveFileChunkResult;
+								});
+							}
+						}
+						console.log("File uploaded as chunks.");
 					}
 				});
+			}
+			
+			// Save the current file being edited in the edit file panel.
+			function saveEditorFile() {
+				if (saveFile(currentEditFile, aceEditor.session.getValue()) == "OK") {
+					aceSessions[currentEditFile].getUndoManager().markClean();
+					document.getElementById("saveFileButton").disabled = true;
+				} else {
+					alert(result);
+				}
 			}
 
 			function renameFile() {
@@ -676,16 +691,9 @@
 						([...theEvent.dataTransfer.files]).forEach(function (theFile) {
 							uploadFileReader = new FileReader();
 							uploadFileReader.onloadend = function () {
-								base64Result = uploadFileReader.result.split(',')[1];
-								webconsole.APICall("saveFile", {"filename":theFile.name, "contents":base64Result}, function(result) {
-									if (result == "OK") {
-										console.log("File uploaded!");
-									} else {
-										alert(result);
-									}
-								});
+								saveFile(theFile.name, uploadFileReader.result.split(',')[1]);
 							}
-							uploadFileReader.readAsDataURL(theFile);
+							uploadFileReader.readAsBinaryString(theFile);
 						});
 					}, false);
 
@@ -950,7 +958,7 @@
 								<!-- The "bar" for the user to click-and-drag to change top / bottom panel sizes. -->
 								<div style="background-color: #cbd5e0; cursor: ns-resize; height: 2px; width: 100%;" id="containerResizeableDragBarVertical"></div>
 								<div class="col-sm-12">
-									<button class="btn btn-success" type="button" id="saveFileButton" onclick="saveFile()">Save</button>
+									<button class="btn btn-success" type="button" id="saveFileButton" onclick="saveEditorFile()">Save</button>
 								</div>
 							</div>
 						</div>
