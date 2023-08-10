@@ -693,7 +693,7 @@
 						([...theEvent.dataTransfer.files]).forEach(function (theFile) {
 							uploadFileReader = new FileReader();
 							uploadFileReader.onloadend = function () {
-								saveFile(theFile.name, uploadFileReader.result.split(',')[1]);
+								saveFile(theFile.name, uploadFileReader.result);
 							}
 							uploadFileReader.readAsBinaryString(theFile);
 						});
