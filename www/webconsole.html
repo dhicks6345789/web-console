@@ -304,7 +304,7 @@
 				} else {
 					webconsole.APICall("saveFileChunk", {"filename":theFilename, "contents":btoa(theContents.slice(0, uploadChunkSize-1))}, function(saveFileChunkResult) {
 						console.log("Chunk saved!");
-						saveFileChunk(theContents.slice(uploadChunkSize));
+						saveFileChunk(theFilename, theContents.slice(uploadChunkSize));
 					});
 				}
 			}
