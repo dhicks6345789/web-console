@@ -295,9 +295,10 @@
 			
 			// Save a file by sending it to the server, with larger files split into chunks.
 			function saveFile(theFilename, theContents) {
+				console.log(theContents);
 				webconsole.APICall("startSaveFile", {"filename":theFilename}, function(startSaveFileResult) {
+					console.log(theContents);
 					if (startSaveFileResult == "OK") {
-						console.log(theContents);
 						for (chunk = 0; chunk < theContents.length; chunk = chunk + (1024 * 1024)) {
 							saveChunkResult = null;
 							while (saveChunkResult == null) {
@@ -320,7 +321,7 @@
 					alert(result);
 				}
 			}
-
+			
 			function renameFile() {
 				webconsole.APICall("renameFile", {"filename":document.getElementById("renameFileModalFilePath").innerHTML, "newFilename":document.getElementById("renameFileModalNewFilePath").value}, function(result) {
 					if (result == "OK") {
