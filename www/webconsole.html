@@ -295,7 +295,7 @@
 			
 			// Save the current file being edited in the edit file panel.
 			function saveFile() {
-				webconsole.APICall("saveFile", {"filename":currentEditFile, "contents":aceEditor.session.getValue()}, function(result) {
+				webconsole.APICall("saveFile", {"filename":currentEditFile, "contents":btoa(aceEditor.session.getValue())}, function(result) {
 					if (result == "OK") {
 						aceSessions[currentEditFile].getUndoManager().markClean();
 						document.getElementById("saveFileButton").disabled = true;
@@ -676,7 +676,8 @@
 						([...theEvent.dataTransfer.files]).forEach(function (theFile) {
 							uploadFileReader = new FileReader();
 							uploadFileReader.onloadend = function () {
-								webconsole.APICall("saveFile", {"filename":theFile.name, "contents":uploadFileReader.result}, function(result) {
+								base64Result = uploadFileReader.result.split(',')[1];
+								webconsole.APICall("saveFile", {"filename":theFile.name, "contents":base64Result}, function(result) {
 									if (result == "OK") {
 										console.log("File uploaded!");
 									} else {
@@ -684,7 +685,7 @@
 									}
 								});
 							}
-							uploadFileReader.readAsBinaryString(theFile);
+							uploadFileReader.readAsDataURL(theFile);
 						});
 					}, false);
 
