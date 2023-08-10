@@ -298,12 +298,14 @@
 				webconsole.APICall("startSaveFile", {"filename":theFilename}, function(startSaveFileResult) {
 					if (startSaveFileResult == "OK") {
 						for (chunk = 0; chunk < theContents.length; chunk = chunk + (1024 * 1024)) {
-							var saveChunkResult = null;
-							while (saveChunkResult == null) {
-								webconsole.APICall("saveFileChunk", {"filename":theFilename, "contents":btoa(theContents.slice(chunk, chunk+1023))}, function(saveFileChunkResult) {
-									saveChunkResult = saveFileChunkResult;
-									console.log(saveChunkResult);
-								});
+							var saveChunkState = 0;
+							while (saveChunkState < 2) {
+								if (saveChunkState == 0) {
+									webconsole.APICall("saveFileChunk", {"filename":theFilename, "contents":btoa(theContents.slice(chunk, chunk+1023))}, function(saveFileChunkResult) {
+										saveChunkState = 2;
+									});
+									saveChunkState = 1;
+								}
 							}
 						}
 						console.log("File uploaded as chunks.");
