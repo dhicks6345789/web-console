@@ -312,8 +312,7 @@
 			function saveFile(theFilename, theContents) {
 				webconsole.APICall("startSaveFile", {"filename":theFilename}, function(startSaveFileResult) {
 					if (startSaveFileResult == "OK") {
-						uploadList = document.getElementById("uploadList").innerHTML;
-						uploadList = uploadList + "<div>" + theFilename + "</div>";
+						document.getElementById("uploadList").innerHTML = theFilename;
 						saveFileChunk(theFilename, theContents);
 					}
 				});
