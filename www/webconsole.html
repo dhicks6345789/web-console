@@ -429,6 +429,7 @@
 				document.getElementById("uploadFilesButton").classList.remove("btn-success");
 				document.getElementById("uploadFilesButton").classList.add("btn-primary");
 				document.getElementById("uploadFilesButton").innerHTML = "Done";
+				document.getElementById("uploadFilesButton").onclick = null;
 				filesToUpload.forEach(function (fileToUpload) {
 					saveFile(fileToUpload[0], fileToUpload[1]);
 				});
