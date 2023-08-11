@@ -425,7 +425,7 @@
 			}
 
 			function uploadFiles() {
-				document.getElementById("uploadFilesButton").data-bs-dismiss = "modal";
+				document.getElementById("uploadFilesButton").setAttribute("data-bs-dismiss", "modal");
 				document.getElementById("uploadFilesButton").classList.remove("btn-success");
 				document.getElementById("uploadFilesButton").classList.add("btn-primary");
 				document.getElementById("uploadFilesButton").innerHTML = "Done";
