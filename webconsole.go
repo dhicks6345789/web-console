@@ -1347,7 +1347,7 @@ func main() {
 									if contents != "" {
 										debug("Write " + arguments["taskroot"] + "/" + taskID + "/" + filename)
 										base64Contents, _ := base64.StdEncoding.DecodeString(contents)
-										outfile, _ := os.OpenFile(filename, os.O_APPEND|os.O_WRONLY, 0644)
+										outfile, _ := os.OpenFile(arguments["taskroot"] + "/" + taskID + "/" + filename, os.O_APPEND|os.O_WRONLY, 0644)
 										_, _ = outfile.Write(base64Contents)
 										outfile.Close()
 										// ioutil.WriteFile(arguments["taskroot"] + "/" + taskID + "/" + filename, []byte(base64Contents), 0644)
