@@ -425,11 +425,13 @@
 			}
 
 			function uploadFiles() {
-				document.getElementById("uploadFilesButton").setAttribute("data-bs-dismiss", "modal");
-				document.getElementById("uploadFilesButton").classList.remove("btn-success");
-				document.getElementById("uploadFilesButton").classList.add("btn-primary");
-				document.getElementById("uploadFilesButton").innerHTML = "Done";
-				document.getElementById("uploadFilesButton").onclick = null;
+				document.getElementById("uploadFilesButton").hide();
+				document.getElementById("uploadFilesButton").show();
+				//document.getElementById("uploadFilesButton").setAttribute("data-bs-dismiss", "modal");
+				//document.getElementById("uploadFilesButton").classList.remove("btn-success");
+				//document.getElementById("uploadFilesButton").classList.add("btn-primary");
+				//document.getElementById("uploadFilesButton").innerHTML = "Done";
+				//document.getElementById("uploadFilesButton").onclick = null;
 				filesToUpload.forEach(function (fileToUpload) {
 					saveFile(fileToUpload[0], fileToUpload[1]);
 				});
@@ -1176,7 +1178,8 @@
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-						<button id="uploadFilesButton" type="button" class="btn btn-success" onclick="uploadFiles()">Upload</button>
+						<button id="uploadFilesGoButton" type="button" class="btn btn-success" onclick="uploadFiles()">Upload</button>
+						<button id="uploadFilesDoneButton" type="button" class="btn btn-primary" data-bs-dismiss="modal" aria-hidden="true">Done</button>
 					</div>
 				</div>
 			</div>
