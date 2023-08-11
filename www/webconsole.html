@@ -427,19 +427,16 @@
 			function uploadFiles() {
 				document.getElementById("uploadFilesGoButton").style.display = "none";
 				document.getElementById("uploadFilesDoneButton").style.display = "block";
-				//document.getElementById("uploadFilesButton").setAttribute("data-bs-dismiss", "modal");
-				//document.getElementById("uploadFilesButton").classList.remove("btn-success");
-				//document.getElementById("uploadFilesButton").classList.add("btn-primary");
-				//document.getElementById("uploadFilesButton").innerHTML = "Done";
-				//document.getElementById("uploadFilesButton").onclick = null;
 				filesToUpload.forEach(function (fileToUpload) {
 					saveFile(fileToUpload[0], fileToUpload[1]);
 				});
 			}
 			
 			function showUploadFilesModal(theFilePath) {
-				document.getElementById("uploadList").innerHTML = "";
 				filesToUpload = [];
+				document.getElementById("uploadList").innerHTML = "";
+				document.getElementById("uploadFilesGoButton").style.display = "block";
+				document.getElementById("uploadFilesDoneButton").style.display = "none";
 				if (theFilePath == "") {
 					document.getElementById("uploadFilesModalFilePath").innerHTML = "/";
 				} else {
