@@ -56,6 +56,9 @@
 			
 			var aceModelist = ace.require("ace/ext/modelist");
 
+			// An array to hold a list of files to be uploaded as part of an "upload files to folder" operation.
+			var filesToUpload;
+
 			// Set Marked options - set options to avoid using depreceated features.
 			marked.use({
 				mangle: false,
@@ -312,7 +315,6 @@
 			function saveFile(theFilename, theContents) {
 				webconsole.APICall("startSaveFile", {"filename":theFilename}, function(startSaveFileResult) {
 					if (startSaveFileResult == "OK") {
-						document.getElementById("uploadList").innerHTML = theFilename;
 						saveFileChunk(theFilename, theContents);
 					}
 				});
@@ -423,10 +425,14 @@
 			}
 
 			function uploadFiles() {
-				console.log(document.getElementById("upload_files_background").value);
+				filesToUpload.forEach(function (fileToUpload) {
+					saveFile(fileToUpload[0], fileToUpload[1]);
+				});
 			}
 			
 			function showUploadFilesModal(theFilePath) {
+				document.getElementById("uploadList").innerHTML = "";
+				filesToUpload = [];
 				if (theFilePath == "") {
 					document.getElementById("uploadFilesModalFilePath").innerHTML = "/";
 				} else {
@@ -699,7 +705,9 @@
 						([...theEvent.dataTransfer.files]).forEach(function (theFile) {
 							uploadFileReader = new FileReader();
 							uploadFileReader.onloadend = function () {
-								saveFile(theFile.name, uploadFileReader.result);
+								document.getElementById("uploadList").innerHTML = document.getElementById("uploadList").innerHTML + "<div id=\"uploadFile" + theFile.name + "\">" + theFile.name + "</div>";
+								filesToUpload.push([theFile.name, uploadFileReader.result]);
+								//saveFile(theFile.name, uploadFileReader.result);
 							}
 							uploadFileReader.readAsBinaryString(theFile);
 						});
@@ -1159,7 +1167,7 @@
 								<label class="btn btn-upload mb-3" for="uploadFilesBackground">Choose file(s)</label>
 							</fieldset>
 						</form>
-						<div id="uploadList" class="justify-content-center"></div>
+						<div id="uploadList"></div>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
