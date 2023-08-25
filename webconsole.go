@@ -942,13 +942,15 @@ func main() {
 				mystartPageNames[mystartName] = argVal
 			}
 		} else if strings.HasPrefix(argName, "cloudflare") {
-			debug("Cloudflare argument found: " + argName);
-			cloudflareName := argName[10:len(argName)]
-			authServiceNames["cloudflare"] = append(authServiceNames["cloudflare"], cloudflareName)
+			if argVal != "false" {
+				cloudflareName := argName[10:len(argName)]
+				authServiceNames["cloudflare"] = append(authServiceNames["cloudflare"], cloudflareName)
+			}
 		} else if strings.HasPrefix(argName, "ngrok") {
-			debug("NGrok argument found: " + argName);
-			ngrokName := argName[5:len(argName)]
-			authServiceNames["ngrok"] = append(authServiceNames["ngrok"], ngrokName)
+			if argVal != "false" {
+				ngrokName := argName[5:len(argName)]
+				authServiceNames["ngrok"] = append(authServiceNames["ngrok"], ngrokName)
+			}
 		}
 	}
 	
