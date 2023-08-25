@@ -1083,6 +1083,9 @@ func main() {
 					} else {
 						authorisationError = "no external authorisation used, no valid secret given, no valid token supplied"
 					}
+					if !authorised {
+						debug("Auth:" + taskDetails["authentication"] + "---")
+					}
 					if !authorised && taskDetails["authentication"] == "" {
 						debug("User authorised - no other authentication method defined, assigning Viewer permsisions.")
 						authorised = true
