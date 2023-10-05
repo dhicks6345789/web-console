@@ -259,7 +259,7 @@
 				if (fileEditorType.startsWith("bitmap")) {
 					document.getElementById("editFileBox").style.display = "none";
 					document.getElementById("viewImageBox").style.display = "block";
-					document.getElementById("viewImageBox").innerHTML = "<img style=\"max-width:100%;\" src=\"api/getEditableFileContents?taskID=" + taskID + "&token=" + token + "&filename=" + currentEditFile + "\">";
+					document.getElementById("viewImageBox").innerHTML = "<img style=\"max-width:100%;max-height:100%;\" src=\"api/getEditableFileContents?taskID=" + taskID + "&token=" + token + "&filename=" + currentEditFile + "\">";
 				} else {
 					document.getElementById("editFileBox").style.display = "block";
 					document.getElementById("viewImageBox").style.display = "none";
