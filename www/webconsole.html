@@ -299,25 +299,28 @@
 			// Save a file by sending it to the server, with larger files split into chunks.
 			uploadChunkSize = 1024 * 1024;
 			function saveFileChunk(theFilename, theContents) {
+				anotherChunk = false;
 				if (theContents.length < uploadChunkSize) {
-					webconsole.APICall("saveFileChunk", {"filename":theFilename, "contents":btoa(theContents)}, function(saveFileChunkResult) {
-						console.log("File uploaded as chunks.");
-						console.log(saveFileChunkResult);
-					});
-					
+					contents = btoa(theContents);
 				} else {
-					webconsole.APICall("saveFileChunk", {"filename":theFilename, "contents":btoa(theContents.slice(0, uploadChunkSize))}, function(saveFileChunkResult) {
-						console.log("Chunk saved!");
-						console.log(saveFileChunkResult);
-						saveFileChunk(theFilename, theContents.slice(uploadChunkSize));
-					});
+					contents = btoa(theContents.slice(0, uploadChunkSize));
+					anotherChunk = true;
 				}
+				webconsole.APICall("saveFileChunk", {"filename":theFilename, "contents":contents}, function(saveFileChunkResult) {
+					if (saveFileChunkResult != "OK") {
+						return("Error uploading file " + theFilename + " - result: " + saveFileChunkResult);
+					}
+					if (anotherChunk) {
+						return(saveFileChunk(theFilename, theContents.slice(uploadChunkSize)));
+					}
+					return("OK");
+				});
 			}
 
 			function saveFile(theFilename, theContents) {
 				webconsole.APICall("startSaveFile", {"filename":theFilename}, function(startSaveFileResult) {
 					if (startSaveFileResult == "OK") {
-						saveFileChunk(theFilename, theContents);
+						return(saveFileChunk(theFilename, theContents));
 					}
 				});
 			}
@@ -328,8 +331,7 @@
 					aceSessions[currentEditFile].getUndoManager().markClean();
 					document.getElementById("saveFileButton").disabled = true;
 				} else {
-					//alert(result);
-					console.log(result);
+					alert(result);
 				}
 			}
 			
