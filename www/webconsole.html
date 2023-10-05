@@ -302,11 +302,13 @@
 				if (theContents.length < uploadChunkSize) {
 					webconsole.APICall("saveFileChunk", {"filename":theFilename, "contents":btoa(theContents)}, function(saveFileChunkResult) {
 						console.log("File uploaded as chunks.");
+						console.log(saveFileChunkResult);
 					});
 					
 				} else {
 					webconsole.APICall("saveFileChunk", {"filename":theFilename, "contents":btoa(theContents.slice(0, uploadChunkSize))}, function(saveFileChunkResult) {
 						console.log("Chunk saved!");
+						console.log(saveFileChunkResult);
 						saveFileChunk(theFilename, theContents.slice(uploadChunkSize));
 					});
 				}
