@@ -309,7 +309,7 @@
 				webconsole.APICall("saveFileChunk", {"filename":theFilename, "contents":contents}, function(saveFileChunkResult) {
 					if (saveFileChunkResult == "OK") {
 						if (anotherChunk) {
-							saveFileChunk(theFilename, theContents.slice(uploadChunkSize));
+							saveFileChunk(theFilename, theContents.slice(uploadChunkSize), theResultFunction);
 						} else {
 							theResultFunction();
 						}
@@ -437,7 +437,9 @@
 				document.getElementById("uploadFilesCancelButton").style.display = "none";
 				document.getElementById("uploadFilesDoneButton").style.display = "block";
 				filesToUpload.forEach(function (fileToUpload) {
-					saveFile(fileToUpload[0], fileToUpload[1]);
+					saveFile(fileToUpload[0], fileToUpload[1], function() {
+						refreshFolderTreeView();
+					});
 				});
 			}
 			
