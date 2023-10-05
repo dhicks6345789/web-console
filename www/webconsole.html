@@ -298,7 +298,7 @@
 			
 			// Save a file by sending it to the server, with larger files split into chunks.
 			uploadChunkSize = 1024 * 1024;
-			function saveFileChunk(theFilename, theContents) {
+			function saveFileChunk(theFilename, theContents, theResultFunction) {
 				anotherChunk = false;
 				if (theContents.length < uploadChunkSize) {
 					contents = btoa(theContents);
@@ -307,33 +307,35 @@
 					anotherChunk = true;
 				}
 				webconsole.APICall("saveFileChunk", {"filename":theFilename, "contents":contents}, function(saveFileChunkResult) {
-					if (saveFileChunkResult != "OK") {
-						return("Error uploading file " + theFilename + " - result: " + saveFileChunkResult);
+					if (saveFileChunkResult == "OK") {
+						if (anotherChunk) {
+							saveFileChunk(theFilename, theContents.slice(uploadChunkSize));
+						} else {
+							theResultFunction();
+						}
+					} else {
+						alert("Error uploading file " + theFilename + " - result: " + saveFileChunkResult);
 					}
-					if (anotherChunk) {
-						return(saveFileChunk(theFilename, theContents.slice(uploadChunkSize)));
-					}
-					return("OK");
+					
 				});
 			}
 
-			function saveFile(theFilename, theContents) {
+			function saveFile(theFilename, theContents, theResultFunction) {
 				webconsole.APICall("startSaveFile", {"filename":theFilename}, function(startSaveFileResult) {
 					if (startSaveFileResult == "OK") {
-						return(saveFileChunk(theFilename, theContents));
+						saveFileChunk(theFilename, theContents, theResultFunction);
+					} else {
+						alert("Error uploading file " + theFilename + " - result: " + startSaveFileChunkResult);
 					}
 				});
 			}
 			
 			// Save the current file being edited in the edit file panel.
 			function saveEditorFile() {
-				saveFileResult = saveFile(currentEditFile, aceEditor.session.getValue());
-				if (saveFileResult == "OK") {
+				saveFile(currentEditFile, aceEditor.session.getValue(), function() {
 					aceSessions[currentEditFile].getUndoManager().markClean();
 					document.getElementById("saveFileButton").disabled = true;
-				} else {
-					alert(saveFileResult);
-				}
+				});
 			}
 			
 			function renameFile() {
