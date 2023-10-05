@@ -327,11 +327,12 @@
 			
 			// Save the current file being edited in the edit file panel.
 			function saveEditorFile() {
-				if (saveFile(currentEditFile, aceEditor.session.getValue()) == "OK") {
+				saveFileResult = saveFile(currentEditFile, aceEditor.session.getValue());
+				if (saveFileResult == "OK") {
 					aceSessions[currentEditFile].getUndoManager().markClean();
 					document.getElementById("saveFileButton").disabled = true;
 				} else {
-					alert(result);
+					alert(saveFileResult);
 				}
 			}
 			
