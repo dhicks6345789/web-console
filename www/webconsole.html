@@ -540,7 +540,11 @@
 			function addFilesToUpload(theFile) {
 				uploadFileReader = new FileReader();
 				uploadFileReader.onloadend = function () {
-					filename = document.getElementById("uploadFilesModalFilePath").innerHTML + theFile.name;
+					filename = document.getElementById("uploadFilesModalFilePath").innerHTML;
+					if (filename == "/") {
+						filename = ""
+					}
+					filename = filename + "/" + theFile.name;
 					console.log(filename);
 					document.getElementById("uploadList").innerHTML = document.getElementById("uploadList").innerHTML + "<div id=\"uploadFile" + filename + "\">" + filename + "</div>";
 					filesToUpload.push([filename, uploadFileReader.result]);
