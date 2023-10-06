@@ -737,7 +737,12 @@
 							uploadFileReader.readAsBinaryString(theFile);
 						});
 					}, false);
-
+					
+					uploadFilesBackground = document.getElementById("uploadFilesBackground");
+					uploadFilesBackground.addEventListener("onchange", function (theEvent) {
+						console.log("Files added to list...");
+						console.log(uploadFilesBackground.files);
+					}, false);
 
 					
 					// Make the edit block visible.
