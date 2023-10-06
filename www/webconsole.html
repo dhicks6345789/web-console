@@ -407,6 +407,8 @@
 				webconsole.APICall("deleteFile", {"filename":filenameToDelete}, function(result) {
 					if (result == "OK") {
 						refreshFolderTreeView();
+						console.log(currentEditFile);
+						console.log(filenameToDelete);
 						if (currentEditFile == filenameToDelete) {
 							console.log("Clear edit area!");
 						}
