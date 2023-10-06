@@ -739,7 +739,7 @@
 					
 					uploadFilesBackground = document.getElementById("uploadFilesBackground");
 					uploadFilesBackground.addEventListener("change", function (theEvent) {
-						([...theEvent.dataTransfer.files]).forEach(function (theFile) {
+						([...uploadFilesBackground.files]).forEach(function (theFile) {
 							uploadFileReader = new FileReader();
 							uploadFileReader.onloadend = function () {
 								document.getElementById("uploadList").innerHTML = document.getElementById("uploadList").innerHTML + "<div id=\"uploadFile" + theFile.name + "\">" + theFile.name + "</div>";
