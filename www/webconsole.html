@@ -534,6 +534,15 @@
 				});
 			}
 			
+			function addFilesToUpload(theFile) {
+				uploadFileReader = new FileReader();
+				uploadFileReader.onloadend = function () {
+					document.getElementById("uploadList").innerHTML = document.getElementById("uploadList").innerHTML + "<div id=\"uploadFile" + theFile.name + "\">" + theFile.name + "</div>";
+					filesToUpload.push([theFile.name, uploadFileReader.result]);
+				}
+				uploadFileReader.readAsBinaryString(theFile);
+			}
+			
 			// Called when the document is first loaded and ready.
 			function pageReady() {
 				if (taskID == "/" && window.location.href.includes("/view?")) {
@@ -727,29 +736,14 @@
 						theEvent.preventDefault();
 						theEvent.stopPropagation();
 						filesUploadDropZone.classList.remove("highlight");
-						([...theEvent.dataTransfer.files]).forEach(function (theFile) {
-							uploadFileReader = new FileReader();
-							uploadFileReader.onloadend = function () {
-								document.getElementById("uploadList").innerHTML = document.getElementById("uploadList").innerHTML + "<div id=\"uploadFile" + theFile.name + "\">" + theFile.name + "</div>";
-								filesToUpload.push([theFile.name, uploadFileReader.result]);
-							}
-							uploadFileReader.readAsBinaryString(theFile);
-						});
+						([...theEvent.dataTransfer.files]).forEach(addFilesToUpload);
 					}, false);
 					
 					uploadFilesBackground = document.getElementById("uploadFilesBackground");
 					uploadFilesBackground.addEventListener("change", function (theEvent) {
-						([...uploadFilesBackground.files]).forEach(function (theFile) {
-							uploadFileReader = new FileReader();
-							uploadFileReader.onloadend = function () {
-								document.getElementById("uploadList").innerHTML = document.getElementById("uploadList").innerHTML + "<div id=\"uploadFile" + theFile.name + "\">" + theFile.name + "</div>";
-								filesToUpload.push([theFile.name, uploadFileReader.result]);
-							}
-							uploadFileReader.readAsBinaryString(theFile);
-						});
+						([...uploadFilesBackground.files]).forEach(addFilesToUpload);
 					}, false);
 
-					
 					// Make the edit block visible.
 					document.getElementById("editBlock").style.display = "block";
 					document.getElementById("saveFileButton").disabled = true;
