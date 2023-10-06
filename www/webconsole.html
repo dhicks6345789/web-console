@@ -408,8 +408,8 @@
 					if (result == "OK") {
 						refreshFolderTreeView();
 						console.log(currentEditFile);
-						console.log(filenameToDelete);
-						if (currentEditFile == filenameToDelete) {
+						console.log("/" + filenameToDelete);
+						if (currentEditFile == "/" + filenameToDelete) {
 							console.log("Clear edit area!");
 						}
 					} else {
