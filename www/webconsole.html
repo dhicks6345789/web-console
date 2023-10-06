@@ -439,18 +439,23 @@
 				document.getElementById("deleteFolderModalFilePath").innerHTML = theFilePath.substr(1);
 			}
 
+			function uploadFile() {
+				if (filesToUpload.length > 0) {
+					fileToUpload = filesToUpload.pop();
+					saveFile(fileToUpload[0], fileToUpload[1], uploadFile);
+				} else {
+					refreshFolderTreeView();
+					document.getElementById("uploadFilesSpinner").style.display = "none";
+					document.getElementById("uploadFilesDoneButton").style.display = "block";
+				}
+			}
+			
 			function uploadFiles() {
 				document.getElementById("filesUploadDropZone").style.display = "none";
 				document.getElementById("uploadFilesGoButton").style.display = "none";
 				document.getElementById("uploadFilesCancelButton").style.display = "none";
 				document.getElementById("uploadFilesSpinner").style.display = "block";
-				filesToUpload.forEach(function (fileToUpload) {
-					saveFile(fileToUpload[0], fileToUpload[1], function() {
-						refreshFolderTreeView();
-						document.getElementById("uploadFilesSpinner").style.display = "none";
-						document.getElementById("uploadFilesDoneButton").style.display = "block";
-					});
-				});
+				uploadFile();
 			}
 			
 			function showUploadFilesModal(theFilePath) {
