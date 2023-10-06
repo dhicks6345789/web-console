@@ -732,7 +732,6 @@
 							uploadFileReader.onloadend = function () {
 								document.getElementById("uploadList").innerHTML = document.getElementById("uploadList").innerHTML + "<div id=\"uploadFile" + theFile.name + "\">" + theFile.name + "</div>";
 								filesToUpload.push([theFile.name, uploadFileReader.result]);
-								//saveFile(theFile.name, uploadFileReader.result);
 							}
 							uploadFileReader.readAsBinaryString(theFile);
 						});
@@ -740,8 +739,15 @@
 					
 					uploadFilesBackground = document.getElementById("uploadFilesBackground");
 					uploadFilesBackground.addEventListener("change", function (theEvent) {
+						uploadFilesBackground.files.forEach(function (theFile) {
+							uploadFileReader = new FileReader();
+							uploadFileReader.onloadend = function () {
+								document.getElementById("uploadList").innerHTML = document.getElementById("uploadList").innerHTML + "<div id=\"uploadFile" + theFile.name + "\">" + theFile.name + "</div>";
+								filesToUpload.push([theFile.name, uploadFileReader.result]);
+							}
+							uploadFileReader.readAsBinaryString(theFile);
+						});
 						console.log("Files added to list...");
-						console.log(uploadFilesBackground.files);
 					}, false);
 
 					
