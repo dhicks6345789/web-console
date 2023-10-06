@@ -88,6 +88,6 @@ Code for the resizeable file browser / code editor panel originated from [Nguyen
 
 Code for the file browser tree view originated from [W3Schools](https://www.w3schools.com/howto/howto_js_treeview.asp).
 
-## To Do
+## To Do / Roadmap
 
 See the dedicated [To-Do list](docs/TODO.md) in the documentation.
