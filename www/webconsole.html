@@ -403,9 +403,13 @@
 			}
 			
 			function deleteFile() {
-				webconsole.APICall("deleteFile", {"filename":document.getElementById("deleteFileModalFilePath").innerHTML}, function(result) {
+				filenameToDelete = document.getElementById("deleteFileModalFilePath").innerHTML;
+				webconsole.APICall("deleteFile", {"filename":filenameToDelete}, function(result) {
 					if (result == "OK") {
 						refreshFolderTreeView();
+						if (currentEditFile == filenameToDelete) {
+							console.log("Clear edit area!");
+						}
 					} else {
 						alert(result);
 					}
