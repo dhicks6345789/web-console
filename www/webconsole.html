@@ -558,7 +558,8 @@
 					document.getElementById("uploadList").innerHTML = document.getElementById("uploadList").innerHTML + "<div id=\"uploadFile" + filename + "\">" + theFile.name + "</div>";
 					filesToUpload.push([filename, uploadFileReader.result]);
 				}
-				uploadFileReader.readAsBinaryString(theFile);
+				// uploadFileReader.readAsBinaryString(theFile);
+				uploadFileReader.readAsArrayBuffer(theFile);
 			}
 			
 			// Called when the document is first loaded and ready.
