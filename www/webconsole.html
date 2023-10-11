@@ -546,6 +546,7 @@
 			}
 			
 			function addFilesToUpload(theFile) {
+				console.log(theFile);
 				uploadFileReader = new FileReader();
 				uploadFileReader.onloadend = function () {
 					filename = document.getElementById("uploadFilesModalFilePath").innerHTML;
