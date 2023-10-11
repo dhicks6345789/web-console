@@ -458,8 +458,7 @@
 				document.getElementById("uploadFilesGoButton").style.display = "none";
 				document.getElementById("uploadFilesCancelButton").style.display = "none";
 				document.getElementById("uploadFilesSpinner").style.display = "block";
-				console.log(filesToUpload);
-				//uploadFile();
+				uploadFile();
 			}
 			
 			function showUploadFilesModal(theFilePath) {
@@ -547,7 +546,6 @@
 			}
 			
 			function addFilesToUpload(theFile) {
-				console.log(theFile);
 				uploadFileReaders[theFile.name] = new FileReader();
 				uploadFileReaders[theFile.name].onloadend = function () {
 					filename = document.getElementById("uploadFilesModalFilePath").innerHTML;
@@ -555,7 +553,6 @@
 						filename = "";
 					}
 					filename = filename + "/" + theFile.name;
-					console.log(filename);
 					document.getElementById("uploadList").innerHTML = document.getElementById("uploadList").innerHTML + "<div id=\"uploadFile" + filename + "\">" + theFile.name + "</div>";
 					filesToUpload.push([filename, uploadFileReaders[theFile.name].result]);
 				}
