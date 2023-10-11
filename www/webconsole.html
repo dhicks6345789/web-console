@@ -58,6 +58,7 @@
 
 			// An array to hold a list of files to be uploaded as part of an "upload files to folder" operation.
 			var filesToUpload;
+			var uploadFileReaders;
 
 			// Set Marked options - set options to avoid using depreceated features.
 			marked.use({
@@ -547,8 +548,8 @@
 			
 			function addFilesToUpload(theFile) {
 				console.log(theFile);
-				uploadFileReader = new FileReader();
-				uploadFileReader.onloadend = function () {
+				uploadFileReaders[theFile.name] = new FileReader();
+				uploadFileReaders[theFile.name].onloadend = function () {
 					filename = document.getElementById("uploadFilesModalFilePath").innerHTML;
 					if (filename == "/") {
 						filename = "";
@@ -556,10 +557,9 @@
 					filename = filename + "/" + theFile.name;
 					console.log(filename);
 					document.getElementById("uploadList").innerHTML = document.getElementById("uploadList").innerHTML + "<div id=\"uploadFile" + filename + "\">" + theFile.name + "</div>";
-					filesToUpload.push([filename, uploadFileReader.result]);
+					filesToUpload.push([filename, uploadFileReaders[theFile.name].result]);
 				}
-				// uploadFileReader.readAsBinaryString(theFile);
-				uploadFileReader.readAsArrayBuffer(theFile);
+				uploadFileReaders[theFile.name].readAsArrayBuffer(theFile);
 			}
 			
 			// Called when the document is first loaded and ready.
