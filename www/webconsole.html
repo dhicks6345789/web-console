@@ -325,7 +325,6 @@
 						if (anotherChunk) {
 							saveFileChunk(theFilename, theContents.slice(uploadChunkSize), theResultFunction);
 						} else {
-							console.log("Done " + theFilename);
 							theResultFunction();
 						}
 					} else {
@@ -336,8 +335,6 @@
 			}
 
 			function saveFile(theFilename, theContents, theResultFunction) {
-				console.log("Saving " + theFilename);
-				console.log(theContents);
 				webconsole.APICall("startSaveFile", {"filename":theFilename}, function(startSaveFileResult) {
 					if (startSaveFileResult == "OK") {
 						saveFileChunk(theFilename, theContents, theResultFunction);
