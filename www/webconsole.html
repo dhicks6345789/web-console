@@ -314,15 +314,12 @@
 			function saveFileChunk(theFilename, theContents, theResultFunction) {
 				anotherChunk = false;
 				if (theContents.byteLength < uploadChunkSize) {
-					//contents = btoa(theContents);
 					contents = arrayBufferToBase64(theContents);
 				} else {
-					//contents = btoa(theContents.slice(0, uploadChunkSize));
 					contents = arrayBufferToBase64(theContents.slice(0, uploadChunkSize));
 					anotherChunk = true;
 				}
 				
-				console.log(contents);
 				webconsole.APICall("saveFileChunk", {"filename":theFilename, "contents":contents}, function(saveFileChunkResult) {
 					if (saveFileChunkResult == "OK") {
 						if (anotherChunk) {
