@@ -298,7 +298,7 @@
 			}
 			
 			// Save a file by sending it to the server, with larger files split into chunks.
-			uploadChunkSize = 1024 * 1024 * 1024;
+			uploadChunkSize = 1024 * 1024;
 			function saveFileChunk(theFilename, theContents, theResultFunction) {
 				anotherChunk = false;
 				if (theContents.length < uploadChunkSize) {
@@ -324,6 +324,7 @@
 
 			function saveFile(theFilename, theContents, theResultFunction) {
 				console.log("Saving " + theFilename);
+				console.log(theContents);
 				webconsole.APICall("startSaveFile", {"filename":theFilename}, function(startSaveFileResult) {
 					if (startSaveFileResult == "OK") {
 						saveFileChunk(theFilename, theContents, theResultFunction);
