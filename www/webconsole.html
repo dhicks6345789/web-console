@@ -296,7 +296,9 @@
 					});
 				}
 			}
-			
+
+			// Convert an arrayBuffer to a Base64-encoded string, ready for sending via HTTP. See:
+			// https://stackoverflow.com/questions/9267899/arraybuffer-to-base64-encoded-string
 			function arrayBufferToBase64(theBuffer) {
 				var binary = "";
 				var bytes = new Uint8Array(theBuffer);
