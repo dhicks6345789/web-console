@@ -300,12 +300,13 @@
 			// Save a file by sending it to the server, with larger files split into chunks.
 			uploadChunkSize = 1024 * 1024;
 			function saveFileChunk(theFilename, theContents, theResultFunction) {
-				console.log(theContents);
 				anotherChunk = false;
 				if (theContents.byteLength < uploadChunkSize) {
-					contents = btoa(theContents);
+					//contents = btoa(theContents);
+					contents = btoa(String.fromCharCode.apply(null, new Uint8Array(theContents)));
 				} else {
-					contents = btoa(theContents.slice(0, uploadChunkSize));
+					//contents = btoa(theContents.slice(0, uploadChunkSize));
+					contents = btoa(String.fromCharCode.apply(null, new Uint8Array(theContents.slice(0, uploadChunkSize))));
 					anotherChunk = true;
 				}
 				console.log(contents);
