@@ -299,26 +299,24 @@
 
 			// Convert an arrayBuffer to a Base64-encoded string, ready for sending via HTTP. See:
 			// https://stackoverflow.com/questions/9267899/arraybuffer-to-base64-encoded-string
-			function arrayBufferToBase64(theBuffer) {
-				var binary = "";
+			function arrayBufferToString(theBuffer) {
+				var binaryString = "";
 				var bytes = new Uint8Array(theBuffer);
 				var len = bytes.byteLength;
 				for (var i = 0; i < len; i++) {
 					binary += String.fromCharCode(bytes[i]);
 				}
-				return btoa(binary)
+				return binaryString
 			}
 			
 			// Save a file by sending it to the server, with larger files split into chunks.
 			uploadChunkSize = 1024 * 1024;
 			function saveFileChunk(theFilename, theContents, theResultFunction) {
 				anotherChunk = false;
-				console.log("Typeof theContents:");
-				console.log(theContents.typeof);
 				if (theContents.byteLength < uploadChunkSize) {
-					contents = arrayBufferToBase64(theContents);
+					contents = btoa(theContents);
 				} else {
-					contents = arrayBufferToBase64(theContents.slice(0, uploadChunkSize));
+					contents = btoa(theContents.slice(0, uploadChunkSize));
 					anotherChunk = true;
 				}
 				
@@ -458,7 +456,7 @@
 			function uploadFile() {
 				if (filesToUpload.length > 0) {
 					fileToUpload = filesToUpload.pop();
-					saveFile(fileToUpload[0], fileToUpload[1], uploadFile);
+					saveFile(fileToUpload[0], arrayBufferToString(fileToUpload[1]), uploadFile);
 				} else {
 					refreshFolderTreeView();
 					document.getElementById("uploadFilesSpinner").style.display = "none";
