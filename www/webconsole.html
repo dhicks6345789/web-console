@@ -313,6 +313,8 @@
 			uploadChunkSize = 1024 * 1024;
 			function saveFileChunk(theFilename, theContents, theResultFunction) {
 				anotherChunk = false;
+				console.log("Typeof theContents:");
+				console.log(theContents.typeof);
 				if (theContents.byteLength < uploadChunkSize) {
 					contents = arrayBufferToBase64(theContents);
 				} else {
