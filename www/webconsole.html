@@ -314,7 +314,7 @@
 			function saveFileChunk(theFilename, theContents, theResultFunction) {
 				console.log(theContents);
 				anotherChunk = false;
-				if (theContents.byteLength < uploadChunkSize) {
+				if (theContents.length < uploadChunkSize) {
 					contents = btoa(theContents);
 				} else {
 					contents = btoa(theContents.slice(0, uploadChunkSize));
