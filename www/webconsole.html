@@ -312,6 +312,7 @@
 			// Save a file by sending it to the server, with larger files split into chunks.
 			uploadChunkSize = 1024 * 1024;
 			function saveFileChunk(theFilename, theContents, theResultFunction) {
+				console.log(theContents);
 				anotherChunk = false;
 				if (theContents.byteLength < uploadChunkSize) {
 					contents = btoa(theContents);
