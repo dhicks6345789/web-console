@@ -13,6 +13,7 @@ go get github.com/nfnt/resize
 go get github.com/dennwc/gotrace
 go get github.com/kodeworks/golang-image-ico
 go get golang.org/x/crypto/bcrypt
+go get golang.org/x/crypto/argon2@v0.14.0
 ## go get github.com/360EntSecGroup-Skylar/excelize
 go get github.com/xuri/excelize/v2
 
