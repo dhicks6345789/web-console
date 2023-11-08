@@ -256,9 +256,16 @@ func runTask(theTaskID string) {
 				if _, err := os.Stat(logfilePath); os.IsNotExist(err) {
 					os.Mkdir(logfilePath, os.ModePerm)
 				}
-				timestampString := time.Unix(taskStartTimes[theTaskID], 0).Format(time.RFC3339) + "-" + strconv.Itoa(int(taskStopTimes[theTaskID] - taskStartTimes[theTaskID])) + ".txt"
-				debug("timestampString: " + timestampString)
-				//copylogfile(arguments["taskroot"] + "/" + theTaskID + "/log.txt",)
+				timestampString := time.Unix(taskStartTimes[theTaskID], 0).Format(time.RFC3339) + "-" + strconv.Itoa(int(taskStopTimes[theTaskID] - taskStartTimes[theTaskID]))
+				logfileContent, logfileErr := ioutil.ReadFile(arguments["taskroot"] + "/" + theTaskID + "/log.txt")
+				if logfileErr == nil {
+					logfileContentErr = ioutil.WriteFile(logfilePath + "/" + timestampString + ".txt", logfileContent, 0644)
+					if logfileContentErr != nil {
+						debug("Some issue writing log file: " + logfilePath + "/" + timestampString + ".txt")
+					}
+				} else {
+					debug("Some issue reading log file: " + arguments["taskroot"] + "/" + theTaskID + "/log.txt")
+				}
 			}
 		}
 	}
