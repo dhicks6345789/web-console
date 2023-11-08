@@ -251,7 +251,7 @@ func runTask(theTaskID string) {
 					delete(runningTasks, theTaskID)
 				}
 				logfileOutput.Close()
-				// Copy the just-finished log file to the "output" folder with a unique timestamp...
+				// Copy the just-finished log file to the "output" folder with a unique timestamp.
 				logfilePath := arguments["taskroot"] + "/" + theTaskID + "/output"
 				if _, err := os.Stat(logfilePath); os.IsNotExist(err) {
 					os.Mkdir(logfilePath, os.ModePerm)
@@ -265,20 +265,6 @@ func runTask(theTaskID string) {
 					}
 				} else {
 					debug("Some issue reading log file: " + arguments["taskroot"] + "/" + theTaskID + "/log.txt")
-				}
-				// ...and remove any files from that folder that are past a defined (to do: defined where?) age.
-				logItems, itemErr := os.ReadDir(logfilePath)
-				if itemErr == nil {
-					for pl := 0; pl < len(logItems); pl = pl + 1 {
-						parsedTimestamp, timestampErr := time.Parse(time.RFC3339, strings.Split(logItems[pl].Name(), "Z")[0]+"Z")
-						if timestampErr == nil {
-							if parsedTimestamp.Unix() < taskStartTimes[theTaskID] - 300 {
-								os.Remove(logfilePath + "/" + logItems[pl].Name())
-							}
-						}
-					}
-				} else {
-					debug("Error reading items in path: " + logfilePath)
 				}
 			}
 		}
@@ -309,6 +295,7 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 	taskDetails["resultURL"] = ""
 	taskDetails["command"] = ""
 	taskDetails["authentication"] = ""
+	taskDetails["logPeriod"] = "129600"
 
 	debug("Finding details for Task: " + theTaskID)
 	// Check to see if we have a valid task ID.
@@ -1288,6 +1275,21 @@ func main() {
 							if _, runningTaskFound := runningTasks[taskID]; !runningTaskFound {
 								if taskDetails["progress"] == "Y" {
 									fmt.Fprintf(theResponseWriter, "Progress: Progress 100%%\n")
+								}
+								// Remove any files from the task's "output" folder that are past a defined age (in seconds - default is 129600, 36 hours).
+								logfilePath := arguments["taskroot"] + "/" + theTaskID + "/output"
+								logItems, itemErr := os.ReadDir(logfilePath)
+								if itemErr == nil {
+									for pl := 0; pl < len(logItems); pl = pl + 1 {
+										parsedTimestamp, timestampErr := time.Parse(time.RFC3339, strings.Split(logItems[pl].Name(), "Z")[0]+"Z")
+										if timestampErr == nil {
+											if parsedTimestamp.Unix() < taskStartTimes[theTaskID] - 300 {
+												os.Remove(logfilePath + "/" + logItems[pl].Name())
+											}
+										}
+									}
+								} else {
+									debug("Error reading items in path: " + logfilePath)
 								}
 								if taskDetails["resultURL"] != "" {
 									debug("Task complete - sending client resultURL: " + taskDetails["resultURL"])
