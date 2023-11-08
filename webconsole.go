@@ -252,8 +252,12 @@ func runTask(theTaskID string) {
 				}
 				logfileOutput.Close()
 				// Copy the just-finished log file to the "output" folder with a unique timestamp. Remove any files from that folder that are past a defined (to do: defined where?) age.
-				logfilePath := arguments["taskroot"] + "/" + theTaskID + "/output/" + time.Unix(taskStartTimes[theTaskID], 0).Format(time.RFC3339) + "-" + strconv.Itoa(int(taskStopTimes[theTaskID] - taskStartTimes[theTaskID])) + ".txt"
-				debug("timestampString: " + logfilePath)
+				logfilePath := arguments["taskroot"] + "/" + theTaskID + "/output"
+				if _, err := os.Stat(logfilePath); os.IsNotExist(err) {
+					os.Mkdir(logfilePath, os.ModePerm)
+				}
+				timestampString := time.Unix(taskStartTimes[theTaskID], 0).Format(time.RFC3339) + "-" + strconv.Itoa(int(taskStopTimes[theTaskID] - taskStartTimes[theTaskID])) + ".txt"
+				debug("timestampString: " + timestampString)
 				//copylogfile(arguments["taskroot"] + "/" + theTaskID + "/log.txt",)
 			}
 		}
