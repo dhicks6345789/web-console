@@ -1283,7 +1283,7 @@ func main() {
 									for pl := 0; pl < len(logItems); pl = pl + 1 {
 										parsedTimestamp, timestampErr := time.Parse(time.RFC3339, strings.Split(logItems[pl].Name(), "Z")[0]+"Z")
 										if timestampErr == nil {
-											if parsedTimestamp.Unix() < taskStartTimes[theTaskID] - taskDetails["logPeriod"] {
+											if parsedTimestamp.Unix() < taskStartTimes[taskID] - taskDetails["logPeriod"] {
 												os.Remove(logfilePath + "/" + logItems[pl].Name())
 											}
 										}
