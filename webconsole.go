@@ -273,7 +273,7 @@ func runTask(theTaskID string) {
 					for pl := 0; pl < len(logItems); pl = pl + 1 {
 						parsedTimestamp, timestampErr := time.Parse(time.RFC3339, strings.Split(logItems[pl].Name(), "Z")[0]+"Z")
 						if timestampErr == nil {
-							if parsedTimestamp < currentTimestamp - 300 {
+							if parsedTimestamp < currentTimestamp - int64(300) {
 								os.Remove(logfilePath + "/" + logItems[pl].Name())
 							}
 						}
