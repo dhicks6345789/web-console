@@ -248,7 +248,7 @@ func runTask(theTaskID string) {
 					ioutil.WriteFile("tasks/" + theTaskID + "/runTimes.txt", []byte(outputString), 0644)
 					
 					// Copy the just-finished log file to the "output" folder with a unique timestamp. Remove any files from that folder that are past a defined (to do: defined where?) age.
-					timestampString := time.Unix(taskStartTimes[theTaskID], 0).Format(time.RFC3339)
+					timestampString := time.Unix(taskStartTimes[theTaskID], 0).Format(time.RFC3339) + "-" + taskRunTimes[theTaskID] + ".txt"
 					debug("timestampString: " + timestampString)
 					//copylogfile(arguments["taskroot"] + "/" + theTaskID + "/log.txt", arguments["taskroot"] + "/" + theTaskID + "/output/" + timetstamp + .txt")
 						    
