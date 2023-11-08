@@ -256,7 +256,8 @@ func runTask(theTaskID string) {
 				if _, err := os.Stat(logfilePath); os.IsNotExist(err) {
 					os.Mkdir(logfilePath, os.ModePerm)
 				}
-				timestampString := time.Unix(taskStartTimes[theTaskID], 0).Format(time.RFC3339) + "-" + strconv.Itoa(int(taskStopTimes[theTaskID] - taskStartTimes[theTaskID]))
+				currentTimestamp := time.Unix(taskStartTimes[theTaskID], 0)
+				timestampString := currentTimestamp.Format(time.RFC3339) + "-" + strconv.Itoa(int(taskStopTimes[theTaskID] - taskStartTimes[theTaskID]))
 				logfileContent, logfileErr := ioutil.ReadFile(arguments["taskroot"] + "/" + theTaskID + "/log.txt")
 				if logfileErr == nil {
 					logfileContentErr := ioutil.WriteFile(logfilePath + "/" + timestampString + ".txt", logfileContent, 0644)
@@ -270,7 +271,12 @@ func runTask(theTaskID string) {
 				logItems, itemErr := os.ReadDir(logfilePath)
 				if itemErr == nil {
 					for pl := 0; pl < len(logItems); pl = pl + 1 {
-						debug(strings.Split(logItems[pl].Name(), "Z")[0])
+						parsedTimestamp, timestampErr := time.Parse(time.RFC3339, strings.Split(logItems[pl].Name(), "Z")[0]+"Z")
+						if timestampErr == nil {
+							if parsedTimestamp < currentTimestamp - 300 {
+								os.Remove(logfilePath + "/" + logItems[pl].Name())
+							}
+						}
 					}
 				} else {
 					debug("Error reading items in path: " + logfilePath)
