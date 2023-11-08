@@ -1277,7 +1277,7 @@ func main() {
 									fmt.Fprintf(theResponseWriter, "Progress: Progress 100%%\n")
 								}
 								// Remove any files from the task's "output" folder that are past a defined age (in seconds - default is 129600, 36 hours).
-								logfilePath := arguments["taskroot"] + "/" + theTaskID + "/output"
+								logfilePath := arguments["taskroot"] + "/" + taskID + "/output"
 								logItems, itemErr := os.ReadDir(logfilePath)
 								if itemErr == nil {
 									for pl := 0; pl < len(logItems); pl = pl + 1 {
