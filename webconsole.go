@@ -251,7 +251,7 @@ func runTask(theTaskID string) {
 					delete(runningTasks, theTaskID)
 				}
 				logfileOutput.Close()
-				// Copy the just-finished log file to the "output" folder with a unique timestamp. Remove any files from that folder that are past a defined (to do: defined where?) age.
+				// Copy the just-finished log file to the "output" folder with a unique timestamp...
 				logfilePath := arguments["taskroot"] + "/" + theTaskID + "/output"
 				if _, err := os.Stat(logfilePath); os.IsNotExist(err) {
 					os.Mkdir(logfilePath, os.ModePerm)
@@ -265,6 +265,15 @@ func runTask(theTaskID string) {
 					}
 				} else {
 					debug("Some issue reading log file: " + arguments["taskroot"] + "/" + theTaskID + "/log.txt")
+				}
+				// ...and remove any files from that folder that are past a defined (to do: defined where?) age.
+				logItems, itemErr := os.ReadDir(logfilePath)
+				if itemErr == nil {
+					for pl := 0; pl < len(logItems); pl = pl + 1 {
+						debug(logItems[pl])
+					}
+				} else {
+					debug("Error reading items in path: " + logfilePath)
 				}
 			}
 		}
