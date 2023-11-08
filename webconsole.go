@@ -270,7 +270,7 @@ func runTask(theTaskID string) {
 				logItems, itemErr := os.ReadDir(logfilePath)
 				if itemErr == nil {
 					for pl := 0; pl < len(logItems); pl = pl + 1 {
-						debug(logItems[pl].Name())
+						debug(strings.Split(logItems[pl].Name(), "Z")[0])
 					}
 				} else {
 					debug("Error reading items in path: " + logfilePath)
