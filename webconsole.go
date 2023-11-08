@@ -248,9 +248,9 @@ func runTask(theTaskID string) {
 					ioutil.WriteFile("tasks/" + theTaskID + "/runTimes.txt", []byte(outputString), 0644)
 					
 					// Copy the just-finished log file to the "output" folder with a unique timestamp. Remove any files from that folder that are past a defined (to do: defined where?) age.
-					timestampString := time.Unix(taskStartTimes[theTaskID], 0).Format(time.RFC3339) + "-" + taskRunTimes[theTaskID] + ".txt"
+					timestampString := time.Unix(taskStartTimes[theTaskID], 0).Format(time.RFC3339) + "-" + strconv.Itoa(taskRunTimes[theTaskID]) + ".txt"
 					debug("timestampString: " + timestampString)
-					//copylogfile(arguments["taskroot"] + "/" + theTaskID + "/log.txt", arguments["taskroot"] + "/" + theTaskID + "/output/" + timetstamp + .txt")
+					//copylogfile(arguments["taskroot"] + "/" + theTaskID + "/log.txt", arguments["taskroot"] + "/" + theTaskID + "/output/" + timestamp + .txt")
 						    
 					// Remove this Task from the runnings Tasks list. We don't remove the output right away - client-side code might
 					// still not have received all the output yet.
