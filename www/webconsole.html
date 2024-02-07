@@ -542,6 +542,7 @@
 				webconsole.APICall("getEditableFileList", {"path":""}, function(result) {
 					// Parse that list of files into a JSON structure, then call a function that turns that structure into a string of HTML
 					// unordered lists (<UL></UL>).
+					console.log(result);
 					document.getElementById("editFileList").innerHTML = parseFolderTree(0, "", "", JSON.parse(result));
 						
 					// Add functionality to each LI item in the edit file view to make a exandable / collapsible tree view.
