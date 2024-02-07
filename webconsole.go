@@ -675,6 +675,61 @@ func contains(theItems []string, theMatch string) bool {
 }
 
 // A function that recursivly walks a folder tree and constructs a JSON representation, returned as a string.
+func listToFolderAsJSON(folderLevel int, thePath string, theSubPaths []string) string {
+	result := ""
+	
+	// Figure out the folder indent level.
+	folderIndent := ""
+	for pl := 0; pl < folderLevel; pl = pl + 1 {
+		folderIndent = folderIndent + "   "
+	}
+
+	// Read all items (both sub-folders and files) from the given folder path...
+	readItems, itemErr := os.ReadDir(thePath)
+	if itemErr != nil {
+		return "Error reading path: " + thePath
+	}
+
+	// ...and remove anything we want to exclude.
+	var items []fs.DirEntry
+	for pl := 0; pl < len(readItems); pl = pl + 1 {
+		if contains(listFolderExcludes, readItems[pl].Name()) == false {
+			items = append(items, readItems[pl])
+		}
+	}
+
+	// Now, step through each item, producing JSON output as we go.
+	for pl := 0; pl < len(items); pl = pl + 1 {
+		if contains(listFolderExcludes, items[pl].Name()) == false {
+			itemAdded := false
+			if items[pl].IsDir() {
+				result = result + folderIndent + "[\"" + items[pl].Name() + "\",\n"
+				result = result + folderIndent + "[\n"
+				if items[pl].Name == theSubPaths[0] {
+					result = result + listToFolderAsJSON(folderLevel + 1, thePath + "/" + items[pl].Name().theSubPaths[1:])
+				}
+				result = result + folderIndent + "]\n"
+				result = result + folderIndent + "]"
+				itemAdded = true
+			} else {
+				result = result + folderIndent + "\"" + items[pl].Name() + "\""
+				itemAdded = true
+			}
+			if itemAdded == true {
+				if pl < len(items)-1 {
+					result = result + ","
+				}
+				result = result + "\n"
+			}
+		}
+	}
+	if result == "" {
+		result = folderIndent + "\"\"\n"
+	}
+	return result
+}
+
+// A function that recursivly walks a folder tree and constructs a JSON representation, returned as a string.
 func listFolderAsJSON(folderLevel int, thePath string) string {
 	result := ""
 	
@@ -1316,10 +1371,16 @@ func main() {
 							if permission != "E" {
 								fmt.Fprintf(theResponseWriter, "ERROR: getEditableFileList called - don't have edit permissions.")
 							} else {
-								outputString := "[\n"
-								outputString = outputString + listFolderAsJSON(1, arguments["taskroot"] + "/" + taskID)
-								outputString = outputString + "]"
-								fmt.Fprintf(theResponseWriter, outputString)
+								path := theRequest.Form.Get("path")
+								if path != "" {
+									outputString := "[\n"
+									// outputString = outputString + listFolderAsJSON(1, arguments["taskroot"] + "/" + taskID)
+									outputString = outputString + listToFolderAsJSON(1, arguments["taskroot"] + "/" + taskID, Strings.split(path, "/"))
+									outputString = outputString + "]"
+									fmt.Fprintf(theResponseWriter, outputString)
+								} else {
+									fmt.Fprintf(theResponseWriter, "ERROR: getEditableFileList - missing path parameter.")
+								}
 							}
 						// Return the contents of an editable file - needs edit permissions.
 						} else if strings.HasPrefix(requestPath, "/api/getEditableFileContents") {
