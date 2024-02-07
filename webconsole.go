@@ -1375,7 +1375,7 @@ func main() {
 								if path != "" {
 									outputString := "[\n"
 									// outputString = outputString + listFolderAsJSON(1, arguments["taskroot"] + "/" + taskID)
-									outputString = outputString + listToFolderAsJSON(1, arguments["taskroot"] + "/" + taskID, strings.split(path, "/"))
+									outputString = outputString + listToFolderAsJSON(1, arguments["taskroot"] + "/" + taskID, strings.Split(path, "/"))
 									outputString = outputString + "]"
 									fmt.Fprintf(theResponseWriter, outputString)
 								} else {
