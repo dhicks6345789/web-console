@@ -538,8 +538,11 @@
 				return(result);
 			}
 
-			function refreshFolderTreeView() {
-				webconsole.APICall("getEditableFileList", {"path":"."}, function(result) {
+			function refreshFolderTreeView(thePath=".") {
+				if thePath == "" {
+					thePath = ".";
+				}
+				webconsole.APICall("getEditableFileList", {"path":thePath}, function(result) {
 					// Parse that list of files into a JSON structure, then call a function that turns that structure into a string of HTML
 					// unordered lists (<UL></UL>).
 					console.log(result);
@@ -550,6 +553,7 @@
 					var pl;
 					for (pl = 0; pl < toggler.length; pl = pl + 1) {
 						toggler[pl].addEventListener("click", function() {
+							console.log(this.html);
 							this.parentElement.querySelector(".nested").classList.toggle("active");
 							this.classList.toggle("caret-down");
 						});
