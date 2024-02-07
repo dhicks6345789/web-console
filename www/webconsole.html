@@ -530,7 +530,7 @@
 							result = result + "</li>\n";
 						}
 					} else {
-						result = result + folderIndent + "<li><span class=\"caret\">" + item[0] + "</span><ul class=\"editFileList nested\">\n";
+						result = result + folderIndent + "<li><span class=\"caret\" onclick=\"console.log(" + currentFolderPath + "/" + item[0] + ")\">" + item[0] + "</span><ul class=\"editFileList nested\">\n";
 						result = result + parseFolderTree(currentFolderLevel+1, currentFolderPath + "/" + item[0], item[0], item[1]);
 						result = result + folderIndent + "</ul></li>\n";
 					}
@@ -553,7 +553,6 @@
 					var pl;
 					for (pl = 0; pl < toggler.length; pl = pl + 1) {
 						toggler[pl].addEventListener("click", function() {
-							console.log(this.html);
 							this.parentElement.querySelector(".nested").classList.toggle("active");
 							this.classList.toggle("caret-down");
 						});
