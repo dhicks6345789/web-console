@@ -539,8 +539,8 @@
 			}
 
 			function refreshFolderTreeView() {
-				webconsole.APICall("getEditableFileList", {}, function(result) {
-					// Parse that list of file into a JSON structure, then call a function that turns that structure into a string of HTML
+				webconsole.APICall("getEditableFileList", {"path":""}, function(result) {
+					// Parse that list of files into a JSON structure, then call a function that turns that structure into a string of HTML
 					// unordered lists (<UL></UL>).
 					document.getElementById("editFileList").innerHTML = parseFolderTree(0, "", "", JSON.parse(result));
 						
