@@ -705,8 +705,8 @@ func listToFolderAsJSON(folderLevel int, thePath string, theSubPaths []string) s
 			if items[pl].IsDir() {
 				result = result + folderIndent + "[\"" + items[pl].Name() + "\",\n"
 				result = result + folderIndent + "[\n"
-				if items[pl].Name == theSubPaths[0] {
-					result = result + listToFolderAsJSON(folderLevel + 1, thePath + "/" + items[pl].Name().theSubPaths[1:])
+				if items[pl].Name() == theSubPaths[0] {
+					result = result + listToFolderAsJSON(folderLevel + 1, thePath + "/" + items[pl].Name(), theSubPaths[1:])
 				}
 				result = result + folderIndent + "]\n"
 				result = result + folderIndent + "]"
