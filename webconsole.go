@@ -1404,6 +1404,7 @@ func main() {
 								fmt.Fprintf(theResponseWriter, "ERROR: getEditableFileList called - don't have edit permissions.")
 							} else {
 								path := theRequest.Form.Get("path")
+								debug("getEditableFileList - path: " + path)
 								if path != "" {
 									outputString := "[\n"
 									// outputString = outputString + listFolderAsJSON(1, arguments["taskroot"] + "/" + taskID)
