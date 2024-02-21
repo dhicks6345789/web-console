@@ -568,7 +568,7 @@
 						}
 						for (pl = 0; pl < toggler.length; pl = pl + 1) {
 							if (toggler[pl].getAttribute("onclick") == "refreshFolderTreeView('" + viewedPath + "')") {
-								console.log(toggler[pl].getAttribute("onclick"));
+								console.log("Matched!: " + toggler[pl].getAttribute("onclick"));
 							}
 						}
 					});
