@@ -690,7 +690,7 @@ func listOneFolderAsJSON(thePath string) string {
 			if items[pl].IsDir() {
 				result = result + "[\"" + items[pl].Name() + "\",[]]\n"
 			} else {
-				result = result + folderIndent + "\"" + items[pl].Name() + "\""
+				result = result + "\"" + items[pl].Name() + "\""
 			}
 			if pl < len(items)-1 {
 				result = result + ","
@@ -699,7 +699,7 @@ func listOneFolderAsJSON(thePath string) string {
 		}
 	}
 	if result == "" {
-		result = folderIndent + "\"\"\n"
+		result = "\"\"\n"
 	}
 	return result
 }
