@@ -1406,7 +1406,7 @@ func main() {
 									outputString := "[\n"
 									// outputString = outputString + listFolderAsJSON(1, arguments["taskroot"] + "/" + taskID)
 									// outputString = outputString + listToFolderAsJSON(1, arguments["taskroot"] + "/" + taskID, strings.Split(path, "/"))
-									outputString = outputString + listOneFolderAsJSON(arguments["taskroot"] + "/" + taskID + "/" + path)
+									outputString = outputString + listOneFolderAsJSON(arguments["taskroot"] + "/" + taskID + path)
 									outputString = outputString + "]"
 									fmt.Fprintf(theResponseWriter, outputString)
 								} else {
