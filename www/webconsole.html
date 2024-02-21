@@ -564,8 +564,8 @@
 					viewedPath = ""
 					viewedPathNode = editFileList
 					thePath.split("/").forEach(function(pathSection) {
-						viewedPathNode.childNodes.forEach(function(childNode) {
-							console.log(childNodes.childNodes[0].tagName);
+						viewedPathNode.children.forEach(function(childNode) {
+							console.log(childNode.children[0].tagName);
 						});
 						if (pathSection != ".") {
 							viewedPath = viewedPath + "/" + pathSection;
