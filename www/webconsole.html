@@ -564,7 +564,7 @@
 					viewedPath = ""
 					thePath.split("/").forEach(function(pathSection) {
 						for (pl = 0; pl < toggler.length; pl = pl + 1) {
-							console.log(toggler[pl].attr("onclick"));
+							console.log(toggler[pl].getAttribute("onclick"));
 							viewedPath = viewedPath + "/" + pathSection;
 						}
 					});
