@@ -563,9 +563,13 @@
 
 					viewedPath = ""
 					thePath.split("/").forEach(function(pathSection) {
-						for (pl = 0; pl < toggler.length; pl = pl + 1) {
-							console.log(toggler[pl].getAttribute("onclick"));
+						if (pathSection != ".") {
 							viewedPath = viewedPath + "/" + pathSection;
+						}
+						for (pl = 0; pl < toggler.length; pl = pl + 1) {
+							if (toggler[pl].getAttribute("onclick") == "refreshFolderTreeView('" + viewedPath + "')") {
+								console.log(toggler[pl].getAttribute("onclick"));
+							}
 						}
 					});
 				});
