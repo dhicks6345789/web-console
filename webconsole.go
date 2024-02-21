@@ -679,6 +679,7 @@ func listOneFolderAsJSON(thePath string) string {
 	result := ""
 
 	// Read all items (both sub-folders and files) from the given folder path...
+	debug("listOneFolderAsJSON - path: " + thePath)
 	items, itemErr := os.ReadDir(thePath)
 	if itemErr != nil {
 		return "Error reading path: " + thePath
@@ -701,6 +702,7 @@ func listOneFolderAsJSON(thePath string) string {
 	if result == "" {
 		result = "\"\"\n"
 	}
+	debug("listOneFolderAsJSON - result: " + result)
 	return result
 }
 
