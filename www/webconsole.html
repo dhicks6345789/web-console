@@ -548,7 +548,8 @@
 					// Parse that list of files into a JSON structure, then call a function that turns that structure into a string of HTML
 					// unordered lists (<UL></UL>).
 					//console.log(result);
-					document.getElementById("editFileList").innerHTML = parseFolderTree(0, "", "", JSON.parse(result));
+					editFileList = document.getElementById("editFileList");
+					editFileList.innerHTML = parseFolderTree(0, "", "", JSON.parse(result));
 						
 					// Add functionality to each LI item in the edit file view to make a exandable / collapsible tree view.
 					var toggler = document.getElementsByClassName("caret");
@@ -558,7 +559,18 @@
 							this.parentElement.querySelector(".nested").classList.toggle("active");
 							this.classList.toggle("caret-down");
 						});
-					} 
+					}
+
+					viewedPath = ""
+					viewedPathNode = editFileList
+					thePath.split("/").forEach(function(pathSection) {
+						viewedPathNode.children().forEach(function(childNode) {
+							console.log(childNode.children()[0].tagName);
+						});
+						if (pathSection != ".") {
+							viewedPath = viewedPath + "/" + pathSection;
+						}
+					});
 				});
 			}
 			
