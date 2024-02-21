@@ -675,6 +675,36 @@ func contains(theItems []string, theMatch string) bool {
 }
 
 // A function that recursivly walks a folder tree and constructs a JSON representation, returned as a string.
+func listOneFolderAsJSON(thePath string) string {
+	result := ""
+
+	// Read all items (both sub-folders and files) from the given folder path...
+	items, itemErr := os.ReadDir(thePath)
+	if itemErr != nil {
+		return "Error reading path: " + thePath
+	}
+	
+	// Now, step through each item, producing JSON output as we go.
+	for pl := 0; pl < len(items); pl = pl + 1 {
+		if contains(listFolderExcludes, items[pl].Name()) == false {
+			if items[pl].IsDir() {
+				result = result + "[\"" + items[pl].Name() + "\",[]]\n"
+			} else {
+				result = result + folderIndent + "\"" + items[pl].Name() + "\""
+			}
+			if pl < len(items)-1 {
+				result = result + ","
+			}
+			result = result + "\n"
+		}
+	}
+	if result == "" {
+		result = folderIndent + "\"\"\n"
+	}
+	return result
+}
+
+// A function that recursivly walks a folder tree and constructs a JSON representation, returned as a string.
 func listToFolderAsJSON(folderLevel int, thePath string, theSubPaths []string) string {
 	result := ""
 	
@@ -1375,7 +1405,8 @@ func main() {
 								if path != "" {
 									outputString := "[\n"
 									// outputString = outputString + listFolderAsJSON(1, arguments["taskroot"] + "/" + taskID)
-									outputString = outputString + listToFolderAsJSON(1, arguments["taskroot"] + "/" + taskID, strings.Split(path, "/"))
+									// outputString = outputString + listToFolderAsJSON(1, arguments["taskroot"] + "/" + taskID, strings.Split(path, "/"))
+									outputString = outputString + listOneFolderAsJSON(arguments["taskroot"] + "/" + taskID + "/" + path)
 									outputString = outputString + "]"
 									fmt.Fprintf(theResponseWriter, outputString)
 								} else {
