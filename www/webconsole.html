@@ -538,9 +538,9 @@
 				return(result);
 			}
 
-			function refreshFolderTreeView(thePath=".") {
-				if (thePath == "" || thePath[0] != ".") {
-					thePath = "." + thePath;
+			function refreshFolderTreeView(thePath="/") {
+				if (thePath == "" || thePath[0] != "/") {
+					thePath = "/" + thePath;
 				}
 
 				console.log("refreshFolderTreeView: " + thePath);
