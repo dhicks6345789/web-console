@@ -562,12 +562,9 @@
 					}
 
 					viewedPath = ""
-					viewedPathNode = editFileList
 					thePath.split("/").forEach(function(pathSection) {
-						viewedPathNode.children.forEach(function(childNode) {
-							console.log(childNode.children[0].tagName);
-						});
-						if (pathSection != ".") {
+						for (pl = 0; pl < toggler.length; pl = pl + 1) {
+							console.log(toggler[pl].attr("onclick"));
 							viewedPath = viewedPath + "/" + pathSection;
 						}
 					});
