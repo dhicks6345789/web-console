@@ -543,7 +543,11 @@
 				editFileList = document.getElementById("editFileList/" + thePath);
 				console.log(editFileList);
 				
-				webconsole.APICall("getEditableFileList", {"path":"/" + thePath}, function(result) {
+				callPath = thePath;
+				if callPath == "" {
+					callPath = "/"
+				}
+				webconsole.APICall("getEditableFileList", {"path":callPath}, function(result) {
 					// Parse that list of files into a JSON structure, then call a function that turns
 					// that structure into a string of HTML unordered lists (<UL></UL>).
 					
