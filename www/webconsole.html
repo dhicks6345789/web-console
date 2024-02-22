@@ -566,7 +566,7 @@
 								toggler[pl].parentElement.querySelector(".nested").classList.toggle("active");
 								toggler[pl].classList.toggle("caret-down");
 								console.log(toggler[pl].parentElement.children[1].tagName);
-								editFileList = toggler[pl];
+								editFileList = toggler[pl].parentElement.children[1];
 							}
 						}
 					});
