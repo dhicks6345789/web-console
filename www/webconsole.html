@@ -530,7 +530,7 @@
 							result = result + "</li>\n";
 						}
 					} else {
-						result = result + folderIndent + "<li><span class=\"caret\" onclick=\"this.parentElement.querySelector('.nested').classList.toggle('active'); this.classList.toggle('caret-down'); refreshFolderTreeView('" + currentFolderPath + "/" + item[0] + "')\">" + item[0] + "</span><ul class=\"editFileList nested\">\n";
+						result = result + folderIndent + "<li><span class=\"caret\" onclick=\"refreshFolderTreeView('" + currentFolderPath + "/" + item[0] + "')\">" + item[0] + "</span><ul class=\"editFileList nested\">\n";
 						result = result + parseFolderTree(currentFolderLevel+1, currentFolderPath + "/" + item[0], item[0], item[1]);
 						result = result + folderIndent + "</ul></li>\n";
 					}
@@ -542,6 +542,7 @@
 				if (thePath == "" || thePath[0] != "/") {
 					thePath = "/" + thePath;
 				}
+				console.log(this);
 
 				console.log("refreshFolderTreeView: " + thePath);
 				webconsole.APICall("getEditableFileList", {"path":thePath}, function(result) {
