@@ -131,7 +131,6 @@
 								document.getElementById("taskProgress").innerHTML = "";
 
 								if (permission == "E") {
-									console.log("refreshFolderTreeView in updateTaskOutput");
 									refreshFolderTreeView();
 								}
 								
@@ -356,7 +355,6 @@
 			function renameFile() {
 				webconsole.APICall("renameFile", {"filename":document.getElementById("renameFileModalFilePath").innerHTML, "newFilename":document.getElementById("renameFileModalNewFilePath").value}, function(result) {
 					if (result == "OK") {
-						console.log("refreshFolderTreeView in renameFile");
 						refreshFolderTreeView();
 					} else {
 						alert(result);
@@ -378,7 +376,6 @@
 				newFilename = filePath + "/" + document.getElementById("newFileModalNewFileName").value
 				webconsole.APICall("newFile", {"filename":newFilename.substr(1)}, function(result) {
 					if (result == "OK") {
-						console.log("refreshFolderTreeView in newFile");
 						refreshFolderTreeView();
 					} else {
 						alert(result);
@@ -403,7 +400,6 @@
 				newFilename = filePath + "/" + document.getElementById("newFolderModalNewFolderName").value
 				webconsole.APICall("newFolder", {"filename":newFilename.substr(1)}, function(result) {
 					if (result == "OK") {
-						console.log("refreshFolderTreeView in newFolder");
 						refreshFolderTreeView();
 					} else {
 						alert(result);
@@ -543,7 +539,6 @@
 			}
 
 			function refreshFolderTreeView(thePath="") {
-				console.log("refreshFolderTreeView: " + thePath);
 				callPath = thePath;
 				if (callPath == "") {
 					callPath = "/";
