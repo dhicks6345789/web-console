@@ -565,6 +565,7 @@
 								//console.log("Matched!: " + toggler[pl].getAttribute("onclick"));
 								toggler[pl].parentElement.querySelector(".nested").classList.toggle("active");
 								toggler[pl].classList.toggle("caret-down");
+								console.log(toggler[pl].parentElement.children[1].tagName);
 								editFileList = toggler[pl];
 							}
 						}
