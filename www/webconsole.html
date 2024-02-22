@@ -530,7 +530,7 @@
 							result = result + "</li>\n";
 						}
 					} else {
-						result = result + folderIndent + "<li><span class=\"caret\" onclick=\"this.parentElement.querySelector('.nested').classList.toggle('active'); this.classList.toggle('caret-down'); refreshFolderTreeView('" + currentFolderPath + "/" + item[0] + "')\">" + item[0] + "</span><ul id=\"editFileList" + currentFolderPath + "/" + item[0] + "\" class=\"editFileList nested\" style=\"margin:0; padding:0;\">\n";
+						result = result + folderIndent + "<li><span class=\"caret\" onclick=\"this.parentElement.querySelector('.nested').classList.toggle('active'); this.classList.toggle('caret-down'); refreshFolderTreeView('" + currentFolderPath + "/" + item[0] + "')\">" + item[0] + "</span><ul id=\"editFileList" + currentFolderPath + "/" + item[0] + "\" class=\"editFileList nested\">\n";
 						result = result + parseFolderTree(currentFolderLevel+1, currentFolderPath + "/" + item[0], item[0], item[1]);
 						result = result + folderIndent + "</ul></li>\n";
 					}
@@ -1012,7 +1012,7 @@
 								<div class="containerResizeable" id="editorWindow">
 									<div class="containerResizeableLeft">
 										<!-- The file browser component - populated via Javascript at page load time. -->
-										<ul class="editFileList" id="editFileList/" style="height:100%; width:100%; overflow-x:auto; overflow-y:auto;"></ul>
+										<ul class="editFileList" id="editFileList/" style="height:100%; width:100%; margin:0; padding:0; overflow-x:auto; overflow-y:auto;"></ul>
 									</div>
 									<!-- The "bar" for the user to click-and-drag to change left / right panel sizes. -->
 									<div class="containerResizeableResizer" id="containerResizeableDragBarHorizontal"></div>
