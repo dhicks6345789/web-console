@@ -545,32 +545,23 @@
 
 				console.log("refreshFolderTreeView: " + thePath);
 				webconsole.APICall("getEditableFileList", {"path":thePath}, function(result) {
-					// Parse that list of files into a JSON structure, then call a function that turns that structure into a string of HTML
-					// unordered lists (<UL></UL>).
-					console.log(result);
+					// Parse that list of files into a JSON structure, then call a function that turns
+					// that structure into a string of HTML unordered lists (<UL></UL>).
 					editFileList = document.getElementById("editFileList");
-					thePath.split("/").forEach(function(pathSection) {
+					/*thePath.split("/").forEach(function(pathSection) {
 						if (pathSection != ".") {
 							console.log(editFileList);
 						}
-					});
+					});*/
 						
 					// Add functionality to each LI item in the edit file view to make a exandable / collapsible tree view.
 					var toggler = document.getElementsByClassName("caret");
-					//var pl;
-					//for (pl = 0; pl < toggler.length; pl = pl + 1) {
-						/*toggler[pl].addEventListener("click", function() {
-							this.parentElement.querySelector(".nested").classList.toggle("active");
-							this.classList.toggle("caret-down");
-						});*/
-					//}
 
 					viewedPath = ""
 					thePath.split("/").forEach(function(pathSection) {
-						if (pathSection != ".") {
-							viewedPath = viewedPath + "/" + pathSection;
-						}
+						viewedPath = viewedPath + "/" + pathSection;
 						for (pl = 0; pl < toggler.length; pl = pl + 1) {
+							console.log(toggler[pl].getAttribute("onclick") + " == refreshFolderTreeView('" + viewedPath + "')");
 							if (toggler[pl].getAttribute("onclick") == "refreshFolderTreeView('" + viewedPath + "')") {
 								console.log("Matched!: " + toggler[pl].getAttribute("onclick"));
 								//toggler[pl].parentElement.querySelector(".nested").classList.toggle("active");
