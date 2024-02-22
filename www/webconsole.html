@@ -493,7 +493,7 @@
 			
 			// Return to the Home page.
 			function returnHome() {
-				webconsole.doAction("POST", window.location.href.replace("/view", "/").replace("/run", "/"), false, {"token":"<<TOKEN>>"}, true);
+				webconsole.doAction("POST", window.location.href.replace("/view", "/").replace("/run", "/"), false, {"token":"<<TOKEN>>"}, false);
 			}
 
 			function ifBlankString(theString, theOtherwise) {
@@ -846,7 +846,7 @@
 			}
 			
 			/* Remove margins and padding from the parent ul */
-			editFileList {
+			#editFileList {
 				margin: 0;
 				padding: 0;
 			}
