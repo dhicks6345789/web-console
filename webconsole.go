@@ -679,7 +679,6 @@ func listOneFolderAsJSON(thePath string) string {
 	result := ""
 
 	// Read all items (both sub-folders and files) from the given folder path...
-	//debug("listOneFolderAsJSON - path: " + thePath)
 	items, itemErr := os.ReadDir(thePath)
 	if itemErr != nil {
 		return "Error reading path: " + thePath
@@ -702,12 +701,11 @@ func listOneFolderAsJSON(thePath string) string {
 	if result == "" {
 		result = "\"\"\n"
 	}
-	//debug("listOneFolderAsJSON - result: " + result)
 	return result
 }
 
 // A function that recursivly walks a folder tree and constructs a JSON representation, returned as a string.
-func listToFolderAsJSON(folderLevel int, thePath string, theSubPaths []string) string {
+/*func listToFolderAsJSON(folderLevel int, thePath string, theSubPaths []string) string {
 	result := ""
 	
 	// Figure out the folder indent level.
@@ -759,10 +757,10 @@ func listToFolderAsJSON(folderLevel int, thePath string, theSubPaths []string) s
 		result = folderIndent + "\"\"\n"
 	}
 	return result
-}
+}*/
 
 // A function that recursivly walks a folder tree and constructs a JSON representation, returned as a string.
-func listFolderAsJSON(folderLevel int, thePath string) string {
+/*func listFolderAsJSON(folderLevel int, thePath string) string {
 	result := ""
 	
 	// Figure out the folder indent level.
@@ -812,7 +810,7 @@ func listFolderAsJSON(folderLevel int, thePath string) string {
 		result = folderIndent + "\"\"\n"
 	}
 	return result
-}
+}*/
 
 func normalisePath(thePath string) string {
 	otherPathSeparator := "/"
@@ -1407,8 +1405,6 @@ func main() {
 								debug("getEditableFileList - path: " + path)
 								if path != "" {
 									outputString := "[\n"
-									// outputString = outputString + listFolderAsJSON(1, arguments["taskroot"] + "/" + taskID)
-									// outputString = outputString + listToFolderAsJSON(1, arguments["taskroot"] + "/" + taskID, strings.Split(path, "/"))
 									outputString = outputString + listOneFolderAsJSON(arguments["taskroot"] + "/" + taskID + path)
 									outputString = outputString + "]"
 									fmt.Fprintf(theResponseWriter, outputString)
