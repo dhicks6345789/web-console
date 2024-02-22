@@ -544,8 +544,8 @@
 				console.log(editFileList);
 				
 				callPath = thePath;
-				if callPath == "" {
-					callPath = "/"
+				if (callPath == "") {
+					callPath = "/";
 				}
 				webconsole.APICall("getEditableFileList", {"path":callPath}, function(result) {
 					// Parse that list of files into a JSON structure, then call a function that turns
