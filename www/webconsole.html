@@ -554,7 +554,6 @@
 							console.log(editFileList);
 						}
 					});
-					editFileList.innerHTML = parseFolderTree(0, "", "", JSON.parse(result));
 						
 					// Add functionality to each LI item in the edit file view to make a exandable / collapsible tree view.
 					//var toggler = document.getElementsByClassName("caret");
@@ -566,7 +565,7 @@
 						});*/
 					//}
 
-					/*viewedPath = ""
+					viewedPath = ""
 					thePath.split("/").forEach(function(pathSection) {
 						if (pathSection != ".") {
 							viewedPath = viewedPath + "/" + pathSection;
@@ -574,11 +573,14 @@
 						for (pl = 0; pl < toggler.length; pl = pl + 1) {
 							if (toggler[pl].getAttribute("onclick") == "refreshFolderTreeView('" + viewedPath + "')") {
 								console.log("Matched!: " + toggler[pl].getAttribute("onclick"));
-								toggler[pl].parentElement.querySelector(".nested").classList.toggle("active");
-								toggler[pl].classList.toggle("caret-down");
+								//toggler[pl].parentElement.querySelector(".nested").classList.toggle("active");
+								//toggler[pl].classList.toggle("caret-down");
+								editFileList = toggler[pl];
 							}
 						}
-					});*/
+					});
+
+					editFileList.innerHTML = parseFolderTree(0, "", "", JSON.parse(result));
 				});
 			}
 			
