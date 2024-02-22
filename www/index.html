@@ -38,7 +38,7 @@
 						if (varItem.startsWith("taskID=")) {
 							taskID = varItem.split("=")[1];
 							if (taskID != "/") {
-								webconsole.doAction("POST", "view", false, {"taskID":taskID, "token":"<<TOKEN>>"}, true);
+								webconsole.doAction("POST", "view", false, {"taskID":taskID, "token":"<<TOKEN>>"}, false);
 							}
 						}
 					});
@@ -54,7 +54,7 @@
 						document.getElementById("publicTaskList").appendChild(publicTaskRow);
 						document.getElementById("publicTaskTitle-" + rowCount).innerHTML = "<b>" + taskList[taskID]["title"] + ":</b> ";
 						document.getElementById("publicTaskDescription-" + rowCount).innerHTML = taskList[taskID]["shortDescription"];
-						document.getElementById("publicTaskButton-" + rowCount).setAttribute("onclick", "webconsole.doAction('POST', 'view', false, {'taskID':'" + taskID + "', 'token':'" + token + "'}, true)");
+						document.getElementById("publicTaskButton-" + rowCount).setAttribute("onclick", "webconsole.doAction('POST', 'view', false, {'taskID':'" + taskID + "', 'token':'" + token + "'}, false)");
 						publicTaskRow.style.display = "table-row";
 						rowCount = rowCount + 1;
 					});
@@ -75,7 +75,7 @@
 						document.getElementById("privateTaskList").appendChild(document.getElementById("privateTaskSpacer").cloneNode(true));
 						document.getElementById("privateTaskTitle-" + rowCount).innerHTML = "<b>" + taskList[taskID]["title"] + ":</b> ";
 						document.getElementById("privateTaskDescription-" + rowCount).innerHTML = taskList[taskID]["shortDescription"];
-						document.getElementById("privateTaskButton-" + rowCount).setAttribute("onclick", "webconsole.doAction('POST', 'view', false, {'taskID':'" + taskID + "', 'token':'" + token + "'}, true)");
+						document.getElementById("privateTaskButton-" + rowCount).setAttribute("onclick", "webconsole.doAction('POST', 'view', false, {'taskID':'" + taskID + "', 'token':'" + token + "'}, false)");
 						
 						privateTaskRow.style.display = "table-row";
 						rowCount = rowCount + 1;
@@ -157,7 +157,7 @@
 			<div class="col-sm-10 align-self-center"></div>
 			<div class="col-sm-1 align-self-end">
 				<div id="newTaskSection" style="display:none;">
-					<a id="newTaskButton" class="btn btn-primary" role="button" onclick="webconsole.doAction('POST', 'run', false, {'taskID':'new-task', 'token':'<<TOKEN>>'}, true)">New Task</a>
+					<a id="newTaskButton" class="btn btn-primary" role="button" onclick="webconsole.doAction('POST', 'run', false, {'taskID':'new-task', 'token':'<<TOKEN>>'}, false)">New Task</a>
 				</div>
 			</div>
 		</div>
