@@ -674,11 +674,13 @@ func contains(theItems []string, theMatch string) bool {
 	return false
 }
 
-// A function that recursivly walks a folder tree and constructs a JSON representation, returned as a string.
+// A function that returns a listing of the given folder as a JSON string. Doesn't recursivly walk down sub-folders, a separate
+// API call has to be made on the client side to get the contents of each sub-folder. The original function did simply return all
+// sub-folders, but this could return more data than the client side could deal with.
 func listOneFolderAsJSON(thePath string) string {
 	result := ""
 
-	// Read all items (both sub-folders and files) from the given folder path...
+	// Read all items (both sub-folders and files) from the given folder path.
 	items, itemErr := os.ReadDir(thePath)
 	if itemErr != nil {
 		return "Error reading path: " + thePath
@@ -703,114 +705,6 @@ func listOneFolderAsJSON(thePath string) string {
 	}
 	return result
 }
-
-// A function that recursivly walks a folder tree and constructs a JSON representation, returned as a string.
-/*func listToFolderAsJSON(folderLevel int, thePath string, theSubPaths []string) string {
-	result := ""
-	
-	// Figure out the folder indent level.
-	folderIndent := ""
-	for pl := 0; pl < folderLevel; pl = pl + 1 {
-		folderIndent = folderIndent + "   "
-	}
-
-	// Read all items (both sub-folders and files) from the given folder path...
-	readItems, itemErr := os.ReadDir(thePath)
-	if itemErr != nil {
-		return "Error reading path: " + thePath
-	}
-
-	// ...and remove anything we want to exclude.
-	var items []fs.DirEntry
-	for pl := 0; pl < len(readItems); pl = pl + 1 {
-		if contains(listFolderExcludes, readItems[pl].Name()) == false {
-			items = append(items, readItems[pl])
-		}
-	}
-
-	// Now, step through each item, producing JSON output as we go.
-	for pl := 0; pl < len(items); pl = pl + 1 {
-		if contains(listFolderExcludes, items[pl].Name()) == false {
-			itemAdded := false
-			if items[pl].IsDir() {
-				result = result + folderIndent + "[\"" + items[pl].Name() + "\",\n"
-				result = result + folderIndent + "[\n"
-				if items[pl].Name() == theSubPaths[0] {
-					result = result + listToFolderAsJSON(folderLevel + 1, thePath + "/" + items[pl].Name(), theSubPaths[1:])
-				}
-				result = result + folderIndent + "]\n"
-				result = result + folderIndent + "]"
-				itemAdded = true
-			} else {
-				result = result + folderIndent + "\"" + items[pl].Name() + "\""
-				itemAdded = true
-			}
-			if itemAdded == true {
-				if pl < len(items)-1 {
-					result = result + ","
-				}
-				result = result + "\n"
-			}
-		}
-	}
-	if result == "" {
-		result = folderIndent + "\"\"\n"
-	}
-	return result
-}*/
-
-// A function that recursivly walks a folder tree and constructs a JSON representation, returned as a string.
-/*func listFolderAsJSON(folderLevel int, thePath string) string {
-	result := ""
-	
-	// Figure out the folder indent level.
-	folderIndent := ""
-	for pl := 0; pl < folderLevel; pl = pl + 1 {
-		folderIndent = folderIndent + "   "
-	}
-
-	// Read all items (both sub-folders and files) from the given folder path...
-	readItems, itemErr := os.ReadDir(thePath)
-	if itemErr != nil {
-		return "Error reading path: " + thePath
-	}
-
-	// ...and remove anything we want to exclude.
-	var items []fs.DirEntry
-	for pl := 0; pl < len(readItems); pl = pl + 1 {
-		if contains(listFolderExcludes, readItems[pl].Name()) == false {
-			items = append(items, readItems[pl])
-		}
-	}
-
-	// Now, step through each item, producing JSON output as we go.
-	for pl := 0; pl < len(items); pl = pl + 1 {
-		if contains(listFolderExcludes, items[pl].Name()) == false {
-			itemAdded := false
-			if items[pl].IsDir() {
-				result = result + folderIndent + "[\"" + items[pl].Name() + "\",\n"
-				result = result + folderIndent + "[\n"
-				result = result + listFolderAsJSON(folderLevel + 1, thePath + "/" + items[pl].Name())
-				result = result + folderIndent + "]\n"
-				result = result + folderIndent + "]"
-				itemAdded = true
-			} else {
-				result = result + folderIndent + "\"" + items[pl].Name() + "\""
-				itemAdded = true
-			}
-			if itemAdded == true {
-				if pl < len(items)-1 {
-					result = result + ","
-				}
-				result = result + "\n"
-			}
-		}
-	}
-	if result == "" {
-		result = folderIndent + "\"\"\n"
-	}
-	return result
-}*/
 
 func normalisePath(thePath string) string {
 	otherPathSeparator := "/"
