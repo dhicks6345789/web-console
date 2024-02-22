@@ -573,7 +573,6 @@
 			
 			// Called when the document is first loaded and ready.
 			function pageReady() {
-				console.log("Called pageReady.");
 				if (taskID == "/" && window.location.href.includes("/view?")) {
 					webconsole.doAction("POST", window.location.href.split("/view?")[0], false, {"token":token}, false)
 				}
@@ -615,8 +614,8 @@
 				}
 				if (permission == "E") {
 					// If the user has "edit" permissions, show the "edit" block - first, get a list of files for this task from the server.
-					console.log("Calling refreshFolderTreeView()");
-					refreshFolderTreeView();
+					//console.log("Calling refreshFolderTreeView()");
+					//refreshFolderTreeView();
 					
 					// Javascript to handle the resizeable file browser / code editor panel. See original code at:
 					// https://htmldom.dev/create-resizable-split-views/
