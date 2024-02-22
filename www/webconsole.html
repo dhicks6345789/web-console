@@ -562,8 +562,8 @@
 						}
 						for (pl = 0; pl < toggler.length; pl = pl + 1) {
 							if (toggler[pl].getAttribute("onclick") == "refreshFolderTreeView('" + viewedPath + "')") {
-								toggler[pl].parentElement.querySelector(".nested").classList.toggle("active");
-								toggler[pl].classList.toggle("caret-down");
+								//toggler[pl].parentElement.querySelector(".nested").classList.toggle("active");
+								//toggler[pl].classList.toggle("caret-down");
 								editFileList = toggler[pl].parentElement.children[1];
 								nestedFolderPath = viewedPath;
 							}
