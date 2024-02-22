@@ -540,13 +540,13 @@
 
 			function refreshFolderTreeView(thePath="") {
 				console.log("refreshFolderTreeView: " + thePath);
-				editFileList = document.getElementById("editFileList/" + thePath);
-				console.log(editFileList);
-				
 				callPath = thePath;
 				if (callPath == "") {
 					callPath = "/";
 				}
+				editFileList = document.getElementById("editFileList" + callPath);
+				console.log(editFileList);
+				
 				webconsole.APICall("getEditableFileList", {"path":callPath}, function(result) {
 					// Parse that list of files into a JSON structure, then call a function that turns
 					// that structure into a string of HTML unordered lists (<UL></UL>).
