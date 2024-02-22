@@ -131,6 +131,7 @@
 								document.getElementById("taskProgress").innerHTML = "";
 
 								if (permission == "E") {
+									console.log("refreshFolderTreeView in updateTaskOutput");
 									refreshFolderTreeView();
 								}
 								
@@ -355,6 +356,7 @@
 			function renameFile() {
 				webconsole.APICall("renameFile", {"filename":document.getElementById("renameFileModalFilePath").innerHTML, "newFilename":document.getElementById("renameFileModalNewFilePath").value}, function(result) {
 					if (result == "OK") {
+						console.log("refreshFolderTreeView in renameFile");
 						refreshFolderTreeView();
 					} else {
 						alert(result);
@@ -376,6 +378,7 @@
 				newFilename = filePath + "/" + document.getElementById("newFileModalNewFileName").value
 				webconsole.APICall("newFile", {"filename":newFilename.substr(1)}, function(result) {
 					if (result == "OK") {
+						console.log("refreshFolderTreeView in newFile");
 						refreshFolderTreeView();
 					} else {
 						alert(result);
@@ -400,6 +403,7 @@
 				newFilename = filePath + "/" + document.getElementById("newFolderModalNewFolderName").value
 				webconsole.APICall("newFolder", {"filename":newFilename.substr(1)}, function(result) {
 					if (result == "OK") {
+						console.log("refreshFolderTreeView in newFolder");
 						refreshFolderTreeView();
 					} else {
 						alert(result);
@@ -530,7 +534,7 @@
 							result = result + "</li>\n";
 						}
 					} else {
-						result = result + folderIndent + "<li><span class=\"caret\" onclick=\"this.parentElement.querySelector('.nested').classList.toggle('active'); this.classList.toggle('caret-down'); refreshFolderTreeView('" + currentFolderPath + "/" + item[0] + "')\">" + item[0] + "</span><ul id=\"editFileList" + currentFolderPath + "/" + item[0] + "\" class=\"editFileList nested\">\n";
+						result = result + folderIndent + "<li><span class=\"caret\" onclick=\"this.parentElement.querySelector('.nested').classList.toggle('active'); this.classList.toggle('caret-down'); console.log("refreshFolderTreeView in onclick"); refreshFolderTreeView('" + currentFolderPath + "/" + item[0] + "')\">" + item[0] + "</span><ul id=\"editFileList" + currentFolderPath + "/" + item[0] + "\" class=\"editFileList nested\">\n";
 						result = result + parseFolderTree(currentFolderLevel+1, currentFolderPath + "/" + item[0], item[0], item[1]);
 						result = result + folderIndent + "</ul></li>\n";
 					}
