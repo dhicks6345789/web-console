@@ -530,7 +530,7 @@
 							result = result + "</li>\n";
 						}
 					} else {
-						result = result + folderIndent + "<li><span class=\"caret\" onclick=\"refreshFolderTreeView('" + currentFolderPath + "/" + item[0] + "')\">" + item[0] + "</span><ul class=\"editFileList nested\">\n";
+						result = result + folderIndent + "<li><span class=\"caret\" onclick=\"this.parentElement.querySelector('.nested').classList.toggle('active'); this.classList.toggle('caret-down'); refreshFolderTreeView('" + currentFolderPath + "/" + item[0] + "')\">" + item[0] + "</span><ul class=\"editFileList nested\">\n";
 						result = result + parseFolderTree(currentFolderLevel+1, currentFolderPath + "/" + item[0], item[0], item[1]);
 						result = result + folderIndent + "</ul></li>\n";
 					}
@@ -548,10 +548,17 @@
 					// Parse that list of files into a JSON structure, then call a function that turns
 					// that structure into a string of HTML unordered lists (<UL></UL>).
 					editFileList = document.getElementById("editFileList");
-						
+					
 					// Add functionality to each LI item in the edit file view to make a exandable / collapsible tree view.
 					var toggler = document.getElementsByClassName("caret");
-
+					/*var pl;
+					for (pl = 0; pl < toggler.length; pl = pl + 1) {
+						toggler[pl].addEventListener("click", function() {
+							this.parentElement.querySelector(".nested").classList.toggle("active");
+							this.classList.toggle("caret-down");
+						});
+					}*/
+					
 					viewedPath = ""
 					nestedFolderPath = ""
 					thePath.split("/").forEach(function(pathSection) {
