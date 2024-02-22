@@ -553,6 +553,7 @@
 					var toggler = document.getElementsByClassName("caret");
 
 					viewedPath = ""
+					nestedFolderPath = "/"
 					thePath.split("/").forEach(function(pathSection) {
 						if (viewedPath == "/") {
 							viewedPath = "/" + pathSection;
@@ -560,18 +561,16 @@
 							viewedPath = viewedPath + "/" + pathSection;
 						}
 						for (pl = 0; pl < toggler.length; pl = pl + 1) {
-							//console.log(toggler[pl].getAttribute("onclick") + " == refreshFolderTreeView('" + viewedPath + "')");
 							if (toggler[pl].getAttribute("onclick") == "refreshFolderTreeView('" + viewedPath + "')") {
-								//console.log("Matched!: " + toggler[pl].getAttribute("onclick"));
 								toggler[pl].parentElement.querySelector(".nested").classList.toggle("active");
 								toggler[pl].classList.toggle("caret-down");
-								console.log(toggler[pl].parentElement.children[1].tagName);
 								editFileList = toggler[pl].parentElement.children[1];
+								nestedFolderPath = viewedPath;
 							}
 						}
 					});
 
-					editFileList.innerHTML = parseFolderTree(0, "", "", JSON.parse(result));
+					editFileList.innerHTML = parseFolderTree(0, nestedFolderPath, "", JSON.parse(result));
 				});
 			}
 			
