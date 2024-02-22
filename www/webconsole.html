@@ -545,40 +545,9 @@
 					callPath = "/";
 				}
 				editFileList = document.getElementById("editFileList" + callPath);
-				console.log(editFileList);
-				
 				webconsole.APICall("getEditableFileList", {"path":callPath}, function(result) {
 					// Parse that list of files into a JSON structure, then call a function that turns
 					// that structure into a string of HTML unordered lists (<UL></UL>).
-					
-					// Add functionality to each LI item in the edit file view to make a exandable / collapsible tree view.
-					var toggler = document.getElementsByClassName("caret");
-					/*var pl;
-					for (pl = 0; pl < toggler.length; pl = pl + 1) {
-						toggler[pl].addEventListener("click", function() {
-							this.parentElement.querySelector(".nested").classList.toggle("active");
-							this.classList.toggle("caret-down");
-						});
-					}*/
-					
-					/*viewedPath = ""
-					nestedFolderPath = ""
-					thePath.split("/").forEach(function(pathSection) {
-						if (viewedPath == "/") {
-							viewedPath = "/" + pathSection;
-						} else {
-							viewedPath = viewedPath + "/" + pathSection;
-						}
-						for (pl = 0; pl < toggler.length; pl = pl + 1) {
-							if (toggler[pl].getAttribute("onclick") == "refreshFolderTreeView('" + viewedPath + "')") {
-								//toggler[pl].parentElement.querySelector(".nested").classList.toggle("active");
-								//toggler[pl].classList.toggle("caret-down");
-								editFileList = toggler[pl].parentElement.children[1];
-								nestedFolderPath = viewedPath;
-							}
-						}
-					});*/
-
 					editFileList.innerHTML = parseFolderTree(0, thePath, "", JSON.parse(result));
 				});
 			}
