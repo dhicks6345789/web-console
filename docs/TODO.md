@@ -71,8 +71,10 @@
   * Add support for per-user webserver, so user can read user / group / public files.
 * Handle values passed in standard Webhook headers, pass those to Task's script.
   * Queue size - 0 for non, 1, or "lots".
+  * Helper script to clone Swagger API to local SQLite database
 * Error reporting for Tasks
   * Report failures (as given by exit code).
 * Authentication support
   * Tailscale
   * Caddy (SSO features)
+* Bootstrap keywords for formatting via STDOUT
