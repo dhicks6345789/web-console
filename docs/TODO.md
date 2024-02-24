@@ -4,7 +4,7 @@
 
 * Live messages view not always showing every line, only gets all lines on page refresh.
 * Is STDERR being captured okay? Should intersperse with STDOUT, not be stuck at end.
-* Seems to be an upper limit on the number of lines storable by the "output" text box on the user interface - might need to set a buffer limit.
+* Seems to be an upper limit on the number of lines storable by the "output" text box on the user interface - might need to set a buffer limit / add paging.
 * API - Check for ".." paths.
 * Output - does output.html get displayed properly?
   * Make sure MIME type is set properly.
@@ -19,9 +19,12 @@
 
 * Edit Mode
   * Highlight current/unsaved files, stop exit / run until files saved / discarded.
-  * Upload of files / folders.
-  * Rename of files / folder.
+  * Upload of folders.
+  * Rename of folders.
   * Add diff / versioning for file edits.
+    * addDiff
+    * getDiffList
+    * resetToDiff
 * Add functions to webconsole.js for library functions to do calls to Tasks as API server:
   * Get result (task/www/index.json, proper MIME type set).
   * Done - Run success function with returned value.
@@ -48,6 +51,7 @@
     * Jekyll
     * 11ty
     * Gatsby
+    * Observable
     * Docs-To-Markdown
     * How-To
     * FAQ
@@ -64,3 +68,11 @@
 * Add ChromeOS support in install.sh.
 * Web Server / Results folder
   * Add session cookies for authentication.
+  * Add support for per-user webserver, so user can read user / group / public files.
+* Handle values passed in standard Webhook headers, pass those to Task's script.
+  * Queue size - 0 for non, 1, or "lots".
+* Error reporting for Tasks
+  * Report failures (as given by exit code).
+* Authentication support
+  * Tailscale
+  * Caddy (SSO features)
