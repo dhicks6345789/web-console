@@ -1508,6 +1508,7 @@ func main() {
 				}
 				// If the request was for a favicon, serve something suitible.
 				if faviconTitle != "" {
+					debug("faviconTitle: " + faviconTitle)
 					faviconPath := arguments["webroot"] + "/" + "favicon.png"
 					taskList, taskErr := getTaskList()
 					if taskErr == nil {
