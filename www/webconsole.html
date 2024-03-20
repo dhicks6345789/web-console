@@ -540,15 +540,17 @@
 
 			function refreshFolderTreeView(thePath="") {
 				callPath = thePath;
+				folderLevel = thePath.split("/").length;
 				if (callPath == "") {
 					callPath = "/";
+					folderLevel = 0;
 				}
 				editFileList = document.getElementById("editFileList" + callPath);
 				webconsole.APICall("getEditableFileList", {"path":callPath}, function(result) {
 					// Parse that list of files into a JSON structure, then call a function that turns
 					// that structure into a string of HTML unordered lists (<UL></UL>).
 					pathSplit = thePath.split("/");
-					editFileList.innerHTML = parseFolderTree(0, thePath, pathSplit[pathSplit.length-1], JSON.parse(result));
+					editFileList.innerHTML = parseFolderTree(folderLevel, thePath, pathSplit[pathSplit.length-1], JSON.parse(result));
 				});
 			}
 			
