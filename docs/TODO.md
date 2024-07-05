@@ -17,6 +17,22 @@
 
 ## Features
 
+* Web Server / Results folder
+  * Add session cookies for authentication.
+  * Add support for per-user webserver, so user can read user / group / public files.
+* Inputs from STDIN.
+  * Single line text box
+  * Radio select
+  * Dropdown
+  * Typeahead dropdown
+  * File upload
+  * Photo capture
+* Handle values passed in standard Webhook headers, pass those to Task's script.
+  * Queue size - 0 for non, 1, or "lots".
+  * Helper script to clone Swagger API to local SQLite database
+* Authentication support
+  * Tailscale
+  * Caddy (SSO features)
 * Edit Mode
   * Highlight current/unsaved files, stop exit / run until files saved / discarded.
   * Upload of folders.
@@ -35,13 +51,6 @@
   * Actually simple to add via prepend string in arguments?
 * Backup tab for Task editor view - download and restore.
   * Task mirroring to secondary server.
-* Inputs from STDIN.
-  * Single line text box
-  * Radio select
-  * Dropdown
-  * Typeahead dropdown
-  * File upload
-  * Photo capture
 * Better admin console.
   * UI created by own capabilities!
   * Task run schedualer (cross-platform, write back to both cron and Windows Task Schedular), with error reporting if tasks fail.
@@ -66,15 +75,6 @@
   * Users with Editor rights can cancel. Runner who runs Task gets permissions to cancel, not other Runners.
 * Add Mac support in install.sh.
 * Add ChromeOS support in install.sh.
-* Web Server / Results folder
-  * Add session cookies for authentication.
-  * Add support for per-user webserver, so user can read user / group / public files.
-* Handle values passed in standard Webhook headers, pass those to Task's script.
-  * Queue size - 0 for non, 1, or "lots".
-  * Helper script to clone Swagger API to local SQLite database
 * Error reporting for Tasks
   * Report failures (as given by exit code).
-* Authentication support
-  * Tailscale
-  * Caddy (SSO features)
 * Bootstrap keywords for formatting via STDOUT
