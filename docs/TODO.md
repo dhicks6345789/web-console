@@ -20,6 +20,9 @@
 * Web Server / Results folder
   * Add session cookies for authentication.
   * Add support for per-user webserver, so user can read user / group / public files.
+* Authentication support
+  * Tailscale
+  * Caddy (SSO features)
 * Inputs from STDIN.
   * Single line text box
   * Radio select
@@ -30,9 +33,6 @@
 * Handle values passed in standard Webhook headers, pass those to Task's script.
   * Queue size - 0 for non, 1, or "lots".
   * Helper script to clone Swagger API to local SQLite database
-* Authentication support
-  * Tailscale
-  * Caddy (SSO features)
 * Edit Mode
   * Highlight current/unsaved files, stop exit / run until files saved / discarded.
   * Upload of folders.
