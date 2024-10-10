@@ -1277,7 +1277,9 @@ func main() {
 								// Depending on the defined logReportingLevel for this Task, email the defined receipiants with the log results.
 								if taskDetails["logReportingLevel"] != "none" {
 									debug("Emailing log reports, level: " + taskDetails["logReportingLevel"])
-									debug(taskOutputs[taskID])
+									for pl := 0; pl < len(taskOutputs[taskID]); pl = pl + 1 {
+										debug(taskOutputs[taskID][pl])
+									}
 								}
 								if taskDetails["resultURL"] != "" {
 									debug("Sending client resultURL: " + taskDetails["resultURL"])
