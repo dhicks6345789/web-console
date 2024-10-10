@@ -302,6 +302,8 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 	if taskDetails["smtpPort"], ok = arguments["smtpport"]; ok {
 		taskDetails["smtpPort"] = "587"
 	}
+	debug("arguments[smtphost]: " + arguments["smtphost"])
+	debug("arguments[smtpHost]: " + arguments["smtpHost"])
 	if taskDetails["smtpHost"], ok = arguments["smtphost"]; ok {
 		taskDetails["smtpHost"] = ""
 	}
