@@ -1289,17 +1289,19 @@ func main() {
 									debug("Emailing log reports, level: " + taskDetails["logReportingLevel"])
 									logMessageBody := ""
 									for pl := 0; pl < len(taskOutputs[taskID]); pl = pl + 1 {
-										if strings.HasPrefix(strings.ToLower(taskOutputs[taskID][pl]), "error") {
-											logMessageBody = logMessageBody + taskOutputs[taskID][pl] + "\n"
-										}
-										if logReportingLevel > 1 {
-											if strings.HasPrefix(strings.ToLower(taskOutputs[taskID][pl]), "warning") {
+										if taskOutputs[taskID][pl] != "" {
+											if strings.HasPrefix(strings.ToLower(taskOutputs[taskID][pl]), "error") {
 												logMessageBody = logMessageBody + taskOutputs[taskID][pl] + "\n"
-											} else if logReportingLevel > 2 {
-												if strings.HasPrefix(strings.ToLower(taskOutputs[taskID][pl]), "message") {
+											}
+											if logReportingLevel > 1 {
+												if strings.HasPrefix(strings.ToLower(taskOutputs[taskID][pl]), "warning") {
 													logMessageBody = logMessageBody + taskOutputs[taskID][pl] + "\n"
-												} else if logReportingLevel > 3 {
-													logMessageBody = logMessageBody + taskOutputs[taskID][pl] + "\n"
+												} else if logReportingLevel > 2 {
+													if strings.HasPrefix(strings.ToLower(taskOutputs[taskID][pl]), "message") {
+														logMessageBody = logMessageBody + taskOutputs[taskID][pl] + "\n"
+													} else if logReportingLevel > 3 {
+														logMessageBody = logMessageBody + taskOutputs[taskID][pl] + "\n"
+													}
 												}
 											}
 										}
