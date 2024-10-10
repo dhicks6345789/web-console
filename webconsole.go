@@ -23,7 +23,7 @@ import (
 	"strings"
 	"strconv"
 	"net/http"
-	//"net/smtp"
+	"net/smtp"
 	"math/rand"
 	"archive/zip"
 	"encoding/csv"
@@ -1321,19 +1321,18 @@ func main() {
 											}
 										}
 									}
-									
-									//smtpAuth := smtp.PlainAuth("", taskDetails["smtpFrom"], taskDetails["smtpPassword"], taskDetails["smtpHost"])
-									//smtpError := smtp.SendMail(taskDetails["smtpHost"] + ":" + taskDetails["smtpFrom"], smtpAuth, taskDetails["smtpFrom"], taskDetails["smtpTo"], logMessageBody)
 									debug(taskDetails["smtpPort"])
 									debug(taskDetails["smtpHost"])
 									debug(taskDetails["smtpPassword"])
 									debug(taskDetails["smtpFrom"])
 									debug(taskDetails["smtpTo"])
-									/*if smtpError != nil {
+									smtpAuth := smtp.PlainAuth("", taskDetails["smtpFrom"], taskDetails["smtpPassword"], taskDetails["smtpHost"])
+									smtpError := smtp.SendMail(taskDetails["smtpHost"] + ":" + taskDetails["smtpFrom"], smtpAuth, taskDetails["smtpFrom"], taskDetails["smtpTo"], logMessageBody)
+									if smtpError != nil {
 										debug(smtpError)
 									} else {
 										debug("..ok.")
-									}*/
+									}
 								}
 								if taskDetails["resultURL"] != "" {
 									debug("Sending client resultURL: " + taskDetails["resultURL"])
