@@ -300,7 +300,7 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 	taskDetails["logReportingLevel"] = "none"
 	ok := true
 	if taskDetails["smtpPort"], ok = arguments["smtpPort"]; ok {
-		smtpPort = "587"
+		taskDetails["smtpPort"] = "587"
 	}
 	if taskDetails["smtpHost"], ok = arguments["smtpHost"]; ok {
 		taskDetails["smtpHost"] = ""
