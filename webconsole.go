@@ -302,8 +302,6 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 	if taskDetails["smtpPort"], ok = arguments["smtpport"]; !ok {
 		taskDetails["smtpPort"] = "587"
 	}
-	debug("arguments[smtphost]: " + arguments["smtphost"])
-	debug("arguments[smtpHost]: " + arguments["smtpHost"])
 	if taskDetails["smtpHost"], ok = arguments["smtphost"]; !ok {
 		taskDetails["smtpHost"] = ""
 	}
@@ -1323,6 +1321,7 @@ func main() {
 											}
 										}
 									}
+									
 									//smtpAuth := smtp.PlainAuth("", taskDetails["smtpFrom"], taskDetails["smtpPassword"], taskDetails["smtpHost"])
 									//smtpError := smtp.SendMail(taskDetails["smtpHost"] + ":" + taskDetails["smtpFrom"], smtpAuth, taskDetails["smtpFrom"], taskDetails["smtpTo"], logMessageBody)
 									debug(taskDetails["smtpPort"])
