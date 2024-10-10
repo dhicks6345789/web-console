@@ -23,7 +23,7 @@ import (
 	"strings"
 	"strconv"
 	"net/http"
-	"net/smtp"
+	//"net/smtp"
 	"math/rand"
 	"archive/zip"
 	"encoding/csv"
@@ -298,19 +298,19 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 	taskDetails["authentication"] = ""
 	taskDetails["logPeriod"] = "129600"
 	taskDetails["logReportingLevel"] = "none"
-	if taskDetails["smtpPort"], ok := arguments["smtpPort"]; ok {
+	if taskDetails["smtpPort"], ok = arguments["smtpPort"]; ok {
 		taskDetails["smtpPort"] = "587"
 	}
-	if taskDetails["smtpHost"], ok := arguments["smtpHost"]; ok {
+	if taskDetails["smtpHost"], ok = arguments["smtpHost"]; ok {
 		taskDetails["smtpHost"] = ""
 	}
-	if taskDetails["smtpPassword"], ok := arguments["smtpPassword"]; ok {
+	if taskDetails["smtpPassword"], ok = arguments["smtpPassword"]; ok {
 		taskDetails["smtpPassword"] = ""
 	}
-	if taskDetails["smtpFrom"], ok := arguments["smtpFrom"]; ok {
+	if taskDetails["smtpFrom"], ok = arguments["smtpFrom"]; ok {
 		taskDetails["smtpFrom"] = ""
 	}
-	if taskDetails["smtpTo"], ok := arguments["smtpTo"]; ok {
+	if taskDetails["smtpTo"], ok = arguments["smtpTo"]; ok {
 		taskDetails["smtpTo"] = ""
 	}
 	debug("Finding details for Task: " + theTaskID)
@@ -1327,11 +1327,11 @@ func main() {
 									debug(taskDetails["smtpPassword"])
 									debug(taskDetails["smtpFrom"])
 									debug(taskDetails["smtpTo"])
-									if smtpError != nil {
+									/*if smtpError != nil {
 										debug(smtpError)
 									} else {
 										debug("..ok.")
-									}
+									}*/
 								}
 								if taskDetails["resultURL"] != "" {
 									debug("Sending client resultURL: " + taskDetails["resultURL"])
