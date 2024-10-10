@@ -299,21 +299,21 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 	taskDetails["logPeriod"] = "129600"
 	taskDetails["logReportingLevel"] = "none"
 	ok := true
-	if taskDetails["smtpPort"], ok = arguments["smtpport"]; ok {
+	if taskDetails["smtpPort"], ok = arguments["smtpport"]; !ok {
 		taskDetails["smtpPort"] = "587"
 	}
 	debug("arguments[smtphost]: " + arguments["smtphost"])
 	debug("arguments[smtpHost]: " + arguments["smtpHost"])
-	if taskDetails["smtpHost"], ok = arguments["smtphost"]; ok {
+	if taskDetails["smtpHost"], ok = arguments["smtphost"]; !ok {
 		taskDetails["smtpHost"] = ""
 	}
-	if taskDetails["smtpPassword"], ok = arguments["smtppassword"]; ok {
+	if taskDetails["smtpPassword"], ok = arguments["smtppassword"]; !ok {
 		taskDetails["smtpPassword"] = ""
 	}
-	if taskDetails["smtpFrom"], ok = arguments["smtpfrom"]; ok {
+	if taskDetails["smtpFrom"], ok = arguments["smtpfrom"]; !ok {
 		taskDetails["smtpFrom"] = ""
 	}
-	if taskDetails["smtpTo"], ok = arguments["smtpto"]; ok {
+	if taskDetails["smtpTo"], ok = arguments["smtpto"]; !ok {
 		taskDetails["smtpTo"] = ""
 	}
 	debug("Finding details for Task: " + theTaskID)
