@@ -298,21 +298,20 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 	taskDetails["authentication"] = ""
 	taskDetails["logPeriod"] = "129600"
 	taskDetails["logReportingLevel"] = "none"
-	debug("arguments[smtpport]: " + arguments["smtpport"])
 	ok := true
 	if taskDetails["smtpPort"], ok = arguments["smtpport"]; ok {
 		taskDetails["smtpPort"] = "587"
 	}
-	if taskDetails["smtpHost"], ok = arguments["smtpHost"]; ok {
+	if taskDetails["smtpHost"], ok = arguments["smtphost"]; ok {
 		taskDetails["smtpHost"] = ""
 	}
-	if taskDetails["smtpPassword"], ok = arguments["smtpPassword"]; ok {
+	if taskDetails["smtpPassword"], ok = arguments["smtppassword"]; ok {
 		taskDetails["smtpPassword"] = ""
 	}
-	if taskDetails["smtpFrom"], ok = arguments["smtpFrom"]; ok {
+	if taskDetails["smtpFrom"], ok = arguments["smtpfrom"]; ok {
 		taskDetails["smtpFrom"] = ""
 	}
-	if taskDetails["smtpTo"], ok = arguments["smtpTo"]; ok {
+	if taskDetails["smtpTo"], ok = arguments["smtpto"]; ok {
 		taskDetails["smtpTo"] = ""
 	}
 	debug("Finding details for Task: " + theTaskID)
