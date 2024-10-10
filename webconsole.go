@@ -1329,7 +1329,7 @@ func main() {
 									smtpAuth := smtp.PlainAuth("", taskDetails["smtpFrom"], taskDetails["smtpPassword"], taskDetails["smtpHost"])
 									smtpError := smtp.SendMail(taskDetails["smtpHost"] + ":" + taskDetails["smtpFrom"], smtpAuth, taskDetails["smtpFrom"], []string{taskDetails["smtpTo"]}, []byte(logMessageBody))
 									if smtpError != nil {
-										debug(smtpError)
+										debug(fmt.Sprint(smtpError))
 									} else {
 										debug("..ok.")
 									}
