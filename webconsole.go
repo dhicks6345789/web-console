@@ -266,6 +266,10 @@ func runTask(theTaskID string) {
 				} else {
 					debug("Some issue reading log file: " + arguments["taskroot"] + "/" + theTaskID + "/log.txt")
 				}
+				// Parse the logfileContent and, depending on the defined logreportinglevel for this Task, email the defined receipiants with the log results.
+				if arguments["logreportinglevel"] != "none" {
+					debug("logreportinglevel: " + arguments["logreportinglevel"])
+				}
 			}
 		}
 	}
@@ -832,6 +836,7 @@ func main() {
 	arguments["shellprefix"] = ""
 	arguments["cloudflare"] = "false"
 	arguments["ngrok"] = "false"
+	arguments["logreportinglevel"] = "none"
 	setArgumentIfPathExists("webconsoleroot", []string {"/etc/webconsole", "C:\\Program Files\\WebConsole"})
 	setArgumentIfPathExists("config", []string {"config.csv", "/etc/webconsole/config.csv", "C:\\Program Files\\WebConsole\\config.csv"})
 	setArgumentIfPathExists("webroot", []string {"www", "/etc/webconsole/www", "C:\\Program Files\\WebConsole\\www", ""})
