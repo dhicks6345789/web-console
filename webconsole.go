@@ -23,6 +23,7 @@ import (
 	"strings"
 	"strconv"
 	"net/http"
+	"net/smtp"
 	"math/rand"
 	"archive/zip"
 	"encoding/csv"
@@ -297,7 +298,21 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 	taskDetails["authentication"] = ""
 	taskDetails["logPeriod"] = "129600"
 	taskDetails["logReportingLevel"] = "none"
-
+	if taskDetails["smtpPort"], ok := arguments["smtpPort"]; ok {
+		taskDetails["smtpPort"] = "587"
+	}
+	if taskDetails["smtpHost"], ok := arguments["smtpHost"]; ok {
+		taskDetails["smtpHost"] = ""
+	}
+	if taskDetails["smtpPassword"], ok := arguments["smtpPassword"]; ok {
+		taskDetails["smtpPassword"] = ""
+	}
+	if taskDetails["smtpFrom"], ok := arguments["smtpFrom"]; ok {
+		taskDetails["smtpFrom"] = ""
+	}
+	if taskDetails["smtpTo"], ok := arguments["smtpTo"]; ok {
+		taskDetails["smtpTo"] = ""
+	}
 	debug("Finding details for Task: " + theTaskID)
 	// Check to see if we have a valid task ID.
 	if (theTaskID == "/") {
@@ -1286,27 +1301,37 @@ func main() {
 									logReportingLevel = 4
 								}
 								if logReportingLevel > 0 {
-									debug("Emailing log reports, level: " + taskDetails["logReportingLevel"])
+									debug("Emailing log reports, level: " + taskDetails["logReportingLevel"] + "...")
 									logMessageBody := ""
 									for pl := 0; pl < len(taskOutputs[taskID]); pl = pl + 1 {
-										if taskOutputs[taskID][pl] != "" {
-											if strings.HasPrefix(strings.ToLower(taskOutputs[taskID][pl]), "error") {
+										
+										if strings.HasPrefix(strings.ToLower(taskOutputs[taskID][pl]), "error") {
+											logMessageBody = logMessageBody + taskOutputs[taskID][pl] + "\n"
+										}
+										if logReportingLevel > 1 {
+											if strings.HasPrefix(strings.ToLower(taskOutputs[taskID][pl]), "warning") {
 												logMessageBody = logMessageBody + taskOutputs[taskID][pl] + "\n"
-											}
-											if logReportingLevel > 1 {
-												if strings.HasPrefix(strings.ToLower(taskOutputs[taskID][pl]), "warning") {
+											} else if logReportingLevel > 2 {
+												if strings.HasPrefix(strings.ToLower(taskOutputs[taskID][pl]), "message") {
 													logMessageBody = logMessageBody + taskOutputs[taskID][pl] + "\n"
-												} else if logReportingLevel > 2 {
-													if strings.HasPrefix(strings.ToLower(taskOutputs[taskID][pl]), "message") {
-														logMessageBody = logMessageBody + taskOutputs[taskID][pl] + "\n"
-													} else if logReportingLevel > 3 {
-														logMessageBody = logMessageBody + taskOutputs[taskID][pl] + "\n"
-													}
+												} else if logReportingLevel > 3 {
+													logMessageBody = logMessageBody + taskOutputs[taskID][pl] + "\n"
 												}
 											}
 										}
 									}
-									debug(logMessageBody)
+									//smtpAuth := smtp.PlainAuth("", taskDetails["smtpFrom"], taskDetails["smtpPassword"], taskDetails["smtpHost"])
+									//smtpError := smtp.SendMail(taskDetails["smtpHost"] + ":" + taskDetails["smtpFrom"], smtpAuth, taskDetails["smtpFrom"], taskDetails["smtpTo"], logMessageBody)
+									debug(taskDetails["smtpPort"])
+									debug(taskDetails["smtpHost"])
+									debug(taskDetails["smtpPassword"])
+									debug(taskDetails["smtpFrom"])
+									debug(taskDetails["smtpTo"])
+									if smtpError != nil {
+										debug(smtpError)
+									} else {
+										debug("..ok.")
+									}
 								}
 								if taskDetails["resultURL"] != "" {
 									debug("Sending client resultURL: " + taskDetails["resultURL"])
