@@ -1273,10 +1273,12 @@ func main() {
 								} else {
 									debug("Error reading items in path: " + logfilePath)
 								}
-								debug("Task complete.")
-								// Parse the logfileContent and, depending on the defined logreportinglevel for this Task, email the defined receipiants with the log results.
-								debug("logreportinglevel: " + arguments["logreportingtevel"])
-								debug("logReportingLevel: " + taskDetails["logReportingLevel"])
+								debug("Task " + taskID + " complete.")
+								// Depending on the defined logReportingLevel for this Task, email the defined receipiants with the log results.
+								if taskDetails["logReportingLevel"] != "none" {
+									debug("Emailing log reports, level: " + taskDetails["logReportingLevel"])
+									debug(taskOutputs[taskID])
+								}
 								if taskDetails["resultURL"] != "" {
 									debug("Sending client resultURL: " + taskDetails["resultURL"])
 									fmt.Fprintf(theResponseWriter, "ERROR: REDIRECT " + taskDetails["resultURL"])
