@@ -1275,11 +1275,36 @@ func main() {
 								}
 								debug("Task " + taskID + " complete.")
 								// Depending on the defined logReportingLevel for this Task, email the defined receipiants with the log results.
-								if taskDetails["logReportingLevel"] != "none" {
+								logReportingLevel := 0
+								if taskDetails["logReportingLevel"] == "error" {
+									logReportingLevel = 1
+								} else if taskDetails["logReportingLevel"] == "warning" {
+									logReportingLevel = 2
+								} else if taskDetails["logReportingLevel"] == "message" {
+									logReportingLevel = 3
+								} else if taskDetails["logReportingLevel"] == "all" {
+									logReportingLevel = 4
+								}
+								if logReportingLevel > 0 {
 									debug("Emailing log reports, level: " + taskDetails["logReportingLevel"])
+									logMessageBody := ""
 									for pl := 0; pl < len(taskOutputs[taskID]); pl = pl + 1 {
-										debug(taskOutputs[taskID][pl])
+										if strings.HasPrefix(strings.ToLower(taskOutputs[taskID][pl]), "error") {
+											logMessageBody = logMessageBody + taskOutputs[taskID][pl] + "\n"
+										}
+										if logReportingLevel > 1 {
+											if strings.HasPrefix(strings.ToLower(taskOutputs[taskID][pl]), "warning") {
+												logMessageBody = logMessageBody + taskOutputs[taskID][pl] + "\n"
+											} else if logReportingLevel > 2 {
+												if strings.HasPrefix(strings.ToLower(taskOutputs[taskID][pl]), "message") {
+													logMessageBody = logMessageBody + taskOutputs[taskID][pl] + "\n"
+												} else if logReportingLevel > 3 {
+													logMessageBody = logMessageBody + taskOutputs[taskID][pl] + "\n"
+												}
+											}
+										}
 									}
+									debug(logMessageBody)
 								}
 								if taskDetails["resultURL"] != "" {
 									debug("Sending client resultURL: " + taskDetails["resultURL"])
