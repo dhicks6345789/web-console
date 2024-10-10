@@ -300,6 +300,7 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 	taskDetails["command"] = ""
 	taskDetails["authentication"] = ""
 	taskDetails["logPeriod"] = "129600"
+	taskDetails["logReportingLevel"] = "none"
 
 	debug("Finding details for Task: " + theTaskID)
 	// Check to see if we have a valid task ID.
