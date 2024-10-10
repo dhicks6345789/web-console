@@ -266,10 +266,6 @@ func runTask(theTaskID string) {
 				} else {
 					debug("Some issue reading log file: " + arguments["taskroot"] + "/" + theTaskID + "/log.txt")
 				}
-				// Parse the logfileContent and, depending on the defined logreportinglevel for this Task, email the defined receipiants with the log results.
-				if arguments["logreportinglevel"] != "none" {
-					debug("logreportinglevel: " + arguments["logreportinglevel"])
-				}
 			}
 		}
 	}
@@ -1277,14 +1273,18 @@ func main() {
 								} else {
 									debug("Error reading items in path: " + logfilePath)
 								}
+								debug("Task complete.")
+								// Parse the logfileContent and, depending on the defined logreportinglevel for this Task, email the defined receipiants with the log results.
+								debug("logreportinglevel: " + arguments["logreportingtevel"])
+								debug("logReportingLevel: " + taskDetails["logReportingLevel"])
 								if taskDetails["resultURL"] != "" {
-									debug("Task complete - sending client resultURL: " + taskDetails["resultURL"])
+									debug("Sending client resultURL: " + taskDetails["resultURL"])
 									fmt.Fprintf(theResponseWriter, "ERROR: REDIRECT " + taskDetails["resultURL"])
 								} else if _, err := os.Stat(arguments["taskroot"] + "/" + taskID + "/www"); err == nil {
-									debug("Task complete - www subfolder found, sending client redirect.")
+									debug("www subfolder found, sending client redirect.")
 									fmt.Fprintf(theResponseWriter, "ERROR: REDIRECT")
 								} else {
-									debug("Task complete - sending client EOF.")
+									debug("Sending client EOF.")
 									fmt.Fprintf(theResponseWriter, "ERROR: EOF")
 								}
 								//delete(taskOutputs, taskID)
