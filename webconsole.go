@@ -54,6 +54,9 @@ import (
 // Characters to use to generate new ID strings. Lowercase only - any user-provided IDs will be lowercased before use.
 const letters = "abcdefghijklmnopqrstuvwxyz1234567890"
 
+// User-friendly names to use for log levels in emails.
+logLevels := [4]string{"NONE", "ERROR", "WARNING", "ALL"}
+
 // The current release version - value provided at compile time.
 var buildVersion string
 
@@ -1338,7 +1341,6 @@ func main() {
 									debug(taskDetails["smtpPassword"])
 									debug(taskDetails["smtpFrom"])
 									debug(taskDetails["smtpTo"])
-									logLevels := ["NONE", "ERROR", "WARNING", "ALL"]
 									emailBody := "From: " + taskDetails["smtpFrom"] + "\n"
 									emailBody = emailBody + "To: " + taskDetails["smtpTo"] + "\n"
 									emailBody = emailBody + "Subject: [" + logLevels[highestLogLevelFound] + "] Log Report: Task \"" + taskDetails["title"] + "\"\n"
