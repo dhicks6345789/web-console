@@ -1292,6 +1292,7 @@ func main() {
 								debug("Task " + taskID + " complete.")
 								// Depending on the defined logReportingLevel for this Task, email the defined receipiants with the log results.
 								logReportingLevel := 0
+								highestLogLevelFound := 0
 								if taskDetails["logReportingLevel"] == "error" {
 									logReportingLevel = 1
 								} else if taskDetails["logReportingLevel"] == "warning" {
@@ -1307,15 +1308,26 @@ func main() {
 									for pl := 0; pl < len(taskOutputs[taskID]); pl = pl + 1 {
 										
 										if strings.HasPrefix(strings.ToLower(taskOutputs[taskID][pl]), "error") {
+											if highestLogLevelFound < 1 {
+												highestLogLevelFound = 1
+											}
 											logMessageBody = logMessageBody + taskOutputs[taskID][pl] + "\n"
-										}
-										if logReportingLevel > 1 {
+										} else if logReportingLevel > 1 {
 											if strings.HasPrefix(strings.ToLower(taskOutputs[taskID][pl]), "warning") {
+												if highestLogLevelFound < 2 {
+													highestLogLevelFound = 2
+												}
 												logMessageBody = logMessageBody + taskOutputs[taskID][pl] + "\n"
 											} else if logReportingLevel > 2 {
 												if strings.HasPrefix(strings.ToLower(taskOutputs[taskID][pl]), "message") {
+													if highestLogLevelFound < 3 {
+														highestLogLevelFound = 3
+													}
 													logMessageBody = logMessageBody + taskOutputs[taskID][pl] + "\n"
 												} else if logReportingLevel > 3 {
+													if highestLogLevelFound < 4 {
+														highestLogLevelFound = 4
+													}
 													logMessageBody = logMessageBody + taskOutputs[taskID][pl] + "\n"
 												}
 											}
@@ -1326,9 +1338,10 @@ func main() {
 									debug(taskDetails["smtpPassword"])
 									debug(taskDetails["smtpFrom"])
 									debug(taskDetails["smtpTo"])
+									logLevels := ["NONE", "ERROR", "WARNING", "ALL"]
 									emailBody := "From: " + taskDetails["smtpFrom"] + "\n"
 									emailBody = emailBody + "To: " + taskDetails["smtpTo"] + "\n"
-									emailBody = emailBody + "Subject: [" + strings.ToUpper(taskDetails["logReportingLevel"]) + "] Log Report - Task ID: " + taskID + "\n"
+									emailBody = emailBody + "Subject: [" + logLevels[highestLogLevelFound] + "] Log Report: Task \"" + taskDetails["title"] + "\"\n"
 									emailBody = emailBody + "\n"
 									emailBody = emailBody + logMessageBody
 									debug(emailBody)
