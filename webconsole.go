@@ -1326,7 +1326,7 @@ func main() {
 									debug(taskDetails["smtpPassword"])
 									debug(taskDetails["smtpFrom"])
 									debug(taskDetails["smtpTo"])
-									emailBody = "From: " + taskDetails["smtpFrom"] + "\n"
+									emailBody := "From: " + taskDetails["smtpFrom"] + "\n"
 									emailBody = emailBody + "To: " + taskDetails["smtpTo"] + "\n"
 									emailBody = emailBody + "Subject: [" + strings.ToUpper(taskDetails["logReportingLevel"]) + "] Log Report - Task ID: " + taskID + "\n"
 									emailBody = emailBody + "\n"
