@@ -1343,7 +1343,8 @@ func main() {
 									debug(taskDetails["smtpTo"])
 									emailBody := "From: " + taskDetails["smtpFrom"] + "\n"
 									emailBody = emailBody + "To: " + taskDetails["smtpTo"] + "\n"
-									emailBody = emailBody + "Subject: [" + logLevels[highestLogLevelFound] + "] Log Report: Task \"" + taskDetails["title"] + "\"\n"
+									currentTime := time.Now()
+									emailBody = emailBody + "Subject: [" + logLevels[highestLogLevelFound] + "] Task \"" + taskDetails["title"] + "\" completed " + currentTime.Format("02/01/2006 15:04:05") + "\n"
 									emailBody = emailBody + "\n"
 									emailBody = emailBody + logMessageBody
 									debug(emailBody)
