@@ -1326,8 +1326,14 @@ func main() {
 									debug(taskDetails["smtpPassword"])
 									debug(taskDetails["smtpFrom"])
 									debug(taskDetails["smtpTo"])
+									emailBody = "From: " + taskDetails["smtpFrom"] + "\n"
+									emailBody = emailBody + "To: " + taskDetails["smtpTo"] + "\n"
+									emailBody = emailBody + "Subject: [" + strings.ToUpper(taskDetails["logReportingLevel"]) + "] Log Report - Task ID: " + taskID + "\n"
+									emailBody = emailBody + "\n"
+									emailBody = emailBody + logMessageBody
+									debug(emailBody)
 									smtpAuth := smtp.PlainAuth("", taskDetails["smtpFrom"], taskDetails["smtpPassword"], taskDetails["smtpHost"])
-									smtpError := smtp.SendMail(taskDetails["smtpHost"] + ":" + taskDetails["smtpPort"], smtpAuth, taskDetails["smtpFrom"], []string{taskDetails["smtpTo"]}, []byte(logMessageBody))
+									smtpError := smtp.SendMail(taskDetails["smtpHost"] + ":" + taskDetails["smtpPort"], smtpAuth, taskDetails["smtpFrom"], []string{taskDetails["smtpTo"]}, []byte(emailBody))
 									if smtpError != nil {
 										debug(fmt.Sprint(smtpError))
 									} else {
