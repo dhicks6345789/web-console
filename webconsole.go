@@ -55,7 +55,7 @@ import (
 const letters = "abcdefghijklmnopqrstuvwxyz1234567890"
 
 // User-friendly names to use for log levels in emails.
-var logLevels = [4]string{"NONE", "ERROR", "WARNING", "ALL"}
+var logLevels = [4]string{"NONE", "ERROR", "WARNING", "MESSAGE", "ALL"}
 
 // The current release version - value provided at compile time.
 var buildVersion string
