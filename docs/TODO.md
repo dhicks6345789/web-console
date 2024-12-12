@@ -71,6 +71,7 @@
     * Slideshow
     * Yearbook
     * Certificates
+    * Start Menu
     * OCR Layer to PDFs
     * Mailmerge
     * Audio Cues page (plus looper!)
