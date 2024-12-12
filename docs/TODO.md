@@ -4,7 +4,7 @@
 
 * Live messages view not always showing every line, only gets all lines on page refresh.
 * Is STDERR being captured okay? Should intersperse with STDOUT, not be stuck at end.
-* Seems to be an upper limit on the number of lines storable by the "output" text box on the user interface - might need to set a buffer limit / add paging.
+* There's an upper limit (1,000?) on the number of lines storable by the "output" text box in the user interface, add paging.
 * API - Check for ".." paths.
 * Output - does output.html get displayed properly?
   * Make sure MIME type is set properly.
@@ -17,12 +17,10 @@
 
 ## Features
 
-* Web Server / Results folder
-  * Add session cookies for authentication.
-  * Add support for per-user webserver, so user can read user / group / public files.
-* Authentication support
-  * Tailscale
-  * Caddy (SSO features)
+* Error reporting for Tasks
+  * Via email. Report failures (as given by exit code).
+* Optional ability to stop Task.
+  * Users with Editor rights can cancel. Runner who runs Task gets permissions to cancel, not other Runners.
 * Inputs from STDIN.
   * Single line text box
   * Radio select
@@ -31,8 +29,13 @@
   * File upload
   * Photo capture
 * Handle values passed in standard Webhook headers, pass those to Task's script.
-  * Queue size - 0 for non, 1, or "lots".
+  * Queue size - 0 for none, 1, or "many".
   * Helper script to clone Swagger API to local SQLite database
+* Authentication support
+  * Tailscale
+  * Caddy (SSO features)
+  * Implement own Google / MS / Apple Oauth2?
+  * Email code
 * Edit Mode
   * Highlight current/unsaved files, stop exit / run until files saved / discarded.
   * Upload of folders.
@@ -67,14 +70,18 @@
     * Dashboard
     * Slideshow
     * Yearbook
+    * Certificates
+    * OCR Layer to PDFs
+    * Mailmerge
+    * Audio Cues page (plus looper!)
+    * Flask App
+      * Globals
+      * Favicon
+      * Oauth2 Auth via redirect?
   * Ability to rename / delete Tasks.
   * Ability to connect cloud storage.
 * GitHub Actions template to download for individual Tasks
   * Should just be able to use a single template file and insert Task ID with Curl command.
-* Optional ability to stop Task.
-  * Users with Editor rights can cancel. Runner who runs Task gets permissions to cancel, not other Runners.
 * Add Mac support in install.sh.
 * Add ChromeOS support in install.sh.
-* Error reporting for Tasks
-  * Report failures (as given by exit code).
-* Bootstrap keywords for formatting via STDOUT
+* Bootstrap keywords for formatting via STDOUT.
