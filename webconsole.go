@@ -310,12 +310,12 @@ func runTask(theTaskID string) {
 						emailBody = emailBody + logMessageBody
 						debug(emailBody)
 						smtpAuth := smtp.PlainAuth("", taskDetails["smtpFrom"], taskDetails["smtpPassword"], taskDetails["smtpHost"])
-						/*smtpError := smtp.SendMail(taskDetails["smtpHost"] + ":" + taskDetails["smtpPort"], smtpAuth, taskDetails["smtpFrom"], []string{taskDetails["smtpTo"]}, []byte(emailBody))
+						smtpError := smtp.SendMail(taskDetails["smtpHost"] + ":" + taskDetails["smtpPort"], smtpAuth, taskDetails["smtpFrom"], []string{taskDetails["smtpTo"]}, []byte(emailBody))
 						if smtpError != nil {
 							debug(fmt.Sprint(smtpError))
 						} else {
 							debug("..ok.")
-						}*/
+						}
 					}
 					
 					// Remove this Task from the runnings Tasks list. We don't remove the output right away - client-side code might
