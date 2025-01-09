@@ -83,6 +83,8 @@ var taskOutputs = map[string][]string{}
 var taskStartTimes = map[string]int64{}
 var taskRunTimes = map[string][]int64{}
 var taskRuntimeGuesses = map[string]float64{}
+// We record the user that runs each Task, so we know who has permissions for inputs / stop command.
+var taskRunUsers = map[string]string{}
 // We record the stop time for each Task so we can implement rate limiting.
 var taskStopTimes = map[string]int64{}
 
@@ -1198,7 +1200,9 @@ func main() {
 									}
 									debug("Task ID " + taskID + " - running command: " + commandArray[0])
 									debug("With arguments: " + strings.Join(commandArgs, ","))
+									debug("Ran by user: " + userID)
 									
+									taskRunUsers[taskID] = userID
 									runningTasks[taskID] = exec.Command(commandArray[0], commandArgs...)
 									runningTasks[taskID].Dir = arguments["taskroot"] + "/" + taskID
 									
