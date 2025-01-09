@@ -195,10 +195,11 @@ func parseCommandString(theString string) []string {
 // Runs a task, capturing output from stdout and placing it in a buffer. Designed to be run as a goroutine, so a task can be run in the background
 // and output captured while the user does other stuff.
 func runTask(theTaskID string) {
+	taskDetails, taskErr := getTaskDetails(theTaskID)
 	readBuffer := make([]byte, 10240)
 	taskOutputs[theTaskID] = make([]string, 0)
 	taskStdout, taskStdoutErr := runningTasks[theTaskID].StdoutPipe()
-	if taskStdoutErr == nil {
+	if taskStdoutErr == nil && taskErr == nil {
 		taskStderr, taskStderrErr := runningTasks[theTaskID].StderrPipe()
 		if taskStderrErr == nil {
 			taskOutput := io.MultiReader(taskStdout, taskStderr)
