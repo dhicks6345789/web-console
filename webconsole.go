@@ -269,30 +269,30 @@ func runTask(theTaskID string) {
 					if logReportingLevel > 0 {
 						debug("Emailing log reports, level: " + taskDetails["logReportingLevel"] + "...")
 						logMessageBody := ""
-						for pl := 0; pl < len(taskOutputs[taskID]); pl = pl + 1 {
+						for pl := 0; pl < len(taskOutputs[theTaskID]); pl = pl + 1 {
 							
-							if strings.HasPrefix(strings.ToLower(taskOutputs[taskID][pl]), "error") {
+							if strings.HasPrefix(strings.ToLower(taskOutputs[theTaskID][pl]), "error") {
 								if highestLogLevelFound < 1 {
 									highestLogLevelFound = 1
 								}
-								logMessageBody = logMessageBody + taskOutputs[taskID][pl] + "\n"
+								logMessageBody = logMessageBody + taskOutputs[theTaskID][pl] + "\n"
 							} else if logReportingLevel > 1 {
-								if strings.HasPrefix(strings.ToLower(taskOutputs[taskID][pl]), "warning") {
+								if strings.HasPrefix(strings.ToLower(taskOutputs[theTaskID][pl]), "warning") {
 									if highestLogLevelFound < 2 {
 										highestLogLevelFound = 2
 									}
-									logMessageBody = logMessageBody + taskOutputs[taskID][pl] + "\n"
+									logMessageBody = logMessageBody + taskOutputs[theTaskID][pl] + "\n"
 								} else if logReportingLevel > 2 {
-									if strings.HasPrefix(strings.ToLower(taskOutputs[taskID][pl]), "message") {
+									if strings.HasPrefix(strings.ToLower(taskOutputs[theTaskID][pl]), "message") {
 										if highestLogLevelFound < 3 {
 											highestLogLevelFound = 3
 										}
-										logMessageBody = logMessageBody + taskOutputs[taskID][pl] + "\n"
+										logMessageBody = logMessageBody + taskOutputs[theTaskID][pl] + "\n"
 									} else if logReportingLevel > 3 {
 										if highestLogLevelFound < 4 {
 											highestLogLevelFound = 4
 										}
-										logMessageBody = logMessageBody + taskOutputs[taskID][pl] + "\n"
+										logMessageBody = logMessageBody + taskOutputs[theTaskID][pl] + "\n"
 									}
 								}
 							}
