@@ -252,6 +252,71 @@ func runTask(theTaskID string) {
 						}
 					}
 					ioutil.WriteFile("tasks/" + theTaskID + "/runTimes.txt", []byte(outputString), 0644)
+					
+					// Depending on the defined logReportingLevel for this Task, email the defined receipiants with the log results.
+					logReportingLevel := 0
+					highestLogLevelFound := 0
+					if taskDetails["logReportingLevel"] == "error" {
+						logReportingLevel = 1
+					} else if taskDetails["logReportingLevel"] == "warning" {
+						logReportingLevel = 2
+					} else if taskDetails["logReportingLevel"] == "message" {
+						logReportingLevel = 3
+					} else if taskDetails["logReportingLevel"] == "all" {
+						logReportingLevel = 4
+					}
+					if logReportingLevel > 0 {
+						debug("Emailing log reports, level: " + taskDetails["logReportingLevel"] + "...")
+						logMessageBody := ""
+						/*for pl := 0; pl < len(taskOutputs[taskID]); pl = pl + 1 {
+							
+							if strings.HasPrefix(strings.ToLower(taskOutputs[taskID][pl]), "error") {
+								if highestLogLevelFound < 1 {
+									highestLogLevelFound = 1
+								}
+								logMessageBody = logMessageBody + taskOutputs[taskID][pl] + "\n"
+							} else if logReportingLevel > 1 {
+								if strings.HasPrefix(strings.ToLower(taskOutputs[taskID][pl]), "warning") {
+									if highestLogLevelFound < 2 {
+										highestLogLevelFound = 2
+									}
+									logMessageBody = logMessageBody + taskOutputs[taskID][pl] + "\n"
+								} else if logReportingLevel > 2 {
+									if strings.HasPrefix(strings.ToLower(taskOutputs[taskID][pl]), "message") {
+										if highestLogLevelFound < 3 {
+											highestLogLevelFound = 3
+										}
+										logMessageBody = logMessageBody + taskOutputs[taskID][pl] + "\n"
+									} else if logReportingLevel > 3 {
+										if highestLogLevelFound < 4 {
+											highestLogLevelFound = 4
+										}
+										logMessageBody = logMessageBody + taskOutputs[taskID][pl] + "\n"
+									}
+								}
+							}
+						}
+						debug(taskDetails["smtpPort"])
+						debug(taskDetails["smtpHost"])
+						debug(taskDetails["smtpPassword"])
+						debug(taskDetails["smtpFrom"])
+						debug(taskDetails["smtpTo"])
+						emailBody := "From: " + taskDetails["smtpFrom"] + "\n"
+						emailBody = emailBody + "To: " + taskDetails["smtpTo"] + "\n"
+						currentTime := time.Now()
+						emailBody = emailBody + "Subject: [" + logLevels[highestLogLevelFound] + "] Task \"" + taskDetails["title"] + "\" completed " + currentTime.Format("02/01/2006 15:04:05") + "\n"
+						emailBody = emailBody + "\n"
+						emailBody = emailBody + logMessageBody
+						debug(emailBody)
+						smtpAuth := smtp.PlainAuth("", taskDetails["smtpFrom"], taskDetails["smtpPassword"], taskDetails["smtpHost"])
+						smtpError := smtp.SendMail(taskDetails["smtpHost"] + ":" + taskDetails["smtpPort"], smtpAuth, taskDetails["smtpFrom"], []string{taskDetails["smtpTo"]}, []byte(emailBody))
+						if smtpError != nil {
+							debug(fmt.Sprint(smtpError))
+						} else {
+							debug("..ok.")
+						}*/
+					}
+					
 					// Remove this Task from the runnings Tasks list. We don't remove the output right away - client-side code might
 					// still not have received all the output yet.
 					delete(runningTasks, theTaskID)
@@ -1295,70 +1360,6 @@ func main() {
 									}
 								} else {
 									debug("Error reading items in path: " + logfilePath)
-								}
-								debug("Task " + taskID + " complete.")
-								// Depending on the defined logReportingLevel for this Task, email the defined receipiants with the log results.
-								logReportingLevel := 0
-								highestLogLevelFound := 0
-								if taskDetails["logReportingLevel"] == "error" {
-									logReportingLevel = 1
-								} else if taskDetails["logReportingLevel"] == "warning" {
-									logReportingLevel = 2
-								} else if taskDetails["logReportingLevel"] == "message" {
-									logReportingLevel = 3
-								} else if taskDetails["logReportingLevel"] == "all" {
-									logReportingLevel = 4
-								}
-								if logReportingLevel > 0 {
-									debug("Emailing log reports, level: " + taskDetails["logReportingLevel"] + "...")
-									logMessageBody := ""
-									for pl := 0; pl < len(taskOutputs[taskID]); pl = pl + 1 {
-										
-										if strings.HasPrefix(strings.ToLower(taskOutputs[taskID][pl]), "error") {
-											if highestLogLevelFound < 1 {
-												highestLogLevelFound = 1
-											}
-											logMessageBody = logMessageBody + taskOutputs[taskID][pl] + "\n"
-										} else if logReportingLevel > 1 {
-											if strings.HasPrefix(strings.ToLower(taskOutputs[taskID][pl]), "warning") {
-												if highestLogLevelFound < 2 {
-													highestLogLevelFound = 2
-												}
-												logMessageBody = logMessageBody + taskOutputs[taskID][pl] + "\n"
-											} else if logReportingLevel > 2 {
-												if strings.HasPrefix(strings.ToLower(taskOutputs[taskID][pl]), "message") {
-													if highestLogLevelFound < 3 {
-														highestLogLevelFound = 3
-													}
-													logMessageBody = logMessageBody + taskOutputs[taskID][pl] + "\n"
-												} else if logReportingLevel > 3 {
-													if highestLogLevelFound < 4 {
-														highestLogLevelFound = 4
-													}
-													logMessageBody = logMessageBody + taskOutputs[taskID][pl] + "\n"
-												}
-											}
-										}
-									}
-									debug(taskDetails["smtpPort"])
-									debug(taskDetails["smtpHost"])
-									debug(taskDetails["smtpPassword"])
-									debug(taskDetails["smtpFrom"])
-									debug(taskDetails["smtpTo"])
-									emailBody := "From: " + taskDetails["smtpFrom"] + "\n"
-									emailBody = emailBody + "To: " + taskDetails["smtpTo"] + "\n"
-									currentTime := time.Now()
-									emailBody = emailBody + "Subject: [" + logLevels[highestLogLevelFound] + "] Task \"" + taskDetails["title"] + "\" completed " + currentTime.Format("02/01/2006 15:04:05") + "\n"
-									emailBody = emailBody + "\n"
-									emailBody = emailBody + logMessageBody
-									debug(emailBody)
-									smtpAuth := smtp.PlainAuth("", taskDetails["smtpFrom"], taskDetails["smtpPassword"], taskDetails["smtpHost"])
-									smtpError := smtp.SendMail(taskDetails["smtpHost"] + ":" + taskDetails["smtpPort"], smtpAuth, taskDetails["smtpFrom"], []string{taskDetails["smtpTo"]}, []byte(emailBody))
-									if smtpError != nil {
-										debug(fmt.Sprint(smtpError))
-									} else {
-										debug("..ok.")
-									}
 								}
 								if taskDetails["resultURL"] != "" {
 									debug("Sending client resultURL: " + taskDetails["resultURL"])
