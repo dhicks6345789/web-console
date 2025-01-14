@@ -24,6 +24,7 @@ import (
 	"strconv"
 	"net/http"
 	"net/smtp"
+	"math"
 	"math/rand"
 	"archive/zip"
 	"encoding/csv"
@@ -271,26 +272,18 @@ func runTask(theTaskID string) {
 						logMessageBody := ""
 						for pl := 0; pl < len(taskOutputs[theTaskID]); pl = pl + 1 {
 							if strings.HasPrefix(strings.ToLower(taskOutputs[theTaskID][pl]), "error") {
-								if highestLogLevelFound < 1 {
-									highestLogLevelFound = 1
-								}
+								highestLogLevelFound = math.Max(highestLogLevelFound, 1)
 								logMessageBody = logMessageBody + taskOutputs[theTaskID][pl] + "\n"
 							} else if logReportingLevel > 1 {
 								if strings.HasPrefix(strings.ToLower(taskOutputs[theTaskID][pl]), "warning") {
-									if highestLogLevelFound < 2 {
-										highestLogLevelFound = 2
-									}
+									highestLogLevelFound = math.Max(highestLogLevelFound, 2)
 									logMessageBody = logMessageBody + taskOutputs[theTaskID][pl] + "\n"
 								} else if logReportingLevel > 2 {
 									if strings.HasPrefix(strings.ToLower(taskOutputs[theTaskID][pl]), "message") {
-										if highestLogLevelFound < 3 {
-											highestLogLevelFound = 3
-										}
+										highestLogLevelFound = math.Max(highestLogLevelFound, 3)
 										logMessageBody = logMessageBody + taskOutputs[theTaskID][pl] + "\n"
 									} else if logReportingLevel > 3 {
-										if highestLogLevelFound < 4 {
-											highestLogLevelFound = 4
-										}
+										highestLogLevelFound = math.Max(highestLogLevelFound, 4)
 										logMessageBody = logMessageBody + taskOutputs[theTaskID][pl] + "\n"
 									}
 								}
