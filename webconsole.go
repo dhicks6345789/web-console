@@ -270,7 +270,6 @@ func runTask(theTaskID string) {
 						debug("Emailing log reports, level: " + taskDetails["logReportingLevel"] + "...")
 						logMessageBody := ""
 						for pl := 0; pl < len(taskOutputs[theTaskID]); pl = pl + 1 {
-							
 							if strings.HasPrefix(strings.ToLower(taskOutputs[theTaskID][pl]), "error") {
 								if highestLogLevelFound < 1 {
 									highestLogLevelFound = 1
@@ -297,24 +296,26 @@ func runTask(theTaskID string) {
 								}
 							}
 						}
-						debug(taskDetails["smtpPort"])
-						debug(taskDetails["smtpHost"])
-						debug(taskDetails["smtpPassword"])
-						debug(taskDetails["smtpFrom"])
-						debug(taskDetails["smtpTo"])
-						emailBody := "From: " + taskDetails["smtpFrom"] + "\n"
-						emailBody = emailBody + "To: " + taskDetails["smtpTo"] + "\n"
-						currentTime := time.Now()
-						emailBody = emailBody + "Subject: [" + logLevels[highestLogLevelFound] + "] Task \"" + taskDetails["title"] + "\" completed " + currentTime.Format("02/01/2006 15:04:05") + "\n"
-						emailBody = emailBody + "\n"
-						emailBody = emailBody + logMessageBody
-						debug(emailBody)
-						smtpAuth := smtp.PlainAuth("", taskDetails["smtpFrom"], taskDetails["smtpPassword"], taskDetails["smtpHost"])
-						smtpError := smtp.SendMail(taskDetails["smtpHost"] + ":" + taskDetails["smtpPort"], smtpAuth, taskDetails["smtpFrom"], []string{taskDetails["smtpTo"]}, []byte(emailBody))
-						if smtpError != nil {
-							debug(fmt.Sprint(smtpError))
-						} else {
-							debug("..ok.")
+						if highestLogLevelFound >= logReportingLevel {
+							debug(taskDetails["smtpPort"])
+							debug(taskDetails["smtpHost"])
+							debug(taskDetails["smtpPassword"])
+							debug(taskDetails["smtpFrom"])
+							debug(taskDetails["smtpTo"])
+							emailBody := "From: " + taskDetails["smtpFrom"] + "\n"
+							emailBody = emailBody + "To: " + taskDetails["smtpTo"] + "\n"
+							currentTime := time.Now()
+							emailBody = emailBody + "Subject: [" + logLevels[highestLogLevelFound] + "] Task \"" + taskDetails["title"] + "\" completed " + currentTime.Format("02/01/2006 15:04:05") + "\n"
+							emailBody = emailBody + "\n"
+							emailBody = emailBody + logMessageBody
+							debug(emailBody)
+							smtpAuth := smtp.PlainAuth("", taskDetails["smtpFrom"], taskDetails["smtpPassword"], taskDetails["smtpHost"])
+							smtpError := smtp.SendMail(taskDetails["smtpHost"] + ":" + taskDetails["smtpPort"], smtpAuth, taskDetails["smtpFrom"], []string{taskDetails["smtpTo"]}, []byte(emailBody))
+							if smtpError != nil {
+								debug(fmt.Sprint(smtpError))
+							} else {
+								debug("..ok.")
+							}
 						}
 					}
 					
