@@ -257,6 +257,7 @@ func runTask(theTaskID string) {
 					// Depending on the defined logReportingLevel for this Task, email the defined receipiants with the log results.
 					logReportingLevel := 0
 					highestLogLevelFound := 0
+					lowestLogLevelFound := 4
 					if taskDetails["logReportingLevel"] == "error" {
 						logReportingLevel = 1
 					} else if taskDetails["logReportingLevel"] == "warning" {
@@ -272,17 +273,21 @@ func runTask(theTaskID string) {
 						for pl := 0; pl < len(taskOutputs[theTaskID]); pl = pl + 1 {
 							if strings.HasPrefix(strings.ToLower(taskOutputs[theTaskID][pl]), "error") {
 								highestLogLevelFound = max(highestLogLevelFound, 1)
+								lowestLogLevelFound = min(lowestLogLevelFound, 1)
 								logMessageBody = logMessageBody + taskOutputs[theTaskID][pl] + "\n"
 							} else if logReportingLevel > 1 {
 								if strings.HasPrefix(strings.ToLower(taskOutputs[theTaskID][pl]), "warning") {
 									highestLogLevelFound = max(highestLogLevelFound, 2)
+									lowestLogLevelFound = min(lowestLogLevelFound, 2)
 									logMessageBody = logMessageBody + taskOutputs[theTaskID][pl] + "\n"
 								} else if logReportingLevel > 2 {
 									if strings.HasPrefix(strings.ToLower(taskOutputs[theTaskID][pl]), "message") {
 										highestLogLevelFound = max(highestLogLevelFound, 3)
+										lowestLogLevelFound = min(lowestLogLevelFound, 3)
 										logMessageBody = logMessageBody + taskOutputs[theTaskID][pl] + "\n"
 									} else if logReportingLevel > 3 {
 										highestLogLevelFound = max(highestLogLevelFound, 4)
+										lowestLogLevelFound = min(lowestLogLevelFound, 4)
 										logMessageBody = logMessageBody + taskOutputs[theTaskID][pl] + "\n"
 									}
 								}
@@ -297,7 +302,7 @@ func runTask(theTaskID string) {
 							emailBody := "From: " + taskDetails["smtpFrom"] + "\n"
 							emailBody = emailBody + "To: " + taskDetails["smtpTo"] + "\n"
 							currentTime := time.Now()
-							emailBody = emailBody + "Subject: [" + logLevels[highestLogLevelFound] + "] Task \"" + taskDetails["title"] + "\" completed " + currentTime.Format("02/01/2006 15:04:05") + "\n"
+							emailBody = emailBody + "Subject: [" + logLevels[lowestLogLevelFound] + "] Task \"" + taskDetails["title"] + "\" completed " + currentTime.Format("02/01/2006 15:04:05") + "\n"
 							emailBody = emailBody + "\n"
 							emailBody = emailBody + logMessageBody
 							debug(emailBody)
