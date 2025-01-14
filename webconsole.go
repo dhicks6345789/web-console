@@ -281,7 +281,7 @@ func runTask(theTaskID string) {
 									lowestLogLevelFound = min(lowestLogLevelFound, 2)
 									logMessageBody = logMessageBody + taskOutputs[theTaskID][pl] + "\n"
 								} else if logReportingLevel > 2 {
-									if strings.HasPrefix(strings.ToLower(taskOutputs[theTaskID][pl]), "message") {
+									if strings.HasPrefix(strings.ToLower(taskOutputs[theTaskID][pl]), "status") {
 										highestLogLevelFound = max(highestLogLevelFound, 3)
 										lowestLogLevelFound = min(lowestLogLevelFound, 3)
 										logMessageBody = logMessageBody + taskOutputs[theTaskID][pl] + "\n"
