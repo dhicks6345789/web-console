@@ -33,6 +33,7 @@
 											console.log(document.getElementById("textInput0"));
 											textInputBlock = document.getElementById("textInput0").cloneNode(true);
 											
+											console.log(textInputBlock.childNodes());
 											textInputMessage = textInputBlock.getElementById("textInputMessage0");
 											textInputMessage.id = "textInputMessage1";
 											textInputMessage.innerHTML = value.substr(12);
