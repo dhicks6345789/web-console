@@ -19,6 +19,15 @@
 									if (displayAlerts == true) {
 										document.getElementById("taskResults").innerHTML = document.getElementById("taskResults").innerHTML + "<div>" + value + "</div>";
 									}
+								} else if (value.toLowerCase().startsWith("input:")) {
+									if (displayAlerts == true) {
+										// If a string begins with "INPUT:", we ask the user for some input.
+										if (value.toLowerCase().startsWith("input:text:")) {
+											// A plain text input box.
+											document.getElementById("taskResults").innerHTML = document.getElementById("taskResults").innerHTML + "<div>" + value.substr(12) + "</div>";
+											document.getElementById("taskInput").innerHTML = "<input type='text' class='form-control' id='input1'>";
+										}
+									}
 								} else if (!value.toLowerCase().startsWith("progress: ")) {
 									value = "<span style='color:LightGray'>" + value + "</span>"
 								}
