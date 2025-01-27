@@ -209,6 +209,9 @@ func runTask(theTaskID string) {
 				if logFileErr == nil {
 					taskErr := runningTasks[theTaskID].Start()
 					if taskErr == nil {
+						// To do: more here - standin null operation.
+						taskStdin = taskStdin
+						
 						taskRunning := true
 						// Loop until the Task (an external executable) has finished.
 						for taskRunning {
