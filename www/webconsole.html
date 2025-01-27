@@ -953,7 +953,15 @@
 					<div class="m-4 text-start" id="taskDescription"><<FULLDESCRIPTION>></div>
 					<button class="btn btn-success" type="button" id="runTaskButton" onclick="runTask()">Run</button>
 					<div id="taskProgress"></div>
-					<div id="taskInput"></div>
+					<div id="taskInput">
+						<div id="textInput0" style="display:none;">
+							<div id="textInputMessage0">Message:</div>
+							<div class="input-group mb-3">
+								<input id="textInputBox0" type="text" class="form-control" onkeydown="checkForEnter(this)">
+								<button id="textInputButton0" type="button" class="btn btn-outline-secondary" onclick="submitInput()">Go</button>
+							</div>
+						</div>
+					</div>
 					<div id="taskAlerts"></div>
 					<div id="taskResults"></div>
 				</div>
