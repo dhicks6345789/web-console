@@ -31,7 +31,7 @@
 											
 											// A plain text input box.
 											console.log(document.getElementById("textInput0"));
-											textInputBlock = document.getElementById("textInput0").cloneNode();
+											textInputBlock = document.getElementById("textInput0").cloneNode(true);
 											
 											textInputMessage = textInputBlock.getElementById("textInputMessage0");
 											textInputMessage.id = "textInputMessage1";
