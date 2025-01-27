@@ -32,14 +32,14 @@
 											// A plain text input box.
 											textInputBlock = document.getElementById("textInput0").cloneNode();
 											
-											textInputMessage = textInputBlock.getElementById.("textInputMessage0");
+											textInputMessage = textInputBlock.getElementById("textInputMessage0");
 											textInputMessage.id = "textInputMessage1";
 											textInputMessage.innerHTML = value.substr(12);
 
-											textInputBox = textInputBlock.getElementById.("textInputBox0");
+											textInputBox = textInputBlock.getElementById("textInputBox0");
 											textInputBox.id = "textInputBox1";
 
-											textInputButton = textInputBlock.getElementById.("textInputButton0");
+											textInputButton = textInputBlock.getElementById("textInputButton0");
 											textInputButton.id = "textInputButton1";
 											
 											document.getElementById("taskInput").appendChild(textInputBlock);
