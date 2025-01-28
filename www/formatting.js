@@ -23,6 +23,8 @@
 									if (displayAlerts == true) {
 										// If a string begins with "INPUT:", we ask the user for some input.
 										if (value.toLowerCase().startsWith("input:text:")) {
+											console.log("Input - a plain text box.");
+											
 											// A plain text input box.
 											textInputBlock = document.getElementById("textInput").cloneNode(true);
 											
