@@ -38,7 +38,8 @@
 											textInputMessage.id = "textInputMessage1";
 											textInputMessage.innerHTML = value.substr(12);
 
-											//textInputBox = textInputBlock.getElementById("textInputBox0");
+											textInputBox = textInputBlock.childNodes[3];
+											console.log(textInputBox.childNodes);
 											//textInputBox.id = "textInputBox1";
 
 											//textInputButton = textInputBlock.getElementById("textInputButton0");
