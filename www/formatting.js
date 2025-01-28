@@ -30,14 +30,13 @@
 											// <button id="textInputButton0" type="button" class="btn btn-outline-secondary" onclick="submitInput()">Go</button>
 											
 											// A plain text input box.
-											taskInputBlock = document.getElementById("taskInput");
 											textInputBlock = document.getElementById("textInput").cloneNode(true);
-											console.log(textInputBlock);
 											
 											console.log(textInputBlock.childNodes);
-											textInputMessage = textInputBlock.getElementById("textInputMessage");
-											//textInputMessage.id = "textInputMessage1";
-											//textInputMessage.innerHTML = value.substr(12);
+											
+											textInputMessage = textInputBlock.childNodes[1];
+											textInputMessage.id = "textInputMessage1";
+											textInputMessage.innerHTML = value.substr(12);
 
 											//textInputBox = textInputBlock.getElementById("textInputBox0");
 											//textInputBox.id = "textInputBox1";
@@ -47,6 +46,8 @@
 											
 											//document.getElementById("taskInput").appendChild(textInputBlock);
 											//textInputBlock.style.display = "block";
+											
+											document.getElementById("taskInput").appendChild(textInputBlock);
 										}
 									}
 								} else if (!value.toLowerCase().startsWith("progress: ")) {
