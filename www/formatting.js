@@ -34,7 +34,7 @@
 											textInputBlock = document.getElementById("textInput").cloneNode(true);
 											console.log(textInputBlock);
 											
-											console.log(textInputBlock.childNodes());
+											console.log(textInputBlock.childNodes);
 											textInputMessage = textInputBlock.getElementById("textInputMessage");
 											//textInputMessage.id = "textInputMessage1";
 											//textInputMessage.innerHTML = value.substr(12);
