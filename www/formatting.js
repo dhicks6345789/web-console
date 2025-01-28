@@ -30,9 +30,10 @@
 											// <button id="textInputButton0" type="button" class="btn btn-outline-secondary" onclick="submitInput()">Go</button>
 											
 											// A plain text input box.
-											console.log(document.getElementById("textInput0"));
-											console.log(document.getElementById("taskInput"));
-											textInputBlock = document.getElementById("textInput0").cloneNode(true);
+											textInputBlock = document.getElementById("textInput0");
+											console.log(textInputBlock);
+											newTextInputBlock = textInputBlock.cloneNode(True);
+											console.log(newTextInputBlock);
 											
 											console.log(textInputBlock.childNodes());
 											//textInputMessage = textInputBlock.getElementById("textInputMessage0");
