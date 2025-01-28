@@ -119,6 +119,7 @@
 			
 			// Called periodically (period defined by constant at start of file) after a Task has been started to update information for the user.
 			function updateTaskOutput() {
+				console.log("Called updateTaskOutput.");
 				webconsole.APICall("getTaskOutput", {"line":outputLine}, function(result) {
 					for (value of result.split("\n")) {
 						if (value.trim() != "") {
@@ -571,6 +572,8 @@
 			
 			// Called when the document is first loaded and ready.
 			function pageReady() {
+				console.log("Called pageReady.");
+				
 				if (taskID == "/" && window.location.href.includes("/view?")) {
 					webconsole.doAction("POST", window.location.href.split("/view?")[0], false, {"token":token}, false)
 				}
