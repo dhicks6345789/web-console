@@ -32,7 +32,7 @@
 											// A plain text input box.
 											textInputBlock = document.getElementById("textInput0");
 											console.log(textInputBlock);
-											newTextInputBlock = textInputBlock.cloneNode(True);
+											newTextInputBlock = textInputBlock.cloneNode(true);
 											console.log(newTextInputBlock);
 											
 											console.log(textInputBlock.childNodes());
