@@ -31,6 +31,7 @@
 											
 											// A plain text input box.
 											console.log(document.getElementById("textInput0"));
+											console.log(document.getElementById("taskInput"));
 											textInputBlock = document.getElementById("textInput0").cloneNode(true);
 											
 											console.log(textInputBlock.childNodes());
