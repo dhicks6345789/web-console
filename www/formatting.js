@@ -23,30 +23,18 @@
 									if (displayAlerts == true) {
 										// If a string begins with "INPUT:", we ask the user for some input.
 										if (value.toLowerCase().startsWith("input:text:")) {
-											// <div id="textInput0" style="display:none;">
-											// <div id="textInputMessage0">Message:</div>
-											// <div class="input-group mb-3">
-											// <input id="textInputBox0" type="text" class="form-control" onkeydown="checkForEnter(this)">
-											// <button id="textInputButton0" type="button" class="btn btn-outline-secondary" onclick="submitInput()">Go</button>
-											
 											// A plain text input box.
 											textInputBlock = document.getElementById("textInput").cloneNode(true);
-											
-											console.log(textInputBlock.childNodes);
 											
 											textInputMessage = textInputBlock.childNodes[1];
 											textInputMessage.id = "textInputMessage1";
 											textInputMessage.innerHTML = value.substr(12);
 
-											textInputBox = textInputBlock.childNodes[3];
-											console.log(textInputBox.childNodes);
-											//textInputBox.id = "textInputBox1";
+											textInputBox = textInputBlock.childNodes[3].childNodes[1];
+											textInputBox.id = "textInputBox1";
 
-											//textInputButton = textInputBlock.getElementById("textInputButton0");
-											//textInputButton.id = "textInputButton1";
-											
-											//document.getElementById("taskInput").appendChild(textInputBlock);
-											//textInputBlock.style.display = "block";
+											textInputButton = textInputBlock.childNodes[3].childNodes[3];
+											textInputButton.id = "textInputButton1";
 											
 											document.getElementById("taskInput").appendChild(textInputBlock);
 										}
