@@ -34,18 +34,18 @@
 											textInputBlock = document.getElementById("textInput0").cloneNode(true);
 											
 											console.log(textInputBlock.childNodes());
-											textInputMessage = textInputBlock.getElementById("textInputMessage0");
-											textInputMessage.id = "textInputMessage1";
-											textInputMessage.innerHTML = value.substr(12);
+											//textInputMessage = textInputBlock.getElementById("textInputMessage0");
+											//textInputMessage.id = "textInputMessage1";
+											//textInputMessage.innerHTML = value.substr(12);
 
-											textInputBox = textInputBlock.getElementById("textInputBox0");
-											textInputBox.id = "textInputBox1";
+											//textInputBox = textInputBlock.getElementById("textInputBox0");
+											//textInputBox.id = "textInputBox1";
 
-											textInputButton = textInputBlock.getElementById("textInputButton0");
-											textInputButton.id = "textInputButton1";
+											//textInputButton = textInputBlock.getElementById("textInputButton0");
+											//textInputButton.id = "textInputButton1";
 											
-											document.getElementById("taskInput").appendChild(textInputBlock);
-											textInputBlock.style.display = "block";
+											//document.getElementById("taskInput").appendChild(textInputBlock);
+											//textInputBlock.style.display = "block";
 										}
 									}
 								} else if (!value.toLowerCase().startsWith("progress: ")) {
