@@ -569,15 +569,14 @@
 				uploadFileReaders[theFile.name].readAsArrayBuffer(theFile);
 			}
 			
-			function checkForEnter(theElement) {
+			function checkForEnter(theInputElementID) {
 				if (event.key === "Enter") {
-					if (theElement.id.startsWith("textInputBox")) {
-						submitInput(theElement);
-					}
+					submitInput(theElement);
 				}
 			}
 			
-			function submitInput(theElement) {
+			function submitInput(theInputElementID) {
+				theInputElement = document.getElementById(theInputElementID);
 				console.log("Submit input: " + theElement.id);
 				console.log("Submit input value: " + theElement.value);
 			}
@@ -1247,8 +1246,8 @@
 			<div id="textInput">
 				<div id="textInputMessage">Message:</div>
 				<div class="input-group mb-3">
-					<input id="textInputBox" type="text" class="form-control" onkeydown="checkForEnter(this)">
-					<button id="textInputButton" type="button" class="btn btn-success" onclick="submitInput(this)"><img src="bootstrap-icons/1.8.1/arrow-right-circle.svg" alt="Submit" width="32" height="32"></button>
+					<input id="textInputBox" type="text" class="form-control" onkeydown="checkForEnter('textInput')">
+					<button id="textInputButton" type="button" class="btn btn-success" onclick="submitInput('textInput')"><img src="bootstrap-icons/1.8.1/arrow-right-circle.svg" alt="Submit" width="32" height="32"></button>
 				</div>
 			</div>
 		</div>
