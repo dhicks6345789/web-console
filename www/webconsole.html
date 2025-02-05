@@ -60,6 +60,9 @@
 			var filesToUpload;
 			var uploadFileReaders = {};
 
+			// A running total of the number of input items used.
+			var inputCount = 0;
+
 			// Set Marked options - set options to avoid using depreceated features.
 			marked.use({
 				mangle: false,
