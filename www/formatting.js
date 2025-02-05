@@ -36,7 +36,7 @@
 
 											textInputButton = textInputBlock.childNodes[3].childNodes[3];
 											textInputButton.id = "textInputButton" + inputCount;
-											textInputButton.onkeydown = "textInput" + inputCount;
+											textInputButton.onclick = "textInput" + inputCount;
 											
 											document.getElementById("taskInput").appendChild(textInputBlock);
 										}
