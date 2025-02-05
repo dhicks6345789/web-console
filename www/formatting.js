@@ -27,17 +27,20 @@
 											textInputBlock = document.getElementById("textInput").cloneNode(true);
 											
 											textInputMessage = textInputBlock.childNodes[1];
-											textInputMessage.id = "textInputMessage1";
+											textInputMessage.id = "textInputMessage" + inputCount;
 											textInputMessage.innerHTML = value.substr(12);
 
 											textInputBox = textInputBlock.childNodes[3].childNodes[1];
-											textInputBox.id = "textInputBox1";
+											textInputBox.id = "textInputBox" + inputCount;
+											textInputBox.onkeydown = "textInput" + inputCount;
 
 											textInputButton = textInputBlock.childNodes[3].childNodes[3];
-											textInputButton.id = "textInputButton1";
+											textInputButton.id = "textInputButton" + inputCount;
+											textInputButton.onkeydown = "textInput" + inputCount;
 											
 											document.getElementById("taskInput").appendChild(textInputBlock);
 										}
+										inputCount = inputCount + 1;
 									}
 								} else if (!value.toLowerCase().startsWith("progress: ")) {
 									value = "<span style='color:LightGray'>" + value + "</span>"
