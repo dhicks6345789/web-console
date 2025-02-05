@@ -79,6 +79,8 @@ var userIDs = map[string]string{}
 var runningTasks = map[string]*exec.Cmd{}
 // The outputs from Tasks.
 var taskOutputs = map[string][]string{}
+// The input pipes for Tasks.
+var taskInputs map[string]string{}
 // We record the start time and an array of recent runtimes for each Task so we can guess at this run's liklely time and print a progress report if wanted.
 var taskStartTimes = map[string]int64{}
 var taskRunTimes = map[string][]int64{}
@@ -204,6 +206,7 @@ func runTask(theTaskID string) {
 		if taskStderrErr == nil {
 			taskStdin, taskStdinErr := runningTasks[theTaskID].StdinPipe()
 			if taskStdinErr == nil {
+				taskInputs[theTaskID] = taskStdin
 				taskOutput := io.MultiReader(taskStdout, taskStderr)
 				logfileOutput, logFileErr := os.Create(arguments["taskroot"] + "/" + theTaskID + "/log.txt")
 				if logFileErr == nil {
