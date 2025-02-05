@@ -34,11 +34,12 @@
 
 											textInputBox = textInputBlock.childNodes[3].childNodes[1];
 											textInputBox.id = "textInputBox" + inputCount;
-											textInputBox.onkeydown = "textInput" + inputCount;
+											//textInputBox.addEventListener("keydown", function(theEvent) { submitInput() });
+											textInputBox.onkeydown = "checkForEnter('textInput" + inputCount + "')";
 
 											textInputButton = textInputBlock.childNodes[3].childNodes[3];
 											textInputButton.id = "textInputButton" + inputCount;
-											textInputButton.onclick = "textInput" + inputCount;
+											textInputButton.onclick = "submitInput('textInput" + inputCount + "')";
 											
 											document.getElementById("taskInput").appendChild(textInputBlock);
 										}
