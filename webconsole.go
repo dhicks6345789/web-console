@@ -1383,6 +1383,21 @@ func main() {
 							} else {
 								fmt.Fprintf(theResponseWriter, "NO")
 							}
+						// Submits the given string as input to the given Task. The user needs to be the runner of the Task.
+						} else if strings.HasPrefix(requestPath, "/api/submitInput") {
+							// Check the user has permission (Viewer or Runner) to submit inputs to the given Task...
+							if permission == "E" || permission == "R" {
+								// ...and that the given Task is still running...
+								if taskIsRunning(taskID) {
+									// ...and that the user is the runner of the Task.
+									// taskRunUsers[taskID] = userID
+									debug("submitInput: " + taskID);
+								} else {
+									fmt.Fprintf(theResponseWriter, "ERROR: submitInput called - given Task no longer running.")
+								}
+							} else {
+								fmt.Fprintf(theResponseWriter, "ERROR: submitInput called - don't have runner / editor permissions.")
+							}
 						// Return a list of editable files for this task, as a JSON structure - needs edit permissions.
 						} else if strings.HasPrefix(requestPath, "/api/getEditableFileList") {
 							if permission != "E" {
