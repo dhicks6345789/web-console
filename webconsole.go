@@ -80,7 +80,7 @@ var runningTasks = map[string]*exec.Cmd{}
 // The outputs from Tasks.
 var taskOutputs = map[string][]string{}
 // The input pipes for Tasks.
-var taskInputs map[string]string{}
+var taskInputs = map[string]string{}
 // We record the start time and an array of recent runtimes for each Task so we can guess at this run's liklely time and print a progress report if wanted.
 var taskStartTimes = map[string]int64{}
 var taskRunTimes = map[string][]int64{}
