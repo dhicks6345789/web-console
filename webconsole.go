@@ -212,9 +212,6 @@ func runTask(theTaskID string) {
 				if logFileErr == nil {
 					taskErr := runningTasks[theTaskID].Start()
 					if taskErr == nil {
-						// To do: more here - standin null operation.
-						taskStdin = taskStdin
-						
 						taskRunning := true
 						// Loop until the Task (an external executable) has finished.
 						for taskRunning {
@@ -1392,9 +1389,16 @@ func main() {
 							if permission == "E" || permission == "R" {
 								// ...and that the given Task is still running...
 								if taskIsRunning(taskID) {
-									// ...and that the user is the runner of the Task.
+									// ...and that the user is the runner of the Task...
 									// taskRunUsers[taskID] = userID
-									debug("submitInput: " + taskID);
+									// ...and that we have a value to submit.
+									value := theRequest.Form.Get("value")
+									if value != "" {
+										debug("submitInput - taskID: " + taskID + ", value: " + value);
+										io.WriteString(taskInputs[taskID], value)
+									} else {
+										fmt.Fprintf(theResponseWriter, "ERROR: submitInput called - given Task no longer running.")
+									}
 								} else {
 									fmt.Fprintf(theResponseWriter, "ERROR: submitInput called - given Task no longer running.")
 								}
