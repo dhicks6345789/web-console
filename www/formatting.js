@@ -22,9 +22,11 @@
 								} else if (value.toLowerCase().startsWith("input:")) {
 									if (displayAlerts == true) {
 										// If a string begins with "INPUT:", we ask the user for some input.
+										inputCount = inputCount + 1;
 										if (value.toLowerCase().startsWith("input:text:")) {
 											// A plain text input box.
 											textInputBlock = document.getElementById("textInput").cloneNode(true);
+											textInputBlock.id = "textInput" + inputCount;
 											
 											textInputMessage = textInputBlock.childNodes[1];
 											textInputMessage.id = "textInputMessage" + inputCount;
@@ -40,7 +42,6 @@
 											
 											document.getElementById("taskInput").appendChild(textInputBlock);
 										}
-										inputCount = inputCount + 1;
 									}
 								} else if (!value.toLowerCase().startsWith("progress: ")) {
 									value = "<span style='color:LightGray'>" + value + "</span>"
