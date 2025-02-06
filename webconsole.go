@@ -1397,7 +1397,7 @@ func main() {
 										debug("submitInput - taskID: " + taskID + ", value: " + value);
 										io.WriteString(taskInputs[taskID], value)
 									} else {
-										fmt.Fprintf(theResponseWriter, "ERROR: submitInput called - given Task no longer running.")
+										fmt.Fprintf(theResponseWriter, "ERROR: submitInput called - missing value.");
 									}
 								} else {
 									fmt.Fprintf(theResponseWriter, "ERROR: submitInput called - given Task no longer running.")
