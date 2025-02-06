@@ -572,9 +572,15 @@
 				uploadFileReaders[theFile.name].readAsArrayBuffer(theFile);
 			}
 
-			function checkForEnterNext(theInputElementID) {
+			function checkForEnterNext(theInputNumber) {
 				if (event.key === "Enter") {
-					console.log("Next from: " + theInputElementID);
+					document.getElementById("taskInput").childNodes.forEach(function(item) {
+						if (item.id.endsWith("-" + (theInputNumber + 1))) {
+							if (item.id.startsWith("textInput")) {
+								item.childNodes[3].childNodes[1].focus();
+							}
+						}
+					});
 				}
 			}
 			
