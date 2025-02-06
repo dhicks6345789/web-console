@@ -577,21 +577,27 @@
 					submitInput(theInputElementID);
 				}
 			}
-			
-			function submitInput(theInputElementID) {
-				document.getElementById("taskInput").childNodes.forEach(function(theItem) {
-					if (theItem.id.startsWith("textInput")) {
-						submitValue = theItem.childNodes[3].childNodes[1].value;
-						if (submitValue == "") {
-							submitValue = "\n";
-						}
-						console.log("submit: " + submitValue);
-						webconsole.APICall("submitInputText", {"value":submitValue}, function(result) {
-							console.log("Submitted: " + submitValue);
-						});
+
+			function submitInputValue(theTotal, theCurrentValueNum) {
+				item = document.getElementById("taskInput").childNodes[theCurrentValueNum];
+				if (item.id.startsWith("textInput")) {
+					submitValue = theItem.childNodes[3].childNodes[1].value;
+				}
+				if (submitValue == "") {
+					submitValue = "\n";
+				}
+				console.log("Submit: " + submitValue);
+				webconsole.APICall("submitInputText", {"value":submitValue}, function(result) {
+					if (theCurrentValueNum < theTotal-1) {
+						submitInputValue(theTotal, theCurrentValueNum + 1);
+					} else {
+						document.getElementById("taskInput").innerHTML = "";
 					}
 				});
-				document.getElementById("taskInput").innerHTML = "";
+			}
+			
+			function submitInput(theInputElementID) {
+				submitInputValue(document.getElementById("taskInput").childNodes.length, 0);
 			}
 			
 			// Called when the document is first loaded and ready.
