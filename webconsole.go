@@ -1115,7 +1115,7 @@ func main() {
 									authorisationError = "authetication attempted via header authorisation (Cloudflare / ngrok), but no valid permissions granted (you're probably missing a users file)"
 								} else {
 									authorised = true
-									debug("User permissions granted from header " + headerName + ", ID: " + userID + ", permission: " + permission)
+									//debug("User permissions granted from header " + headerName + ", ID: " + userID + ", permission: " + permission)
 								}
 							}
 						}
