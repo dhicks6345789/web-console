@@ -581,9 +581,7 @@
 			function submitInput(theInputElementID) {
 				document.getElementById("taskInput").childNodes.forEach(function(theItem) {
 					if (theItem.id.startsWith("textInput")) {
-						console.log(theItem.childNodes[3].childNodes[1]);
-						//webconsole.APICall("submitInputText", {"value":theInputElement.value}, function(result) {
-						//});
+						webconsole.APICall("submitInputText", {"value":theItem.childNodes[3].childNodes[1].value}, function(result) {});
 					}
 				});
 				document.getElementById("taskInput").innerHTML = "";
