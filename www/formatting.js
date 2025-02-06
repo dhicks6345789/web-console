@@ -45,10 +45,12 @@
 											textInputBox = textInputBlock.childNodes[3].childNodes[1];
 											textInputBox.id = "textInputBox-" + inputCount;
 											textInputBox.setAttribute("onkeydown", "checkForEnterSubmit('textInputBox-" + inputCount + "')");
+											textInputBox.setAttribute("tabindex", inputCount);
 
 											textInputButton = textInputBlock.childNodes[3].childNodes[3];
 											textInputButton.id = "textInputButton-" + inputCount;
 											textInputButton.setAttribute("onclick", "submitInput('textInputBox-" + inputCount + "')");
+											textInputButton.setAttribute("tabindex", inputCount+1);
 											
 											taskInputBlock.appendChild(textInputBlock);
 										}
