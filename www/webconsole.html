@@ -581,7 +581,7 @@
 			function submitInputValue(theTotal, theCurrentValueNum) {
 				item = document.getElementById("taskInput").childNodes[theCurrentValueNum];
 				if (item.id.startsWith("textInput")) {
-					submitValue = theItem.childNodes[3].childNodes[1].value;
+					submitValue = item.childNodes[3].childNodes[1].value;
 				}
 				if (submitValue == "") {
 					submitValue = "\n";
