@@ -579,10 +579,14 @@
 			}
 			
 			function submitInput(theInputElementID) {
-				theInputElement = document.getElementById(theInputElementID);
-				webconsole.APICall("submitInputText", {"value":theInputElement.value}, function(result) {
-					document.getElementById("taskInput").innerHTML = "";
+				theInputElement = document.getElementById("taskInput");
+				theInputElement.childNodes.forEach(function(theItem) {
+					console.log(theItem);
 				});
+				//theInputElement = document.getElementById(theInputElementID);
+				//webconsole.APICall("submitInputText", {"value":theInputElement.value}, function(result) {
+					//document.getElementById("taskInput").innerHTML = "";
+				//});
 			}
 			
 			// Called when the document is first loaded and ready.
