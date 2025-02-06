@@ -586,7 +586,9 @@
 							submitValue = "\n";
 						}
 						console.log("submit: " + submitValue);
-						webconsole.APICall("submitInputText", {"value":submitValue}, function(result) {});
+						webconsole.APICall("submitInputText", {"value":submitValue}, function(result) {
+							console.log("Submitted: " + submitValue);
+						});
 					}
 				});
 				document.getElementById("taskInput").innerHTML = "";
