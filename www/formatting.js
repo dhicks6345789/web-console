@@ -23,6 +23,15 @@
 									if (displayAlerts == true) {
 										// If a string begins with "INPUT:", we ask the user for some input.
 										inputCount = inputCount + 1;
+
+										taskInputBlock = document.getElementById("taskInput");
+										taskInputBlock.childNodes.forEach(function(theItem) {
+											if (theItem.id.startsWith("textInput")) {
+												textInputBox = theItem.childNodes[3].childNodes[1];
+												textInputBox.setAttribute("onkeydown", textInputBox.getAttribute("onkeydown").replace("EnterSubmit", "EnterNext"));
+												theItem.childNodes[3].childNodes[3].remove();
+											}
+										});
 										
 										if (value.toLowerCase().startsWith("input:text:")) {
 											// A plain text input box.
@@ -41,7 +50,7 @@
 											textInputButton.id = "textInputButton-" + inputCount;
 											textInputButton.setAttribute("onclick", "submitInput('textInputBox-" + inputCount + "')");
 											
-											document.getElementById("taskInput").appendChild(textInputBlock);
+											taskInputBlock.appendChild(textInputBlock);
 										}
 									}
 								} else if (!value.toLowerCase().startsWith("progress: ")) {
