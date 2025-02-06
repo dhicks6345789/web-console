@@ -46,9 +46,6 @@
 											textInputBox.id = "textInputBox-" + inputCount;
 											textInputBox.setAttribute("onkeydown", "checkForEnterSubmit(" + inputCount + ")");
 											textInputBox.setAttribute("tabindex", inputCount);
-											if (inputCount == 1) {
-												textInputBox.focus();
-											}
 
 											textInputButton = textInputBlock.childNodes[3].childNodes[3];
 											textInputButton.id = "textInputButton-" + inputCount;
@@ -56,6 +53,9 @@
 											textInputButton.setAttribute("tabindex", inputCount+1);
 											
 											taskInputBlock.appendChild(textInputBlock);
+											if (inputCount == 1) {
+												textInputBox.focus();
+											}
 										}
 									}
 								} else if (!value.toLowerCase().startsWith("progress: ")) {
