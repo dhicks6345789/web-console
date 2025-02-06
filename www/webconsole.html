@@ -583,8 +583,10 @@
 					});
 				}
 			}
-			
-			function checkForEnterSubmit(theInputElementID) {
+
+			// An "onkeydown" event handler to check if the "enter" key was pressed. Input value(s) are submitted if so.
+			// Note: the theInputNumber parmater is not used in this function, but needs to be kept in because the function call sometimes get modified in-place to call checkForEnterNext instead.
+			function checkForEnterSubmit(theInputNumber) {
 				if (event.key === "Enter") {
 					submitInput();
 				}
