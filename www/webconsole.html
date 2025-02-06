@@ -581,8 +581,12 @@
 			function submitInput(theInputElementID) {
 				document.getElementById("taskInput").childNodes.forEach(function(theItem) {
 					if (theItem.id.startsWith("textInput")) {
-						console.log("submit: " + theItem.childNodes[3].childNodes[1].value);
-						webconsole.APICall("submitInputText", {"value":theItem.childNodes[3].childNodes[1].value}, function(result) {});
+						submitValue = theItem.childNodes[3].childNodes[1].value;
+						if (submitValue == "") {
+							submitValue = "\n";
+						}
+						console.log("submit: " + submitValue);
+						webconsole.APICall("submitInputText", {"value":submitValue}, function(result) {});
 					}
 				});
 				document.getElementById("taskInput").innerHTML = "";
