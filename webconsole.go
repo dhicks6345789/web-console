@@ -314,7 +314,7 @@ func runTask(theTaskID string) {
 								if smtpError != nil {
 									debug(fmt.Sprint(smtpError))
 								} else {
-									debug("..ok.")
+									debug("Email sent ok.")
 								}
 							}
 						}
@@ -387,7 +387,7 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 	if taskDetails["smtpTo"], ok = arguments["smtpto"]; !ok {
 		taskDetails["smtpTo"] = ""
 	}
-	debug("Finding details for Task: " + theTaskID)
+	//debug("Finding details for Task: " + theTaskID)
 	// Check to see if we have a valid task ID.
 	if (theTaskID == "/") {
 		// The root Task is always public.
@@ -405,19 +405,19 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 				editorsPath := arguments["webconsoleroot"] + "/" + editorsName + ".csv"
 				if _, err := os.Stat(editorsPath); err == nil {
 					taskDetails[editorsName] = editorsPath
-					debug("Editors - found " + editorsName + " file: " + editorsPath)
+					//debug("Editors - found " + editorsName + " file: " + editorsPath)
 				}
 				runnersName := authService + authServiceName + "Runners"
 				runnersPath := arguments["webconsoleroot"] + "/" + runnersName + ".csv"
 				if _, err := os.Stat(runnersPath); err == nil {
 					taskDetails[runnersName] = runnersPath
-					debug("Runners - found " + runnersName + " file: " + runnersPath)
+					//debug("Runners - found " + runnersName + " file: " + runnersPath)
 				}
 				viewersName := authService + authServiceName + "Viewers"
 				viewersPath := arguments["webconsoleroot"] + "/" + viewersName + ".csv"
 				if _, err := os.Stat(viewersPath); err == nil {
 					taskDetails[viewersName] = viewersPath
-					debug("Viewers - found " + viewersName + " file: " + viewersPath)
+					//debug("Viewers - found " + viewersName + " file: " + viewersPath)
 				}
 			}
 		}
@@ -531,10 +531,10 @@ func getTaskList() ([]map[string]string, error) {
 }
 
 func getTaskPermission(webConsoleRoot string, taskDetails map[string]string, userID string) string {
-	debug("Finding permissions for Task: " + taskDetails["taskID"])
+	//debug("Finding permissions for Task: " + taskDetails["taskID"])
 	for taskDetailName, taskDetailValue := range taskDetails {
 		if strings.HasPrefix(taskDetailName, "mystart") {
-			debug("MyStart setting found - name: " + taskDetailName + ", value: " + taskDetailValue)
+			//debug("MyStart setting found - name: " + taskDetailName + ", value: " + taskDetailValue)
 			mystartName := ""
 			permissionToGrant := ""
 			for _, permissionCheck := range [3]string{"Editors", "Runners", "Viewers"} {
@@ -545,7 +545,7 @@ func getTaskPermission(webConsoleRoot string, taskDetails map[string]string, use
 			}
 			if permissionToGrant != "" {
 				mystartUsersPath := webConsoleRoot + "/" + taskDetailValue
-				debug("mystartUsersPath: " + mystartUsersPath)
+				//debug("mystartUsersPath: " + mystartUsersPath)
 				if _, err := os.Stat(mystartUsersPath); !os.IsNotExist(err) {
 					mystartUsers := readUserFile(mystartUsersPath, arguments["mystart" + mystartName + "apikey"])
 					for _, userHash := range mystartUsers {
@@ -564,7 +564,7 @@ func getTaskPermission(webConsoleRoot string, taskDetails map[string]string, use
 			}
 			if permissionToGrant != "" {
 				cloudflareUsersPath := taskDetailValue
-				debug("cloudflareUsersPath: " + cloudflareUsersPath)
+				//debug("cloudflareUsersPath: " + cloudflareUsersPath)
 				if _, err := os.Stat(cloudflareUsersPath); !os.IsNotExist(err) {
 					cloudflareUsers := readUserFile(cloudflareUsersPath, "")
 					for _, userEmail := range cloudflareUsers {
@@ -583,7 +583,7 @@ func getTaskPermission(webConsoleRoot string, taskDetails map[string]string, use
 			}
 			if permissionToGrant != "" {
 				ngrokUsersPath := taskDetailValue
-				debug("ngrokUsersPath: " + ngrokUsersPath)
+				//debug("ngrokUsersPath: " + ngrokUsersPath)
 				if _, err := os.Stat(ngrokUsersPath); !os.IsNotExist(err) {
 					ngrokUsers := readUserFile(ngrokUsersPath, "")
 					for _, userEmail := range ngrokUsers {
