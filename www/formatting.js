@@ -27,19 +27,19 @@
 										if (value.toLowerCase().startsWith("input:text:")) {
 											// A plain text input box.
 											textInputBlock = document.getElementById("textInput").cloneNode(true);
-											textInputBlock.id = "textInput" + inputCount;
+											textInputBlock.id = "textInput-" + inputCount;
 											
 											textInputMessage = textInputBlock.childNodes[1];
-											textInputMessage.id = "textInputMessage" + inputCount;
+											textInputMessage.id = "textInputMessage-" + inputCount;
 											textInputMessage.innerHTML = value.substr(12);
 
 											textInputBox = textInputBlock.childNodes[3].childNodes[1];
-											textInputBox.id = "textInputBox" + inputCount;
-											textInputBox.setAttribute("onkeydown", "checkForEnterSubmit('textInputBox" + inputCount + "')");
+											textInputBox.id = "textInputBox-" + inputCount;
+											textInputBox.setAttribute("onkeydown", "checkForEnterSubmit('textInputBox-" + inputCount + "')");
 
 											textInputButton = textInputBlock.childNodes[3].childNodes[3];
-											textInputButton.id = "textInputButton" + inputCount;
-											textInputButton.setAttribute("onclick", "submitInput('textInputBox" + inputCount + "')");
+											textInputButton.id = "textInputButton-" + inputCount;
+											textInputButton.setAttribute("onclick", "submitInput('textInputBox-" + inputCount + "')");
 											
 											document.getElementById("taskInput").appendChild(textInputBlock);
 										}
