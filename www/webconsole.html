@@ -579,14 +579,14 @@
 			}
 			
 			function submitInput(theInputElementID) {
-				theInputElement = document.getElementById("taskInput");
-				theInputElement.childNodes.forEach(function(theItem) {
-					console.log(theItem);
+				document.getElementById("taskInput").childNodes.forEach(function(theItem) {
+					if (theItem.id.startsWith("textInput")) {
+						console.log(theItem.childNodes[3].childNodes[1]);
+						//webconsole.APICall("submitInputText", {"value":theInputElement.value}, function(result) {
+						//});
+					}
 				});
-				//theInputElement = document.getElementById(theInputElementID);
-				//webconsole.APICall("submitInputText", {"value":theInputElement.value}, function(result) {
-					//document.getElementById("taskInput").innerHTML = "";
-				//});
+				document.getElementById("taskInput").innerHTML = "";
 			}
 			
 			// Called when the document is first loaded and ready.
