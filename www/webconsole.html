@@ -571,10 +571,16 @@
 				}
 				uploadFileReaders[theFile.name].readAsArrayBuffer(theFile);
 			}
+
+			function checkForEnterNext(theInputElementID) {
+				if (event.key === "Enter") {
+					console.log("Next from: " + theInputElementID);
+				}
+			}
 			
 			function checkForEnterSubmit(theInputElementID) {
 				if (event.key === "Enter") {
-					submitInput(theInputElementID);
+					submitInput();
 				}
 			}
 
@@ -596,7 +602,7 @@
 				});
 			}
 			
-			function submitInput(theInputElementID) {
+			function submitInput() {
 				submitInputValue(document.getElementById("taskInput").childNodes.length, 0);
 			}
 			
