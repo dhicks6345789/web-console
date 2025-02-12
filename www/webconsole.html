@@ -107,7 +107,25 @@
 			function cancelTask() {
 				// First thing to do is disable the "Run" button so the user can't click it repeatadly.
 				document.getElementById("cancelTaskButton").disabled = true;
-				console.log("Cancel!");
+				// Cancel the Task.
+				webconsole.APICall("cancelTask", {}, function(result) {
+					if (result == "OK") {
+						document.getElementById("runTaskButton").innerHTML = "<span class='spinner-border spinner-border-sm' role='status'></span> Running...";
+						document.getElementById("cancelTaskButton").style.display = "inline";
+						document.getElementById("taskAlerts").innerHTML = "<div style='color:red'>Task cancelled.</div>";
+						document.getElementById("taskOutput").innerHTML = "";
+						document.getElementById("taskResults").innerHTML = "";
+						
+						// If the call returns "OK" then the task is running, subsequent calls to getTaskOutput will return the console output of the Task as it runs.
+						//displayAlerts = true;
+						//updateTaskOutput();
+						//clearInterval(intervalFunction);
+						//intervalFunction = setInterval(updateTaskOutput, taskOutputUpdatePeriod);
+					} else {
+						// If runTask didn't return "OK" then it returned an error, which we display in red for the user.
+						document.getElementById("taskAlerts").innerHTML = "<div style='color:red'>" + result + "</div>";
+					}
+				});
 			}
 			
 			// Scroll to the "result" section, position it so it's at the top of the page so you can see the whole element.
