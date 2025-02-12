@@ -1311,7 +1311,11 @@ func main() {
 							// If the Task is running, cancel it, otherwise return an error message.
 							if taskIsRunning(taskID) {
 								debug("Cancel - Task ID " + taskID)
-								fmt.Fprintf(theResponseWriter, "OK")
+								if cancelErr := runningTasks[theTaskID].Process.Kill(); cancelErr == nil {
+									fmt.Fprintf(theResponseWriter, "OK")
+								} else {
+									fmt.Fprintf(theResponseWriter, "ERROR: Unable to terminate specified Task.")
+								}
 							} else {
 								fmt.Fprintf(theResponseWriter, "ERROR: Specified Task not currently running.")
 							}
