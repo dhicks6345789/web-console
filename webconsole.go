@@ -332,7 +332,7 @@ func runTask(theTaskID string) {
 					timestampString := time.Unix(taskStartTimes[theTaskID], 0).Format(time.RFC3339) + "-" + strconv.Itoa(int(taskStopTimes[theTaskID] - taskStartTimes[theTaskID]))
 					logfileContent, logfileErr := ioutil.ReadFile(arguments["taskroot"] + "/" + theTaskID + "/log.txt")
 					if logfileErr == nil {
-						logFileName := logfilePath + "/" + strings.Replace(timestampString, ":", "-") + ".txt"
+						logfileName := logfilePath + "/" + strings.Replace(timestampString, ":", "-") + ".txt"
 						logfileContentErr := ioutil.WriteFile(logFileName, logfileContent, 0644)
 						if logfileContentErr != nil {
 							debug("Some issue writing log file: " + logfileName + ".txt")
