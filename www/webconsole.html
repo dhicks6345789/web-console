@@ -113,19 +113,19 @@
 					if (result == "OK") {
 						// If the call returns "OK" then the task is cancelled.
 						displayAlerts = false;
-						updateTaskOutput();
-
+						
 						clearInterval(intervalFunction);
 						intervalFunction = setInterval(keepAlive, keepAlivePeriod);
 						
 						document.getElementById("cancelTaskButton").style.display = "none";
 						document.getElementById("taskAlerts").innerHTML = "<div style='color:red'>Task cancelled.</div>";
 						document.getElementById("taskInput").innerHTML = "";
-						document.getElementById("taskOutput").innerHTML = "";
 						document.getElementById("taskResults").innerHTML = "";
 						document.getElementById("runTaskButton").innerHTML = "Run";
 						document.getElementById("runTaskButton").disabled = false;
 						document.getElementById("taskProgress").innerHTML = "";
+
+						updateTaskOutput();
 					} else {
 						// If runTask didn't return "OK" then it returned an error, which we display in red for the user.
 						document.getElementById("taskAlerts").innerHTML = "<div style='color:red'>" + result + "</div>";
