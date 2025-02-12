@@ -1307,6 +1307,14 @@ func main() {
 									fmt.Fprintf(theResponseWriter, "OK")
 								}
 							}
+						} else if strings.HasPrefix(requestPath, "/api/cancelTask") {
+							// If the Task is running, cancel it, otherwise return an error message.
+							if taskIsRunning(taskID) {
+								debug("Cancel - Task ID " + taskID)
+								fmt.Fprintf(theResponseWriter, "OK")
+							} else {
+								fmt.Fprintf(theResponseWriter, "ERROR: Specified Task not currently running.")
+							}
 						// Designed to be called periodically, will return the given Tasks' output as a simple string,
 						// with lines separated by newlines. Takes one parameter, "line", indicating which output line
 						// it should return output from, to save the client-side code having to be sent all of the output each time.
