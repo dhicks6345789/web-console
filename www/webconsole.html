@@ -86,6 +86,7 @@
 						cancelTaskButton.disabled = false;
 						cancelTaskButton.style.display = "inline";
 						document.getElementById("taskAlerts").innerHTML = "";
+						document.getElementById("taskInput").innerHTML = "";
 						document.getElementById("taskOutput").innerHTML = "";
 						document.getElementById("taskResults").innerHTML = "";
 						outputLine = 0;
@@ -110,17 +111,21 @@
 				// Cancel the Task.
 				webconsole.APICall("cancelTask", {}, function(result) {
 					if (result == "OK") {
-						document.getElementById("runTaskButton").innerHTML = "<span class='spinner-border spinner-border-sm' role='status'></span> Running...";
-						document.getElementById("cancelTaskButton").style.display = "inline";
+						// If the call returns "OK" then the task is cancelled.
+						displayAlerts = false;
+						updateTaskOutput();
+
+						clearInterval(intervalFunction);
+						intervalFunction = setInterval(keepAlive, keepAlivePeriod);
+						
+						document.getElementById("cancelTaskButton").style.display = "none";
 						document.getElementById("taskAlerts").innerHTML = "<div style='color:red'>Task cancelled.</div>";
+						document.getElementById("taskInput").innerHTML = "";
 						document.getElementById("taskOutput").innerHTML = "";
 						document.getElementById("taskResults").innerHTML = "";
-						
-						// If the call returns "OK" then the task is running, subsequent calls to getTaskOutput will return the console output of the Task as it runs.
-						//displayAlerts = true;
-						//updateTaskOutput();
-						//clearInterval(intervalFunction);
-						//intervalFunction = setInterval(updateTaskOutput, taskOutputUpdatePeriod);
+						document.getElementById("runTaskButton").innerHTML = "Run";
+						document.getElementById("runTaskButton").disabled = false;
+						document.getElementById("taskProgress").innerHTML = "";
 					} else {
 						// If runTask didn't return "OK" then it returned an error, which we display in red for the user.
 						document.getElementById("taskAlerts").innerHTML = "<div style='color:red'>" + result + "</div>";
