@@ -99,6 +99,13 @@
 					}
 				});
 			}
+
+			// Cancel the currently-running Task.
+			function cancelTask() {
+				// First thing to do is disable the "Run" button so the user can't click it repeatadly.
+				document.getElementById("cancelTaskButton").disabled = true;
+				console.log("Cancel!");
+			}
 			
 			// Scroll to the "result" section, position it so it's at the top of the page so you can see the whole element.
 			function scrollToResultCollapse() {
@@ -997,6 +1004,7 @@
 				<div class="p-2 rounded m-3" style="background-color:LightSteelBlue">
 					<div class="m-4 text-start" id="taskDescription"><<FULLDESCRIPTION>></div>
 					<button class="btn btn-success" type="button" id="runTaskButton" onclick="runTask()">Run</button>
+					<button class="btn btn-danger" type="button" id="cancelTaskButton" onclick="cancelTask()">Cancel</button>
 					<div id="taskProgress"></div>
 					<div id="taskInput"></div>
 					<div id="taskAlerts"></div>
