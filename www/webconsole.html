@@ -82,6 +82,9 @@
 				webconsole.APICall("runTask", {}, function(result) {
 					if (result == "OK") {
 						document.getElementById("runTaskButton").innerHTML = "<span class='spinner-border spinner-border-sm' role='status'></span> Running...";
+						cancelTaskButton = document.getElementById("cancelTaskButton");
+						cancelTaskButton.disabled = false;
+						cancelTaskButton.show();
 						document.getElementById("taskAlerts").innerHTML = "";
 						document.getElementById("taskOutput").innerHTML = "";
 						document.getElementById("taskResults").innerHTML = "";
@@ -1010,7 +1013,7 @@
 							<button class="btn btn-success" type="button" id="runTaskButton" onclick="runTask()">Run</button>
 						</div>
 						<div class="col-sm-11 text-end align-self-end">
-							<button class="btn btn-danger" type="button" id="cancelTaskButton" onclick="cancelTask()">Cancel</button>
+							<button class="btn btn-danger" type="button" id="cancelTaskButton" onclick="cancelTask()" style="display:none;">Cancel</button>
 						</div>
 					</div>
 					<div id="taskProgress"></div>
