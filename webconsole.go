@@ -1397,7 +1397,7 @@ func main() {
 								fmt.Fprintf(theResponseWriter, "NO")
 							}
 						// Submits the given string as input to the given Task. The user needs to be the runner of the Task.
-						} else if strings.HasPrefix(requestPath, "/api/submitInput") {
+						} else if strings.HasPrefix(requestPath, "/api/submitInputText") {
 							// Check the user has permission (Viewer or Runner) to submit inputs to the given Task...
 							if permission == "E" || permission == "R" {
 								// ...and that the given Task is still running...
@@ -1407,7 +1407,7 @@ func main() {
 									// ...and that we have a value to submit.
 									value := theRequest.Form.Get("value")
 									if value != "" {
-										debug("submitInput - taskID: " + taskID + ", value: " + value);
+										debug("submitInputText - taskID: " + taskID + ", value: " + value);
 										io.WriteString(taskInputs[taskID], value)
 									} else {
 										fmt.Fprintf(theResponseWriter, "ERROR: submitInput called - missing value.");
