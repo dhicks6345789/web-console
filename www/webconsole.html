@@ -95,6 +95,7 @@
 						displayAlerts = true;
 						updateTaskOutput();
 						clearInterval(intervalFunction);
+						console.log("Setting interval function: upDateTaskOutput");
 						intervalFunction = setInterval(updateTaskOutput, taskOutputUpdatePeriod);
 					} else {
 						// If runTask didn't return "OK" then it returned an error, which we display in red for the user.
@@ -170,7 +171,7 @@
 								document.getElementById("cancelTaskButton").style.display = "none";
 								document.getElementById("taskResults").innerHTML = "";
 								
-								updateTaskOutput();
+								//updateTaskOutput();
 								
 								if (permission == "E") {
 									refreshFolderTreeView();
