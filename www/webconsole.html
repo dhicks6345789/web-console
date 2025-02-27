@@ -264,6 +264,11 @@
 				document.execCommand("copy");
 			}
 
+			// Toggle the password visibility of the given secret value box.
+			function toggleSecret(theUserType) {
+				console.log(document.getElementById(theUserType + "Secret").type);
+			}
+			
 			// Set the hashed secret value for the given user type.
 			function setSecret(theUserType) {
 				webconsole.APICall("hashSecret", {"secret":document.getElementById(theUserType + "Secret").value}, function(result) {
@@ -1149,6 +1154,9 @@
 							<div class="accordion-body text-start">
 								<div>
 									Viewer secret: <input type="password" id="viewerSecret"/>
+									<button type="button" class="btn btn-default" aria-label="Toggle password visibility" onclick="toggleSecret('viewer')">
+										<img src="bootstrap-icons/1.8.1/eye.svg" alt="Toggle password visibility" width="32" height="32">
+									</button>
 									<button type="button" class="btn btn-default" aria-label="Set Viewer secret" onclick="setSecret('viewer')">
 										<img src="bootstrap-icons/1.8.1/arrow-right-circle.svg" alt="Set viewer secret" width="32" height="32">
 									</button>
