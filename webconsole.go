@@ -1398,8 +1398,10 @@ func main() {
 							}
 						// Submits the given string as input to the given Task. The user needs to be the runner of the Task.
 						} else if strings.HasPrefix(requestPath, "/api/submitInputText") {
+							debug("submitInputText - called. Permission: " + permission);
 							// Check the user has permission (Editor or Runner) to submit inputs to the given Task...
 							if permission == "E" || permission == "R" {
+								debug("submitInputText - permission ok.");
 								// ...and that the given Task is still running...
 								if taskIsRunning(taskID) {
 									// ...and that the user is the runner of the Task...
