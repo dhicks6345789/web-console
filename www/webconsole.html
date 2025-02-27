@@ -650,6 +650,16 @@
 			function submitInput() {
 				submitInputValue(document.getElementById("taskInput").childNodes.length, 0);
 			}
+
+			function setSecret(theUserType) {
+				secret = document.getElementById(theUserType + "Secret").value;
+				console.log(secret);
+				// To do: hash.
+				document.getElementById(theUserType + "SecretHash").value = secret;
+			}
+			
+			function copySecretHash(theUserType) {
+			}
 			
 			// Called when the document is first loaded and ready.
 			function pageReady() {
@@ -1134,9 +1144,13 @@
 						<div id="collapseInfo" class="accordion-collapse collapse" aria-labelledby="headingInfo" data-bs-parent="#accordionInfo">
 							<div class="accordion-body text-start">
 								<div>
-									Viewer secret: <input type="password" id="viewSecret"/>
-									<button type="button" class="btn btn-default" aria-label="Set Viewer secret" onclick="">
-										<img src="bootstrap-icons/1.8.1/stickies.svg" alt="Set viewer secret" width="32" height="32">
+									Viewer secret: <input type="password" id="viewerSecret"/>
+									<button type="button" class="btn btn-default" aria-label="Set Viewer secret" onclick="setSecret('viewer')">
+										<img src="bootstrap-icons/1.8.1/arrow-right-circle.svg" alt="Set viewer secret" width="32" height="32">
+									</button>
+									Hash: <input type="text" id="viewerSecretHash" value="" readonly/>
+									<button type="button" class="btn btn-default" aria-label="Copy Viewer secret hash" onclick="copySecretHash('viewer')">
+										<img src="bootstrap-icons/1.8.1/stickies.svg" alt="Copy viewer secret hash" width="32" height="32">
 									</button>
 								</div>
 							</div>
