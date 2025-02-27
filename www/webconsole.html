@@ -264,6 +264,20 @@
 				document.execCommand("copy");
 			}
 
+			// Set the hashed secret value for the given user type.
+			function setSecret(theUserType) {
+				webconsole.APICall("hashSecret", {"secret":document.getElementById(theUserType + "Secret").value}, function(result) {
+					document.getElementById(theUserType + "SecretHash").value = result;
+				});
+			}
+			
+			// Copy the hashed secret value to the clipboard for the user.
+			function copySecretHash(theUserType) {
+				copyText = document.getElementById(theUserType + "SecretHash")
+				copyText.select();
+				document.execCommand("copy");
+			}
+
 			function getFileEditorType(theFilename) {
 				result = "ace";
 				if (theFilename == "") {
@@ -649,16 +663,6 @@
 			
 			function submitInput() {
 				submitInputValue(document.getElementById("taskInput").childNodes.length, 0);
-			}
-
-			function setSecret(theUserType) {
-				secret = document.getElementById(theUserType + "Secret").value;
-				console.log(secret);
-				// To do: hash.
-				document.getElementById(theUserType + "SecretHash").value = secret;
-			}
-			
-			function copySecretHash(theUserType) {
 			}
 			
 			// Called when the document is first loaded and ready.
