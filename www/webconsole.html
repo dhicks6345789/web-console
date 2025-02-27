@@ -278,8 +278,12 @@
 			
 			// Set the hashed secret value for the given user type.
 			function setSecret(theUserType) {
-				webconsole.APICall("hashSecret", {"secret":document.getElementById(theUserType + "Secret").value}, function(result) {
+				password = document.getElementById(theUserType + "Secret").value;
+				webconsole.APICall("hashSecret", {"secret":password}, function(result) {
 					document.getElementById(theUserType + "SecretHash").value = result;
+					// Set the Direct Link URL value for the user, with the added (hashed) secret value.
+					document.getElementById("directLinkText").innerHTML = "Direct link to this Task (with " + theUserType + " access): ";
+					document.getElementById("directLinkURL").value = pageURL.slice(0, pageURL.lastIndexOf("/")) + "/view?taskID=" + taskID + "&secret=" + password;
 				});
 			}
 			
@@ -1184,7 +1188,7 @@
 							</div>
 							<div class="accordion-body text-end">
 								<div>
-									Direct link to this Task: <input type="text" id="directLinkURL" value="https://" readonly/>
+									<span id="directLinkText">Direct link to this Task: </span><input type="text" id="directLinkURL" value="https://" readonly/>
 									<button type="button" class="btn btn-default" aria-label="Copy direct link URL" onclick="copyDirectLinkURL()">
 										<img src="bootstrap-icons/1.8.1/stickies.svg" alt="Copy direct link URL" width="32" height="32">
 									</button>
