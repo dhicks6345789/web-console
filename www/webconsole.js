@@ -14,7 +14,11 @@ var webconsole = {
         var apiCall = new XMLHttpRequest();
         apiCall.onreadystatechange = function() {
             if (apiCall.readyState == 4 && apiCall.status == 200) {
-                theSuccessFunction(apiCall.responseText);
+                if (apiCall.responseText.toLowerCase().startsWith("error:")) {
+                    console.log(apiCall.responseText);
+                } else {
+                    theSuccessFunction(apiCall.responseText);
+                }
             }
         }
         URLEncodedParams = "";
