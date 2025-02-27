@@ -266,7 +266,12 @@
 
 			// Toggle the password visibility of the given secret value box.
 			function toggleSecret(theUserType) {
-				console.log(document.getElementById(theUserType + "Secret").type);
+				secretInput = document.getElementById(theUserType + "Secret");
+				if (secretInput.type == "password") {
+					secretInput.type = "text";
+				} else {
+					secretInput.type = "password";
+				}
 			}
 			
 			// Set the hashed secret value for the given user type.
