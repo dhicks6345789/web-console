@@ -289,6 +289,15 @@
 				copyText.select();
 				document.execCommand("copy");
 			}
+			
+			// Check for the "enter" key being pressed.
+			function checkForEnter(theElement, theUserType) {
+				if (event.key === "Enter") {
+					if (theElement.id == theUserType + "Secret") {
+						setSecret(theUserType);
+					}
+				}
+			}
 
 			function getFileEditorType(theFilename) {
 				result = "ace";
@@ -1160,7 +1169,7 @@
 						<div id="collapseInfo" class="accordion-collapse collapse" aria-labelledby="headingInfo" data-bs-parent="#accordionInfo">
 							<div class="accordion-body text-start">
 								<div>
-									Viewer secret: <input type="password" id="viewerSecret"/>
+									Viewer secret: <input type="password" id="viewerSecret" onkeydown="checkForEnter(this, 'viewer')"/>
 									<button type="button" class="btn btn-default" aria-label="Toggle password visibility" onclick="toggleSecret('viewer')">
 										<img id="viewerSecretIcon" src="bootstrap-icons/1.8.1/eye.svg" alt="Toggle password visibility" width="32" height="32">
 									</button>
