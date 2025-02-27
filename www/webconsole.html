@@ -269,10 +269,10 @@
 				secretInput = document.getElementById(theUserType + "Secret");
 				if (secretInput.type == "password") {
 					secretInput.type = "text";
-					document.getElementById(theUserType + "SecretIcon").src="bootstrap-icons/1.8.1/eye-slash.svg";
+					document.getElementById(theUserType + "SecretIcon").setAtrribute("src", "bootstrap-icons/1.8.1/eye-slash.svg");
 				} else {
 					secretInput.type = "password";
-					document.getElementById(theUserType + "SecretIcon").src="bootstrap-icons/1.8.1/eye.svg";
+					document.getElementById(theUserType + "SecretIcon").setAtrribute("src", "bootstrap-icons/1.8.1/eye.svg");
 				}
 			}
 			
