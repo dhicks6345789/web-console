@@ -1589,6 +1589,15 @@ func main() {
 									fmt.Fprintf(theResponseWriter, "ERROR: newFolder - missing filename parameter.")
 								}
 							}
+						// Return the hash value of the given secret value.
+						} else if strings.HasPrefix(requestPath, "/api/hashSecret") {
+							theSecret := theRequest.Form.Get("secret")
+							hashedSecret, hashErr := hashPassword(theSecret)
+							if hashErr == nil {
+								fmt.Fprintf(theResponseWriter, hashedSecret)
+							} else {
+								fmt.Fprintf(theResponseWriter, "ERROR: Problem hashing secret - " + hashErr.Error())
+							}
 						// A simple call that doesn't do anything except serve to keep the timestamp for the given Task up-to-date.
 						} else if strings.HasPrefix(requestPath, "/api/keepAlive") {
 							fmt.Fprintf(theResponseWriter, "OK")
