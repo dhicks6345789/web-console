@@ -638,6 +638,7 @@
 					submitValue = "\n";
 				}
 				webconsole.APICall("submitInputText", {"value":submitValue}, function(result) {
+					console.log("submitInputTex - result: " + result);
 					if (theCurrentValueNum < theTotal-1) {
 						submitInputValue(theTotal, theCurrentValueNum + 1);
 					} else {
