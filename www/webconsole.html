@@ -1180,7 +1180,13 @@
 							</button>
 						</h2>
 						<div id="collapseInfo" class="accordion-collapse collapse" aria-labelledby="headingInfo" data-bs-parent="#accordionInfo">
-							<div class="accordion-body text-start">
+							<div class="accordion-body text-end">
+								<div>
+									<span id="directLinkText">Direct link to this Task: </span><input type="text" id="directLinkURL" value="https://" readonly/>
+									<button type="button" class="btn btn-default" aria-label="Copy direct link URL" onclick="copyDirectLinkURL()">
+										<img src="bootstrap-icons/1.8.1/stickies.svg" alt="Copy direct link URL" width="32" height="32">
+									</button>
+								</div>
 								<div>
 									Viewer secret: <input type="password" id="viewerSecret" onkeydown="checkForEnter(this, 'viewer')"/>
 									<button type="button" class="btn btn-default" aria-label="Toggle password visibility" onclick="toggleSecret('viewer')">
@@ -1193,16 +1199,8 @@
 									<button type="button" class="btn btn-default" aria-label="Copy Viewer secret hash" onclick="copySecretHash('viewer')">
 										<img src="bootstrap-icons/1.8.1/stickies.svg" alt="Copy viewer secret hash" width="32" height="32">
 									</button>
-									Direct link: <input type="text" id="viewerDirectLinkURL" value="" readonly/>
+									Direct link to this Task (with Viewer access): <input type="text" id="viewerDirectLinkURL" value="" readonly/>
 									<button type="button" class="btn btn-default" aria-label="Copy direct link URL" onclick="copyDirectLinkWithSecretURL('viewer')">
-										<img src="bootstrap-icons/1.8.1/stickies.svg" alt="Copy direct link URL" width="32" height="32">
-									</button>
-								</div>
-							</div>
-							<div class="accordion-body text-end">
-								<div>
-									<span id="directLinkText">Direct link to this Task: </span><input type="text" id="directLinkURL" value="https://" readonly/>
-									<button type="button" class="btn btn-default" aria-label="Copy direct link URL" onclick="copyDirectLinkURL()">
 										<img src="bootstrap-icons/1.8.1/stickies.svg" alt="Copy direct link URL" width="32" height="32">
 									</button>
 								</div>
