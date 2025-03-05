@@ -1222,6 +1222,23 @@
 									</button>
 								</div>
 								<div>
+									Editor secret: <input type="password" id="editorSecret" onkeydown="checkForEnter(this, 'editor')"/>
+									<button type="button" class="btn btn-default px-0" aria-label="Toggle Editor password visibility" onclick="toggleSecret('editor')">
+										<img id="editorSecretIcon" src="bootstrap-icons/1.8.1/eye.svg" alt="Toggle Editor password visibility" width="32" height="32">
+									</button>
+									<button type="button" class="btn btn-default ps-0" aria-label="Set Editor secret" onclick="setSecret('editor')">
+										<img src="bootstrap-icons/1.8.1/arrow-right-circle.svg" alt="Set Editor secret" width="32" height="32">
+									</button>
+									Hash: <input type="text" id="editorSecretHash" value="" readonly/>
+									<button type="button" class="btn btn-default ps-0" aria-label="Copy Editor secret hash" onclick="copySecretHash('editor')">
+										<img src="bootstrap-icons/1.8.1/stickies.svg" alt="Copy Editor secret hash" width="32" height="32">
+									</button>
+									Direct link (Editor access): <input type="text" id="editorDirectLinkURL" value="" readonly/>
+									<button type="button" class="btn btn-default px-0" aria-label="Copy Editor direct link URL" onclick="copyDirectLinkWithSecretURL('editor')">
+										<img src="bootstrap-icons/1.8.1/stickies.svg" alt="Copy Editor direct link URL" width="32" height="32">
+									</button>
+								</div>
+								<div>
 									<a href="https://ifttt.com/home" target="_blank"><img src="logos/IFTTT.svg" alt="IFTTT Logo" width="32" height="32"></a>
 									<a href="https://zapier.com/app/dashboard" target="_blank"><img src="logos/zapier.svg" alt="Zapier Logo" width="32" height="32"></a>
 									Automation URL: <input type="text" id="automationLink" value="https://" readonly/>
