@@ -1183,24 +1183,24 @@
 							<div class="accordion-body text-end">
 								<div>
 									<span id="directLinkText">Direct link to this Task: </span><input type="text" id="directLinkURL" value="https://" readonly/>
-									<button type="button" class="btn btn-default" aria-label="Copy direct link URL" onclick="copyDirectLinkURL()">
+									<button type="button" class="btn btn-default px-0" aria-label="Copy direct link URL" onclick="copyDirectLinkURL()">
 										<img src="bootstrap-icons/1.8.1/stickies.svg" alt="Copy direct link URL" width="32" height="32">
 									</button>
 								</div>
 								<div>
 									Viewer secret: <input type="password" id="viewerSecret" onkeydown="checkForEnter(this, 'viewer')"/>
-									<button type="button" class="btn btn-default" aria-label="Toggle password visibility" onclick="toggleSecret('viewer')">
+									<button type="button" class="btn btn-default px-0" aria-label="Toggle password visibility" onclick="toggleSecret('viewer')">
 										<img id="viewerSecretIcon" src="bootstrap-icons/1.8.1/eye.svg" alt="Toggle password visibility" width="32" height="32">
 									</button>
-									<button type="button" class="btn btn-default" aria-label="Set Viewer secret" onclick="setSecret('viewer')">
+									<button type="button" class="btn btn-default ps-0" aria-label="Set Viewer secret" onclick="setSecret('viewer')">
 										<img src="bootstrap-icons/1.8.1/arrow-right-circle.svg" alt="Set viewer secret" width="32" height="32">
 									</button>
 									Hash: <input type="text" id="viewerSecretHash" value="" readonly/>
-									<button type="button" class="btn btn-default" aria-label="Copy Viewer secret hash" onclick="copySecretHash('viewer')">
+									<button type="button" class="btn btn-default ps-0" aria-label="Copy Viewer secret hash" onclick="copySecretHash('viewer')">
 										<img src="bootstrap-icons/1.8.1/stickies.svg" alt="Copy viewer secret hash" width="32" height="32">
 									</button>
 									Direct link to this Task (with Viewer access): <input type="text" id="viewerDirectLinkURL" value="" readonly/>
-									<button type="button" class="btn btn-default" aria-label="Copy direct link URL" onclick="copyDirectLinkWithSecretURL('viewer')">
+									<button type="button" class="btn btn-default px-0" aria-label="Copy direct link URL" onclick="copyDirectLinkWithSecretURL('viewer')">
 										<img src="bootstrap-icons/1.8.1/stickies.svg" alt="Copy direct link URL" width="32" height="32">
 									</button>
 								</div>
