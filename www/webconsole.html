@@ -1189,19 +1189,36 @@
 								</div>
 								<div>
 									Viewer secret: <input type="password" id="viewerSecret" onkeydown="checkForEnter(this, 'viewer')"/>
-									<button type="button" class="btn btn-default px-0" aria-label="Toggle password visibility" onclick="toggleSecret('viewer')">
-										<img id="viewerSecretIcon" src="bootstrap-icons/1.8.1/eye.svg" alt="Toggle password visibility" width="32" height="32">
+									<button type="button" class="btn btn-default px-0" aria-label="Toggle Viewer password visibility" onclick="toggleSecret('viewer')">
+										<img id="viewerSecretIcon" src="bootstrap-icons/1.8.1/eye.svg" alt="Toggle Viewer password visibility" width="32" height="32">
 									</button>
 									<button type="button" class="btn btn-default ps-0" aria-label="Set Viewer secret" onclick="setSecret('viewer')">
-										<img src="bootstrap-icons/1.8.1/arrow-right-circle.svg" alt="Set viewer secret" width="32" height="32">
+										<img src="bootstrap-icons/1.8.1/arrow-right-circle.svg" alt="Set Viewer secret" width="32" height="32">
 									</button>
 									Hash: <input type="text" id="viewerSecretHash" value="" readonly/>
 									<button type="button" class="btn btn-default ps-0" aria-label="Copy Viewer secret hash" onclick="copySecretHash('viewer')">
 										<img src="bootstrap-icons/1.8.1/stickies.svg" alt="Copy viewer secret hash" width="32" height="32">
 									</button>
 									Direct link (Viewer access): <input type="text" id="viewerDirectLinkURL" value="" readonly/>
-									<button type="button" class="btn btn-default px-0" aria-label="Copy direct link URL" onclick="copyDirectLinkWithSecretURL('viewer')">
-										<img src="bootstrap-icons/1.8.1/stickies.svg" alt="Copy direct link URL" width="32" height="32">
+									<button type="button" class="btn btn-default px-0" aria-label="Copy Viewer direct link URL" onclick="copyDirectLinkWithSecretURL('viewer')">
+										<img src="bootstrap-icons/1.8.1/stickies.svg" alt="Copy Viewer direct link URL" width="32" height="32">
+									</button>
+								</div>
+								<div>
+									Runner secret: <input type="password" id="runnerSecret" onkeydown="checkForEnter(this, 'runner')"/>
+									<button type="button" class="btn btn-default px-0" aria-label="Toggle Runner password visibility" onclick="toggleSecret('runner')">
+										<img id="runnerSecretIcon" src="bootstrap-icons/1.8.1/eye.svg" alt="Toggle Runner password visibility" width="32" height="32">
+									</button>
+									<button type="button" class="btn btn-default ps-0" aria-label="Set Runner secret" onclick="setSecret('runner')">
+										<img src="bootstrap-icons/1.8.1/arrow-right-circle.svg" alt="Set Runner secret" width="32" height="32">
+									</button>
+									Hash: <input type="text" id="runnerSecretHash" value="" readonly/>
+									<button type="button" class="btn btn-default ps-0" aria-label="Copy Runner secret hash" onclick="copySecretHash('runner')">
+										<img src="bootstrap-icons/1.8.1/stickies.svg" alt="Copy Runner secret hash" width="32" height="32">
+									</button>
+									Direct link (Runner access): <input type="text" id="runnerDirectLinkURL" value="" readonly/>
+									<button type="button" class="btn btn-default px-0" aria-label="Copy Runner direct link URL" onclick="copyDirectLinkWithSecretURL('runner')">
+										<img src="bootstrap-icons/1.8.1/stickies.svg" alt="Copy Runner direct link URL" width="32" height="32">
 									</button>
 								</div>
 								<div>
