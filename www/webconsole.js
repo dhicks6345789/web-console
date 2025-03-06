@@ -15,7 +15,8 @@ var webconsole = {
         apiCall.onreadystatechange = function() {
             if (apiCall.readyState == 4 && apiCall.status == 200) {
                 if (apiCall.responseText.toLowerCase().startsWith("error:")) {
-                    console.log(apiCall.responseText);
+                    // console.log(apiCall.responseText);
+                    document.getElementById("taskErrors").innerHTML = apiCall.responseText;
                 } else {
                     theSuccessFunction(apiCall.responseText);
                 }
