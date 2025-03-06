@@ -1309,17 +1309,24 @@ func main() {
 								}
 							}
 						} else if strings.HasPrefix(requestPath, "/api/cancelTask") {
-							// If the Task is running, cancel it, otherwise return an error message.
-							if taskIsRunning(taskID) {
-								debug("Cancel - Task ID " + taskID)
-								if cancelErr := runningTasks[taskID].Process.Kill(); cancelErr == nil {
-									delete(runningTasks, taskID)
-									fmt.Fprintf(theResponseWriter, "OK")
+							// Check for appropriate permissions for the user to be able to cancel the running task.
+							if permission == "E" || permission == "R" {
+								// If the Task is running, cancel it, otherwise return an error message.
+								if taskIsRunning(taskID) {
+									debug("Cancel - Task ID " + taskID)
+									debug("Task running user: " + taskRunUsers[taskID])
+									debug("Current user: " + userID)
+									if cancelErr := runningTasks[taskID].Process.Kill(); cancelErr == nil {
+										delete(runningTasks, taskID)
+										fmt.Fprintf(theResponseWriter, "OK")
+									} else {
+										fmt.Fprintf(theResponseWriter, "ERROR: cancelTask - Unable to terminate specified Task.")
+									}
 								} else {
-									fmt.Fprintf(theResponseWriter, "ERROR: Unable to terminate specified Task.")
+									fmt.Fprintf(theResponseWriter, "ERROR: cancelTask - given Task not running.")
 								}
 							} else {
-								fmt.Fprintf(theResponseWriter, "ERROR: Specified Task not currently running.")
+								fmt.Fprintf(theResponseWriter, "ERROR: cancelTask - don't have runner / editor permissions.")
 							}
 						// Designed to be called periodically, will return the given Tasks' output as a simple string,
 						// with lines separated by newlines. Takes one parameter, "line", indicating which output line
