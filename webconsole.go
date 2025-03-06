@@ -1065,7 +1065,6 @@ func main() {
 			authorised := false
 			fileToServe := filesToServeList[requestPath]
 			// Handle the getPublicTaskList API call (the one API call that doesn't require authentication).
-			
 			if strings.HasPrefix(requestPath, "/api/getPublicTaskList") {
 				taskList, taskErr := getTaskList()
 				if taskErr == nil {
@@ -1087,8 +1086,6 @@ func main() {
 					fmt.Fprintf(theResponseWriter, "ERROR: " + taskErr.Error())
 				}
 			// Handle a view, run or API request. If taskID is not provided as a parameter, either via GET or POST, it defaults to "/".
-			} else if strings.HasPrefix(requestPath, "/api/googleAuthRedirect") {
-				debug("googleAuthRedirect called!")
 			} else if fileToServe != "" || strings.HasPrefix(requestPath, "/api/") {
 				taskID := theRequest.Form.Get("taskID")
 				token := theRequest.Form.Get("token")
