@@ -1313,6 +1313,7 @@ func main() {
 							if taskIsRunning(taskID) {
 								debug("Cancel - Task ID " + taskID)
 								if cancelErr := runningTasks[taskID].Process.Kill(); cancelErr == nil {
+									delete(runningTasks, taskID)
 									fmt.Fprintf(theResponseWriter, "OK")
 								} else {
 									fmt.Fprintf(theResponseWriter, "ERROR: Unable to terminate specified Task.")
