@@ -95,7 +95,6 @@
 						displayAlerts = true;
 						updateTaskOutput();
 						clearInterval(intervalFunction);
-						console.log("Setting interval function: upDateTaskOutput");
 						intervalFunction = setInterval(updateTaskOutput, taskOutputUpdatePeriod);
 					} else {
 						// If runTask didn't return "OK" then it returned an error, which we display in red for the user.
@@ -731,7 +730,6 @@
 				} else {
 					// If the Task is already running call the "runTask" function to set up the interface.
 					webconsole.APICall("getTaskRunning", {}, function(result) {
-						console.log("getTaskRunning: " + result);
 						if (result == "YES") {
 							runTask();
 						} else {
