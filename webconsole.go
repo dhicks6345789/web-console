@@ -1309,18 +1309,20 @@ func main() {
 								}
 							}
 						} else if strings.HasPrefix(requestPath, "/api/cancelTask") {
-							// Check for appropriate permissions for the user to be able to cancel the running task.
+							// Check for appropriate permissions for the user to be able to cancel the running task...
 							if permission == "E" || permission == "R" {
-								// If the Task is running, cancel it, otherwise return an error message.
+								// ...and that the given Task ID is actually a currently running Task...
 								if taskIsRunning(taskID) {
-									debug("Cancel - Task ID " + taskID)
-									debug("Task running user: " + taskRunUsers[taskID])
-									debug("Current user: " + userID)
-									if cancelErr := runningTasks[taskID].Process.Kill(); cancelErr == nil {
-										delete(runningTasks, taskID)
-										fmt.Fprintf(theResponseWriter, "OK")
+									// and that the current user is the user that ran the Task in the first place.
+									if taskRunUsers[taskID] == userID {
+										if cancelErr := runningTasks[taskID].Process.Kill(); cancelErr == nil {
+											delete(runningTasks, taskID)
+											fmt.Fprintf(theResponseWriter, "OK")
+										} else {
+											fmt.Fprintf(theResponseWriter, "ERROR: cancelTask - Unable to terminate specified Task.")
+										}
 									} else {
-										fmt.Fprintf(theResponseWriter, "ERROR: cancelTask - Unable to terminate specified Task.")
+										fmt.Fprintf(theResponseWriter, "ERROR: cancelTask - Current user not original runner of Task.")
 									}
 								} else {
 									fmt.Fprintf(theResponseWriter, "ERROR: cancelTask - given Task not running.")
@@ -1413,17 +1415,20 @@ func main() {
 								// ...and that the given Task is still running...
 								if taskIsRunning(taskID) {
 									// ...and that the user is the runner of the Task...
-									// taskRunUsers[taskID] = userID
-									// ...and that we have a value to submit.
-									value := theRequest.Form.Get("value")
-									if value != "" {
-										debug("submitInputText - taskID: " + taskID + ", value: " + value);
-										io.WriteString(taskInputs[taskID], value)
+									if taskRunUsers[taskID] == userID {
+										// ...and that we have a value to submit.
+										value := theRequest.Form.Get("value")
+										if value != "" {
+											debug("submitInputText - taskID: " + taskID + ", value: " + value);
+											io.WriteString(taskInputs[taskID], value)
+										} else {
+											fmt.Fprintf(theResponseWriter, "ERROR: submitInputText - missing value.");
+										}
 									} else {
-										fmt.Fprintf(theResponseWriter, "ERROR: submitInput called - missing value.");
+										fmt.Fprintf(theResponseWriter, "ERROR: submitInputText - current user not original runner of Task.");
 									}
 								} else {
-									fmt.Fprintf(theResponseWriter, "ERROR: submitInput called - given Task no longer running.")
+									fmt.Fprintf(theResponseWriter, "ERROR: submitInputText - given Task not a current running Task.")
 								}
 							} else {
 								fmt.Fprintf(theResponseWriter, "ERROR: submitInput called - don't have runner / editor permissions.")
