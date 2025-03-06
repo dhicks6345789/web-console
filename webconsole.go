@@ -1423,6 +1423,7 @@ func main() {
 										value := theRequest.Form.Get("value")
 										if value != "" {
 											debug("submitInputText - taskID: " + taskID + ", value: " + value);
+											// Note - we might need to lose the newline addition on Windows.
 											io.WriteString(taskInputs[taskID], value + "\n")
 										} else {
 											fmt.Fprintf(theResponseWriter, "ERROR: submitInputText - missing value.");
