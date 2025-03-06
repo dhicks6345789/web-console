@@ -731,6 +731,7 @@
 				} else {
 					// If the Task is already running call the "runTask" function to set up the interface.
 					webconsole.APICall("getTaskRunning", {}, function(result) {
+						console.log("getTaskRunning: " + result);
 						if (result == "YES") {
 							runTask();
 						} else {
