@@ -169,8 +169,6 @@
 								document.getElementById("cancelTaskButton").style.display = "none";
 								document.getElementById("taskResults").innerHTML = "";
 								
-								//updateTaskOutput();
-								
 								if (permission == "E") {
 									refreshFolderTreeView();
 								}
@@ -723,8 +721,14 @@
 					document.getElementById("mystartLoginLink").href = mystartURL;
 					document.getElementById("mystartBlock").style.display = "block";
 				}
+
+				// Only show the "Run" button if we have Run / Edit permission.
+				if (permission != "V") {
+					document.getElementById("runTaskButton").style.display = "inline";
+				}
+				
 				// If the URL includes "run" rather than "view", run the Task right away - handy for some users.
-				if (pageURL.endsWith("/run")) {
+				if (pageURL.endsWith("/run") && permission != "V") {
 					runTask();
 				} else {
 					// If the Task is already running call the "runTask" function to set up the interface.
@@ -739,7 +743,9 @@
 					});
 				}
 				if (permission == "E") {
-					// If the user has "edit" permissions, show the "edit" block - first, get a list of files for this task from the server.
+					// If the user has "edit" permissions, show the "edit" block.
+					
+					// First, get a list of files for this task from the server.
 					//refreshFolderTreeView();
 					
 					// Javascript to handle the resizeable file browser / code editor panel. See original code at:
@@ -1084,7 +1090,7 @@
 						<div class="col-sm-1">
 						</div>
 						<div class="col-sm-10 text-center align-self-center">
-							<button class="btn btn-success" type="button" id="runTaskButton" onclick="runTask()">Run</button>
+							<button class="btn btn-success" type="button" id="runTaskButton" onclick="runTask()" style="display:none;">Run</button>
 						</div>
 						<div class="col-sm-11 text-end align-self-end">
 							<button class="btn btn-danger" type="button" id="cancelTaskButton" onclick="cancelTask()" style="display:none;">Cancel</button>
