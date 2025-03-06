@@ -1247,66 +1247,71 @@ func main() {
 							}
 						// API - Run a given Task.
 						} else if strings.HasPrefix(requestPath, "/api/runTask") {
-							// If the Task is already running, simply return "OK".
-							if taskIsRunning(taskID) {
-								fmt.Fprintf(theResponseWriter, "OK")
-							} else {
-								// Check to see if there's any rate limit set for this task, and don't run the Task if we're still
-								// within the rate limited time.
-								if currentTimestamp - taskStopTimes[taskID] < int64(rateLimit) {
-									fmt.Fprintf(theResponseWriter, "ERROR: Rate limit (%d seconds) exceeded - try again in %d seconds.", rateLimit, int64(rateLimit) - (currentTimestamp - taskStopTimes[taskID]))
+							// Check for appropriate permissions (Editor or Runner) for the user to be able to run the given Task.
+							if permission == "E" || permission == "R" {
+								// If the Task is already running, simply return "OK".
+								if taskIsRunning(taskID) {
+									fmt.Fprintf(theResponseWriter, "OK")
 								} else {
-									// Get ready to run the Task - set up the Task's details...
-									if strings.HasPrefix(taskDetails["command"], "webconsole ") {
-										taskDetails["command"] = strings.Replace(taskDetails["command"], "webconsole ", "\"" + arguments["webconsoleroot"] + string(os.PathSeparator) + "webconsole\" ", 1)
+									// Check to see if there's any rate limit set for this task, and don't run the Task if we're still
+									// within the rate limited time.
+									if currentTimestamp - taskStopTimes[taskID] < int64(rateLimit) {
+										fmt.Fprintf(theResponseWriter, "ERROR: Rate limit (%d seconds) exceeded - try again in %d seconds.", rateLimit, int64(rateLimit) - (currentTimestamp - taskStopTimes[taskID]))
 									} else {
-										taskDetails["command"] = strings.TrimSpace(strings.TrimSpace(arguments["shellprefix"]) + " " + taskDetails["command"])
-									}
-									commandArray := parseCommandString(taskDetails["command"])
-									var commandArgs []string
-									if len(commandArray) > 0 {
-										commandArgs = commandArray[1:]
-									}
-									debug("Task ID " + taskID + " - running command: " + commandArray[0])
-									debug("With arguments: " + strings.Join(commandArgs, ","))
-									debug("Ran by user: " + userID)
-									
-									taskRunUsers[taskID] = userID
-									runningTasks[taskID] = exec.Command(commandArray[0], commandArgs...)
-									runningTasks[taskID].Dir = arguments["taskroot"] + "/" + taskID
-									
-									// ...get a list (if available) of recent run times...
-									taskRunTimes[taskID] = make([]int64, 0)
-									runTimesBytes, fileErr := ioutil.ReadFile(arguments["taskroot"] + "/" + taskID + "/runTimes.txt")
-									if fileErr == nil {
-										runTimeSplit := strings.Split(string(runTimesBytes), "\n")
-										for pl := 0; pl < len(runTimeSplit); pl = pl + 1 {
-											runTimeVal, runTimeErr := strconv.Atoi(runTimeSplit[pl])
-											if runTimeErr == nil {
-												taskRunTimes[taskID] = append(taskRunTimes[taskID], int64(runTimeVal))
+										// Get ready to run the Task - set up the Task's details...
+										if strings.HasPrefix(taskDetails["command"], "webconsole ") {
+											taskDetails["command"] = strings.Replace(taskDetails["command"], "webconsole ", "\"" + arguments["webconsoleroot"] + string(os.PathSeparator) + "webconsole\" ", 1)
+										} else {
+											taskDetails["command"] = strings.TrimSpace(strings.TrimSpace(arguments["shellprefix"]) + " " + taskDetails["command"])
+										}
+										commandArray := parseCommandString(taskDetails["command"])
+										var commandArgs []string
+										if len(commandArray) > 0 {
+											commandArgs = commandArray[1:]
+										}
+										debug("Task ID " + taskID + " - running command: " + commandArray[0])
+										debug("With arguments: " + strings.Join(commandArgs, ","))
+										debug("Ran by user: " + userID)
+										
+										taskRunUsers[taskID] = userID
+										runningTasks[taskID] = exec.Command(commandArray[0], commandArgs...)
+										runningTasks[taskID].Dir = arguments["taskroot"] + "/" + taskID
+										
+										// ...get a list (if available) of recent run times...
+										taskRunTimes[taskID] = make([]int64, 0)
+										runTimesBytes, fileErr := ioutil.ReadFile(arguments["taskroot"] + "/" + taskID + "/runTimes.txt")
+										if fileErr == nil {
+											runTimeSplit := strings.Split(string(runTimesBytes), "\n")
+											for pl := 0; pl < len(runTimeSplit); pl = pl + 1 {
+												runTimeVal, runTimeErr := strconv.Atoi(runTimeSplit[pl])
+												if runTimeErr == nil {
+													taskRunTimes[taskID] = append(taskRunTimes[taskID], int64(runTimeVal))
+												}
 											}
 										}
+										
+										// ...use those to guess the run time for this time (just use a simple mean of the
+										// existing runtimes)...
+										var totalRunTime int64
+										totalRunTime = 0
+										for pl := 0; pl < len(taskRunTimes[taskID]); pl = pl + 1 {
+											totalRunTime = totalRunTime + taskRunTimes[taskID][pl]
+										}
+										if len(taskRunTimes[taskID]) == 0 {
+											taskRuntimeGuesses[taskID] = float64(10)
+										} else {
+											taskRuntimeGuesses[taskID] = float64(totalRunTime / int64(len(taskRunTimes[taskID])))
+										}
+										taskStartTimes[taskID] = time.Now().Unix()
+										
+										// ...then run the Task as a goroutine (thread) in the background.
+										go runTask(taskID)
+										// Respond to the front-end code that all is okay.
+										fmt.Fprintf(theResponseWriter, "OK")
 									}
-									
-									// ...use those to guess the run time for this time (just use a simple mean of the
-									// existing runtimes)...
-									var totalRunTime int64
-									totalRunTime = 0
-									for pl := 0; pl < len(taskRunTimes[taskID]); pl = pl + 1 {
-										totalRunTime = totalRunTime + taskRunTimes[taskID][pl]
-									}
-									if len(taskRunTimes[taskID]) == 0 {
-										taskRuntimeGuesses[taskID] = float64(10)
-									} else {
-										taskRuntimeGuesses[taskID] = float64(totalRunTime / int64(len(taskRunTimes[taskID])))
-									}
-									taskStartTimes[taskID] = time.Now().Unix()
-									
-									// ...then run the Task as a goroutine (thread) in the background.
-									go runTask(taskID)
-									// Respond to the front-end code that all is okay.
-									fmt.Fprintf(theResponseWriter, "OK")
 								}
+							} else {
+								fmt.Fprintf(theResponseWriter, "ERROR: runTask - don't have runner / editor permissions.")
 							}
 						} else if strings.HasPrefix(requestPath, "/api/cancelTask") {
 							// Check for appropriate permissions for the user to be able to cancel the running task...
