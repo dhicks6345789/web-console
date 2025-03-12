@@ -1085,6 +1085,15 @@ func main() {
 				} else {
 					fmt.Fprintf(theResponseWriter, "ERROR: " + taskErr.Error())
 				}
+			// Handle the reverse proxy-ing of rclone for OAuth authentication flow.
+			} else if strings.HasPrefix(requestPath, "/api/rcloneAuthRedirect") {
+				proxyResponse, proxyErr := http.Get("http://127.0.0.1:53682/")
+				if proxyErr != nil {
+					debug("Some sort of HTTP error.")
+				}
+				defer proxyResponse.Body.Close()
+				responseBody, bodyErr := io.ReadAll(proxyResponse.Body)
+				debug(responseBody)
 			// Handle a view, run or API request. If taskID is not provided as a parameter, either via GET or POST, it defaults to "/".
 			} else if fileToServe != "" || strings.HasPrefix(requestPath, "/api/") {
 				taskID := theRequest.Form.Get("taskID")
