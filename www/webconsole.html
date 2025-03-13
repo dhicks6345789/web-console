@@ -677,6 +677,8 @@
 				item = document.getElementById("taskInput").childNodes[theCurrentValueNum];
 				if (item.id.startsWith("textInput")) {
 					submitValue = item.childNodes[3].childNodes[1].value;
+				} else if (item.id.startsWith("multichoiceInput")) {
+					submitValue = item.childNodes[3].childNodes[1].value;
 				}
 				if (submitValue == "") {
 					submitValue = "\n";
