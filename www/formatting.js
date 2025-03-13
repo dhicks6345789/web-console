@@ -80,7 +80,7 @@
 											
 											taskInputBlock.appendChild(multichoiceInputBlock);
 											if (inputCount == 1) {
-												multichoiceInputBox.focus();
+												multichoiceSelectElement.focus();
 											}
 										}
 									}
