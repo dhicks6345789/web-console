@@ -57,11 +57,21 @@
 												textInputBox.focus();
 											}
 										} else if (value.toLowerCase().startsWith("input:multichoice:")) {
-											selectElement = document.getElementById("multichoiceSelect");
+											multichoiceInputBlock = document.getElementById("multichoiceInput").cloneNode(true);
+											multichoiceInputBlock.id = "multichoiceInput-" + inputCount;
+											
+											multichoiceSelectElement = multichoiceInputBlock.childNodes[1];
+											multichoiceSelectElement.id = "multichoiceSelect-" + inputCount;
+
 											options = value.split(":");
 											for (pl = 2; pl < options.length; pl = pl + 1) {
-												selectElement.innerHTML = selectElement.innerHTML + "<option value=\"" + options[pl] + "\">" + options[pl] + "</option>";
+												multichoiceSelectElement.innerHTML = multichoiceSelectElement.innerHTML + "<option value=\"" + options[pl] + "\">" + options[pl] + "</option>";
 											}
+											
+											taskInputBlock.appendChild(multichoiceInputBlock);
+											/*if (inputCount == 1) {
+												textInputBox.focus();
+											}*/
 										}
 									}
 								} else if (!value.toLowerCase().startsWith("progress: ")) {
