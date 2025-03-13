@@ -66,7 +66,7 @@
 											multichoiceInputMessage.id = "multichoiceInputMessage-" + inputCount;
 											multichoiceInputMessage.innerHTML = options[options.length - 1];
 											
-											multichoiceSelectElement = multichoiceInputBlock.childNodes[2];
+											multichoiceSelectElement = multichoiceInputBlock.childNodes[3];
 											multichoiceSelectElement.id = "multichoiceSelect-" + inputCount;
 
 											for (pl = 2; pl < options.length - 1; pl = pl + 1) {
