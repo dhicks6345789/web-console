@@ -56,6 +56,12 @@
 											if (inputCount == 1) {
 												textInputBox.focus();
 											}
+										} else if (value.toLowerCase().startsWith("input:multichoice:")) {
+											selectElement = document.getElementById("multichoiceSelect");
+											options = value.split(":");
+											for (pl = 2; pl < options.length; pl = pl + 1) {
+												selectElement.innerHTML = selectElement.innerHTML + "<option value=\"" + options[pl] + "\">" + options[pl] + "</option>";
+											}
 										}
 									}
 								} else if (!value.toLowerCase().startsWith("progress: ")) {
