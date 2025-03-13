@@ -66,17 +66,22 @@
 											multichoiceInputMessage.id = "multichoiceInputMessage-" + inputCount;
 											multichoiceInputMessage.innerHTML = options[options.length - 1];
 											
-											multichoiceSelectElement = multichoiceInputBlock.childNodes[3];
+											multichoiceSelectElement = multichoiceInputBlock.childNodes[3].childNodes[1];
 											multichoiceSelectElement.id = "multichoiceSelect-" + inputCount;
-
 											for (pl = 2; pl < options.length - 1; pl = pl + 1) {
 												multichoiceSelectElement.innerHTML = multichoiceSelectElement.innerHTML + "<option value=\"" + options[pl] + "\">" + options[pl] + "</option>";
 											}
+											multichoiceSelectElement.setAttribute("tabindex", inputCount);
+
+											multichoiceInputButton = multichoiceInputBlock.childNodes[3].childNodes[3];
+											multichoiceInputButton.id = "multichoiceInputButton-" + inputCount;
+											multichoiceInputButton.setAttribute("onclick", "submitInput()");
+											multichoiceInputButton.setAttribute("tabindex", inputCount+1);
 											
 											taskInputBlock.appendChild(multichoiceInputBlock);
-											/*if (inputCount == 1) {
-												textInputBox.focus();
-											}*/
+											if (inputCount == 1) {
+												multichoiceInputBox.focus();
+											}
 										}
 									}
 								} else if (!value.toLowerCase().startsWith("progress: ")) {
