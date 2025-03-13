@@ -59,12 +59,17 @@
 										} else if (value.toLowerCase().startsWith("input:multichoice:")) {
 											multichoiceInputBlock = document.getElementById("multichoiceInput").cloneNode(true);
 											multichoiceInputBlock.id = "multichoiceInput-" + inputCount;
-											
-											multichoiceSelectElement = multichoiceInputBlock.childNodes[1];
-											multichoiceSelectElement.id = "multichoiceSelect-" + inputCount;
 
 											options = value.split(":");
-											for (pl = 2; pl < options.length; pl = pl + 1) {
+											
+											multichoiceInputMessage = multichoiceInputBlock.childNodes[1];
+											multichoiceInputMessage.id = "multichoiceInputMessage-" + inputCount;
+											multichoiceInputMessage.innerHTML = options[options.length - 1];
+											
+											multichoiceSelectElement = multichoiceInputBlock.childNodes[2];
+											multichoiceSelectElement.id = "multichoiceSelect-" + inputCount;
+
+											for (pl = 2; pl < options.length - 1; pl = pl + 1) {
 												multichoiceSelectElement.innerHTML = multichoiceSelectElement.innerHTML + "<option value=\"" + options[pl] + "\">" + options[pl] + "</option>";
 											}
 											
