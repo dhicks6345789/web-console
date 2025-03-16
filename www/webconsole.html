@@ -159,7 +159,9 @@
 					for (value of result.split("\n")) {
 						if (value.trim() != "") {
 							// If the Task has finished, reset the "Run" button state.
+							console.log("Value: " + value);
 							if (value.startsWith("ERROR: REDIRECT") || value.trim() == "ERROR: EOF") {
+								console.log("Found redirect / EOF: " + value);
 								clearInterval(intervalFunction);
 								intervalFunction = setInterval(keepAlive, keepAlivePeriod);
 								document.getElementById("runTaskButton").innerHTML = "Run";
