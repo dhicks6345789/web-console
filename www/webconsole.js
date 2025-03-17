@@ -14,12 +14,13 @@ var webconsole = {
         var apiCall = new XMLHttpRequest();
         apiCall.onreadystatechange = function() {
             if (apiCall.readyState == 4 && apiCall.status == 200) {
-                responseText = apiCall.responseText.trim().toLowerCase();
+                theSuccessFunction(apiCall.responseText);
+                /*responseText = apiCall.responseText.trim().toLowerCase();
                 if (responseText.startsWith("error:") && !(responseText.startsWith("error: redirect") || responseText == "error: eof"))) {
                     document.getElementById("taskErrors").innerHTML = apiCall.responseText;
                 } else {
                     theSuccessFunction(apiCall.responseText);
-                }
+                }*/
             }
         }
         URLEncodedParams = "";
