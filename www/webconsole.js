@@ -14,6 +14,7 @@ var webconsole = {
         var apiCall = new XMLHttpRequest();
         apiCall.onreadystatechange = function() {
             if (apiCall.readyState == 4 && apiCall.status == 200) {
+                console.log("API result: " + apiCall.responseText);
                 theSuccessFunction(apiCall.responseText);
             }
         }
