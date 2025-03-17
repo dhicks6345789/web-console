@@ -159,7 +159,7 @@
 					for (value of result.split("\n")) {
 						valueLower = value.trim().toLowerCase();
 						if (valueLower != "") {
-							if (valueLower.startsWith("error:") {
+							if (valueLower.startsWith("error:")) {
 								// If the Task has finished (EOF or Redirect), reset the state back to ready-to-run.
 								if (valueLower == "error: eof" || valueLower.startsWith("error: redirect")) {
 									clearInterval(intervalFunction);
