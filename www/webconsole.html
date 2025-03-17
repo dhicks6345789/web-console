@@ -157,56 +157,59 @@
 			function updateTaskOutput() {
 				webconsole.APICall("getTaskOutput", {"line":outputLine}, function(result) {
 					for (value of result.split("\n")) {
-						if (value.trim() != "") {
-							// If the Task has finished, reset the "Run" button state.
-							console.log("Value: " + value);
-							if (value.startsWith("ERROR: REDIRECT") || value.trim() == "ERROR: EOF") {
-								console.log("Found redirect / EOF: " + value);
-								clearInterval(intervalFunction);
-								intervalFunction = setInterval(keepAlive, keepAlivePeriod);
-								document.getElementById("runTaskButton").innerHTML = "Run";
-								document.getElementById("runTaskButton").disabled = false;
-								document.getElementById("taskProgress").innerHTML = "";
-								document.getElementById("taskInput").innerHTML = "";
-								document.getElementById("cancelTaskButton").style.display = "none";
-								document.getElementById("taskResults").innerHTML = "";
-								
-								if (permission == "E") {
-									refreshFolderTreeView();
-								}
-								
-								// If there's a "www" folder present in the Task's folder after the Task has run, that's treated as the result of the Task,
-								// which is shown to the user. If the user has "view" or "run" permissions they are redirected to the result page. If they have
-								// "edit" permissions they are shown the result in a expanded collapse section so, they don't have to keep switching between the
-								// edit page and the results page as they edit code.
-								if (value.startsWith("ERROR: REDIRECT")) {
-									redirectURL = window.location.href.split("?")[0].slice(0, -4) + taskID + "/";
-									redirectSplit = value.split(" ");
-									if (redirectSplit.length > 2) {
-										redirectURL = redirectSplit[2];
+						valueLower = value.trim().toLowerCase();
+						if (valueLower != "") {
+							if (valueLower.startsWith("error:") {
+								// If the Task has finished (EOF or Redirect), reset the state back to ready-to-run.
+								if (valueLower == "error: eof" || valueLower.startsWith("error: redirect")) {
+									clearInterval(intervalFunction);
+									intervalFunction = setInterval(keepAlive, keepAlivePeriod);
+									document.getElementById("runTaskButton").innerHTML = "Run";
+									document.getElementById("runTaskButton").disabled = false;
+									document.getElementById("taskProgress").innerHTML = "";
+									document.getElementById("taskInput").innerHTML = "";
+									document.getElementById("cancelTaskButton").style.display = "none";
+									document.getElementById("taskResults").innerHTML = "";
+									
+									if (permission == "E") {
+										refreshFolderTreeView();
 									}
-									if (displayAlerts == true) {
-										if (permission == "E") {
-											// Make sure the content in the "result" section is refreshed.
-											document.getElementById("resultIframe").contentWindow.location.reload();
-											
-											// Make sure the "result" section is un-collapsed.
-											var resultCollapse = new bootstrap.Collapse(document.getElementById("collapseResult"), {
-												toggle: false
-											});
-											resultCollapse.show();
-											
-											// Scroll to the "result" section.
-											scrollToResultCollapse();
-										} else {
-											window.location.href = redirectURL;
+
+									// If there's a "www" folder present in the Task's folder after the Task has run, that's treated as the result of the Task,
+									// which is shown to the user. If the user has "view" or "run" permissions they are redirected to the result page. If they have
+									// "edit" permissions they are shown the result in a expanded collapse section so, they don't have to keep switching between the
+									// edit page and the results page as they edit code.
+									if (valueLower.startsWith("error: redirect")) {
+										redirectURL = window.location.href.split("?")[0].slice(0, -4) + taskID + "/";
+										redirectSplit = value.split(" ");
+										if (redirectSplit.length > 2) {
+											redirectURL = redirectSplit[2];
+										}
+										if (displayAlerts == true) {
+											if (permission == "E") {
+												// Make sure the content in the "result" section is refreshed.
+												document.getElementById("resultIframe").contentWindow.location.reload();
+												
+												// Make sure the "result" section is un-collapsed.
+												var resultCollapse = new bootstrap.Collapse(document.getElementById("collapseResult"), {
+													toggle: false
+												});
+												resultCollapse.show();
+												
+												// Scroll to the "result" section.
+												scrollToResultCollapse();
+											} else {
+												window.location.href = redirectURL;
+											}
 										}
 									}
+								} else {
+									// Otherwise, display the error message to the user.
+									document.getElementById("taskErrors").innerHTML = apiCall.responseText;
 								}
 							} else {
-								console.log("Not redirect or EOF." + value);
 								// Include formatting.js.
-								if (value.toLowerCase().startsWith("progress:")) {
+								if (valueLower.startsWith("progress:")) {
 									// If a string begins with "Progress: ", interpret the following number as a
 									// percentage completion value, and update the progress bar accordingly.
 									progressBarName = value.substring(value.indexOf(":")+1, value.lastIndexOf(" ")).trim();
