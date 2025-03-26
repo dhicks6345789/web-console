@@ -2,17 +2,17 @@
 								if (value.toLowerCase().startsWith("error: ")) {
 									value = "<span style='color:Red'>" + value.substr(7) + "</span>"
 									if (displayAlerts == true) {
-										document.getElementById("taskAlerts").innerHTML = value;
+										document.getElementById("taskAlerts").innerHTML = marked.parse(value);
 									}
 								} else if (value.toLowerCase().startsWith("warning: ") || value.toLowerCase().startsWith("alert: ")) {
 									value = "<span style='color:DarkGoldenRod'>" + value.substr(9) + "</span>"
 									if (displayAlerts == true) {
-										document.getElementById("taskAlerts").innerHTML = value;
+										document.getElementById("taskAlerts").innerHTML = marked.parse(value);
 									}
 								} else if (value.toLowerCase().startsWith("status: ")) {
 									value = "<span style='color:Green'>" + value.substr(8) + "</span>"
 									if (displayAlerts == true) {
-										document.getElementById("taskAlerts").innerHTML = value;
+										document.getElementById("taskAlerts").innerHTML = marked.parse(value);
 									}
 								} else if (value.toLowerCase().startsWith("result: ")) {
 									value = "<span style='color:Black'>" + value.substr(8) + "</span>"
@@ -23,6 +23,9 @@
 									if (displayAlerts == true) {
 										// If a string begins with "INPUT:", we ask the user for some input.
 										inputCount = inputCount + 1;
+
+										// Clear any existing alert messages shown to the user.
+										document.getElementById("taskAlerts").innerHTML = "";
 
 										taskInputBlock = document.getElementById("taskInput");
 										taskInputBlock.childNodes.forEach(function(theItem) {
