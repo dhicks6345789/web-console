@@ -708,7 +708,7 @@
 			}
 
 			function renderMarkdown(theValue) {
-				result = marked.parse(theValue).replace("a href=", "a target=\"_blank\" href=");
+				result = marked.parse(theValue).replace("a href=", "a target=\"_blank\" href=").substring(3, -4);
 				return(result);
 			}
 			
