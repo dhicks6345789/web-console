@@ -206,7 +206,7 @@
 									}
 								} else {
 									// Otherwise, display the error message to the user.
-									document.getElementById("taskErrors").innerHTML = value;
+									document.getElementById("taskAlerts").innerHTML = "<div style='color:red'>" + value + "</div>";
 								}
 							} else {
 								// Include formatting.js.
@@ -1089,8 +1089,6 @@
 				<div class="p-2 rounded m-3" style="background-color:LightSteelBlue">
 					<h1 class="text-center" id="taskTitle"><<TITLE>></h1>
 				</div>
-				
-				<div class="text-center text-danger" id="taskErrors"></div>
 				
 				<!-- The main "alerts" section where the most important output for the user goes. -->
 				<div class="p-2 rounded m-3" style="background-color:LightSteelBlue">
