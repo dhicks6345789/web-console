@@ -534,29 +534,7 @@ func getTaskList() ([]map[string]string, error) {
 func getTaskPermission(webConsoleRoot string, taskDetails map[string]string, userID string) string {
 	//debug("Finding permissions for Task: " + taskDetails["taskID"])
 	for taskDetailName, taskDetailValue := range taskDetails {
-		if strings.HasPrefix(taskDetailName, "mystart") {
-			//debug("MyStart setting found - name: " + taskDetailName + ", value: " + taskDetailValue)
-			mystartName := ""
-			permissionToGrant := ""
-			for _, permissionCheck := range [3]string{"Editors", "Runners", "Viewers"} {
-				if strings.HasSuffix(taskDetailName, permissionCheck) {
-					mystartName = taskDetailName[len("mystart"):len(taskDetailName)-len(permissionCheck)]
-					permissionToGrant = string(permissionCheck[0])
-				}
-			}
-			if permissionToGrant != "" {
-				mystartUsersPath := webConsoleRoot + "/" + taskDetailValue
-				//debug("mystartUsersPath: " + mystartUsersPath)
-				if _, err := os.Stat(mystartUsersPath); !os.IsNotExist(err) {
-					mystartUsers := readUserFile(mystartUsersPath, arguments["mystart" + mystartName + "apikey"])
-					for _, userHash := range mystartUsers {
-						if userHash == userID {
-							return permissionToGrant
-						}
-					}
-				}
-			}
-		} else if strings.HasPrefix(taskDetailName, "cloudflare") {
+		if strings.HasPrefix(taskDetailName, "cloudflare") {
 			permissionToGrant := ""
 			for _, permissionCheck := range [3]string{"Editors", "Runners", "Viewers"} {
 				if strings.HasSuffix(taskDetailName, permissionCheck) {
@@ -1175,10 +1153,15 @@ func main() {
 						authorisationError = "no external authorisation used, no valid secret given, no valid token supplied"
 					}
 					if !authorised && taskDetails["authentication"] == "" {
-						debug("User authorised - no other authentication method defined, assigning Viewer permsisions.")
+						if taskDetails["public"] == "Y" {
+							debug("User authorised - no other authentication method defined, Task is public, assigning Runner permsisions.")
+							permission = "R"
+						} else {
+							debug("User authorised - no other authentication method defined, Task is not public, assigning Viewer permsisions.")
+							permission = "V"
+						}
 						authorised = true
 						authorisationError = ""
-						permission = "V"
 					}
 					if authorised {
 						// If we get this far, we know the user is authorised for this Task - they've either provided a valid
