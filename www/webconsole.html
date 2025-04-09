@@ -288,9 +288,10 @@
 			function setSecret() {
 				password = document.getElementById("taskSecret").value;
 				webconsole.APICall("hashSecret", {"secret":password}, function(result) {
-					document.getElementById("taskSecretHash").value = result;
+					resultSplit = result.split(",");
+					document.getElementById("taskSecretHash").value = resultSplit[1];
 					// Set the Direct Link URL value for the user, with the added (hashed) secret value.
-					//document.getElementById("directLinkText").innerHTML = "Direct link to this Task (with " + "something" + " access): ";
+					document.getElementById("directLinkText").innerHTML = "Direct link to this Task (with " + resultSplit[0] + " access): ";
 					document.getElementById("directLinkURL").value = pageURL.slice(0, pageURL.lastIndexOf("/")) + "/view?taskID=" + taskID + "&secret=" + password;
 				});
 			}
