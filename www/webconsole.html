@@ -277,10 +277,10 @@
 				secretInput = document.getElementById("taskSecret");
 				if (secretInput.type == "password") {
 					secretInput.type = "text";
-					document.getElementById(theUserType + "SecretIcon").setAttribute("src", "bootstrap-icons/1.8.1/eye-slash.svg");
+					document.getElementById("taskSecretIcon").setAttribute("src", "bootstrap-icons/1.8.1/eye-slash.svg");
 				} else {
 					secretInput.type = "password";
-					document.getElementById(theUserType + "SecretIcon").setAttribute("src", "bootstrap-icons/1.8.1/eye.svg");
+					document.getElementById("taskSecretIcon").setAttribute("src", "bootstrap-icons/1.8.1/eye.svg");
 				}
 			}
 			
@@ -288,9 +288,9 @@
 			function setSecret() {
 				password = document.getElementById("taskSecret").value;
 				webconsole.APICall("hashSecret", {"secret":password}, function(result) {
-					document.getElementById(theUserType + "SecretHash").value = result;
+					document.getElementById("taskSecretHash").value = result;
 					// Set the Direct Link URL value for the user, with the added (hashed) secret value.
-					//document.getElementById("directLinkText").innerHTML = "Direct link to this Task (with " + theUserType + " access): ";
+					//document.getElementById("directLinkText").innerHTML = "Direct link to this Task (with " + "something" + " access): ";
 					document.getElementById("directLinkURL").value = pageURL.slice(0, pageURL.lastIndexOf("/")) + "/view?taskID=" + taskID + "&secret=" + password;
 				});
 			}
@@ -298,12 +298,6 @@
 			// Copy the hashed secret value to the clipboard for the user.
 			function copySecretHash() {
 				copyText = document.getElementById("taskSecretHash");
-				copyText.select();
-				document.execCommand("copy");
-			}
-
-			function copyDirectLinkWithSecretURL(theUserType) {
-				copyText = document.getElementById("directLinkURL");
 				copyText.select();
 				document.execCommand("copy");
 			}
@@ -1204,12 +1198,12 @@
 								<div>
 									Secret: <input type="password" id="taskSecret" onkeydown="checkForEnter(this)"/>
 									<button type="button" class="btn btn-default px-0" aria-label="Toggle password visibility" onclick="toggleSecret()">
-										<img id="viewerSecretIcon" src="bootstrap-icons/1.8.1/eye.svg" alt="Toggle password visibility" width="32" height="32">
+										<img id="taskSecretIcon" src="bootstrap-icons/1.8.1/eye.svg" alt="Toggle password visibility" width="32" height="32">
 									</button>
 									<button type="button" class="btn btn-default ps-0" aria-label="Set Viewer secret" onclick="setSecret()">
 										<img src="bootstrap-icons/1.8.1/arrow-right-circle.svg" alt="Set Viewer secret" width="32" height="32">
 									</button>
-									Hash: <input type="text" id="viewerSecretHash" value="" readonly/>
+									Hash: <input type="text" id="taskSecretHash" value="" readonly/>
 									<button type="button" class="btn btn-default ps-0" aria-label="Copy Viewer secret hash" onclick="copySecretHash()">
 										<img src="bootstrap-icons/1.8.1/stickies.svg" alt="Copy viewer secret hash" width="32" height="32">
 									</button>
