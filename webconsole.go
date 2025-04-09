@@ -1594,7 +1594,7 @@ func main() {
 							theSecret := theRequest.Form.Get("secret")
 							hashedSecret, hashErr := hashPassword(theSecret)
 							if hashErr == nil {
-								fmt.Fprintf(theResponseWriter, hashedSecret)
+								fmt.Fprintf(theResponseWriter, "viewer," + hashedSecret)
 							} else {
 								fmt.Fprintf(theResponseWriter, "ERROR: Problem hashing secret - " + hashErr.Error())
 							}
