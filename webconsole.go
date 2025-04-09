@@ -1594,7 +1594,15 @@ func main() {
 							theSecret := theRequest.Form.Get("secret")
 							hashedSecret, hashErr := hashPassword(theSecret)
 							if hashErr == nil {
-								fmt.Fprintf(theResponseWriter, "viewer," + hashedSecret)
+								hashPermission := "secret"
+								if checkPasswordHash(theRequest.Form.Get("secret"), taskDetails["secretViewers"]) {
+									hashPermission = "viewer"
+								} else if checkPasswordHash(theRequest.Form.Get("secret"), taskDetails["secretRunners"]) {
+									hashPermission = "runner"
+								} else if checkPasswordHash(theRequest.Form.Get("secret"), taskDetails["secretEditors"]) {
+									hashPermission = "editor"
+								}
+								fmt.Fprintf(theResponseWriter, hashPermission + "," + hashedSecret)
 							} else {
 								fmt.Fprintf(theResponseWriter, "ERROR: Problem hashing secret - " + hashErr.Error())
 							}
