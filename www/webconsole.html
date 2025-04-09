@@ -273,8 +273,8 @@
 			}
 
 			// Toggle the password visibility of the given secret value box.
-			function toggleSecret(theUserType) {
-				secretInput = document.getElementById(theUserType + "Secret");
+			function toggleSecret() {
+				secretInput = document.getElementById("taskSecret");
 				if (secretInput.type == "password") {
 					secretInput.type = "text";
 					document.getElementById(theUserType + "SecretIcon").setAttribute("src", "bootstrap-icons/1.8.1/eye-slash.svg");
@@ -285,34 +285,33 @@
 			}
 			
 			// Set the hashed secret value for the given user type.
-			function setSecret(theUserType) {
-				password = document.getElementById(theUserType + "Secret").value;
+			function setSecret() {
+				password = document.getElementById("taskSecret").value;
 				webconsole.APICall("hashSecret", {"secret":password}, function(result) {
 					document.getElementById(theUserType + "SecretHash").value = result;
 					// Set the Direct Link URL value for the user, with the added (hashed) secret value.
 					//document.getElementById("directLinkText").innerHTML = "Direct link to this Task (with " + theUserType + " access): ";
-					//document.getElementById("directLinkURL").value = pageURL.slice(0, pageURL.lastIndexOf("/")) + "/view?taskID=" + taskID + "&secret=" + password;
-					document.getElementById(theUserType + "DirectLinkURL").value = pageURL.slice(0, pageURL.lastIndexOf("/")) + "/view?taskID=" + taskID + "&secret=" + password;
+					document.getElementById("directLinkURL").value = pageURL.slice(0, pageURL.lastIndexOf("/")) + "/view?taskID=" + taskID + "&secret=" + password;
 				});
 			}
 			
 			// Copy the hashed secret value to the clipboard for the user.
-			function copySecretHash(theUserType) {
-				copyText = document.getElementById(theUserType + "SecretHash")
+			function copySecretHash() {
+				copyText = document.getElementById("taskSecretHash");
 				copyText.select();
 				document.execCommand("copy");
 			}
 
 			function copyDirectLinkWithSecretURL(theUserType) {
-				copyText = document.getElementById(theUserType + "DirectLinkURL")
+				copyText = document.getElementById("directLinkURL");
 				copyText.select();
 				document.execCommand("copy");
 			}
 			
 			// Check for the "enter" key being pressed.
-			function checkForEnter(theElement, theUserType) {
+			function checkForEnter(theElement) {
 				if (event.key === "Enter") {
-					if (theElement.id == theUserType + "Secret") {
+					if (theElement.id == "taskSecret") {
 						setSecret(theUserType);
 					}
 				}
@@ -1203,60 +1202,20 @@
 						<div id="collapseInfo" class="accordion-collapse collapse" aria-labelledby="headingInfo" data-bs-parent="#accordionInfo">
 							<div class="accordion-body text-end">
 								<div>
-									<span id="directLinkText">Direct link to this Task: </span><input type="text" id="directLinkURL" value="https://" readonly/>
-									<button type="button" class="btn btn-default px-0" aria-label="Copy direct link URL" onclick="copyDirectLinkURL()">
-										<img src="bootstrap-icons/1.8.1/stickies.svg" alt="Copy direct link URL" width="32" height="32">
+									Secret: <input type="password" id="taskSecret" onkeydown="checkForEnter(this)"/>
+									<button type="button" class="btn btn-default px-0" aria-label="Toggle password visibility" onclick="toggleSecret()">
+										<img id="viewerSecretIcon" src="bootstrap-icons/1.8.1/eye.svg" alt="Toggle password visibility" width="32" height="32">
 									</button>
-								</div>
-								<div>
-									Viewer secret: <input type="password" id="viewerSecret" onkeydown="checkForEnter(this, 'viewer')"/>
-									<button type="button" class="btn btn-default px-0" aria-label="Toggle Viewer password visibility" onclick="toggleSecret('viewer')">
-										<img id="viewerSecretIcon" src="bootstrap-icons/1.8.1/eye.svg" alt="Toggle Viewer password visibility" width="32" height="32">
-									</button>
-									<button type="button" class="btn btn-default ps-0" aria-label="Set Viewer secret" onclick="setSecret('viewer')">
+									<button type="button" class="btn btn-default ps-0" aria-label="Set Viewer secret" onclick="setSecret()">
 										<img src="bootstrap-icons/1.8.1/arrow-right-circle.svg" alt="Set Viewer secret" width="32" height="32">
 									</button>
 									Hash: <input type="text" id="viewerSecretHash" value="" readonly/>
-									<button type="button" class="btn btn-default ps-0" aria-label="Copy Viewer secret hash" onclick="copySecretHash('viewer')">
+									<button type="button" class="btn btn-default ps-0" aria-label="Copy Viewer secret hash" onclick="copySecretHash()">
 										<img src="bootstrap-icons/1.8.1/stickies.svg" alt="Copy viewer secret hash" width="32" height="32">
 									</button>
-									Direct link (Viewer access): <input type="text" id="viewerDirectLinkURL" value="" readonly/>
-									<button type="button" class="btn btn-default px-0" aria-label="Copy Viewer direct link URL" onclick="copyDirectLinkWithSecretURL('viewer')">
-										<img src="bootstrap-icons/1.8.1/stickies.svg" alt="Copy Viewer direct link URL" width="32" height="32">
-									</button>
-								</div>
-								<div>
-									Runner secret: <input type="password" id="runnerSecret" onkeydown="checkForEnter(this, 'runner')"/>
-									<button type="button" class="btn btn-default px-0" aria-label="Toggle Runner password visibility" onclick="toggleSecret('runner')">
-										<img id="runnerSecretIcon" src="bootstrap-icons/1.8.1/eye.svg" alt="Toggle Runner password visibility" width="32" height="32">
-									</button>
-									<button type="button" class="btn btn-default ps-0" aria-label="Set Runner secret" onclick="setSecret('runner')">
-										<img src="bootstrap-icons/1.8.1/arrow-right-circle.svg" alt="Set Runner secret" width="32" height="32">
-									</button>
-									Hash: <input type="text" id="runnerSecretHash" value="" readonly/>
-									<button type="button" class="btn btn-default ps-0" aria-label="Copy Runner secret hash" onclick="copySecretHash('runner')">
-										<img src="bootstrap-icons/1.8.1/stickies.svg" alt="Copy Runner secret hash" width="32" height="32">
-									</button>
-									Direct link (Runner access): <input type="text" id="runnerDirectLinkURL" value="" readonly/>
-									<button type="button" class="btn btn-default px-0" aria-label="Copy Runner direct link URL" onclick="copyDirectLinkWithSecretURL('runner')">
-										<img src="bootstrap-icons/1.8.1/stickies.svg" alt="Copy Runner direct link URL" width="32" height="32">
-									</button>
-								</div>
-								<div>
-									Editor secret: <input type="password" id="editorSecret" onkeydown="checkForEnter(this, 'editor')"/>
-									<button type="button" class="btn btn-default px-0" aria-label="Toggle Editor password visibility" onclick="toggleSecret('editor')">
-										<img id="editorSecretIcon" src="bootstrap-icons/1.8.1/eye.svg" alt="Toggle Editor password visibility" width="32" height="32">
-									</button>
-									<button type="button" class="btn btn-default ps-0" aria-label="Set Editor secret" onclick="setSecret('editor')">
-										<img src="bootstrap-icons/1.8.1/arrow-right-circle.svg" alt="Set Editor secret" width="32" height="32">
-									</button>
-									Hash: <input type="text" id="editorSecretHash" value="" readonly/>
-									<button type="button" class="btn btn-default ps-0" aria-label="Copy Editor secret hash" onclick="copySecretHash('editor')">
-										<img src="bootstrap-icons/1.8.1/stickies.svg" alt="Copy Editor secret hash" width="32" height="32">
-									</button>
-									Direct link (Editor access): <input type="text" id="editorDirectLinkURL" value="" readonly/>
-									<button type="button" class="btn btn-default px-0" aria-label="Copy Editor direct link URL" onclick="copyDirectLinkWithSecretURL('editor')">
-										<img src="bootstrap-icons/1.8.1/stickies.svg" alt="Copy Editor direct link URL" width="32" height="32">
+									<span id="directLinkText">Direct link to this Task: </span><input type="text" id="directLinkURL" value="https://" readonly/>
+									<button type="button" class="btn btn-default px-0" aria-label="Copy direct link URL" onclick="copyDirectLinkURL()">
+										<img src="bootstrap-icons/1.8.1/stickies.svg" alt="Copy direct link URL" width="32" height="32">
 									</button>
 								</div>
 								<div>
