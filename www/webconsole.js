@@ -107,11 +107,11 @@ var webconsole = {
             console.log(actionForm);
         }
         actionForm.submit();
-    }
+    },
 
     renderMarkdown: function(theValue) {
         result = marked.parse(theValue).replace("a href=", "a target=\"_blank\" href=");
-		result = result.substring(3, result.length - 5);
-		return(result);
-	}
+	result = result.substring(3, result.length - 5);
+	return(result);
+    }
 };
