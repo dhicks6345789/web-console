@@ -1,5 +1,3 @@
-import "marked/15.0.7/marked.min.js";
-
 var webconsole = {
     // A utility function to do a webconsole API call.
     APICall: function(theMethod, theParams, theSuccessFunction, callMethod="POST", APIURLPrefix="") {
@@ -112,7 +110,7 @@ var webconsole = {
     },
 
     renderMarkdown: function(theValue) {
-        result = marked.parse(theValue).replace("a href=", "a target=\"_blank\" href=");
+        result = theValue.replace("a href=", "a target=\"_blank\" href=");
 	result = result.substring(3, result.length - 5);
 	return(result);
     }
