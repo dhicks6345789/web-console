@@ -1,3 +1,5 @@
+import "marked/15.0.7/marked.min.js";
+
 var webconsole = {
     // A utility function to do a webconsole API call.
     APICall: function(theMethod, theParams, theSuccessFunction, callMethod="POST", APIURLPrefix="") {
