@@ -53,7 +53,7 @@
 						webconsole.numberElementIDs(publicTaskRow, rowCount);
 						document.getElementById("publicTaskList").appendChild(publicTaskRow);
 						document.getElementById("publicTaskTitle-" + rowCount).innerHTML = "<b>" + taskList[taskID]["title"] + ":</b> ";
-						document.getElementById("publicTaskDescription-" + rowCount).innerHTML = webconsole.renderMarkdown(taskList[taskID]["shortDescription"]);
+						document.getElementById("publicTaskDescription-" + rowCount).innerHTML = webconsole.renderMarkdown(marked.parse(taskList[taskID]["shortDescription"]));
 						document.getElementById("publicTaskButton-" + rowCount).setAttribute("onclick", "webconsole.doAction('POST', 'view', false, {'taskID':'" + taskID + "', 'token':'" + token + "'}, false)");
 						publicTaskRow.style.display = "table-row";
 						rowCount = rowCount + 1;
