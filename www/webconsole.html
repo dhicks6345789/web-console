@@ -239,24 +239,9 @@
 				}
 			}
 
-			// Copt the direct link URL for this Task page to the clipboard for the user.
-			function copyDirectLinkURL() {
-				copyText = document.getElementById("directLinkURL")
-				copyText.select();
-				document.execCommand("copy");
-			}
-			
-			// Copy the webhook URL to the clipboard for the user.
-			function copyAutomationURL() {
-				copyText = document.getElementById("automationLink")
-				copyText.select();
-				//copyText.setSelectionRange(0, 99999); // For mobile devices.
-				document.execCommand("copy");
-			}
-			
-			// Copy the CURL command to the clipboard for the user.
-			function copyCURLCommand() {
-				copyText = document.getElementById("CURLCommand")
+			// Copy the contens of the given element to the clipboard for the user.
+			function copyToClipboard(theID) {
+				copyText = document.getElementById(theID);
 				copyText.select();
 				document.execCommand("copy");
 			}
@@ -1199,26 +1184,32 @@
 										<img src="bootstrap-icons/1.8.1/arrow-right-circle.svg" alt="Set Viewer secret" width="32" height="32">
 									</button>
 									Hash: <input type="text" id="taskSecretHash" value="" readonly/>
-									<button type="button" class="btn btn-default ps-0" aria-label="Copy Viewer secret hash" onclick="copySecretHash()">
+									<button type="button" class="btn btn-default ps-0" aria-label="Copy Viewer secret hash" onclick="copyToClipboard('taskSecretHash')">
 										<img src="bootstrap-icons/1.8.1/stickies.svg" alt="Copy viewer secret hash" width="32" height="32">
 									</button>
 									<span id="directLinkText">Direct link to this Task: </span><input type="text" id="directLinkURL" value="https://" readonly/>
-									<button type="button" class="btn btn-default px-0" aria-label="Copy direct link URL" onclick="copyDirectLinkURL()">
+									<button type="button" class="btn btn-default px-0" aria-label="Copy direct link URL" onclick="copyToClipboard('directLinkURL')">
 										<img src="bootstrap-icons/1.8.1/stickies.svg" alt="Copy direct link URL" width="32" height="32">
+									</button>
+								</div>
+								<div>
+									Direct link to this Task's static website: <input type="text" id="staticSiteLinkURL" value="https://" readonly/>
+									<button type="button" class="btn btn-default px-0" aria-label="Copy static site link URL" onclick="copyToClipboard('staticSiteLinkURL')">
+										<img src="bootstrap-icons/1.8.1/stickies.svg" alt="Copy static site link URL" width="32" height="32">
 									</button>
 								</div>
 								<div>
 									<a href="https://ifttt.com/home" target="_blank"><img src="logos/IFTTT.svg" alt="IFTTT Logo" width="32" height="32"></a>
 									<a href="https://zapier.com/app/dashboard" target="_blank"><img src="logos/zapier.svg" alt="Zapier Logo" width="32" height="32"></a>
 									Automation URL: <input type="text" id="automationLink" value="https://" readonly/>
-									<button type="button" class="btn btn-default px-0" aria-label="Copy Automation URL" onclick="copyAutomationURL()">
+									<button type="button" class="btn btn-default px-0" aria-label="Copy Automation URL" onclick="copyToClipboard('automationLink')">
 										<img src="bootstrap-icons/1.8.1/stickies.svg" alt="Copy Automation URL" width="32" height="32">
 									</button>
 								</div>
 								<div>
 									<a href="https://curl.se/docs/manpage.html" target="_blank"><img src="logos/curl.svg" alt="curl Logo" width="32" height="32"></a>
 									curl command: <input type="text" id="CURLCommand" value="https://" readonly/>
-									<button type="button" class="btn btn-default px-0" aria-label="Copy CURL command" onclick="copyCURLCommand()">
+									<button type="button" class="btn btn-default px-0" aria-label="Copy CURL command" onclick="copyToClipboard('CURLCommand')">
 										<img src="bootstrap-icons/1.8.1/stickies.svg" alt="Copy CURL command" width="32" height="32">
 									</button>
 								</div>
