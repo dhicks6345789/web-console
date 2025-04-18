@@ -733,6 +733,28 @@
 						}
 					});
 				}
+				
+				webconsole.APICall("getResultURL", {}, function(resultURL) {
+					redirectURL = window.location.href.split("?")[0].slice(0, -4) + taskID + "/";
+					// If the user has "edit" permisions they see any result produced in a "result" tab rather than be redirected as
+					// they would with "view" or "run" permissions.
+					if (resultURL != "") {
+						document.getElementById("staticSiteLinkURL").value = redirectURL;
+						document.getElementById("staticSiteLinkDiv").style.display = "block";
+						if (permission == "E") {
+							if (resultURL == "www") {
+								document.getElementById("resultIframe").src = redirectURL;
+								document.getElementById("resultButton").href = redirectURL;
+								document.getElementById("resultBlock").style.display = "block";
+							} else {
+								document.getElementById("resultIframe").src = resultURL;
+								document.getElementById("resultButton").href = resultURL;
+								document.getElementById("resultBlock").style.display = "block";
+							}
+						}
+					}
+				});
+				
 				if (permission == "E") {
 					// If the user has "edit" permissions, show the "edit" block.
 					
@@ -898,21 +920,6 @@
 					// Make the edit block visible.
 					document.getElementById("editBlock").style.display = "block";
 					document.getElementById("saveFileButton").disabled = true;
-					
-					webconsole.APICall("getResultURL", {}, function(resultURL) {
-						// If the user has "edit" permisions they see any result produced in a "result" tab rather than be redirected as
-						// they would with "view" or "run" permissions.
-						if (resultURL == "www") {
-							redirectURL = window.location.href.split("?")[0].slice(0, -4) + taskID + "/";
-							document.getElementById("resultIframe").src = redirectURL;
-							document.getElementById("resultButton").href = redirectURL;
-							document.getElementById("resultBlock").style.display = "block";
-						} else if (resultURL != "") {
-							document.getElementById("resultIframe").src = resultURL;
-							document.getElementById("resultButton").href = resultURL;
-							document.getElementById("resultBlock").style.display = "block";
-						}
-					});
 					
 					// Set up an event handler for shown.bs.collapse so that the "result" block is
 					// scrolled into view when the user expands it.
@@ -1192,7 +1199,7 @@
 										<img src="bootstrap-icons/1.8.1/stickies.svg" alt="Copy direct link URL" width="32" height="32">
 									</button>
 								</div>
-								<div>
+								<div "staticSiteLinkDiv" style="display:none">
 									Direct link to this Task's static website: <input type="text" id="staticSiteLinkURL" value="https://" readonly/>
 									<button type="button" class="btn btn-default px-0" aria-label="Copy static site link URL" onclick="copyToClipboard('staticSiteLinkURL')">
 										<img src="bootstrap-icons/1.8.1/stickies.svg" alt="Copy static site link URL" width="32" height="32">
