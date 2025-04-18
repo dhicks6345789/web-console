@@ -739,6 +739,7 @@
 					// If the user has "edit" permisions they see any result produced in a "result" tab rather than be redirected as
 					// they would with "view" or "run" permissions.
 					if (resultURL != "") {
+						document.getElementById("staticSiteLinkText").innerHTML = "Direct link to this Task's <a href=\"" + redirectURL + "\" target=\"_blank\">static website</a>: ";
 						document.getElementById("staticSiteLinkURL").value = redirectURL;
 						document.getElementById("staticSiteLinkDiv").style.display = "block";
 						if (permission == "E") {
@@ -1200,7 +1201,7 @@
 									</button>
 								</div>
 								<div id="staticSiteLinkDiv" style="display:none">
-									Direct link to this Task's static website: <input type="text" id="staticSiteLinkURL" value="https://" readonly/>
+									<span id="staticSiteLinkText">Direct link to this Task's static website: </span><input type="text" id="staticSiteLinkURL" value="https://" readonly/>
 									<button type="button" class="btn btn-default px-0" aria-label="Copy static site link URL" onclick="copyToClipboard('staticSiteLinkURL')">
 										<img src="bootstrap-icons/1.8.1/stickies.svg" alt="Copy static site link URL" width="32" height="32">
 									</button>
