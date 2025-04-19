@@ -145,7 +145,6 @@
 			
 			// Called periodically (period defined by constant at start of file) after a Task has been started to update information for the user.
 			function updateTaskOutput() {
-				console.log("updateTaskOutput: line " + outputLine);
 				webconsole.APICall("getTaskOutput", {"line":outputLine}, function(result) {
 					for (value of result.split("\n")) {
 						valueLower = value.trim().toLowerCase();
@@ -171,7 +170,6 @@
 									// "edit" permissions they are shown the result in a expanded collapse section so, they don't have to keep switching between the
 									// edit page and the results page as they edit code.
 									if (valueLower.startsWith("error: redirect")) {
-										console.log("Found redirect.");
 										redirectURL = window.location.href.split("?")[0].slice(0, -4) + taskID + "/";
 										redirectSplit = value.split(" ");
 										if (redirectSplit.length > 2) {
