@@ -2,17 +2,17 @@
 								if (value.toLowerCase().startsWith("error: ")) {
 									value = "<span style='color:Red'>" + value.substr(7) + "</span>"
 									if (displayAlerts == true) {
-										document.getElementById("taskAlerts").innerHTML = renderMarkdown(value);
+										document.getElementById("taskAlerts").innerHTML = webconsole.renderMarkdown(value);
 									}
 								} else if (value.toLowerCase().startsWith("warning: ") || value.toLowerCase().startsWith("alert: ")) {
 									value = "<span style='color:DarkGoldenRod'>" + value.substr(9) + "</span>"
 									if (displayAlerts == true) {
-										document.getElementById("taskAlerts").innerHTML = renderMarkdown(value);
+										document.getElementById("taskAlerts").innerHTML = webconsole.renderMarkdown(value);
 									}
 								} else if (value.toLowerCase().startsWith("status: ")) {
 									value = "<span style='color:Green'>" + value.substr(8) + "</span>"
 									if (displayAlerts == true) {
-										document.getElementById("taskAlerts").innerHTML = renderMarkdown(value);
+										document.getElementById("taskAlerts").innerHTML = webconsole.renderMarkdown(value);
 									}
 								} else if (value.toLowerCase().startsWith("result: ")) {
 									value = "<span style='color:Black'>" + value.substr(8) + "</span>"
