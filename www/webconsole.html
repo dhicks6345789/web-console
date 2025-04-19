@@ -106,7 +106,7 @@
 
 			// Cancel the currently-running Task.
 			function cancelTask() {
-				// First thing to do is disable the "Run" button so the user can't click it repeatadly.
+				// First thing to do is disable the "Cancel" button so the user can't click it repeatadly.
 				document.getElementById("cancelTaskButton").disabled = true;
 				// Cancel the Task.
 				webconsole.APICall("cancelTask", {}, function(result) {
@@ -127,25 +127,15 @@
 
 						updateTaskOutput();
 					} else {
-						// If runTask didn't return "OK" then it returned an error, which we display in red for the user.
+						// If cancelTask didn't return "OK" then it returned an error, which we display in red for the user.
 						document.getElementById("taskAlerts").innerHTML = "<div style='color:red'>" + result + "</div>";
 					}
 				});
 			}
 			
 			// Scroll to the "result" section, position it so it's at the top of the page so you can see the whole element.
-			function scrollToResultCollapse() {
-				var scrollOffset = document.body.scrollTop + document.getElementById("collapseResult").parentNode.offsetTop;
-				window.scroll({
-					top: scrollOffset,
-					left: 0,
-					behavior: "smooth"
-				})
-			}
-			
-			// Scroll to the "result" section, position it so it's at the top of the page so you can see the whole element.
-			function scrollToEditCollapse() {
-				var scrollOffset = document.body.scrollTop + document.getElementById("collapseEdit").parentNode.offsetTop;
+			function scrollToElement(theID) {
+				var scrollOffset = document.body.scrollTop + document.getElementById(theID).parentNode.offsetTop;
 				window.scroll({
 					top: scrollOffset,
 					left: 0,
@@ -198,7 +188,7 @@
 												resultCollapse.show();
 												
 												// Scroll to the "result" section.
-												scrollToResultCollapse();
+												scrollToElement("collapseResult");
 											} else {
 												window.location.href = redirectURL;
 											}
@@ -885,7 +875,7 @@
 					// Set up an event handler for shown.bs.collapse so that the "edit" block is
 					// scrolled into view when the user expands it.
 					document.getElementById("collapseEdit").addEventListener("shown.bs.collapse", function () {
-						scrollToEditCollapse();
+						scrollToElement("collapseEdit");
 					});
 
 
@@ -925,7 +915,7 @@
 					// Set up an event handler for shown.bs.collapse so that the "result" block is
 					// scrolled into view when the user expands it.
 					document.getElementById("collapseResult").addEventListener("shown.bs.collapse", function () {
-						scrollToResultCollapse();
+						scrollToElement("collapseResult");
 					})
 					
 					// If the user has "edit" permissions they also see the "backup" block.
