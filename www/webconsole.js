@@ -109,6 +109,7 @@ var webconsole = {
         actionForm.submit();
     },
 
+    // The Marked Markdown-rendering library renders Markdown for us, but we want to replace any hrefs with open-in-a-new-tab hrefs, and we don't want any single lines/paragraphs enclosed in a <p></p>.
     renderMarkdown: function(theValue) {
         result = theValue.trim().replace("a href=", "a target=\"_blank\" href=");
 	startPRegex = new RegExp("<p>", "g");
