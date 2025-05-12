@@ -194,8 +194,10 @@
 										}
 									}
 								} else {
-									// Otherwise, display the error message to the user.
-									document.getElementById("taskAlerts").innerHTML = "<div style='color:red'>" + value + "</div>";
+									if (displayAlerts == true) {
+										// Otherwise, display the error message to the user.
+										document.getElementById("taskAlerts").innerHTML = "<div style='color:red'>" + value + "</div>";
+									}
 								}
 							}
 							// Include formatting.js.
