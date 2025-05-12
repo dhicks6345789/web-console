@@ -80,7 +80,7 @@
 				document.getElementById("runTaskButton").disabled = true;
 				// Run the Task (if the Task is already running, this has no effect).
 				webconsole.APICall("runTask", {}, function(result) {
-					if (result == "OK") {
+					if (result == "OK" || result == "EOF") {
 						document.getElementById("runTaskButton").innerHTML = "<span class='spinner-border spinner-border-sm' role='status'></span> Running...";
 						cancelTaskButton = document.getElementById("cancelTaskButton");
 						cancelTaskButton.disabled = false;
@@ -197,10 +197,8 @@
 									}
 								} else {
 									if (displayAlerts == true) {
-										if (valueLower != "error: eof" && !valueLower.startsWith("error: redirect")) {
-											// Otherwise, display the error message to the user.
-											document.getElementById("taskAlerts").innerHTML = "<div style='color:red'>" + value + "</div>";
-										}
+										// Otherwise, display the error message to the user.
+										document.getElementById("taskAlerts").innerHTML = "<div style='color:red'>" + value + "</div>";
 									}
 								}
 							}
