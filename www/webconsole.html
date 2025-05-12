@@ -197,8 +197,10 @@
 									}
 								} else {
 									if (displayAlerts == true) {
-										// Otherwise, display the error message to the user.
-										document.getElementById("taskAlerts").innerHTML = "<div style='color:red'>" + value + "</div>";
+										if (valueLower != "error: eof" && !valueLower.startsWith("error: redirect")) {
+											// Otherwise, display the error message to the user.
+											document.getElementById("taskAlerts").innerHTML = "<div style='color:red'>" + value + "</div>";
+										}
 									}
 								}
 							}
