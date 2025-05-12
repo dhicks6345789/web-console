@@ -773,6 +773,7 @@
 				intervalFunction = setInterval(keepAlive, keepAlivePeriod);
 
 				// Render the (possibly Markdown-formatted) Full Desription section as HTML.
+				console.log(marked.parse(document.getElementById("taskDescription").innerHTML));
 				document.getElementById("taskDescription").innerHTML = webconsole.renderMarkdown(marked.parse(document.getElementById("taskDescription").innerHTML));
 				
 				pageURL = window.location.href.split("?")[0]
