@@ -153,6 +153,7 @@
 								console.log(valueLower);
 								// If the Task has finished (EOF or Redirect), reset the state back to ready-to-run.
 								if (valueLower == "error: eof" || valueLower.startsWith("error: redirect")) {
+									console.log("Found EOF or redirect.");
 									clearInterval(intervalFunction);
 									intervalFunction = setInterval(keepAlive, keepAlivePeriod);
 									document.getElementById("runTaskButton").innerHTML = "Run";
