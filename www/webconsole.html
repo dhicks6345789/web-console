@@ -98,7 +98,6 @@
 						intervalFunction = setInterval(updateTaskOutput, taskOutputUpdatePeriod);
 					} else {
 						// If runTask didn't return "OK" then it returned an error, which we display in red for the user.
-						console.log("Printing error 1: " + result);
 						document.getElementById("taskAlerts").innerHTML = "<div style='color:red'>" + result + "</div>";
 						document.getElementById("runTaskButton").disabled = false;
 					}
@@ -129,7 +128,6 @@
 						updateTaskOutput();
 					} else {
 						// If cancelTask didn't return "OK" then it returned an error, which we display in red for the user.
-						console.log("Printing error 3: " + result);
 						document.getElementById("taskAlerts").innerHTML = "<div style='color:red'>" + result + "</div>";
 					}
 				});
@@ -151,64 +149,130 @@
 					for (value of result.split("\n")) {
 						valueLower = value.trim().toLowerCase();
 						if (valueLower != "") {
-							if (valueLower.startsWith("error:")) {
-								console.log(valueLower);
-								// If the Task has finished (EOF or Redirect), reset the state back to ready-to-run.
-								if (valueLower == "error: eof" || valueLower.startsWith("error: redirect")) {
-									console.log("Found EOF or redirect.");
-									clearInterval(intervalFunction);
-									intervalFunction = setInterval(keepAlive, keepAlivePeriod);
-									document.getElementById("runTaskButton").innerHTML = "Run";
-									document.getElementById("runTaskButton").disabled = false;
-									document.getElementById("taskProgress").innerHTML = "";
-									document.getElementById("taskInput").innerHTML = "";
-									document.getElementById("cancelTaskButton").style.display = "none";
-									document.getElementById("taskResults").innerHTML = "";
-									
-									if (permission == "E") {
-										refreshFolderTreeView();
-									}
+							// If the Task has finished (EOF or Redirect), reset the state back to ready-to-run.
+							if (valueLower == "error: eof" || valueLower.startsWith("error: redirect")) {
+								clearInterval(intervalFunction);
+								intervalFunction = setInterval(keepAlive, keepAlivePeriod);
+								document.getElementById("runTaskButton").innerHTML = "Run";
+								document.getElementById("runTaskButton").disabled = false;
+								document.getElementById("taskProgress").innerHTML = "";
+								document.getElementById("taskInput").innerHTML = "";
+								document.getElementById("cancelTaskButton").style.display = "none";
+								document.getElementById("taskResults").innerHTML = "";
+								
+								if (permission == "E") {
+									refreshFolderTreeView();
+								}
 
-									// If there's a "www" folder present in the Task's folder after the Task has run, that's treated as the result of the Task,
-									// which is shown to the user. If the user has "view" or "run" permissions they are redirected to the result page. If they have
-									// "edit" permissions they are shown the result in a expanded collapse section so, they don't have to keep switching between the
-									// edit page and the results page as they edit code.
-									if (valueLower.startsWith("error: redirect")) {
-										redirectURL = window.location.href.split("?")[0].slice(0, -4) + taskID + "/";
-										redirectSplit = value.split(" ");
-										if (redirectSplit.length > 2) {
-											redirectURL = redirectSplit[2];
-										}
-										if (displayAlerts == true) {
-											if (permission == "E") {
-												// Make sure the content in the "result" section is refreshed.
-												document.getElementById("resultIframe").contentWindow.location.reload();
-												
-												// Make sure the "result" section is un-collapsed.
-												var resultCollapse = new bootstrap.Collapse(document.getElementById("collapseResult"), {
-													toggle: false
-												});
-												resultCollapse.show();
-												
-												// Scroll to the "result" section.
-												scrollToElement("collapseResult");
-											} else {
-												window.location.href = redirectURL;
-											}
+								// If there's a "www" folder present in the Task's folder after the Task has run, that's treated as the result of the Task,
+								// which is shown to the user. If the user has "view" or "run" permissions they are redirected to the result page. If they have
+								// "edit" permissions they are shown the result in a expanded collapse section so, they don't have to keep switching between the
+								// edit page and the results page as they edit code.
+								if (valueLower.startsWith("error: redirect")) {
+									redirectURL = window.location.href.split("?")[0].slice(0, -4) + taskID + "/";
+									redirectSplit = value.split(" ");
+									if (redirectSplit.length > 2) {
+										redirectURL = redirectSplit[2];
+									}
+									if (displayAlerts == true) {
+										if (permission == "E") {
+											// Make sure the content in the "result" section is refreshed.
+											document.getElementById("resultIframe").contentWindow.location.reload();
+											
+											// Make sure the "result" section is un-collapsed.
+											var resultCollapse = new bootstrap.Collapse(document.getElementById("collapseResult"), {
+												toggle: false
+											});
+											resultCollapse.show();
+											
+											// Scroll to the "result" section.
+											scrollToElement("collapseResult");
+										} else {
+											window.location.href = redirectURL;
 										}
 									}
-								} else {
-									if (displayAlerts == true) {
-										// Otherwise, display the error message to the user.
-										console.log("Printing error 2: " + value);
-										document.getElementById("taskAlerts").innerHTML = "<div style='color:red'>" + value + "</div>";
+								}
+							} else if (displayAlerts == true) {
+								} else if valueLower.startsWith("error: ") {
+									// Format an error message for the user.
+									document.getElementById("taskAlerts").innerHTML = webconsole.renderMarkdown(""<span style='color:red'>" + value.substr(6) + "</span>");
+								} else if (valueLower.startsWith("warning: ") || value.toLowerCase().startsWith("alert: ")) {
+									document.getElementById("taskAlerts").innerHTML = webconsole.renderMarkdown("<span style='color:DarkGoldenRod'>" + value.substr(9) + "</span>");
+								} else if (valueLower.startsWith("status: ")) {
+									document.getElementById("taskAlerts").innerHTML = webconsole.renderMarkdown("<span style='color:Green'>" + value.substr(8) + "</span>");
+								} else if (valueLower.startsWith("result: ")) {
+									document.getElementById("taskResults").innerHTML = document.getElementById("taskResults").innerHTML + "<div>" + "<span style='color:Black'>" + value.substr(8) + "</span>" + "</div>";
+								} else if (valueLower.startsWith("input:")) {
+									// If a string begins with "INPUT:", we ask the user for some input.
+									inputCount = inputCount + 1;
+
+									// Clear any existing alert messages shown to the user.
+									document.getElementById("taskAlerts").innerHTML = "";
+
+									taskInputBlock = document.getElementById("taskInput");
+									taskInputBlock.childNodes.forEach(function(theItem) {
+										if (theItem.id.startsWith("textInput")) {
+											textInputBox = theItem.childNodes[3].childNodes[1];
+											textInputBox.setAttribute("onkeydown", textInputBox.getAttribute("onkeydown").replace("EnterSubmit", "EnterNext"));
+											theItem.childNodes[3].childNodes[3].remove();
+										}
+									});
+									
+									if (valueLower.startsWith("input:text:")) {
+										// A plain text input box.
+										textInputBlock = document.getElementById("textInput").cloneNode(true);
+										textInputBlock.id = "textInput-" + inputCount;
+										
+										textInputMessage = textInputBlock.childNodes[1];
+										textInputMessage.id = "textInputMessage-" + inputCount;
+										textInputMessage.innerHTML = value.substr(12);
+
+										textInputBox = textInputBlock.childNodes[3].childNodes[1];
+										textInputBox.id = "textInputBox-" + inputCount;
+										textInputBox.setAttribute("onkeydown", "checkForEnterSubmit(" + inputCount + ")");
+										textInputBox.setAttribute("tabindex", inputCount);
+
+										textInputButton = textInputBlock.childNodes[3].childNodes[3];
+										textInputButton.id = "textInputButton-" + inputCount;
+										textInputButton.setAttribute("onclick", "submitInput()");
+										textInputButton.setAttribute("tabindex", inputCount+1);
+										
+										taskInputBlock.appendChild(textInputBlock);
+										if (inputCount == 1) {
+											textInputBox.focus();
+										}
+									} else if (valueLower.startsWith("input:multichoice:")) {
+										multichoiceInputBlock = document.getElementById("multichoiceInput").cloneNode(true);
+										multichoiceInputBlock.id = "multichoiceInput-" + inputCount;
+
+										options = value.split(":");
+										
+										multichoiceInputMessage = multichoiceInputBlock.childNodes[1];
+										multichoiceInputMessage.id = "multichoiceInputMessage-" + inputCount;
+										multichoiceInputMessage.innerHTML = options[options.length - 1];
+										
+										multichoiceSelectElement = multichoiceInputBlock.childNodes[3].childNodes[1];
+										multichoiceSelectElement.id = "multichoiceSelect-" + inputCount;
+										for (pl = 2; pl < options.length - 1; pl = pl + 1) {
+											multichoiceSelectElement.innerHTML = multichoiceSelectElement.innerHTML + "<option value=\"" + options[pl] + "\">" + options[pl] + "</option>";
+										}
+										multichoiceSelectElement.setAttribute("tabindex", inputCount);
+
+										multichoiceInputButton = multichoiceInputBlock.childNodes[3].childNodes[3];
+										multichoiceInputButton.id = "multichoiceInputButton-" + inputCount;
+										multichoiceInputButton.setAttribute("onclick", "submitInput()");
+										multichoiceInputButton.setAttribute("tabindex", inputCount+1);
+										
+										taskInputBlock.appendChild(multichoiceInputBlock);
+										if (inputCount == 1) {
+											multichoiceSelectElement.focus();
+										}
 									}
 								}
 							}
-							// Include formatting.js.
+							
 							if (valueLower.startsWith("progress:")) {
-								// If a string begins with "Progress: ", interpret the following number as a
-								// percentage completion value, and update the progress bar accordingly.
+								// If a string begins with "Progress: ", interpret the following number as a percentage completion value, and update the progress bar accordingly.
 								progressBarName = value.substring(value.indexOf(":")+1, value.lastIndexOf(" ")).trim();
 								progressBarValue = value.substring(value.lastIndexOf(" ")+1, value.length).replace("%","").trim();
 								document.getElementById("taskProgress").innerHTML = progressBarName + ": " + progressBarValue + "% <div class='progress'><div class='progress-bar' role='progressbar' style='width:" + progressBarValue + "%' aria-valuenow='" + progressBarValue + "' aria-valuemin='0' aria-valuemax='100'></div></div>";
