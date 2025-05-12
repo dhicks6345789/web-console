@@ -80,7 +80,7 @@
 				document.getElementById("runTaskButton").disabled = true;
 				// Run the Task (if the Task is already running, this has no effect).
 				webconsole.APICall("runTask", {}, function(result) {
-					if (result == "OK" || result == "EOF") {
+					if (result == "OK") {
 						document.getElementById("runTaskButton").innerHTML = "<span class='spinner-border spinner-border-sm' role='status'></span> Running...";
 						cancelTaskButton = document.getElementById("cancelTaskButton");
 						cancelTaskButton.disabled = false;
@@ -98,6 +98,7 @@
 						intervalFunction = setInterval(updateTaskOutput, taskOutputUpdatePeriod);
 					} else {
 						// If runTask didn't return "OK" then it returned an error, which we display in red for the user.
+						console.log("Printing error: " + result);
 						document.getElementById("taskAlerts").innerHTML = "<div style='color:red'>" + result + "</div>";
 						document.getElementById("runTaskButton").disabled = false;
 					}
@@ -198,6 +199,7 @@
 								} else {
 									if (displayAlerts == true) {
 										// Otherwise, display the error message to the user.
+										console.log("Printing error 2: " + value);
 										document.getElementById("taskAlerts").innerHTML = "<div style='color:red'>" + value + "</div>";
 									}
 								}
