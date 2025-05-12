@@ -110,8 +110,12 @@ var webconsole = {
     },
 
     renderMarkdown: function(theValue) {
-        result = theValue.replace("a href=", "a target=\"_blank\" href=");
-	if (result.startsWith("<p>")) {
+        result = theValue.trim().replace("a href=", "a target=\"_blank\" href=");
+	startPRegex = new RegExp("<p>", "g");
+	startPCount = (result.match(startPRegex) || []).length
+	endPRegex = new RegExp("</p>", "g");
+	endPCount = (result.match(endPRegex) || []).length
+	if (result.startsWith("<p>") && startPCount == 1 && result.endsWith("</p>") && endPCount == 1) {
 		result = result.substring(3, result.length - 5);
 	}
 	return(result);
