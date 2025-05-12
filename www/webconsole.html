@@ -98,7 +98,7 @@
 						intervalFunction = setInterval(updateTaskOutput, taskOutputUpdatePeriod);
 					} else {
 						// If runTask didn't return "OK" then it returned an error, which we display in red for the user.
-						console.log("Printing error: " + result);
+						console.log("Printing error 1: " + result);
 						document.getElementById("taskAlerts").innerHTML = "<div style='color:red'>" + result + "</div>";
 						document.getElementById("runTaskButton").disabled = false;
 					}
@@ -129,6 +129,7 @@
 						updateTaskOutput();
 					} else {
 						// If cancelTask didn't return "OK" then it returned an error, which we display in red for the user.
+						console.log("Printing error 3: " + result);
 						document.getElementById("taskAlerts").innerHTML = "<div style='color:red'>" + result + "</div>";
 					}
 				});
