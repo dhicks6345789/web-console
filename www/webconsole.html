@@ -195,13 +195,17 @@
 							} else if (displayAlerts == true) {
 								if (valueLower.startsWith("error: ")) {
 									// Format an error message for the user.
-									document.getElementById("taskAlerts").innerHTML = webconsole.renderMarkdown(""<span style='color:red'>" + value.substr(6) + "</span>");
+									value = "<span style='color:red'>" + value.substr(6) + "</span>";
+									document.getElementById("taskAlerts").innerHTML = webconsole.renderMarkdown(value);
 								} else if (valueLower.startsWith("warning: ") || value.toLowerCase().startsWith("alert: ")) {
-									document.getElementById("taskAlerts").innerHTML = webconsole.renderMarkdown("<span style='color:DarkGoldenRod'>" + value.substr(9) + "</span>");
+									value = "<span style='color:DarkGoldenRod'>" + value.substr(9) + "</span>";
+									document.getElementById("taskAlerts").innerHTML = webconsole.renderMarkdown(value);
 								} else if (valueLower.startsWith("status: ")) {
-									document.getElementById("taskAlerts").innerHTML = webconsole.renderMarkdown("<span style='color:Green'>" + value.substr(8) + "</span>");
+									value = "<span style='color:Green'>" + value.substr(8) + "</span>";
+									document.getElementById("taskAlerts").innerHTML = webconsole.renderMarkdown(value);
 								} else if (valueLower.startsWith("result: ")) {
-									document.getElementById("taskResults").innerHTML = document.getElementById("taskResults").innerHTML + "<div>" + "<span style='color:Black'>" + value.substr(8) + "</span>" + "</div>";
+									value = "<span style='color:Black'>" + value.substr(8) + "</span>";
+									document.getElementById("taskResults").innerHTML = document.getElementById("taskResults").innerHTML + "<div>" + value + "</div>";
 								} else if (valueLower.startsWith("input:")) {
 									// If a string begins with "INPUT:", we ask the user for some input.
 									inputCount = inputCount + 1;
@@ -272,10 +276,12 @@
 							}
 							
 							if (valueLower.startsWith("progress:")) {
-								// If a string begins with "Progress: ", interpret the following number as a percentage completion value, and update the progress bar accordingly.
-								progressBarName = value.substring(value.indexOf(":")+1, value.lastIndexOf(" ")).trim();
-								progressBarValue = value.substring(value.lastIndexOf(" ")+1, value.length).replace("%","").trim();
-								document.getElementById("taskProgress").innerHTML = progressBarName + ": " + progressBarValue + "% <div class='progress'><div class='progress-bar' role='progressbar' style='width:" + progressBarValue + "%' aria-valuenow='" + progressBarValue + "' aria-valuemin='0' aria-valuemax='100'></div></div>";
+								if (displayAlerts == true) {
+									// If a string begins with "Progress: ", interpret the following number as a percentage completion value, and update the progress bar accordingly.
+									progressBarName = value.substring(value.indexOf(":")+1, value.lastIndexOf(" ")).trim();
+									progressBarValue = value.substring(value.lastIndexOf(" ")+1, value.length).replace("%","").trim();
+									document.getElementById("taskProgress").innerHTML = progressBarName + ": " + progressBarValue + "% <div class='progress'><div class='progress-bar' role='progressbar' style='width:" + progressBarValue + "%' aria-valuenow='" + progressBarValue + "' aria-valuemin='0' aria-valuemax='100'></div></div>";
+								}
 							} else {
 								// Otherwise, display the line as a message for the user. The page will hang if we try and dsiplay too many lines at a time, so we clear the output area every 100 lines.
 								if (outputLine % 100 == 0) {
