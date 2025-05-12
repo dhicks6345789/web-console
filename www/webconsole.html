@@ -193,7 +193,7 @@
 									}
 								}
 							} else if (displayAlerts == true) {
-								if valueLower.startsWith("error: ") {
+								if (valueLower.startsWith("error: ")) {
 									// Format an error message for the user.
 									document.getElementById("taskAlerts").innerHTML = webconsole.renderMarkdown(""<span style='color:red'>" + value.substr(6) + "</span>");
 								} else if (valueLower.startsWith("warning: ") || value.toLowerCase().startsWith("alert: ")) {
