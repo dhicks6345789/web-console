@@ -111,6 +111,7 @@ var webconsole = {
 
     renderMarkdown: function(theValue) {
         result = theValue.replace("a href=", "a target=\"_blank\" href=");
+	console.log(result);
 	if (result.startsWith("<p>")) {
 		result = result.substring(3, result.length - 5);
 	}
