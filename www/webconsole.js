@@ -117,7 +117,7 @@ var webconsole = {
 	endPRegex = new RegExp("</p>", "g");
 	endPCount = (result.match(endPRegex) || []).length
 	if (result.startsWith("<p>") && startPCount == 1 && result.endsWith("</p>") && endPCount == 1) {
-		result = result.substring(3, result.length - 5);
+		result = result.substring(3, result.length - 4);
 	}
 	return(result);
     }
