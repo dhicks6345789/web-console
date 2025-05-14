@@ -207,6 +207,8 @@
 								} else if (valueLower.startsWith("status: ")) {
 									value = "<span style='color:Green'>" + value.substr(8) + "</span>";
 									if (displayAlerts == true) {
+										console.log("Rendering: " + value);
+										console.log("To: " + webconsole.renderMarkdown(value));
 										document.getElementById("taskAlerts").innerHTML = webconsole.renderMarkdown(value);
 									}
 								} else if (valueLower.startsWith("result: ")) {
