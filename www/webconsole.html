@@ -197,19 +197,17 @@
 									// Format an error message for the user.
 									value = "<span style='color:red'>" + value.substr(6) + "</span>";
 									if (displayAlerts == true) {
-										document.getElementById("taskAlerts").innerHTML = webconsole.renderMarkdown(value);
+										document.getElementById("taskAlerts").innerHTML = webconsole.renderMarkdown(marked.parse(value));
 									}
 								} else if (valueLower.startsWith("warning: ") || value.toLowerCase().startsWith("alert: ")) {
 									value = "<span style='color:DarkGoldenRod'>" + value.substr(9) + "</span>";
 									if (displayAlerts == true) {
-										document.getElementById("taskAlerts").innerHTML = webconsole.renderMarkdown(value);
+										document.getElementById("taskAlerts").innerHTML = webconsole.renderMarkdown(marked.parse(value));
 									}
 								} else if (valueLower.startsWith("status: ")) {
 									value = "<span style='color:Green'>" + value.substr(8) + "</span>";
 									if (displayAlerts == true) {
-										console.log("Rendering: " + value);
-										console.log("To: " + webconsole.renderMarkdown(value));
-										document.getElementById("taskAlerts").innerHTML = webconsole.renderMarkdown(value);
+										document.getElementById("taskAlerts").innerHTML = webconsole.renderMarkdown(marked.parse(value));
 									}
 								} else if (valueLower.startsWith("result: ")) {
 									value = "<span style='color:Black'>" + value.substr(8) + "</span>";
@@ -775,7 +773,6 @@
 				intervalFunction = setInterval(keepAlive, keepAlivePeriod);
 
 				// Render the (possibly Markdown-formatted) Full Desription section as HTML.
-				console.log(marked.parse(document.getElementById("taskDescription").innerHTML));
 				document.getElementById("taskDescription").innerHTML = webconsole.renderMarkdown(marked.parse(document.getElementById("taskDescription").innerHTML));
 				
 				pageURL = window.location.href.split("?")[0]
