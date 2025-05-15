@@ -11,7 +11,6 @@ import (
 	"os/exec"
 	"fmt"
 	"log"
-	"mime"
 	"time"
 	"sort"
 	"bytes"
@@ -1021,10 +1020,6 @@ func main() {
 	}
 	
 	if arguments["start"] == "true" {
-		// Add a couple of MIME types that seem to be missing from the defaults.
-		mime.AddExtensionType(".js", "application/javascript; charset=utf-8")
-		mime.AddExtensionType(".css", "text/css; charset=utf-8")
-		
 		// Start the thread that checks for and clears expired tokens.
 		go clearExpiredTokens()
 		
@@ -1777,10 +1772,11 @@ func main() {
 							}
 							localFilePath := arguments["taskroot"] + "/" + task["taskID"] + "/www" + filePath
 							debug("Asked for Task file: " + localFilePath)
-							mimeType := "text/css; charset=utf-8"
-							debug("MIME type: " + mimeType)
-							theResponseWriter.Header().Set("Content-Type", mimeType)
+							//mimeType := "text/css; charset=utf-8"
+							//debug("MIME type: " + mimeType)
+							//theResponseWriter.Header().Set("Content-Type", mimeType)
 							http.ServeFile(theResponseWriter, theRequest, localFilePath)
+							//http.ServeContent(theResponseWriter, theRequest, localFilePath, modtime time.Time, content io.ReadSeeker)
 							serveFile = false
 						}
 					}
