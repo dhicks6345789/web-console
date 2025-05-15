@@ -1796,7 +1796,7 @@ func main() {
 						theResponseWriter.WriteHeader(http.StatusNotFound)
 						errorFileContent, errorFileErr := ioutil.ReadFile(arguments["webroot"] + "/404.html")
 						if errorFileErr == nil {
-							fmt.Fprint(theResponseWriter, strings.Replace(errorFileContent, "{{FILENAME}}", localFilePath, -1))
+							fmt.Fprint(theResponseWriter, strings.Replace(string(errorFileContent), "{{FILENAME}}", localFilePath, -1))
 						} else {
 							fmt.Fprint(theResponseWriter, "Error 404: File " + localFilePath + " not found.")
 						}
