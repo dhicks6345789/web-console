@@ -1793,7 +1793,7 @@ func main() {
 						debug("Serving: " + localFilePath)
 						http.ServeFile(theResponseWriter, theRequest, localFilePath)
 					} else {
-						theResponseWriter.WriteHeader(http.StatusNotFound)
+						//theResponseWriter.WriteHeader(http.StatusNotFound)
 						http.ServeFile(theResponseWriter, theRequest, arguments["webroot"] + "/404.html")
 						//fmt.Fprint(theResponseWriter, "Custom 404 content goes here.")
 					}
