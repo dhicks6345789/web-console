@@ -1777,7 +1777,9 @@ func main() {
 							}
 							localFilePath := arguments["taskroot"] + "/" + task["taskID"] + "/www" + filePath
 							debug("Asked for Task file: " + localFilePath)
-							theResponseWriter.Header().Set("Content-Type", "text/css; charset=utf-8")
+							mimeType := "text/css; charset=utf-8"
+							debug("MIME type: " + mimeType)
+							theResponseWriter.Header().Set("Content-Type", mimeType)
 							http.ServeFile(theResponseWriter, theRequest, localFilePath)
 							serveFile = false
 						}
@@ -1796,7 +1798,7 @@ func main() {
 					} else {
 						localFilePath := arguments["webroot"] + requestPath
 						if _, err := os.Stat(localFilePath); !errors.Is(err, os.ErrNotExist) {
-							debug("Serving: " + usersFilePath)
+							debug("Serving: " + localFilePath)
 							http.ServeFile(theResponseWriter, theRequest, localFilePath)
 						} else {
 							theResponseWriter.WriteHeader(http.StatusNotFound)
