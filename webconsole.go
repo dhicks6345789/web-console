@@ -1759,6 +1759,7 @@ func main() {
 				}
 			}
 			if serveFile == true {
+				localFilePath := ""
 				taskList, taskErr := getTaskList()
 				if taskErr == nil {
 					for _, task := range taskList {
@@ -1770,14 +1771,7 @@ func main() {
 							if strings.HasSuffix(filePath, "/") {
 								filePath = filePath + "index.html"
 							}
-							localFilePath := arguments["taskroot"] + "/" + task["taskID"] + "/www" + filePath
-							debug("Asked for Task file: " + localFilePath)
-							//mimeType := "text/css; charset=utf-8"
-							//debug("MIME type: " + mimeType)
-							//theResponseWriter.Header().Set("Content-Type", mimeType)
-							http.ServeFile(theResponseWriter, theRequest, localFilePath)
-							//http.ServeContent(theResponseWriter, theRequest, localFilePath, modtime time.Time, content io.ReadSeeker)
-							serveFile = false
+							localFilePath = arguments["taskroot"] + "/" + task["taskID"] + "/www" + filePath
 						}
 					}
 				} else {
@@ -1785,22 +1779,23 @@ func main() {
 					serveFile = false
 				}
 				if serveFile == true {
-					// Serve a static file. A file found in the appropriate "webconsole/users/username" folder will override one found in "webconsole/www", so you can serve user-specific content for authenticated users
-					// simply by placing files in the appropriate user subfolder.
-					usersFilePath := arguments["webconsoleroot"] + "/users/" +  userID + requestPath
-					if _, err := os.Stat(usersFilePath); !errors.Is(err, os.ErrNotExist) {
-						debug("Serving: " + usersFilePath)
-						http.ServeFile(theResponseWriter, theRequest, usersFilePath)
-					} else {
-						localFilePath := arguments["webroot"] + requestPath
-						if _, err := os.Stat(localFilePath); !errors.Is(err, os.ErrNotExist) {
-							debug("Serving: " + localFilePath)
-							http.ServeFile(theResponseWriter, theRequest, localFilePath)
+					// Serve a static file. A file found in the appropriate "webconsole/users/username" folder will override one found in "webconsole/www",
+					// so you can serve user-specific content for authenticated users simply by placing files in the appropriate user subfolder.
+					if localFilePath == "" {
+						usersFilePath := arguments["webconsoleroot"] + "/users/" +  userID + requestPath
+						if _, err := os.Stat(usersFilePath); !errors.Is(err, os.ErrNotExist) {
+							localFilePath = usersFilePath
 						} else {
-							theResponseWriter.WriteHeader(http.StatusNotFound)
-							http.ServeFile(theResponseWriter, theRequest, arguments["webroot"] + "/404.html")
-							//fmt.Fprint(theResponseWriter, "Custom 404 content goes here.")
+							localFilePath = arguments["webroot"] + requestPath
 						}
+					}
+					if _, err := os.Stat(localFilePath); !errors.Is(err, os.ErrNotExist) {
+						debug("Serving: " + localFilePath)
+						http.ServeFile(theResponseWriter, theRequest, localFilePath)
+					} else {
+						theResponseWriter.WriteHeader(http.StatusNotFound)
+						http.ServeFile(theResponseWriter, theRequest, arguments["webroot"] + "/404.html")
+						//fmt.Fprint(theResponseWriter, "Custom 404 content goes here.")
 					}
 				}
 			}
