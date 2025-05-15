@@ -1777,6 +1777,7 @@ func main() {
 							}
 							localFilePath := arguments["taskroot"] + "/" + task["taskID"] + "/www" + filePath
 							debug("Asked for Task file: " + localFilePath)
+							theResponseWriter.Header().Set("Content-Type", "text/css; charset=utf-8")
 							http.ServeFile(theResponseWriter, theRequest, localFilePath)
 							serveFile = false
 						}
