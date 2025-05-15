@@ -1766,8 +1766,8 @@ func main() {
 						if strings.HasPrefix(requestPath, "/" + task["taskID"]) && serveFile == true {
 							var filePath = strings.TrimSpace(requestPath[len(task["taskID"])+1:])
 							if filePath == "" {
-								debug("Setting filePath to root.")
-								filePath = "/"
+								http.Redirect(theResponseWriter, theRequest, "/" + task["taskID"] + "/", http.StatusPermanentRedirect)
+								serveFile = false
 							}
 							if strings.HasSuffix(filePath, "/") {
 								filePath = filePath + "index.html"
