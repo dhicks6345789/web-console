@@ -11,9 +11,9 @@ import (
 	"os/exec"
 	"fmt"
 	"log"
-	"sort"
-	"time"
 	"mime"
+	"time"
+	"sort"
 	"bytes"
 	"bufio"
 	"regexp"
@@ -1021,6 +1021,10 @@ func main() {
 	}
 	
 	if arguments["start"] == "true" {
+		// Add a couple of MIME types that seem to be missing from the defaults.
+		mime.AddExtensionType(".js", "application/javascript; charset=utf-8")
+		mime.AddExtensionType(".css", "text/css; charset=utf-8")
+		
 		// Start the thread that checks for and clears expired tokens.
 		go clearExpiredTokens()
 		
