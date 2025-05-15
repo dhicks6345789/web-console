@@ -1766,6 +1766,7 @@ func main() {
 						if strings.HasPrefix(requestPath, "/" + task["taskID"]) && serveFile == true {
 							var filePath = strings.TrimSpace(requestPath[len(task["taskID"])+1:])
 							if filePath == "" {
+								debug("Setting filePath to root.")
 								filePath = "/"
 							}
 							if strings.HasSuffix(filePath, "/") {
