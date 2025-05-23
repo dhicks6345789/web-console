@@ -267,10 +267,12 @@ func runTask(theTaskID string) {
 							logReportingLevel = 1
 						} else if taskDetails["logReportingLevel"] == "warning" {
 							logReportingLevel = 2
-						} else if taskDetails["logReportingLevel"] == "message" {
+						} else if taskDetails["logReportingLevel"] == "result" {
 							logReportingLevel = 3
-						} else if taskDetails["logReportingLevel"] == "all" {
+						} else if taskDetails["logReportingLevel"] == "message" {
 							logReportingLevel = 4
+						} else if taskDetails["logReportingLevel"] == "all" {
+							logReportingLevel = 5
 						}
 						if logReportingLevel > 0 {
 							debug("Emailing log reports, level: " + taskDetails["logReportingLevel"] + "...")
@@ -286,14 +288,20 @@ func runTask(theTaskID string) {
 										lowestLogLevelFound = min(lowestLogLevelFound, 2)
 										logMessageBody = logMessageBody + taskOutputs[theTaskID][pl] + "\n"
 									} else if logReportingLevel > 2 {
-										if strings.HasPrefix(strings.ToLower(taskOutputs[theTaskID][pl]), "status") {
+										if strings.HasPrefix(strings.ToLower(taskOutputs[theTaskID][pl]), "result") {
 											highestLogLevelFound = max(highestLogLevelFound, 3)
 											lowestLogLevelFound = min(lowestLogLevelFound, 3)
 											logMessageBody = logMessageBody + taskOutputs[theTaskID][pl] + "\n"
 										} else if logReportingLevel > 3 {
-											highestLogLevelFound = max(highestLogLevelFound, 4)
-											lowestLogLevelFound = min(lowestLogLevelFound, 4)
-											logMessageBody = logMessageBody + taskOutputs[theTaskID][pl] + "\n"
+											if strings.HasPrefix(strings.ToLower(taskOutputs[theTaskID][pl]), "status") {
+												highestLogLevelFound = max(highestLogLevelFound, 4)
+												lowestLogLevelFound = min(lowestLogLevelFound, 4)
+												logMessageBody = logMessageBody + taskOutputs[theTaskID][pl] + "\n"
+											} else if logReportingLevel > 4 {
+												highestLogLevelFound = max(highestLogLevelFound, 5)
+												lowestLogLevelFound = min(lowestLogLevelFound, 5)
+												logMessageBody = logMessageBody + taskOutputs[theTaskID][pl] + "\n"
+											}
 										}
 									}
 								}
