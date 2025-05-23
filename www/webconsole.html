@@ -127,7 +127,7 @@
 						document.getElementById("runTaskButton").disabled = false;
 						document.getElementById("taskProgress").innerHTML = "";
 
-						updateTaskOutput();
+						//updateTaskOutput();
 					} else {
 						// If cancelTask didn't return "OK" then it returned an error, which we display in red for the user.
 						document.getElementById("taskAlerts").innerHTML = "<div style='color:red'>" + result + "</div>";
@@ -160,7 +160,6 @@
 								document.getElementById("taskProgress").innerHTML = "";
 								document.getElementById("taskInput").innerHTML = "";
 								document.getElementById("cancelTaskButton").style.display = "none";
-								//document.getElementById("taskResults").innerHTML = "";
 								
 								if (permission == "E") {
 									refreshFolderTreeView();
@@ -299,7 +298,6 @@
 									// Otherwise, display the line as a message for the user. The page will hang if we try and dsiplay too many lines at a time, so we clear the output area every 100 lines.
 									if (outputDisplay % 100 == 0) {
 										document.getElementById("taskOutput").innerHTML = "";
-										outputDisplay = 0;
 									}
 									document.getElementById("taskOutput").innerHTML = document.getElementById("taskOutput").innerHTML + webconsole.renderMarkdown(marked.parse(value)) + "\n";
 									outputDisplay = outputDisplay + 1;
