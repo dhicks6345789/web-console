@@ -49,6 +49,7 @@
 			var currentEditFile = "";
 			var previousEditFile = "";
 			outputLine = 0;
+			outputDisplay = 0;
 			
 			// A variable to reference the Ace text / code editor object.
 			var aceEditor;
@@ -90,6 +91,7 @@
 						document.getElementById("taskOutput").innerHTML = "";
 						document.getElementById("taskResults").innerHTML = "";
 						outputLine = 0;
+						outputDisplay = 0;
 						
 						// If the call returns "OK" then the task is running, subsequent calls to getTaskOutput will return the console output of the Task as it runs.
 						displayAlerts = true;
@@ -212,7 +214,7 @@
 								} else if (valueLower.startsWith("result: ")) {
 									value = "<span style='color:Black'>" + value.substr(8) + "</span>";
 									if (displayAlerts == true) {
-										document.getElementById("taskResults").innerHTML = document.getElementById("taskResults").innerHTML + "<div>" + value + "</div>";
+										document.getElementById("taskResults").innerHTML = document.getElementById("taskResults").innerHTML + "<div>" + webconsole.renderMarkdown(marked.parse(value)) + "</div>";
 									}
 								} else if (valueLower.startsWith("input:")) {
 									if (displayAlerts == true) {
@@ -295,10 +297,11 @@
 									}
 								} else {
 									// Otherwise, display the line as a message for the user. The page will hang if we try and dsiplay too many lines at a time, so we clear the output area every 100 lines.
-									if (outputLine % 100 == 0) {
+									if (outputDisplay % 100 == 0) {
 										document.getElementById("taskOutput").innerHTML = "";
 									}
 									document.getElementById("taskOutput").innerHTML = document.getElementById("taskOutput").innerHTML + webconsole.renderMarkdown(marked.parse(value)) + "\n";
+									outputDisplay = outputDisplay + 1;
 								}
 								outputLine = outputLine + 1;
 							}
