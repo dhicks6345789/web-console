@@ -127,7 +127,7 @@
 						document.getElementById("runTaskButton").disabled = false;
 						document.getElementById("taskProgress").innerHTML = "";
 
-						//updateTaskOutput();
+						updateTaskOutput();
 					} else {
 						// If cancelTask didn't return "OK" then it returned an error, which we display in red for the user.
 						document.getElementById("taskAlerts").innerHTML = "<div style='color:red'>" + result + "</div>";
