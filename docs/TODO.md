@@ -4,13 +4,13 @@
 
 * Live messages view not always showing every line, only gets all lines on page refresh.
 * Is STDERR being captured okay? Should intersperse with STDOUT, not be stuck at end.
-* There's an upper limit (1,000?) on the number of lines storable by the "output" text box in the user interface, add paging.
+* There's an upper limit (1,000? - set-able value?) on the number of lines storable by the "output" text box in the user interface, add paging.
+  * Pagin added, just need ability to go back / forward to other pages.
 * API - Check for ".." paths.
 * Output - does output.html get displayed properly?
   * Make sure MIME type is set properly.
   * Default to any file found in www folder to be served as root if index.html not available.
   * Output iframe - seems to be cached version of output sometimes, needs explicit updating somehow.
-* 404 message not setting 404 code in header.
 * Logging - add date / time signature to start of log output.
 * Add / check "error code on exit" message for non-0 results.
 * Return error message if task file doesn't run, don't just sit.
@@ -22,6 +22,7 @@
 * Optional ability to stop Task.
   * Users with Editor rights can cancel. Runner who runs Task gets permissions to cancel, not other Runners.
 * Inputs from STDIN.
+  * Needs unique ID per input on page, otherwise browser auto-fill gets very full
   * Single line text box
   * Radio select
   * Dropdown
@@ -31,12 +32,14 @@
 * Handle values passed in standard Webhook headers, pass those to Task's script.
   * Queue size - 0 for none, 1, or "many".
   * Helper script to clone Swagger API to local SQLite database
+* Authentication - replace "Error: Unauthorised" page with nicer, more handy "Unauthorised - login here" page.
 * Authentication support
   * Tailscale
   * Caddy (SSO features)
   * Implement own Google / MS / Apple Oauth2?
   * Email code
 * Edit Mode
+  * Set-able editRoot value to limit access to sub-folder.
   * Highlight current/unsaved files, stop exit / run until files saved / discarded.
   * Upload of folders.
   * Rename of folders.
