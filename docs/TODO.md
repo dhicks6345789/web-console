@@ -35,9 +35,10 @@
 * Authentication - replace "Error: Unauthorised" page with nicer, more handy "Unauthorised - login here" page.
 * Authentication support
   * Tailscale
-  * Caddy (SSO features)
+  * Pangolin
+  * Caddy (SSO features)?
   * Implement own Google / MS / Apple Oauth2?
-  * Email code
+  * Email code?
 * Edit Mode
   * Set-able editRoot value to limit access to sub-folder.
   * Highlight current/unsaved files, stop exit / run until files saved / discarded.
