@@ -1043,7 +1043,7 @@ func main() {
 			if (arguments["pathprefix"] == "") {
 				debug("Request URL: " + requestPath)
 			} else {
-				debug("Prefix: " + arguments["pathprefix"] + debug(", Request URL: " + requestPath))
+				debug("Prefix: " + arguments["pathprefix"] + ", Request URL: " + requestPath))
 			}
 			
 			userID := ""
