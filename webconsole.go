@@ -1038,6 +1038,7 @@ func main() {
 			
 			// The request path.
 			// requestPath := theRequest.URL.Path
+			debug("Path prefix: " + arguments["pathPrefix"])
 			requestPath, _ := strings.CutPrefix(theRequest.URL.Path, arguments["pathPrefix"])
 			
 			// Print the request path.
