@@ -1036,18 +1036,14 @@ func main() {
 			// Make sure submitted form values are parsed.
 			theRequest.ParseForm()
 			
-			// The request path.
-			// requestPath := theRequest.URL.Path
-			debug("Path prefix: " + arguments["pathprefix"])
+			// The request path, minus any defined path prefix (for if we're behind a reverse proxy and using path-based routing).
 			requestPath, _ := strings.CutPrefix(theRequest.URL.Path, arguments["pathprefix"])
 			
 			// Print the request path.
-			debug("Requested URL: " + requestPath)
-			
-			if strings.HasPrefix(requestPath, arguments["pathprefix"]) {
-				// requestPath = requestPath[len(arguments["pathprefix"]):]
-				requestPath, _ = strings.CutPrefix(requestPath, arguments["pathprefix"])
-				debug("   Minus prefix: " + requestPath)
+			if (arguments["pathprefix"] == "") {
+				debug("Request URL: " + requestPath)
+			} else {
+				debug("Prefix: " + arguments["pathprefix"] + debug(", Request URL: " + requestPath))
 			}
 			
 			userID := ""
