@@ -1036,14 +1036,15 @@ func main() {
 			// Make sure submitted form values are parsed.
 			theRequest.ParseForm()
 			
-			// The default root - serve index.html.
-			requestPath := theRequest.URL.Path
+			// The request path.
+			// requestPath := theRequest.URL.Path
+			requestPath, _ := strings.CutPrefix(theRequest.URL.Path, arguments["pathPrefix"])
 			
 			// Print the request path.
 			debug("Requested URL: " + requestPath)
 			
 			if strings.HasPrefix(requestPath, arguments["pathPrefix"]) {
-				#requestPath = requestPath[len(arguments["pathPrefix"]):]
+				// requestPath = requestPath[len(arguments["pathPrefix"]):]
 				requestPath, _ = strings.CutPrefix(requestPath, arguments["pathPrefix"])
 				debug("   Minus prefix: " + requestPath)
 			}
