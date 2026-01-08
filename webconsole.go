@@ -1038,15 +1038,15 @@ func main() {
 			
 			// The request path.
 			// requestPath := theRequest.URL.Path
-			debug("Path prefix: " + arguments["pathPrefix"])
-			requestPath, _ := strings.CutPrefix(theRequest.URL.Path, arguments["pathPrefix"])
+			debug("Path prefix: " + arguments["pathprefix"])
+			requestPath, _ := strings.CutPrefix(theRequest.URL.Path, arguments["pathprefix"])
 			
 			// Print the request path.
 			debug("Requested URL: " + requestPath)
 			
-			if strings.HasPrefix(requestPath, arguments["pathPrefix"]) {
-				// requestPath = requestPath[len(arguments["pathPrefix"]):]
-				requestPath, _ = strings.CutPrefix(requestPath, arguments["pathPrefix"])
+			if strings.HasPrefix(requestPath, arguments["pathprefix"]) {
+				// requestPath = requestPath[len(arguments["pathprefix"]):]
+				requestPath, _ = strings.CutPrefix(requestPath, arguments["pathprefix"])
 				debug("   Minus prefix: " + requestPath)
 			}
 			
