@@ -1043,7 +1043,8 @@ func main() {
 			debug("Requested URL: " + requestPath)
 			
 			if strings.HasPrefix(requestPath, arguments["pathPrefix"]) {
-				requestPath = requestPath[len(arguments["pathPrefix"]):]
+				#requestPath = requestPath[len(arguments["pathPrefix"]):]
+				requestPath, _ = strings.CutPrefix(requestPath, arguments["pathPrefix"])
 				debug("   Minus prefix: " + requestPath)
 			}
 			
