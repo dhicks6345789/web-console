@@ -1044,6 +1044,7 @@ func main() {
 			
 			if strings.HasPrefix(requestPath, arguments["pathPrefix"]) {
 				requestPath = requestPath[len(arguments["pathPrefix"]):]
+				debug("   Minus prefix: " + requestPath)
 			}
 			
 			userID := ""
