@@ -16,7 +16,16 @@ go get golang.org/x/crypto/bcrypt
 go get golang.org/x/crypto/argon2@v0.14.0
 go get github.com/xuri/excelize/v2
 
+# Clear out any previously-compile binary.
+rm webconsole
+
+# Build the executable.
 go build -ldflags "-X main.buildVersion=$BUILDVERSION" webconsole.go
+
+# Exit if we didn't manage to build the executable.
+[ ! -f webconsole ] && { echo "Error: webconsole not compiled."; exit 1; }
+
+# Install the new executable in place.
 cp webconsole /usr/local/bin
 
 # Create the application's data folder and copy the default data files into it.
