@@ -1,6 +1,8 @@
 module github.com/dhicks6345789/web-console
 
-go 1.20
+go 1.24.0
+
+toolchain go1.24.4
 
 require (
         github.com/360EntSecGroup-Skylar/excelize v1.4.1 // indirect
