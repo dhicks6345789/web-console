@@ -396,7 +396,7 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 			// valid authentication method for the root Task.
 			taskDetails["authentication"] = taskDetails["authentication"] + authService + ","
 
-			for authLevel := range []string{"editors", "runners", "viewers"} {
+			for _, authLevel := range []string{"editors", "runners", "viewers"} {
 				authLevelName := authService + authLevel
 				authLevelPath := arguments["webconsoleroot"] + "/" + authLevelName + ".csv"
 				if _, err := os.Stat(editorsPath); err == nil {
@@ -416,7 +416,7 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 			if inFileErr != nil {
 				return taskDetails, errors.New("Can't open Task config file.")
 			} else {
-				for authService := range authServicesUsed {
+				for _, authService := range authServicesUsed {
 					// If any authorisation service paths are set at the root Task level, use those values as
 					// defaults - they can be overwritten by this Task's local settings.
 					for rootTaskDetailName, rootTaskDetailValue := range rootTaskDetails {
@@ -429,7 +429,7 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 					// valid authentication method for the root Task.
 					taskDetails["authentication"] = taskDetails["authentication"] + authService + ","
 					
-					for authLevel := range []string{"editors", "runners", "viewers"} {
+					for _, authLevel := range []string{"editors", "runners", "viewers"} {
 						authLevelName := authService + authLevel
 						authLevelPath := arguments["webconsoleroot"] + "/" + authLevelName + ".csv"
 						if _, err := os.Stat(editorsPath); err == nil {
