@@ -962,11 +962,10 @@ func main() {
 	
 	// See if we have any arguments for authentication services (Pangolin, Cloudflare, ngrok, Tailscale).
 	for argName, argVal := range arguments {
-		for authService, authHeader := range authServices {
+		for authService, _ := range authServices {
 			if strings.HasPrefix(argName, authService) {
 				if argVal != "false" {
-					authServiceName := argName[len(authService):len(argName)]
-					authServiceNames[authService] = append(authServiceNames[authService], authServiceName)
+					authServicesUsed = append(authServicesUsed, argName[len(authService):len(argName)])
 				}
 			}
 		}
