@@ -43,7 +43,7 @@ import (
 	// Bcrypt for password hashing.
 	"golang.org/x/crypto/bcrypt"
 	
-	// Argon2 for email address hashing - used with MyStart Online.
+	// Argon2 for email address hashing.
 	"golang.org/x/crypto/argon2"
 	
 	// Excelize for loading in Excel files.
@@ -91,26 +91,14 @@ var taskRunUsers = map[string]string{}
 var taskStopTimes = map[string]int64{}
 
 // Valid authentication services.
-var authServices = []string{"mystart", "cloudflare", "ngrok"}
+var authServices = []string{"pangolin", "cloudflare", "ngrok", "tailscale"}
 var authServiceNames = map[string][]string{}
 
 // Items to exclude from being returned from the listFolders API call.
 var listFolderExcludes = []string{".git", "__pycache__"}
 
-// Maps of MyStart.Online page names and API keys.
-var mystartPageNames = map[string]string{}
-var mystartAPIKeys = map[string]string{}
-
 // A map of endpoints to files to serve.
-var filesToServeList = map[string]string{"/":"index.html", "/view":"webconsole.html", "/run":"webconsole.html", "/login":"login.html", "/api/mystartLogin":"redirect.html"}
-
-// A struct used to read JSON data from authentication API calls to MyStart.Online.
-type mystartStruct struct {
-	Login string
-	EmailHash string
-	EmailDomain string
-	LoginType string
-}
+var filesToServeList = map[string]string{"/":"index.html", "/view":"webconsole.html", "/run":"webconsole.html", "/login":"login.html"}
 
 // Some constant values for use with the Argon2 hashing function.
 const argon2Iterations uint32 = 16
@@ -870,7 +858,6 @@ func doServeFile(theResponseWriter http.ResponseWriter, theRequest *http.Request
 		if fileReadErr == nil {
 			formattingJSString := string(formattingJSBuffer)
 			webconsoleString := string(webconsoleBuffer)
-			webconsoleString = strings.Replace(webconsoleString, "<<MYSTARTLOGINPAGE>>", arguments["mystartpagename"], -1)
 			webconsoleString = strings.Replace(webconsoleString, "<<TASKID>>", theTaskID, -1)
 			webconsoleString = strings.Replace(webconsoleString, "<<TOKEN>>", theToken, -1)
 			webconsoleString = strings.Replace(webconsoleString, "<<PERMISSION>>", thePermission, -1)
@@ -907,14 +894,15 @@ func main() {
 	arguments["localonly"] = "true"
 	arguments["debug"] = "false"
 	arguments["shellprefix"] = ""
-	arguments["cloudflare"] = "false"
-	arguments["ngrok"] = "false"
 	arguments["logreportinglevel"] = "none"
 	setArgumentIfPathExists("webconsoleroot", []string {"/etc/webconsole", "C:\\Program Files\\WebConsole"})
 	setArgumentIfPathExists("config", []string {"config.csv", "/etc/webconsole/config.csv", "C:\\Program Files\\WebConsole\\config.csv"})
 	setArgumentIfPathExists("webroot", []string {"www", "/etc/webconsole/www", "C:\\Program Files\\WebConsole\\www", ""})
 	setArgumentIfPathExists("taskroot", []string {"tasks", "/etc/webconsole/tasks", "C:\\Program Files\\WebConsole\\tasks", ""})
 	arguments["pathprefix"] = ""
+	for authService, _ := range authServices {
+		arguments[authService] = "false"
+	}
 	if len(os.Args) == 1 {
 		arguments["start"] = "true"
 	} else {
@@ -994,35 +982,14 @@ func main() {
 		}
 	}
 	
-	// See if we have any arguments that start with "mystart" - Page Names and API Keys for MyStart.Online login integration.
+	// See if we have any arguments for authentication services (Pangolin, Cloudflare, ngrok, Tailscale).
 	for argName, argVal := range arguments {
-		if strings.HasPrefix(argName, "mystart") {
-			mystartName := ""
-			if strings.HasSuffix(argName, "apikey") {
-				mystartName = argName[7:len(argName)-6]
-			}
-			if strings.HasSuffix(argName, "pagename") {
-				mystartName = argName[7:len(argName)-8]
-			}
-			authServiceNames["mystart"] = append(authServiceNames["mystart"], mystartName)
-			if mystartName == "" {
-				mystartName = "default"
-			}
-			if strings.HasSuffix(argName, "apikey") {
-				mystartAPIKeys[mystartName] = argVal
-			}
-			if strings.HasSuffix(argName, "pagename") {
-				mystartPageNames[mystartName] = argVal
-			}
-		} else if strings.HasPrefix(argName, "cloudflare") {
-			if argVal != "false" {
-				cloudflareName := argName[10:len(argName)]
-				authServiceNames["cloudflare"] = append(authServiceNames["cloudflare"], cloudflareName)
-			}
-		} else if strings.HasPrefix(argName, "ngrok") {
-			if argVal != "false" {
-				ngrokName := argName[5:len(argName)]
-				authServiceNames["ngrok"] = append(authServiceNames["ngrok"], ngrokName)
+		for authService := range authServices {
+			if strings.HasPrefix(argName, authService) {
+				if argVal != "false" {
+					authServiceName := argName[len(authService):len(argName)]
+					authServiceNames[authService] = append(authServiceNames[authService], authServiceName)
+				}
 			}
 		}
 	}
