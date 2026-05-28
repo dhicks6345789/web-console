@@ -92,7 +92,7 @@ var taskStopTimes = map[string]int64{}
 
 // Valid authentication services.
 //var authServices = []string{"pangolin", "cloudflare", "ngrok", "tailscale"}
-var authServices = map[string][]string{"pangolin":"Remote-User", "cloudflare":"Cf-Access-Authenticated-User-Email", "ngrok":"Ngrok-Auth-User-Email", "tailscale":"headergoeshere"}
+var authServices = map[string]string{"pangolin":"Remote-User", "cloudflare":"Cf-Access-Authenticated-User-Email", "ngrok":"Ngrok-Auth-User-Email", "tailscale":"headergoeshere"}
 var authServiceNames = map[string][]string{}
 
 // Items to exclude from being returned from the listFolders API call.
