@@ -1061,7 +1061,7 @@ func main() {
 					// the details passed and check that the user ID given has permission to access this Task.
 					if len(authServiceNames) > 0 {
 						for authServiceName, _ := range authServiceNames {
-							debug("authServiceName: " + authserviceName)
+							debug("authServiceName: " + authServiceName)
 							for headerName, headerValue := range theRequest.Header {
 								if (headerName == authServices[authServiceName]) {
 									userID = headerValue[0]
