@@ -391,7 +391,7 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 		// The root Task is always public.
 		taskDetails["public"] = "Y"
 		
-		for authService := range authServicesUsed {
+		for _, authService := range authServicesUsed {
 			// If we have any globally defined authentication service variables then that authentication service is a
 			// valid authentication method for the root Task.
 			taskDetails["authentication"] = taskDetails["authentication"] + authService + ","
