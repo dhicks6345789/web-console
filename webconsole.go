@@ -517,13 +517,31 @@ func getTaskList() ([]map[string]string, error) {
 	taskIDs, readDirErr := ioutil.ReadDir(arguments["taskroot"])
 	if readDirErr == nil {
 		for _, taskID := range taskIDs {
-			taskDetails, taskErr := getTaskDetails(taskID.Name())
-			if taskErr == nil {
-				taskList = append(taskList, taskDetails)
+			taskFolder := arguments["taskroot"] + "/" + taskID.Name()
+			if _, err := os.Stat(taskFolder + "/config.txt"); os.IsNotExist(err) {
+				taskSubIDs, readSubDirErr := ioutil.ReadDir(taskFolder)
+				if readSubDirErr == nil {
+					for _, taskSubID := range taskSubIDs {
+						if taskSubID.IsDir() {
+							taskDetails, taskErr := getTaskDetails(taskID.Name() + "/" + taskSubID.Name())
+							if taskErr == nil {
+								taskList = append(taskList, taskDetails)
+							}
+						}
+					}
+				}
+				} else {
+					return taskList, errors.New("Can't read Tasks folder: " + taskFolder)
+				}
+			} else {
+				taskDetails, taskErr := getTaskDetails(taskID.Name())
+				if taskErr == nil {
+					taskList = append(taskList, taskDetails)
+				}
 			}
 		}
 	} else {
-		return taskList, errors.New("Can't read Tasks folder.")
+		return taskList, errors.New("Can't read Tasks folder: " + taskRoot)
 	}
 	return taskList, nil
 }
