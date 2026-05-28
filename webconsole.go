@@ -964,6 +964,7 @@ func main() {
 	for argName, argVal := range arguments {
 		for authService, _ := range authServices {
 			if strings.HasPrefix(argName, authService) {
+				fmt.Println("argName: " + argName + ", authService: " + authService)
 				if argVal != "false" {
 					authServicesUsed = append(authServicesUsed, argName[len(authService):len(argName)])
 				}
