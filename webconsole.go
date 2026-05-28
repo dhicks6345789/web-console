@@ -464,7 +464,6 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 				}
 				
 				// Read the Task's details from its config file.
-				debug("Reading config for Task: " + theTaskID)
 				scanner := bufio.NewScanner(inFile)
 				for scanner.Scan() {
 					itemSplit := strings.SplitN(scanner.Text(), ":", 2)
@@ -504,6 +503,7 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 				if taskDetails["fullDescription"] == "" {
 					taskDetails["fullDescription"] = taskDetails["shortDescription"]
 				}
+				debug("shortDescription for task: " + theTaskID + ": " + taskDetails["shortDescription"])
 			}
 		} else {
 			return taskDetails, errors.New("No config file for taskID: " + theTaskID + " - configPath: " + configPath)
