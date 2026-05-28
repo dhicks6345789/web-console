@@ -970,7 +970,7 @@ func main() {
 			}
 		}
 	}
-	debug("authServicesUsed: " + strings.Join(authServicesUsed, ",") + ".")
+	fmt.Println(("authServicesUsed: " + strings.Join(authServicesUsed, ",") + ".")
 	
 	if arguments["start"] == "true" {
 		// Start the thread that checks for and clears expired tokens.
