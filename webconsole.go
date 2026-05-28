@@ -540,7 +540,7 @@ func getTaskList() ([]map[string]string, error) {
 			}
 		}
 	} else {
-		return taskList, errors.New("Can't read Tasks folder: " + taskRoot)
+		return taskList, errors.New("Can't read Tasks folder: " + arguments["taskroot"])
 	}
 	return taskList, nil
 }
