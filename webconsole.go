@@ -1040,11 +1040,12 @@ func main() {
 					if rateLimitErr != nil {
 						rateLimit = 0
 					}
-					// Check through request headers - handle a login from Cloudflare's Zero Trust product or ngrok's tunneling service. Validate
+					// Check through request headers - handle a login from any defined authentication service. Validate
 					// the details passed and check that the user ID given has permission to access this Task.
-					if arguments["cloudflare"] == "true" || arguments["ngrok"] == "true" {
+					for authServiceName, _ := range authServiceNames {
 						for headerName, headerValue := range theRequest.Header {
-							if (arguments["cloudflare"] == "true" && headerName == "Cf-Access-Authenticated-User-Email") || (arguments["ngrok"] == "true" && headerName == "Ngrok-Auth-User-Email") {
+							if (headerName == authServices[authServiceName]) {
+							//if (arguments["cloudflare"] == "true" && headerName == "Cf-Access-Authenticated-User-Email") || (arguments["ngrok"] == "true" && headerName == "Ngrok-Auth-User-Email") {
 								// To do - actual authentication. Assuming local-only operation, only Cloudflare / ngrok will be passing traffic anyway, but best to check.
 								userID = headerValue[0]
 								// Okay - we've authenticated the user, now we need to check authorisation.
@@ -1056,36 +1057,6 @@ func main() {
 									//debug("User permissions granted from header " + headerName + ", ID: " + userID + ", permission: " + permission)
 								}
 							}
-						}
-					// Handle a login from MyStart.Online - validate the details passed and check that the user ID given has
-					// permission to access this Task.
-					} else if strings.HasPrefix(requestPath, "/api/mystartLogin") {
-						mystartLoginToken := theRequest.Form.Get("loginToken")
-						if mystartLoginToken != "" {
-							requestURL := fmt.Sprintf("https://dev.mystart.online/api/validateToken?loginToken=%s&pageName=%s", mystartLoginToken, arguments["mystartpagename"])
-							mystartResult, mystartErr := http.Get(requestURL)
-							if mystartErr != nil {
-								fmt.Println("webconsole: mystartLogin - error when doing callback.")
-							}
-							if mystartResult.StatusCode == 200 {
-								defer mystartResult.Body.Close()
-								mystartJSON := new(mystartStruct)
-								mystartJSONResult := json.NewDecoder(mystartResult.Body).Decode(mystartJSON)
-								if mystartJSONResult == nil {
-									if mystartJSON.Login == "valid" {
-										debug("User authenticated via MyStart.Online login, ID: " + mystartJSON.EmailHash)
-										// Okay - we've authenticated the user, now we need to check authorisation.
-										permission = getTaskPermission(arguments["webconsoleroot"], taskDetails, mystartJSON.EmailHash)
-										if permission != "" {
-											authorised = true
-											userID = mystartJSON.EmailHash
-											debug("User permissions granted via MyStart.Online login, ID: " + userID + ", permission: " + permission)
-										}
-									}
-								}
-							}
-						} else {
-							fmt.Fprintf(theResponseWriter, "ERROR: Missing parameter loginToken.")
 						}
 					} else if token != "" {
 						if tokens[token] == 0 {
