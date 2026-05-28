@@ -91,7 +91,8 @@ var taskRunUsers = map[string]string{}
 var taskStopTimes = map[string]int64{}
 
 // Valid authentication services.
-var authServices = []string{"pangolin", "cloudflare", "ngrok", "tailscale"}
+//var authServices = []string{"pangolin", "cloudflare", "ngrok", "tailscale"}
+var authServices = map[string][]string{"pangolin":"Remote-User", "cloudflare":"Cf-Access-Authenticated-User-Email", "ngrok":"Ngrok-Auth-User-Email", "tailscale":"headergoeshere"}
 var authServiceNames = map[string][]string{}
 
 // Items to exclude from being returned from the listFolders API call.
@@ -530,40 +531,23 @@ func getTaskList() ([]map[string]string, error) {
 func getTaskPermission(webConsoleRoot string, taskDetails map[string]string, userID string) string {
 	//debug("Finding permissions for Task: " + taskDetails["taskID"])
 	for taskDetailName, taskDetailValue := range taskDetails {
-		if strings.HasPrefix(taskDetailName, "cloudflare") {
-			permissionToGrant := ""
-			for _, permissionCheck := range [3]string{"Editors", "Runners", "Viewers"} {
-				if strings.HasSuffix(taskDetailName, permissionCheck) {
-					permissionToGrant = string(permissionCheck[0])
-				}
-			}
-			if permissionToGrant != "" {
-				cloudflareUsersPath := taskDetailValue
-				//debug("cloudflareUsersPath: " + cloudflareUsersPath)
-				if _, err := os.Stat(cloudflareUsersPath); !os.IsNotExist(err) {
-					cloudflareUsers := readUserFile(cloudflareUsersPath, "")
-					for _, userEmail := range cloudflareUsers {
-						if userEmail == userID {
-							return permissionToGrant
-						}
+		for authService, _ := range authServices {
+			if strings.HasPrefix(taskDetailName, authService) {
+				permissionToGrant := ""
+				for _, permissionCheck := range [3]string{"Editors", "Runners", "Viewers"} {
+					if strings.HasSuffix(taskDetailName, permissionCheck) {
+						permissionToGrant = string(permissionCheck[0])
 					}
 				}
-			}
-		} else if strings.HasPrefix(taskDetailName, "ngrok") {
-			permissionToGrant := ""
-			for _, permissionCheck := range [3]string{"Editors", "Runners", "Viewers"} {
-				if strings.HasSuffix(taskDetailName, permissionCheck) {
-					permissionToGrant = string(permissionCheck[0])
-				}
-			}
-			if permissionToGrant != "" {
-				ngrokUsersPath := taskDetailValue
-				//debug("ngrokUsersPath: " + ngrokUsersPath)
-				if _, err := os.Stat(ngrokUsersPath); !os.IsNotExist(err) {
-					ngrokUsers := readUserFile(ngrokUsersPath, "")
-					for _, userEmail := range ngrokUsers {
-						if userEmail == userID {
-							return permissionToGrant
+				if permissionToGrant != "" {
+					authServiceUsersPath := taskDetailValue
+					//debug("authServiceUsersPath: " + authServiceUsersPath)
+					if _, err := os.Stat(authServiceUsersPath); !os.IsNotExist(err) {
+						authServiceUsers := readUserFile(authServiceUsersPath, "")
+						for _, userEmail := range authServiceUsers {
+							if userEmail == userID {
+								return permissionToGrant
+							}
 						}
 					}
 				}
