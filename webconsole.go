@@ -529,7 +529,6 @@ func getTaskList() ([]map[string]string, error) {
 							}
 						}
 					}
-				}
 				} else {
 					return taskList, errors.New("Can't read Tasks folder: " + taskFolder)
 				}
