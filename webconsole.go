@@ -965,9 +965,7 @@ func main() {
 		for authService, _ := range authServices {
 			if argName == authService {
 				if argVal != "false" {
-					fmt.Println("argName: " + argName + ", authService: " + authService)
-					authServicesUsed = append(authServicesUsed, argName[len(authService):len(argName)])
-					fmt.Println("authServicesUsed: " + strings.Join(authServicesUsed, ",") + ".")
+					authServicesUsed = append(authServicesUsed, authService)
 				}
 			}
 		}
