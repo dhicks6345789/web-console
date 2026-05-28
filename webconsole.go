@@ -1032,7 +1032,6 @@ func main() {
 				taskDetails, taskErr := getTaskDetails(taskID)
 				if taskErr == nil {
 					// If we get to this point, we know we have a valid Task ID.
-					
 					authorisationError := "unknown error"
 					permission := "E"
 					currentTimestamp := time.Now().Unix()
@@ -1042,19 +1041,19 @@ func main() {
 					}
 					// Check through request headers - handle a login from any defined authentication service. Validate
 					// the details passed and check that the user ID given has permission to access this Task.
-					for authServiceName, _ := range authServiceNames {
-						for headerName, headerValue := range theRequest.Header {
-							if (headerName == authServices[authServiceName]) {
-							//if (arguments["cloudflare"] == "true" && headerName == "Cf-Access-Authenticated-User-Email") || (arguments["ngrok"] == "true" && headerName == "Ngrok-Auth-User-Email") {
-								// To do - actual authentication. Assuming local-only operation, only Cloudflare / ngrok will be passing traffic anyway, but best to check.
-								userID = headerValue[0]
-								// Okay - we've authenticated the user, now we need to check authorisation.
-								permission = getTaskPermission(arguments["webconsoleroot"], taskDetails, userID)
-								if permission == "" {
-									authorisationError = "authetication attempted via header authorisation (Cloudflare / ngrok), but no valid permissions granted (you're probably missing a users file)"
-								} else {
-									authorised = true
-									//debug("User permissions granted from header " + headerName + ", ID: " + userID + ", permission: " + permission)
+					if len(authServicesNames > 0) {
+						for authServiceName, _ := range authServiceNames {
+							for headerName, headerValue := range theRequest.Header {
+								if (headerName == authServices[authServiceName]) {
+									userID = headerValue[0]
+									// Okay - we've authenticated the user, now we need to check authorisation.
+									permission = getTaskPermission(arguments["webconsoleroot"], taskDetails, userID)
+									if permission == "" {
+										authorisationError = "authetication attempted via header authorisation (Cloudflare / ngrok), but no valid permissions granted (you're probably missing a users file)"
+									} else {
+										authorised = true
+										//debug("User permissions granted from header " + headerName + ", ID: " + userID + ", permission: " + permission)
+									}
 								}
 							}
 						}
