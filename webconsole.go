@@ -93,7 +93,8 @@ var taskStopTimes = map[string]int64{}
 // Valid authentication services.
 //var authServices = []string{"pangolin", "cloudflare", "ngrok", "tailscale"}
 var authServices = map[string]string{"pangolin":"Remote-User", "cloudflare":"Cf-Access-Authenticated-User-Email", "ngrok":"Ngrok-Auth-User-Email", "tailscale":"headergoeshere"}
-var authServiceNames = map[string][]string{}
+//var authServiceNames = map[string][]string{}
+var authServicesUsed = []string{}
 
 // Items to exclude from being returned from the listFolders API call.
 var listFolderExcludes = []string{".git", "__pycache__"}
@@ -390,31 +391,17 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 		// The root Task is always public.
 		taskDetails["public"] = "Y"
 		
-		for _, authService := range authServices {
+		for authService := range authServicesUsed {
 			// If we have any globally defined authentication service variables then that authentication service is a
 			// valid authentication method for the root Task.
-			if len(authServiceNames[authService]) > 0 {
-				taskDetails["authentication"] = taskDetails["authentication"] + authService + ","
-			}
-		
-			for _, authServiceName := range authServiceNames[authService] {
-				editorsName := authService + authServiceName + "Editors"
-				editorsPath := arguments["webconsoleroot"] + "/" + editorsName + ".csv"
+			taskDetails["authentication"] = taskDetails["authentication"] + authService + ","
+
+			for authLevel := range []string{"editors", "runners", "viewers"} {
+				authLevelName := authService + authLevel
+				authLevelPath := arguments["webconsoleroot"] + "/" + authLevelName + ".csv"
 				if _, err := os.Stat(editorsPath); err == nil {
 					taskDetails[editorsName] = editorsPath
-					//debug("Editors - found " + editorsName + " file: " + editorsPath)
-				}
-				runnersName := authService + authServiceName + "Runners"
-				runnersPath := arguments["webconsoleroot"] + "/" + runnersName + ".csv"
-				if _, err := os.Stat(runnersPath); err == nil {
-					taskDetails[runnersName] = runnersPath
-					//debug("Runners - found " + runnersName + " file: " + runnersPath)
-				}
-				viewersName := authService + authServiceName + "Viewers"
-				viewersPath := arguments["webconsoleroot"] + "/" + viewersName + ".csv"
-				if _, err := os.Stat(viewersPath); err == nil {
-					taskDetails[viewersName] = viewersPath
-					//debug("Viewers - found " + viewersName + " file: " + viewersPath)
+					debug("Auth level - found " + authLevelName + " file: " + editorsPath)
 				}
 			}
 		}
@@ -429,7 +416,7 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 			if inFileErr != nil {
 				return taskDetails, errors.New("Can't open Task config file.")
 			} else {
-				for _, authService := range authServices {
+				for authService := range authServicesUsed {
 					// If any authorisation service paths are set at the root Task level, use those values as
 					// defaults - they can be overwritten by this Task's local settings.
 					for rootTaskDetailName, rootTaskDetailValue := range rootTaskDetails {
@@ -437,28 +424,17 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 							taskDetails[rootTaskDetailName] = rootTaskDetailValue
 						}
 					}
-				
+
 					// If we have any globally defined authentication service variables then that authentication service is a
-					// valid authentication method for this Task.
-					if len(authServiceNames[authService]) > 0 {
-						taskDetails["authentication"] = taskDetails["authentication"] + authService + ","
-					}
+					// valid authentication method for the root Task.
+					taskDetails["authentication"] = taskDetails["authentication"] + authService + ","
 					
-					for _, authServiceName := range authServiceNames[authService] {
-						editorsName := authService + authServiceName + "Editors"
-						editorsPath := arguments["webconsoleroot"] + "/tasks/" + taskDetails["taskID"] + "/" + editorsName + ".csv"
+					for authLevel := range []string{"editors", "runners", "viewers"} {
+						authLevelName := authService + authLevel
+						authLevelPath := arguments["webconsoleroot"] + "/" + authLevelName + ".csv"
 						if _, err := os.Stat(editorsPath); err == nil {
 							taskDetails[editorsName] = editorsPath
-						}
-						runnersName := authService + authServiceName + "Runners"
-						runnersPath := arguments["webconsoleroot"] + "/tasks/" + taskDetails["taskID"] + "/" + runnersName + ".csv"
-						if _, err := os.Stat(runnersPath); err == nil {
-							taskDetails[runnersName] = runnersPath
-						}
-						viewersName := authService + authServiceName + "Viewers"
-						viewersPath := arguments["webconsoleroot"] + "/tasks/" + taskDetails["taskID"] + "/" + viewersName + ".csv"
-						if _, err := os.Stat(viewersPath); err == nil {
-							taskDetails[viewersName] = viewersPath
+							debug("Auth level - found " + authLevelName + " file: " + editorsPath)
 						}
 					}
 				}
@@ -986,7 +962,7 @@ func main() {
 	
 	// See if we have any arguments for authentication services (Pangolin, Cloudflare, ngrok, Tailscale).
 	for argName, argVal := range arguments {
-		for authService := range authServices {
+		for authService, authHeader := range authServices {
 			if strings.HasPrefix(argName, authService) {
 				if argVal != "false" {
 					authServiceName := argName[len(authService):len(argName)]
