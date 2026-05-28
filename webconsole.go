@@ -1061,6 +1061,7 @@ func main() {
 					// the details passed and check that the user ID given has permission to access this Task.
 					if len(authServiceNames) > 0 {
 						for authServiceName, _ := range authServiceNames {
+							debug("authServiceName: " + authserviceName)
 							for headerName, headerValue := range theRequest.Header {
 								if (headerName == authServices[authServiceName]) {
 									userID = headerValue[0]
@@ -1070,7 +1071,7 @@ func main() {
 										authorisationError = "authetication attempted via header authorisation (Cloudflare / ngrok), but no valid permissions granted (you're probably missing a users file)"
 									} else {
 										authorised = true
-										//debug("User permissions granted from header " + headerName + ", ID: " + userID + ", permission: " + permission)
+										debug("User authorised - valid header found: " + headerName + ", ID: " + userID + ", permission: " + permission)
 									}
 								}
 							}
