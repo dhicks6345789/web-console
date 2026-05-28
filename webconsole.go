@@ -385,7 +385,7 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 	if taskDetails["smtpTo"], ok = arguments["smtpto"]; !ok {
 		taskDetails["smtpTo"] = ""
 	}
-	//debug("Finding details for Task: " + theTaskID)
+	debug("Finding details for Task: " + theTaskID)
 	// Check to see if we have a valid task ID.
 	if (theTaskID == "/") {
 		// The root Task is always public.
@@ -403,19 +403,19 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 				editorsPath := arguments["webconsoleroot"] + "/" + editorsName + ".csv"
 				if _, err := os.Stat(editorsPath); err == nil {
 					taskDetails[editorsName] = editorsPath
-					//debug("Editors - found " + editorsName + " file: " + editorsPath)
+					debug("Editors - found " + editorsName + " file: " + editorsPath)
 				}
 				runnersName := authService + authServiceName + "Runners"
 				runnersPath := arguments["webconsoleroot"] + "/" + runnersName + ".csv"
 				if _, err := os.Stat(runnersPath); err == nil {
 					taskDetails[runnersName] = runnersPath
-					//debug("Runners - found " + runnersName + " file: " + runnersPath)
+					debug("Runners - found " + runnersName + " file: " + runnersPath)
 				}
 				viewersName := authService + authServiceName + "Viewers"
 				viewersPath := arguments["webconsoleroot"] + "/" + viewersName + ".csv"
 				if _, err := os.Stat(viewersPath); err == nil {
 					taskDetails[viewersName] = viewersPath
-					//debug("Viewers - found " + viewersName + " file: " + viewersPath)
+					debug("Viewers - found " + viewersName + " file: " + viewersPath)
 				}
 			}
 		}
@@ -523,7 +523,6 @@ func getTaskList() ([]map[string]string, error) {
 				taskSubIDs, readSubDirErr := ioutil.ReadDir(taskFolder)
 				if readSubDirErr == nil {
 					for _, taskSubID := range taskSubIDs {
-						debug("getTaskList: " + taskSubID.Name())
 						if taskSubID.IsDir() {
 							taskDetails, taskErr := getTaskDetails(taskID.Name() + "/" + taskSubID.Name())
 							if taskErr == nil {
@@ -535,7 +534,6 @@ func getTaskList() ([]map[string]string, error) {
 					return taskList, errors.New("Can't read Tasks folder: " + taskFolder)
 				}
 			} else {
-				taskDetails, taskErr := getTaskDetails(taskID.Name())
 				if taskErr == nil {
 					taskList = append(taskList, taskDetails)
 				}
