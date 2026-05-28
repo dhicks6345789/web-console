@@ -385,7 +385,6 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 	if taskDetails["smtpTo"], ok = arguments["smtpto"]; !ok {
 		taskDetails["smtpTo"] = ""
 	}
-	debug("Finding details for Task: " + theTaskID)
 	// Check to see if we have a valid task ID.
 	if (theTaskID == "/") {
 		// The root Task is always public.
@@ -403,23 +402,24 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 				editorsPath := arguments["webconsoleroot"] + "/" + editorsName + ".csv"
 				if _, err := os.Stat(editorsPath); err == nil {
 					taskDetails[editorsName] = editorsPath
-					debug("Editors - found " + editorsName + " file: " + editorsPath)
+					//debug("Editors - found " + editorsName + " file: " + editorsPath)
 				}
 				runnersName := authService + authServiceName + "Runners"
 				runnersPath := arguments["webconsoleroot"] + "/" + runnersName + ".csv"
 				if _, err := os.Stat(runnersPath); err == nil {
 					taskDetails[runnersName] = runnersPath
-					debug("Runners - found " + runnersName + " file: " + runnersPath)
+					//debug("Runners - found " + runnersName + " file: " + runnersPath)
 				}
 				viewersName := authService + authServiceName + "Viewers"
 				viewersPath := arguments["webconsoleroot"] + "/" + viewersName + ".csv"
 				if _, err := os.Stat(viewersPath); err == nil {
 					taskDetails[viewersName] = viewersPath
-					debug("Viewers - found " + viewersName + " file: " + viewersPath)
+					//debug("Viewers - found " + viewersName + " file: " + viewersPath)
 				}
 			}
 		}
 	} else {
+		debug("Finding details for Task: " + theTaskID)
 		// Get the root Task's details to provide default values if this Task doesn't overwrite them.
 		rootTaskDetails, _ := getTaskDetails("/")
 		// Read this Task's config file.
@@ -464,6 +464,7 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 				}
 				
 				// Read the Task's details from its config file.
+				debug("Reading config for Task: " + theTaskID)
 				scanner := bufio.NewScanner(inFile)
 				for scanner.Scan() {
 					itemSplit := strings.SplitN(scanner.Text(), ":", 2)
