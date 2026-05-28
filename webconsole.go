@@ -525,7 +525,7 @@ func getTaskList() ([]map[string]string, error) {
 func getTaskPermission(webConsoleRoot string, taskDetails map[string]string, userID string) string {
 	//debug("Finding permissions for Task: " + taskDetails["taskID"])
 	for taskDetailName, taskDetailValue := range taskDetails {
-		for authService, _ := range authServices {
+		for _, authService := range authServicesUsed {
 			if strings.HasPrefix(taskDetailName, authService) {
 				permissionToGrant := ""
 				for _, permissionCheck := range [3]string{"Editors", "Runners", "Viewers"} {
