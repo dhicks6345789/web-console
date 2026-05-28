@@ -860,7 +860,8 @@ func main() {
 	
 	// Set valid authentication services.
 	for _, authService := range authServices {
-		authServiceNames[authService] = []string{}
+		//authServiceNames[authService] = []string{}
+		authServicesUsed[authService] = ""
 	}
 	
 	// Set some default argument values.
