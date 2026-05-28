@@ -1034,8 +1034,8 @@ func main() {
 					}
 					// Check through request headers - handle a login from any defined authentication service. Validate
 					// the details passed and check that the user ID given has permission to access this Task.
-					if len(authServiceNames) > 0 {
-						for authServiceName, _ := range authServiceNames {
+					if len(authServicesUsed) > 0 {
+						for _, authServiceName := range authServicesUsed {
 							debug("authServiceName: " + authServiceName)
 							for headerName, headerValue := range theRequest.Header {
 								if (headerName == authServices[authServiceName]) {
