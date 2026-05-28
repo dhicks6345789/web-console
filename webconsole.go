@@ -399,9 +399,9 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 			for _, authLevel := range []string{"editors", "runners", "viewers"} {
 				authLevelName := authService + authLevel
 				authLevelPath := arguments["webconsoleroot"] + "/" + authLevelName + ".csv"
-				if _, err := os.Stat(editorsPath); err == nil {
-					taskDetails[editorsName] = editorsPath
-					debug("Auth level - found " + authLevelName + " file: " + editorsPath)
+				if _, err := os.Stat(authLevelPath); err == nil {
+					taskDetails[authLevelName] = authLevelPath
+					debug("Auth level - found " + authLevelName + " file: " + authLevelPath)
 				}
 			}
 		}
@@ -432,9 +432,9 @@ func getTaskDetails(theTaskID string) (map[string]string, error) {
 					for _, authLevel := range []string{"editors", "runners", "viewers"} {
 						authLevelName := authService + authLevel
 						authLevelPath := arguments["webconsoleroot"] + "/" + authLevelName + ".csv"
-						if _, err := os.Stat(editorsPath); err == nil {
-							taskDetails[editorsName] = editorsPath
-							debug("Auth level - found " + authLevelName + " file: " + editorsPath)
+						if _, err := os.Stat(authLevelPath); err == nil {
+							taskDetails[authLevelName] = authLevelPath
+							debug("Auth level - found " + authLevelName + " file: " + authLevelPath)
 						}
 					}
 				}
